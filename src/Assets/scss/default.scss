@@ -43,18 +43,18 @@ header{
     background-color: $primary-color;
     padding: 15px 30px;
     color: $secondary-color;
-    border-top-left-radius: 0.5rem;
-    border-bottom-left-radius: 0.5rem;
+    border-top-left-radius: 1rem;
+    border-bottom-left-radius: 1rem;
     border: 1px $primary-color;
-    width: 100px;
+    // width: 100px;
     line-height: 1.5;
     box-shadow: 0 0 5px #ccc;
 }
 
 input{
     padding: 10px 20px;
-    border-top-right-radius: 0.5rem;
-    border-bottom-right-radius: 0.5rem;
+    border-top-right-radius: 1rem;
+    border-bottom-right-radius: 1rem;
     box-shadow: 0 0 5px #ccc;
     width: 50%;
     line-height: 1.5;
@@ -100,4 +100,8 @@ footer{
         background-color: $secondary-color;
         color: $primary-color;
       }
+}
+
+.input-width{
+    width: 60%;
 }

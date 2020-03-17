@@ -1,4 +1,11 @@
 import React, {Component} from 'react';
+import { 
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    Link
+   } from "react-router-dom";
+
 import loginIcon from '../Assets/images/login-icon.png';
 
 class HomePage extends Component {
@@ -15,7 +22,7 @@ class HomePage extends Component {
                     {/* <label for="basic-url">Your vanity URL</label> */}
                     <div className="input-wrapper">
                         <span className="input-label">Email&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                        <input type="text" className="" id="basic-url" aria-describedby="basic-addon3" />
+                        <input type="email" className="" id="basic-url" aria-describedby="basic-addon3" />
                     </div>
                     
                     <div className="spacer-vertical"></div>
@@ -25,7 +32,7 @@ class HomePage extends Component {
                     </div>
                     <div className="input-wrapper">
                         <div className="input-wrapper-bottom">
-                            <a href="#">Create your school</a><a href="#">Forgot Password</a>
+                            <Link to="/create-school">Create your school</Link><Link to="/forgot-pw">Forgot Password</Link>
                         </div>
                     </div>
                     <div className="spacer-vertical"></div>
