@@ -1,0 +1,103 @@
+@import './config.scss';
+
+body{
+    font-family: Arial, Helvetica, sans-serif;
+    color: $primary-color;
+}
+
+header{
+    
+    display: block;
+}
+
+.page-header{
+    background-image: url('../images/header-background.svg');
+    background-position: center top;
+    background-repeat: no-repeat;
+    width: 100%;
+    max-height: 100vh;
+    height: 100%;
+    position: absolute;
+    margin-top: 0;
+    top: 0;
+    z-index: -10;
+}
+
+.page-icon{
+    z-index: 10;
+    width: 18rem;
+    box-shadow: 0 0 10px grey;
+    border-radius: 9rem;
+    margin-top: 4rem;
+}
+
+.container{
+    text-align: center;
+}
+
+.width-adjust{
+    width: 100%;
+}
+
+.input-label{
+    background-color: $primary-color;
+    padding: 15px 30px;
+    color: $secondary-color;
+    border-top-left-radius: 0.5rem;
+    border-bottom-left-radius: 0.5rem;
+    border: 1px $primary-color;
+    width: 100px;
+    line-height: 1.5;
+    box-shadow: 0 0 5px #ccc;
+}
+
+input{
+    padding: 10px 20px;
+    border-top-right-radius: 0.5rem;
+    border-bottom-right-radius: 0.5rem;
+    box-shadow: 0 0 5px #ccc;
+    width: 50%;
+    line-height: 1.5;
+    border: 1px solid #cccccc;
+}
+
+.input-wrapper{
+    width: 100%;
+    font-size: large;
+}
+
+.spacer-vertical{
+    margin-top: 5rem;
+}
+
+footer{
+    position: absolute;
+    bottom: 0;
+    text-align: center;
+    width: 100%;
+}
+
+.input-wrapper-bottom{
+    display: flex;
+    margin: 1rem 2rem;
+    justify-content: space-around;
+    font-weight: lighter;
+
+    a:link{
+        
+        text-decoration: underline;
+    }
+}
+
+.btn{
+    background-color: $primary-color;
+    color: $secondary-color;
+    font-size: large;
+    padding: 10px 10rem;
+    border-radius: 1rem;
+    &:hover {
+        border: 5px solid $primary-color;
+        background-color: $secondary-color;
+        color: $primary-color;
+      }
+}
