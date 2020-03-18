@@ -6,10 +6,17 @@ import {
     Link
    } from "react-router-dom";
 
+import editIcon from '../Assets/images/edit-icon.png';
+
+
+
 class SchoolStep1 extends Component {
   render(){
       return(
         <Fragment>
+            <div className="container">
+                    <img src={editIcon} className="page-icon" alt="login icon"/>
+                    <div className="spacer-vertical"></div>
             <h1>Create Your Shool</h1>
 
             <form>
@@ -30,6 +37,7 @@ class SchoolStep1 extends Component {
                 <Link to="/create-school/step2"><button className="btn">Next</button></Link>
                 </div>
             </form>
+            </div>
         </Fragment>
       )
   }

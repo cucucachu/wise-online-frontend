@@ -2,48 +2,48 @@ import React, {Component} from 'react';
 import { 
     BrowserRouter as Router,
     Switch,
-    Route,
-    Link
+    Route
    } from "react-router-dom";
 
-import loginIcon from '../Assets/images/login-icon.png';
+//components
+import AdminLogin from '../components/adminLogin'
+import StudentLogin from '../components/studentLogin'
+import ProfessorLogin from '../components/professorLogin'
+import SchoolLogin from '../components/schoolLogin'
+import ProfessorCourse from '../components/professorCourse'
+import StudentDashboard from '../components/studentDashboard'
+import StudentClass from '../components/studentClass'
+import StudentClassAtt from '../components/studentClassAtt'
+
+import SelectRole from '../components/selectRole'
+import Nest from '../components/nest'
+
+//pages
+import CreateSchoolPage from './CreateSchoolPage'
+import SetUpSchoolPage from './SetUpSchoolPage';
+
 
 class HomePage extends Component {
   render(){
       return(
+          <Router>
           <div className="wrap">
               <div className="page-header"></div>
-              <div className="container">
-                <img src={loginIcon} className="page-icon" alt="login icon"/>
-                <div className="spacer-vertical"></div>
-                <h1>Administration login</h1>
-                <form>
-                    <div className="spacer-vertical"></div>
-                    {/* <label for="basic-url">Your vanity URL</label> */}
-                    <div className="input-wrapper">
-                        <span className="input-label">Email&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                        <input type="email" className="" id="basic-url" aria-describedby="basic-addon3" />
-                    </div>
-                    
-                    <div className="spacer-vertical"></div>
-                    <div className="input-wrapper">
-                        <span className="input-label">Password</span>
-                        <input type="password" className="" />
-                    </div>
-                    <div className="input-wrapper">
-                        <div className="input-wrapper-bottom">
-                            <Link to="/create-school">Create your school</Link><Link to="/forgot-pw">Forgot Password</Link>
-                        </div>
-                    </div>
-                    <div className="spacer-vertical"></div>
-                    <div className="">
-                        <button className="btn">Submit</button>
-                    </div>
-                </form>
-                    
-              </div>
-              
+              <Switch>
+                    <Route path="/create-school" component={CreateSchoolPage} />
+                    <Route path="/set-up-school" component={SetUpSchoolPage} />
+                    <Route path="/select-role" component={SelectRole} />
+                    <Route path="/admin-login" component={AdminLogin} />
+                    <Route path="/professor-login" component={ProfessorLogin} />
+                    <Route path="/professor-course" component={ProfessorCourse} />
+                    <Route path="/student-login" component={StudentLogin} />
+                    <Route path="/student/dashboard" component={StudentDashboard} />
+                    <Route path="/student/classes" component={StudentClass} />
+                    <Route path="/student/class/attendance" component={StudentClassAtt} />
+                    <Route exact path="/" component={SchoolLogin} />   
+              </Switch>              
           </div>
+          </Router>
       )
   }
 }

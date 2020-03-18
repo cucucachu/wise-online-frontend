@@ -13,20 +13,22 @@ import Footer from './components/footer';
 //pages
 import HomePage from './pages/HomePage'
 import CreateSchoolPage from './pages/CreateSchoolPage'
+import SetUpSchoolPage from './pages/SetUpSchoolPage'
 
 import './Assets/css/default.min.css'
 
 function App() {
   return (
     <Router >
-    <div className="App">
-      <Header />
-        <Switch>
-          <Route path="/create-school" component={CreateSchoolPage} />
-          <Route exact path="/" component={HomePage} />
-        </Switch>
-      <Footer />
-    </div>
+      <div className="App">
+        <Header />
+          <Switch>
+            <Route path="/create-school" component={CreateSchoolPage} />
+            <Route path="/set-up-school" component={SetUpSchoolPage} />
+            <Route exact path="/" component={HomePage} />
+          </Switch>
+        <Footer />
+      </div>
     </Router>
   );
 }

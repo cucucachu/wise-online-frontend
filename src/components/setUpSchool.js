@@ -3,21 +3,25 @@ import {
     BrowserRouter as Router,
     Switch,
     Route,
-    Link,
-    Redirect
+    Link
    } from "react-router-dom";
 
-import editIcon from '../Assets/images/edit-icon.png';
-
-
-class SchoolStep2 extends Component {
+class SetUpSchool extends Component {
   render(){
       return(
         <Fragment>
+            <h1>Set up your shool</h1>
+            <p>Information must match the provided template </p>
             <div className="container">
-                    <img src={editIcon} className="page-icon" alt="login icon"/>
-                    <div className="spacer-vertical"></div>
-            <h1>Create Your Shool</h1>
+                <div className="row">
+                    <div className="col-sm-6 box-shadow">
+
+                    </div>
+                    <div className="col-sm-6 box-shadow">
+
+                    </div>
+                </div>
+            </div>
 
             <form>
                 <div className="spacer-vertical"></div>
@@ -43,13 +47,12 @@ class SchoolStep2 extends Component {
                 </div>
                 <div className="spacer-vertical"></div>
                 <div className="">
-                    <Link to="/set-up-school"><button className="btn">Next</button></Link>
+                    <Link to='/create-school/step3'><button className="btn">Create</button></Link>
                 </div>
             </form>
-            </div>
         </Fragment>
       )
   }
 }
 
-export default SchoolStep2;
+export default SetUpSchool;

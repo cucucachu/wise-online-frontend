@@ -10,14 +10,14 @@ import {
 import editIcon from '../Assets/images/edit-icon.png';
 
 
-class SchoolStep2 extends Component {
+class ProfessorClaim extends Component {
   render(){
       return(
         <Fragment>
             <div className="container">
                     <img src={editIcon} className="page-icon" alt="login icon"/>
                     <div className="spacer-vertical"></div>
-            <h1>Create Your Shool</h1>
+            <h1>Claim your account</h1>
 
             <form>
                 <div className="spacer-vertical"></div>
@@ -52,4 +52,4 @@ class SchoolStep2 extends Component {
   }
 }
 
-export default SchoolStep2;
+export default ProfessorClaim;
