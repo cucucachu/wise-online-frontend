@@ -58,9 +58,12 @@ class SetUpSchoolPage extends Component {
                                         <button　className="btn-download">{isFile1Uploaded ? <div><img src={downloadIcon} className="icon-sm" />  Download template</div> : 'Not uploaded'}</button>  
                                     </div>
                                 </div>
-                                <button className="btn">Next</button>
+                                
+                                
                             </form>
+                            
                         </div>
+                        <Link to="/admin/download"><button className="btn">Next</button></Link>
                     </div>
                 </div>
             </div>

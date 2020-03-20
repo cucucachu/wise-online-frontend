@@ -3,7 +3,6 @@ import {
     BrowserRouter as Router,
     Switch,
     Route,
-    IndexRoute,
     Link
    } from "react-router-dom";
 
@@ -12,7 +11,7 @@ import AdminLogin from '../components/adminLogin'
 
 //pages
 import CreateSchoolPage from './CreateSchoolPage'
-import SetUpSchoolPage from './SetUpSchoolPage';
+import SetUpSchoolPage from '../components/SetUpSchoolPage';
 
 
 class SchoolLoginPage extends Component {

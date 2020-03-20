@@ -146,6 +146,20 @@ footer{
     }
 }
 
+.btn-l{
+    background-color: $primary-color;
+    color: $secondary-color;
+    font-size: large;
+    padding: 10px 10rem;
+    border-radius: 1rem;
+    width: 50%;
+    &:hover {
+        border: 5px solid $primary-color;
+        background-color: $secondary-color;
+        color: $primary-color;
+      }
+}
+
 .input-width{
     width: 60%;
 }
@@ -207,4 +221,16 @@ footer{
 .width-adjust-1{
     margin: 0 20%;
     text-align: left;
+}
+
+.text-sm{
+    font-weight: lighter;
+    font-size: medium;
+}
+
+.list-text{
+    font-size: x-large;
+    font-weight: lighter;
+    padding-bottom: 2.5rem;
+    list-style: none;
 }

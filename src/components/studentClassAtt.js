@@ -41,6 +41,7 @@ class StudentClassAtt extends Component {
               </div>
             </div>
           </div>
+          <button className="btn">Submit</button>
     </div>
       )
   }

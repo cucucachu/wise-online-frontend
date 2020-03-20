@@ -18,7 +18,7 @@ class StudentClass extends Component {
                 <h1>Have a great class!</h1>
             </div>
           
-    </div>
+        </div>
       )
   }
 }

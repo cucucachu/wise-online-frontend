@@ -10,23 +10,23 @@ import {
 
 import SchoolStep1 from '../components/createSchoolStep1'
 import SchoolStep2 from '../components/createSchoolStep2'
-import SetUpSchoolPage from './SetUpSchoolPage'
+import SetUpSchoolPage from '../components/SetUpSchoolPage'
 import HomePage from './HomePage'
-import Nest from '../components/nest'
 
 
 class CreateSchoolPage extends Component {
   render(){
       return(
-          <Router >
+          // <Router >
             <div className="wrap">                
-                    <Switch>
+                    {/* <Switch>
                         <Route path="/set-up-school" component={SetUpSchoolPage} />
                         <Route path="/create-school/step2" component={SchoolStep2} />
                         <Route path="/create-school" component={SchoolStep1} />
-                    </Switch>
+                    </Switch> */}
+              
             </div>
-          </Router>
+          // </Router>
       )
   }
 }

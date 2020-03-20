@@ -47,7 +47,7 @@ class SetUpSchool extends Component {
                 </div>
                 <div className="spacer-vertical"></div>
                 <div className="">
-                    <Link to='/create-school/step3'><button className="btn">Create</button></Link>
+                    <Link to='/admin-download'><button className="btn">Create</button></Link>
                 </div>
             </form>
         </Fragment>
