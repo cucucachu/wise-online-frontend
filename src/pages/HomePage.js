@@ -20,9 +20,9 @@ import SchoolStep2 from '../components/createSchoolStep2'
 import SelectRole from '../components/selectRole'
 
 //pages
-import CreateSchoolPage from './CreateSchoolPage'
 import SetUpSchoolPage from '../components/SetUpSchoolPage';
 import StudentTest from '../components/studentTest';
+import ProfessorClaim from '../components/professorClaim';
 
 
 class HomePage extends Component {
@@ -36,13 +36,13 @@ class HomePage extends Component {
                         <Route path="/set-up-school" component={SetUpSchoolPage} />
                         <Route path="/create-school/step2" component={SchoolStep2} />
                         <Route path="/create-school" component={SchoolStep1} />
-                        {/* <Route path="/create-school" component={CreateSchoolPage} /> */}
                         <Route path="/admin/download" component={AdminDownload} />
                         <Route path="/set-up-school" component={SetUpSchoolPage} />
                         <Route path="/select-role" component={SelectRole} />
                         <Route path="/admin-login" component={AdminLogin} />
                         <Route path="/professor-login" component={ProfessorLogin} />
                         <Route path="/professor-course" component={ProfessorCourse} />
+                        <Route path="/professor/claim-account" component={ProfessorClaim} />
                         <Route path="/student-login" component={StudentLogin} />
                         <Route path="/student/dashboard" component={StudentDashboard} />
                         <Route path="/student/classes" component={StudentClass} />

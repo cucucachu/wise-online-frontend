@@ -4,8 +4,8 @@ export const AuthContext = createContext();
 
 const AuthContextProvider = (props) => {
     const [user, setUser] = useState({
-        name: 'john@schoola.edu',
-        schoolID: 'xxx',
+        email: 'john@schoola.edu',
+        password: 'xxx',
         isAuthenticated: false
     })
     const authToggle = (isAuthenticated)=>{

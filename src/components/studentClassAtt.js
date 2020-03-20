@@ -1,10 +1,4 @@
 import React, {Component} from 'react';
-import { 
-    BrowserRouter as Router,
-    Switch,
-    Route,
-    Link
-   } from "react-router-dom";
 
 import attendClass from '../Assets/images/attend-class.png';
 
