@@ -77,7 +77,7 @@ class SchoolStep1 extends Component {
                 <div className="spacer-vertical"></div>
                 <div className="">
                 {/* <Link to="/create-school/step2"> */}
-                    <button type="submit" className="btn">Next</button>
+                    <input type="submit" className="btn" value="Next" />
                 {/* </Link> */}
                 </div>
             </form>

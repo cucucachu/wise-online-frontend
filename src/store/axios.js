@@ -1,5 +1,4 @@
-// const axios = require('axios');
-import axios from 'axios'
+const axios = require('axios');
 const baseURL = 'http://localhost:8000/';
 // const baseURL = 'https://wiseonlineattend.appspot.com/' // URL for hosted backend
 

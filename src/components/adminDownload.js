@@ -1,10 +1,4 @@
 import React from 'react';
-import { 
-    BrowserRouter as Router,
-    Switch,
-    Route,
-    Link
-   } from "react-router-dom"
 
 import attendanceIcon from '../Assets/images/attendance-icon.png'
 import downloadIcon from '../Assets/images/download-icon-white.svg'
