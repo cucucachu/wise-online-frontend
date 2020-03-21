@@ -4,7 +4,11 @@ import attendClass from '../Assets/images/attend-class.png';
 import { markAttendance } from "../store/axios";
 // markAttendance(classId, keyCode)
 
+import { AuthContext } from '../contexts/AuthContext'
+
 class StudentClassAtt extends Component {
+  static contextType = AuthContext
+
   state={
     classID: '',
     keyCode: ''

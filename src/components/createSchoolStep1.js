@@ -11,13 +11,20 @@ import editIcon from '../Assets/images/edit-icon.png';
 import { createSchool } from '../store/axios'
 // name, setupKey, email, password
 
+import { AuthContext } from '../contexts/AuthContext'
+
+
 
 class SchoolStep1 extends Component {
+    static contextType = AuthContext
+
     state={
         email: '',
         setupkey: '',
         password: '',
-        name: ''
+        name: '',
+        message: '',
+        showHide: {display: 'none'}
     };
 
     handleChangeName = e =>{
@@ -34,12 +41,28 @@ class SchoolStep1 extends Component {
         
         this.setState({setupkey: e.target.value})
     }
+    showError = () =>{
+        this.setState({showHide: {display: 'block'}})
+    }
     
     handleSubmit = e =>{
         e.preventDefault()
-        
-        console.log('state: ', this.state)
+        const { getSchoolID } = this.context
         const newSchool = createSchool(this.state.name, this.state.setupkey, this.state.email, this.state.password)
+
+        //this object returns
+        // ctx.body = {
+        //     message: 'School created succesfully.',
+        //     id: school.id,
+        // }
+
+        console.log('newSchool: ', newSchool);
+        if(newSchool){
+            getSchoolID(newSchool.id)
+        }else{
+            this.showError()
+        }
+        
     }
   render(){
       return(
@@ -52,6 +75,7 @@ class SchoolStep1 extends Component {
             <form onSubmit={this.handleSubmit.bind(this)}>
                 <div className="spacer-vertical"></div>
                 <div className="input-wrapper">
+                    <div style={this.state.showHide}>{this.state.message}</div>
                     <span className="input-label">School name</span>
                     <input type="text" className="" name="name" id="basic-url" aria-describedby="basic-addon3" value={this.state.name} onChange={this.handleChangeName.bind(this)}/>
                 </div>

@@ -1,23 +1,29 @@
 import React, { Component, Fragment } from 'react'
-import { 
-    BrowserRouter as Router,
-    Switch,
-    Route,
-    Link,
-    Redirect
-   } from "react-router-dom";
+// import { 
+//     BrowserRouter as Router,
+//     Switch,
+//     Route,
+//     Link,
+//     Redirect
+//    } from "react-router-dom";
 
 import editIcon from '../Assets/images/edit-icon.png';
 import { claimProfessorAccount } from '../store/axios'
 // setupKey, email, password
 
+import { AuthContext } from '../contexts/AuthContext'
+
+
 class ProfessorClaim extends Component {
+    static contextType = AuthContext
+
     state={
         email: '',
         conemail: '',
         setupkey: '',
         password: '',
-        conpassword: ''
+        conpassword: '',
+        showHide: {display: 'none'}
     };
 
     handleChangeEmail = e =>{
@@ -37,13 +43,26 @@ class ProfessorClaim extends Component {
         
         this.setState({setupkey: e.target.value})
     }
+    showError = () =>{
+        this.setState({showHide: {display: 'block'}})
+    }
     
     handleSubmit = e =>{
         e.preventDefault()
         console.log('state: ', this.state);
+        const { getProfessorID } = this.context
         if(this.state.email === this.state.conemail && this.state.password === this.state.conpassword){
             
             const newProfessorAccount = claimProfessorAccount(this.state.setupkey, this.state.email, this.state.password)
+            if(newProfessorAccount){
+                //obj below return
+                // ctx.body = {
+                //     message: 'Account claimed succesfully.',
+                //     id: professor.id,
+                // }
+                getProfessorID(newProfessorAccount.id)
+                
+            }
         }
 
     }

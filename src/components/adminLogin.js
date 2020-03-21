@@ -1,40 +1,77 @@
-import React, {Component, useContext, useState} from 'react';
+import React, {Component, useContext, useState} from 'react'
 import { 
-    Link
+    Link,
+    Redirect,
+    BrowserRouter as Router,
     } from "react-router-dom";
 
-import loginIcon from '../Assets/images/login-icon.png';
-// import { AuthContext } from '../contexts/AuthContext'
+
+import loginIcon from '../Assets/images/login-icon.png'
+import { AuthContext } from '../contexts/AuthContext'
 
 import { adminLogin } from '../store/axios'
    
    
 class AdminLogin extends Component {
-    // static contextType = AuthContext
+    static contextType = AuthContext
     state={
         email: '',
-        key: ''
+        key: '',
+        display: 'none',
+        message:'',
+        showHide: {display: 'none'}
     };
 
     handleChangeName = e =>{
         this.setState({email: e.target.value})
     }
     handleChangeKey = e =>{
-        console.log('onchange: ', e.target.value);
+        console.log('onchange: ', e.target.value)
         
         this.setState({key: e.target.value})
     }
     
+    showError = () =>{
+        this.setState({showHide: {display: 'block'}})
+    }
+
     handleSubmit = e =>{
         e.preventDefault()
-        
-        console.log('state: ', this.state);
-        // const userAdmin = adminLogin({email: this.state.name, password: this.state.key});
+        const { loggedinUser, authToggle } = this.context
         const userAdmin = adminLogin(this.state.email, this.state.key)
+
+        //currently Promise pending due to DB connection 
+        console.log('userAdmin: ', userAdmin)
+
+        //for test
+        if(userAdmin){
+            loggedinUser('School A', 'some id retunred')
+            authToggle() //triggers redirect to another page
+        }
+
+        //error message TBD
+        // if(userAdmin.status === 400){
+       // this.setState({message: userAdmin.message})
+        //     this.showError()
+        // }else{
+        //     loggedinUser(userAdmin.school.name, userAdmind.school.id)
+        //     authToggle() //tihs triggers redirect to next page at HomePage.js
+        // }
+        
+        return 
+        
+        //message sent by backend
+        //     message : 'Logged In as Admin with User ID: ',
+        //     id : id,
+        //     school: {
+        //         id: 111,
+        //         name: 'school.name',
+        //     }
         
     }
+
     render(){
-        // const { email, password } = this.context
+        
         return(
         <div className="container">
             <img src={loginIcon} className="page-icon" alt="login icon"/>
@@ -42,7 +79,9 @@ class AdminLogin extends Component {
             <h1>Administration login</h1>
             <form onSubmit={this.handleSubmit.bind(this)}>
             <div className="spacer-vertical"></div>
+                
                 <div className="input-wrapper">
+                    <div style={this.state.showHide}>{this.state.message}</div>
                     <span className="input-label">Email</span>
                     <input type="email" className="" id="basic-url"  aria-describedby="basic-addon3" name="email" value={this.state.email} onChange={this.handleChangeName.bind(this)} />
                 </div>

@@ -15,8 +15,10 @@ const backend = axios.create({
 ------------------------------------------*/
 
 async function adminLogin(email, password) {
-
-    const response = await backend.post('admin/login', {email, password});
+    
+    const response = await backend.post('admin/login', {email, password})
+    console.log('res: ', response);
+    
     return response.data;
 }
 

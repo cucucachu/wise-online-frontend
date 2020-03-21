@@ -29,7 +29,7 @@ header{
     width: 18rem;
     box-shadow: 0 0 10px grey;
     border-radius: 9rem;
-    margin-top: 4rem;
+    margin-top: 2rem;
 }
 
 .container{
@@ -233,4 +233,10 @@ footer{
     font-weight: lighter;
     padding-bottom: 2.5rem;
     list-style: none;
+}
+
+.nav-pos{
+    position: absolute;
+    top: 15px;
+    right: 15px;
 }

@@ -7,7 +7,7 @@ import {
    } from "react-router-dom";
 
 import loginIcon from '../Assets/images/login-icon.png';
-// import { AuthContext } from '../contexts/AuthContext'
+import { AuthContext } from '../contexts/AuthContext'
 
 import { adminLogin } from '../store/axios'
 
