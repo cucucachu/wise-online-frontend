@@ -61,6 +61,7 @@ class ProfessorClaim extends Component {
                 //     id: professor.id,
                 // }
                 getProfessorID(newProfessorAccount.id)
+                this.props.history.push('/professor/course')
                 
             }
         }

@@ -11,7 +11,30 @@ import editIcon from '../Assets/images/edit-icon.png'
 import downloadIcon from '../Assets/images/download-icon-white.svg'
 import tickIcon from '../Assets/images/tick-icon-white.svg'
 
+import { createCourse } from '../store/axios'
+//passing classId, students
+
+
 class ProfessorCourse extends Component {
+    state={
+        inputStype: {
+            borderRadius: '1rem',
+            width: '100%',
+            marginBottom: '5px',
+        },
+        courseName: '',
+        courseID: ''
+    }
+    handleChangeName = e =>{
+        this.setState({courseName: e.target.value})
+    }
+    handleChangeID = e =>{
+        this.setState({courseID: e.target.value})
+    }
+    handleSubmit = e =>{
+        e.preventDefault()
+        const newCourse = createCourse(this.state.courseID, this.state.courseName)
+    }
   render(){
 
       return(
@@ -42,8 +65,23 @@ class ProfessorCourse extends Component {
                         </div>                        
                     </div>
                     <div className="col-sm-6">
-                        <div className="shadow" style={{textAlign: 'center'}}>
-                            <h2 >Create Course</h2>
+                        <div className="shadow" >
+                            <div className="row">
+                                <div className="col-sm-6">
+                                    <form onSubmit={this.handleSubmit.bind(this)}>
+                                        <input type="text" placeholder="Enter class name" style={this.state.inputStype} onChange={this.handleChangeName.bind(this)}/>
+                                        <input type="text" placeholder="Enter class ID" style={this.state.inputStype} onChange={this.handleChangeID.bind(this)}/>
+                                        <input type="submit" className="btn-upload" value="Create"/>
+                                    </form>
+                                </div>
+                                <div className="col-sm-6 text-plain-s">
+                                    Create a new class name,<br/>
+                                    e.g. ECON 101<br/>
+                                    <br/>
+                                    Create a unique class ID<br/>
+                                    e.g. ECON101SP
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

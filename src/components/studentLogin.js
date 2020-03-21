@@ -48,7 +48,8 @@ class StudentLogin extends Component {
         //for test to connect DB, use code below
         if(userStudent){
             loggedinUser('Professor A', 'some id retunred')
-            authToggle() //triggers redirect to another page
+            authToggle() 
+            this.props.history.push('/student/dashboard')
         }
 
         //error message TBD

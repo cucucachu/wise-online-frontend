@@ -47,9 +47,8 @@ static contextType = AuthContext
                         <Route path="/set-up-school" component={SetUpSchoolPage} />
                         <Route path="/select-role" component={SelectRole} />
                         <Route path="/admin-login" component={AdminLogin} />
-
                         <Route path="/professor-login" component={ProfessorLogin} />
-                        <Route path="/professor-course" component={ProfessorCourse} />
+                        <Route path="/professor/course" component={ProfessorCourse} />
                         <Route path="/professor/claim-account" component={ProfessorClaim} />
                         <Route path="/student-login" component={StudentLogin} />
                         <Route path="/student/dashboard" component={StudentDashboard} />

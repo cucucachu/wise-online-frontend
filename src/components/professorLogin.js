@@ -46,6 +46,7 @@ class ProfessorLogin extends Component {
         if(userProfessor){
             loggedinUser('Professor A', 'some id retunred')
             authToggle() 
+            this.props.history.push('/professor/claim-account')
         }
 
         //error message TBD

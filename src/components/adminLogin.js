@@ -46,7 +46,8 @@ class AdminLogin extends Component {
         //for test
         if(userAdmin){
             loggedinUser('School A', 'some id retunred')
-            authToggle() //triggers redirect to another page
+            authToggle() 
+            this.props.history.push('/create-school')
         }
 
         //error message TBD
