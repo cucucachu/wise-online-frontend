@@ -165,6 +165,14 @@ footer{
       }
 }
 
+.btn-s{
+    color: $secondary-color;
+    background: transparent;
+    // border: 1px solid $secondary-color;
+    // border-radius: 1rem;
+    margin-left: 15px
+}
+
 .input-width{
     width: 60%;
 }

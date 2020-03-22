@@ -1,16 +1,35 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react'
+import { withRouter } from 'react-router-dom'
 import { AuthContext } from '../contexts/AuthContext'
 
 class Header extends Component {
+  constructor( props ) {
+    super( props );
+}
   static contextType = AuthContext
+  state={
+    redirect: false
+  }
+  handleLogout = () =>{
+    const { authToggle, isAuthenticated  } = this.context
+    if(isAuthenticated){
+      authToggle()
+      this.props.history.push("/");
+    }
+    
+    this.props.history.push("/");
+
+  }
   render(){
-    const { isAuthenticated, username, userID} = this.context
+
+    
+    const { isAuthenticated, username } = this.context
       return(
           <header>
               <div className="logo"></div>
               <nav className="">
-      {isAuthenticated ? 
-      (<p className="nav-pos">You are logged in as {username} </p> ):
+      {isAuthenticated === true ? 
+      (<p className="nav-pos">Logged in as {username} <button className="btn-s" onClick={this.handleLogout.bind(this)} >Log out</button></p> ):
       ''}
                 <ul>
 
@@ -24,4 +43,4 @@ class Header extends Component {
   }
 }
 
-export default Header;
+export default withRouter(Header)

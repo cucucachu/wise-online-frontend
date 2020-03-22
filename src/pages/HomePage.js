@@ -29,6 +29,8 @@ import ProfessorClaim from '../components/professorClaim'
 import { AuthContext } from '../contexts/AuthContext'
 import { adminLogin } from '../store/axios';
 
+import Header from '../components/header'
+
 
 class HomePage extends Component {
 static contextType = AuthContext
@@ -36,6 +38,7 @@ static contextType = AuthContext
       const { isAuthenticated } = this.context
       return(
           <Router>
+            <Header />
             <div className="wrap">
                 <div className="page-header"></div>
 
@@ -54,7 +57,7 @@ static contextType = AuthContext
                         <Route path="/student/dashboard" component={StudentDashboard} />
                         <Route path="/student/classes" component={StudentClass} />
                         <Route path="/student/tests" component={StudentTest} />
-                        <Route path="/student/class/attendance" component={StudentClassAtt} />
+                        <Route path="/student/class/attend" component={StudentClassAtt} />
                         <Route exact path='/' component={AdminLogin} />
                 </Switch>   
             </div>

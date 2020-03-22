@@ -42,7 +42,7 @@ handleSubmit = e =>{
                 </div>
                 <div className="spacer-vertical-s"></div>
                 <div className="input-wrapper">
-                    <span className="input-label">Class ID</span>
+                    <span className="input-label">Keycode</span>
                     <input type="text" className="" id="basic-url" aria-describedby="basic-addon3" name="classID" value={this.state.keyCode} onChange={this.handleChangeKeyCode.bind(this)} />
                 </div>
                 <p className="width-adjust-1">What is my class ID?</p>

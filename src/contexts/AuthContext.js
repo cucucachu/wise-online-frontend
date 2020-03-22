@@ -9,8 +9,9 @@ const AuthContextProvider = (props) => {
     const [professorID, setProfessorID] = useState('')
     var [isAuthenticated, setIsAuthenticated] = useState(false)
     var [isCreated, setIsCreated] = useState(false)
+    
     const authToggle = ()=>{
-        setIsAuthenticated({...isAuthenticated, isAuthenticated: !isAuthenticated})
+        setIsAuthenticated(!isAuthenticated)
     }
     const toggleCreated = () =>{
         setIsCreated({...isCreated, isCreated: !isCreated})

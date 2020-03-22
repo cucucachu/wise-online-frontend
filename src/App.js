@@ -1,7 +1,6 @@
 import React from 'react';
 
 //components
-import Header from './components/header'
 import Footer from './components/footer';
 
 //pages
@@ -14,7 +13,7 @@ function App() {
   return (
       <div className="App">
         <AuthContextProvider>
-          <Header />
+          
             <HomePage />
           <Footer />
         </AuthContextProvider>

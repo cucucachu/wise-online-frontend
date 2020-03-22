@@ -37,7 +37,7 @@ class AdminLogin extends Component {
 
     handleSubmit = e =>{
         e.preventDefault()
-        const { loggedinUser, authToggle } = this.context
+        const { loggedinUser, authToggle, isAuthenticated } = this.context
         const userAdmin = adminLogin(this.state.email, this.state.key)
 
         //currently Promise pending due to DB connection 
@@ -46,7 +46,10 @@ class AdminLogin extends Component {
         //for test
         if(userAdmin){
             loggedinUser('School A', 'some id retunred')
+            
+            
             authToggle() 
+            console.log('isAuthenticated from adminlogin: ', isAuthenticated);
             this.props.history.push('/create-school')
         }
 
