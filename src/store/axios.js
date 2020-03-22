@@ -1,5 +1,6 @@
 const axios = require('axios');
-const baseURL = 'http://localhost:8000/';
+// const baseURL = 'http://localhost:8000/';
+const baseURL = 'https://wiseonlineattend.appspot.com/' // URL for hosted backend
 // const baseURL = 'https://wiseonlineattend.appspot.com/' // URL for hosted backend
 
 // return axios.get('/api/employees', { proxy: { host: '127.0.0.1', port: 1337 } }) .then(res => { }) .catch(err => console.log(err));
