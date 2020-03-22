@@ -14,7 +14,6 @@ import { createSchool } from '../store/axios'
 import { AuthContext } from '../contexts/AuthContext'
 
 
-
 class SchoolStep1 extends Component {
     static contextType = AuthContext
 
@@ -47,7 +46,7 @@ class SchoolStep1 extends Component {
     
     handleSubmit = e =>{
         e.preventDefault()
-        const { getSchoolID } = this.context
+        const { getSchoolID, authToggle } = this.context
         const newSchool = createSchool(this.state.name, this.state.setupkey, this.state.email, this.state.password)
 
         //this object returns
@@ -56,13 +55,16 @@ class SchoolStep1 extends Component {
         //     id: school.id,
         // }
 
-        console.log('newSchool: ', newSchool);
-        if(newSchool){
-            getSchoolID(newSchool.id)
-        }else{
+        if(newSchool === 400){
+            this.setState({message: newSchool.message})
             this.showError()
+            
+        }else{
+            getSchoolID(newSchool.id)
+            authToggle() 
+            this.props.history.push('/create-school')
         }
-        
+        return
     }
   render(){
       return(

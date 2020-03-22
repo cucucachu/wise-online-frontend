@@ -43,22 +43,28 @@ static contextType = AuthContext
                 <div className="page-header"></div>
 
                 <Switch>
+                       {/* admin */}
                         <Route path="/set-up-school" component={SetUpSchoolPage} />
                         <Route path="/create-school/step2" component={SchoolStep2} />
                         <Route path="/create-school" component={SchoolStep1} />
                         <Route path="/admin/download" component={AdminDownload} />
                         <Route path="/set-up-school" component={SetUpSchoolPage} />
-                        <Route path="/select-role" component={SelectRole} />
                         <Route path="/admin-login" component={AdminLogin} />
+
+                        {/* professor */}
                         <Route path="/professor-login" component={ProfessorLogin} />
                         <Route path="/professor/course" component={ProfessorCourse} />
                         <Route path="/professor/claim-account" component={ProfessorClaim} />
+
+                        {/* student */}
                         <Route path="/student-login" component={StudentLogin} />
                         <Route path="/student/dashboard" component={StudentDashboard} />
                         <Route path="/student/classes" component={StudentClass} />
                         <Route path="/student/tests" component={StudentTest} />
                         <Route path="/student/class/attend" component={StudentClassAtt} />
-                        <Route exact path='/' component={AdminLogin} />
+
+                        {/* landingpage */}
+                        <Route exact path='/' component={SelectRole} />
                 </Switch>   
             </div>
           </Router>

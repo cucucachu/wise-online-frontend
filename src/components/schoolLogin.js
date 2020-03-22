@@ -13,7 +13,7 @@ import { adminLogin } from '../store/axios'
 
 
 class SchoolLogin extends Component {
-    // static contextType = AuthContext
+    static contextType = AuthContext
     state={
         email: '',
         key: ''

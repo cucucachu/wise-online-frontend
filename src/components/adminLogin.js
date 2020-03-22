@@ -1,8 +1,6 @@
 import React, {Component, useContext, useState} from 'react'
 import { 
     Link,
-    Redirect,
-    BrowserRouter as Router,
     } from "react-router-dom";
 
 
@@ -44,23 +42,24 @@ class AdminLogin extends Component {
         console.log('userAdmin: ', userAdmin)
 
         //for test
-        if(userAdmin){
-            loggedinUser('School A', 'some id retunred')
+        // if(userAdmin){
+        //     loggedinUser('School A', 'some id retunred')
             
             
-            authToggle() 
-            console.log('isAuthenticated from adminlogin: ', isAuthenticated);
-            this.props.history.push('/create-school')
-        }
+        //     authToggle() 
+        //     console.log('isAuthenticated from adminlogin: ', isAuthenticated);
+        //     this.props.history.push('/create-school')
+        // }
 
         //error message TBD
-        // if(userAdmin.status === 400){
-       // this.setState({message: userAdmin.message})
-        //     this.showError()
-        // }else{
-        //     loggedinUser(userAdmin.school.name, userAdmind.school.id)
-        //     authToggle() //tihs triggers redirect to next page at HomePage.js
-        // }
+        if(userAdmin.status === 400){
+            this.setState({message: userAdmin.message})
+            this.showError()
+        }else{
+            loggedinUser(userAdmin.school.name, userAdmin.school.id)
+            authToggle() 
+            this.props.history.push('/create-school')
+        }
         
         return 
         

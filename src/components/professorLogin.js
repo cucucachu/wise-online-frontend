@@ -39,24 +39,23 @@ class ProfessorLogin extends Component {
         
         const { loggedinUser, authToggle } = this.context
         const userProfessor = professorLogin(this.state.email, this.state.key)
-        //currently Promise pending due to DB connection 
-        console.log('userProfessor: ', userProfessor)
 
         //for test to connect DB, use code below-triggers Redirect to another page
-        if(userProfessor){
-            loggedinUser('Professor A', 'some id retunred')
-            authToggle() 
-            this.props.history.push('/professor/claim-account')
-        }
+        // if(userProfessor){
+        //     loggedinUser('Professor A', 'some id retunred')
+        //     authToggle() 
+        //     this.props.history.push('/professor/claim-account')
+        // }
 
         //error message TBD
-        // if(userProfessor.status === 400){
-        // this.setState({message: userProfessor.message})
-        //     this.showError()
-        // }else{
-        //     loggedinUser(userProfessor.school.name, userProfessor.school.id)
-        //     authToggle() //tihs triggers redirect to next page at HomePage.js
-        // }
+        if(userProfessor.status === 400){
+            this.setState({message: userProfessor.message})
+            this.showError()
+        }else{
+            loggedinUser(userProfessor.school.name, userProfessor.school.id)
+            authToggle()
+            this.props.history.push('/professor-course')
+        }
         return
         
     }

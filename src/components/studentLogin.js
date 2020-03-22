@@ -46,20 +46,21 @@ class StudentLogin extends Component {
         //currently Promise pending due to DB connection 
 
         //for test to connect DB, use code below
-        if(userStudent){
-            loggedinUser('Professor A', 'some id retunred')
-            authToggle() 
+        // if(userStudent){
+        //     loggedinUser('Professor A', 'some id retunred')
+        //     authToggle() 
+        //     this.props.history.push('/student/dashboard')
+        // }
+
+        // error message TBD
+        if(userStudent.status === 400){
+            this.setState({message: userStudent.message})
+            this.showError()
+        }else{
+            loggedinUser(userStudent.school.name, userStudent.school.id)
+            authToggle() //tihs triggers redirect to next page at HomePage.js
             this.props.history.push('/student/dashboard')
         }
-
-        //error message TBD
-        // if(userStudent.status === 400){
-        //     this.setState({message: userStudent.message})
-        //     this.showError()
-        // }else{
-        //     loggedinUser(userStudent.school.name, userStudent.school.id)
-        //     authToggle() //tihs triggers redirect to next page at HomePage.js
-        // }
         return
         
     }
