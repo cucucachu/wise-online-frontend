@@ -44,6 +44,12 @@ class ProfessorLogin extends Component {
             const userProfessor = response.data;
 
             if (response.status === 200) {
+                console.log('userProfessor: ', userProfessor);
+                // message: "Logged In as Professor with User ID: "
+                // id: "5e7802fee18a2035a451d661"
+                // school: {id: "5e7802fee18a2035a451d65f", name: "South Coast College"}
+                // __proto__: Object
+                
                 loggedinUser(userProfessor.id, userProfessor.school.name, userProfessor.school.id)
                 authToggle()
                 this.props.history.push('/professor/course')

@@ -1,10 +1,10 @@
 import React, { Component, Fragment } from 'react'
 import { 
-    BrowserRouter as Router,
-    Switch,
-    Route,
+    // BrowserRouter as Router,
+    // Switch,
+    // Route,
     Link,
-    Redirect
+    // Redirect
    } from "react-router-dom"
 
 import editIcon from '../Assets/images/edit-icon.png'
@@ -43,12 +43,17 @@ class ProfessorCourse extends Component {
         const newCourse = await createCourse(this.state.courseID, this.state.courseName)
     }
     async componentDidMount(){
+        
+        
         const { userID, schoolID } = this.context
         const response = await getCourses(schoolID, userID)
-        const allCources = response.data
-        console.log('allCources.classId: ', allCources.classId);
         
-        this.setState({courseIds: allCources.classId})
+        const allCourses = response.data
+        console.log('allCources.classId: ', allCourses);
+        this.setState({courseIds: [...this.state.courseIds, ...allCourses]})
+        // this.setState({
+        //     cars: [ ...this.state.cars, ...carArray ]
+        //   })
         // 0:
         // classId: "Course4"
         // professor: "5e77e47c7da0ce08306da1c2"
@@ -67,6 +72,14 @@ class ProfessorCourse extends Component {
         // __proto__: Array(0)
         // _id: "5e77e47d7da0ce08306da1cd"
         // __proto__: Object
+
+// classId: "ECON 101 SCC"
+// professor: "5e7802fee18a2035a451d661"
+// students: (11) ["5e7802fee18a2035a451d664", "5e7802ffe18a2035a451d672", "5e7802ffe18a2035a451d673", "5e7802ffe18a2035a451d674", "5e7802ffe18a2035a451d675", "5e7802ffe18a2035a451d676", "5e7802ffe18a2035a451d677", "5e7802ffe18a2035a451d678", "5e7802ffe18a2035a451d679", "5e7802ffe18a2035a451d67a", "5e7802ffe18a2035a451d67b"]
+// attendances: ["5e7802fee18a2035a451d665"]
+// tests: ["5e7802fee18a2035a451d666"]
+// _id: "5e7802fee18a2035a451d662"
+// __proto__: Object
     }
 
   render(){
@@ -77,9 +90,9 @@ class ProfessorCourse extends Component {
                     <img src={editIcon} className="page-icon" alt="login icon"/>
                     <div className="spacer-vertical"></div>
                 <h1>My Courses</h1>
-                {/* {this.state.courseIds.map((courseId, index) => (
-                                    <p>Course name: {courseId} </p>
-                                ))} */}
+                {this.state.courseIds.map((id, index) => (
+                                    <p>Course name: {id.classId} </p>
+                                ))}
                 <div className="row">
                     <div className="col-sm-6">
                         <div className="shadow">

@@ -7,7 +7,7 @@ const AuthContextProvider = (props) => {
     const [userID, setUserID] = useState('')
     const [schoolID, setSchoolID] = useState('')
     const [schoolName, setSchoolName] = useState('')
-    const [professorID, setProfessorID] = useState('')
+    // const [professorID, setProfessorID] = useState('')
     var [isAuthenticated, setIsAuthenticated] = useState(false)
     var [isCreated, setIsCreated] = useState(false)
     var [attendanceCode, setAttendanceCode] = useState(null)
@@ -20,8 +20,8 @@ const AuthContextProvider = (props) => {
         setIsCreated(!isCreated)
     }
     const loggedinUser = (userID, schoolName, schoolID) =>{
-        setUsername(userID)
-        setUserID(schoolName)
+        setUserID(userID)
+        setSchoolName(schoolName)
         setSchoolID(schoolID)
     }
     const storeClassId = (classId) =>{
@@ -36,7 +36,7 @@ const AuthContextProvider = (props) => {
     //     setProfessorID(id)
     // }
     return ( 
-        <AuthContext.Provider value={{ classID, schoolName, professorID, schoolID, username, userID, isAuthenticated, authToggle, loggedinUser, toggleCreated, storeClassId}}>
+        <AuthContext.Provider value={{ classID, schoolName, schoolID, username, userID, isAuthenticated, authToggle, loggedinUser, toggleCreated, storeClassId}}>
             {props.children}
         </AuthContext.Provider>
      );

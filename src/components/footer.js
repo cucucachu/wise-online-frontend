@@ -5,7 +5,7 @@ class Footer extends Component {
       return(
           <footer>
               <p className="footer-style">
-              © Copyright 2020 All rights reserved. 
+              ®2020 Wise Education Systems, Inc.  All Rights Reserved
               </p>
               
           </footer>

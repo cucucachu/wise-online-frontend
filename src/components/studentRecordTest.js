@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React, { useEffect } from 'react'
 import Webcam from "react-webcam";
 
 import editIcon from '../Assets/images/edit-icon.png'
@@ -16,12 +16,18 @@ const StudentRecordTest = () => {
     const capture = React.useCallback(
         () => {
           const imageSrc = webcamRef.current.getScreenshot();
-          console.log('imageSrc: ', imageSrc);
+          console.log('image object updated every min: ', imageSrc);
         },
         [webcamRef]
         
       );
-
+      useEffect(() => {
+        const interval = setInterval(() => {
+          capture()
+          console.log('This will run every min!');
+        }, 60000);
+        return () => clearInterval(interval);
+      }, []);
     return ( 
         <React.Fragment>
             <div className="container">

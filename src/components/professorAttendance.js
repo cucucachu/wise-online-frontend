@@ -15,7 +15,7 @@ import { startAttendance } from '../store/axios'
 import { AuthContext } from '../contexts/AuthContext'
 
 
-class ProfessorCourse extends Component {
+class ProfessorAttendance extends Component {
     static contextType = AuthContext
     state={
         attendanceCode: null,
@@ -66,4 +66,4 @@ class ProfessorCourse extends Component {
   }
 }
 
-export default ProfessorCourse;
+export default ProfessorAttendance;

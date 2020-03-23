@@ -66,7 +66,9 @@ header{
 .input-label-att{
     display: inline-block;
     background-color: $primary-color;
-    padding: 11px 30px;
+    padding-top: 11px;
+    padding-bottom: 11px;
+    padding-left: 30px;
     color: $secondary-color;
     border-top-left-radius: 0.5rem;
     border-bottom-left-radius: 0.5rem;
@@ -97,6 +99,31 @@ input{
     border: 1px solid #cccccc;
     font-size: x-large;
 }
+.keycode-input:after{
+    content: "";
+    display: block;
+    padding-bottom: 100%;
+}
+.square {
+    // border: 1px solid black;
+    width: 90%;
+    margin: 0 auto;
+  }
+  
+  .square:after {
+    content: "";
+    display: block;
+    padding-bottom: 100%;
+  }
+  .content-input {
+    position: absolute;
+    width: 86%;
+    height: 128%;
+    margin-left: -52%;
+    background: transparent;
+    border-top-left-radius: 0.5rem;
+    border-bottom-left-radius: 0.5rem;
+  }
 
 .input-wrapper{
     width: 100%;
@@ -116,6 +143,7 @@ footer{
     margin-top: 5rem;
     text-align: center;
     width: 100%;
+    color: $light-gray
 }
 
 .input-wrapper-bottom{
@@ -267,6 +295,7 @@ footer{
 .row-container{
     width: 60%;
     margin: 0 auto;
+    padding-left: 20px;
 }
 .align-adjust{
     width: 100%;
