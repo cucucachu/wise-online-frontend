@@ -5,9 +5,7 @@ import CourseCardRow from './courseCardRow';
 
 //axios
 import { createCourse, getCourses } from '../store/axios'
-
 import { AuthContext } from '../contexts/AuthContext'
-
 
 class ProfessorCourse extends Component {
     
@@ -25,20 +23,10 @@ class ProfessorCourse extends Component {
         }
 
         this.handleChangeID = this.handleChangeID.bind(this);
-        this.handleChangeName = this.handleChangeName.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
     
-    static contextType = AuthContext
-
-
-
-    handleChangeName(e) {
-        const state = Object.assign({}, this.state);
-
-        state.courseName = e.target.value;
-        this.setState(state);
-    }
+    static contextType = AuthContext;
 
     handleChangeID = e =>{
         const state = Object.assign({}, this.state);
@@ -100,7 +88,6 @@ class ProfessorCourse extends Component {
                                     lastRow={index >= this.state.courses.length - 1}
                                     handleSubmit={this.handleSubmit}
                                     handleChangeID={this.handleChangeID}
-                                    handleChangeName={this.handleChangeName}
                                 />
                             );
                         }
@@ -115,7 +102,6 @@ class ProfessorCourse extends Component {
                                     lastRow={true}
                                     handleSubmit={this.handleSubmit}
                                     handleChangeID={this.handleChangeID}
-                                    handleChangeName={this.handleChangeName}
                                 />
                             );
 

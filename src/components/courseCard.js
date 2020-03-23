@@ -16,8 +16,8 @@ function CourseCard (props) {
                     <h2 className="course-title">{props.course.classId}</h2>
                     <div className="col-sm-6">
                         <ul className="text-plain custom-list">
-                            <li>{props.course.attendances ? props.course.attendances.length : 0} classes recorded</li>
-                            <li>{props.course.tests ? props.course.tests.length : 0} test recorded</li>
+                            <li>{props.course.attendances ? props.course.attendances.length : 0} class{props.course.attendances && props.course.attendances.length === 1 ? '' : 'es'} recorded</li>
+                            <li>{props.course.tests ? props.course.tests.length : 0} test{props.course.tests && props.course.tests.length === 1 ? '' : 's'} recorded</li>
                         </ul>
                         <button>Settings</button>
                     </div>

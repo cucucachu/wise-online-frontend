@@ -22,7 +22,6 @@ function CourseCardRow (props) {
                         return (
                             <NewCourseCard
                                 inputStype={props.inputStype}
-                                handleChangeName={props.handleChangeName}
                                 handleChangeID={props.handleChangeID}
                                 handleSubmit={props.handleSubmit}
                             />

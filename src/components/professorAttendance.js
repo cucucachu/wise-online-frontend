@@ -67,7 +67,7 @@ class ProfessorAttendance extends Component {
                     </p>
                     <div className="spacer-vertical"></div>
                     <Link to="/professor/course">
-                        <button className="btn">Exit</button>
+                        <button className="btn">Done</button>
                     </Link>
                 </div>
             </Fragment>
