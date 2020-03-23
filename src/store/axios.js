@@ -1,6 +1,6 @@
 const axios = require('axios');
-const baseURL = 'http://localhost:8080/';
-// const baseURL = 'https://wiseonlineattend.appspot.com/' // URL for hosted backend
+//const baseURL = 'http://localhost:8080/';
+const baseURL = 'https://wiseonlineattend.appspot.com/' // URL for hosted backend
 
 // return axios.get('/api/employees', { proxy: { host: '127.0.0.1', port: 1337 } }) .then(res => { }) .catch(err => console.log(err));
 
@@ -29,7 +29,6 @@ async function studentLogin(email, studentId) {
     const response = await backend.post('student/login', {email, password : studentId});
     return response;
 }
-
 
 async function logout() {
     const response = await backend.post('student/login', {});

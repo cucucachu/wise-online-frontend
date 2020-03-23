@@ -1,15 +1,6 @@
 import React, { Component, Fragment } from 'react'
-import { 
-    // BrowserRouter as Router,
-    // Switch,
-    // Route,
-    Link,
-    // Redirect
-   } from "react-router-dom"
 
 import editIcon from '../Assets/images/edit-icon.png'
-import downloadIcon from '../Assets/images/download-icon-white.svg'
-import tickIcon from '../Assets/images/tick-icon-white.svg'
 import CourseCardRow from './courseCardRow';
 
 //axios
@@ -64,7 +55,7 @@ class ProfessorCourse extends Component {
 
     async loadCourses() {
         const { userID, schoolID } = this.context;
-        const response = await getCourses(schoolID, userID);//'5e7802f8e18a2035a451d5b1',);//'5e780300e18a2035a451d692');
+        const response = await getCourses(schoolID, userID);
         
         const allCourses = response.data
         const state = Object.assign({}, this.state);
