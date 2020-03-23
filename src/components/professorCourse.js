@@ -19,38 +19,62 @@ import { AuthContext } from '../contexts/AuthContext'
 
 
 class ProfessorCourse extends Component {
+    
+    constructor(props) {
+        super(props);
+        this.state = {
+            inputStype: {
+                borderRadius: '0.5rem',
+                width: '100%',
+                marginBottom: '5px',
+            },
+            courseName: '',
+            courseId: '',
+            courses: [],
+        }
+
+        this.handleChangeID = this.handleChangeID.bind(this);
+        this.handleChangeName = this.handleChangeName.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+    }
+    
     static contextType = AuthContext
-    state={
-        inputStype: {
-            borderRadius: '0.5rem',
-            width: '100%',
-            marginBottom: '5px',
-        },
-        courses: [],
-        courseName: [],
-        courseIds: [],
-        students: []
+
+
+
+    handleChangeName(e) {
+        const state = Object.assign({}, this.state);
+
+        state.courseName = e.target.value;
+        this.setState(state);
     }
-    handleChangeName = e =>{
-        this.setState({courseName: e.target.value})
-    }
+
     handleChangeID = e =>{
-        this.setState({courseID: e.target.value})
+        const state = Object.assign({}, this.state);
+
+        state.courseId = e.target.value;
+        this.setState(state);
     }
+
     handleSubmit = async e =>{
         e.preventDefault()
-        const newCourse = await createCourse(this.state.courseID, this.state.courseName)
+        await createCourse(this.state.courseId);
+        await this.loadCourses();
     }
-    async componentDidMount(){
+
+    async loadCourses() {
         const { userID, schoolID } = this.context;
-        const response = await getCourses(schoolID, '5e780300e18a2035a451d692');
+        const response = await getCourses(schoolID, userID);//'5e7802f8e18a2035a451d5b1',);//'5e780300e18a2035a451d692');
         
         const allCourses = response.data
-        console.log('allCources.classId: ', allCourses);
         const state = Object.assign({}, this.state);
         state.courses = allCourses;
 
         this.setState(state);
+    }
+
+    async componentDidMount() {
+        await this.loadCourses();
     }
 
   render(){
@@ -83,9 +107,9 @@ class ProfessorCourse extends Component {
                                     inputStype={this.state.inputStype}
                                     key={`CoursesRow${index}`} 
                                     lastRow={index >= this.state.courses.length - 1}
-                                    handleSubmit={this.handleSubmit.bind(this)}
-                                    handleSubmit={this.handleChangeID.bind(this)}
-                                    handleSubmit={this.handleChangeName.bind(this)}
+                                    handleSubmit={this.handleSubmit}
+                                    handleChangeID={this.handleChangeID}
+                                    handleChangeName={this.handleChangeName}
                                 />
                             );
                         }
@@ -98,9 +122,9 @@ class ProfessorCourse extends Component {
                                     inputStype={this.state.inputStype}
                                     key={`CoursesRowLast`} 
                                     lastRow={true}
-                                    handleSubmit={this.handleSubmit.bind(this)}
-                                    handleSubmit={this.handleChangeID.bind(this)}
-                                    handleSubmit={this.handleChangeName.bind(this)}
+                                    handleSubmit={this.handleSubmit}
+                                    handleChangeID={this.handleChangeID}
+                                    handleChangeName={this.handleChangeName}
                                 />
                             );
 
