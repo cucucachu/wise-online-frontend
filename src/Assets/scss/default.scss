@@ -4,7 +4,9 @@ body{
     font-family: Arial, Helvetica, sans-serif;
     color: $primary-color;
 }
-
+h1{
+    color: $plain-color !important;
+}
 header{
     
     display: block;
@@ -22,6 +24,7 @@ header{
     margin-top: 0;
     top: 0;
     z-index: -10;
+    border-bottom: 0;
 }
 
 .page-icon{
@@ -52,10 +55,23 @@ header{
     background-color: $primary-color;
     padding: 11px 30px;
     color: $secondary-color;
-    border-top-left-radius: 1rem;
-    border-bottom-left-radius: 1rem;
+    border-top-left-radius: 0.5rem;
+    border-bottom-left-radius: 0.5rem;
     border: 1px $primary-color;
     width: 210px;
+    line-height: 1.5;
+    box-shadow: 0 0 5px #ccc;
+    text-align: left;
+}
+.input-label-att{
+    display: inline-block;
+    background-color: $primary-color;
+    padding: 11px 30px;
+    color: $secondary-color;
+    border-top-left-radius: 0.5rem;
+    border-bottom-left-radius: 0.5rem;
+    border: 1px $primary-color;
+    width: 20%;
     line-height: 1.5;
     box-shadow: 0 0 5px #ccc;
     text-align: left;
@@ -63,12 +79,23 @@ header{
 
 input{
     padding: 10px 20px;
-    border-top-right-radius: 1rem;
-    border-bottom-right-radius: 1rem;
+    border-top-right-radius: 0.5rem;
+    border-bottom-right-radius: 0.5rem;
     box-shadow: 0 0 5px #ccc;
     width: 40%;
     line-height: 1.5;
     border: 1px solid #cccccc;
+}
+
+.keycode-input{
+    padding: 10px 20px;
+    border-radius: 0.5rem;
+    box-shadow: 0 0 5px #ccc;
+    width: 100%;
+    height: 10rem;
+    line-height: 1.5;
+    border: 1px solid #cccccc;
+    font-size: x-large;
 }
 
 .input-wrapper{
@@ -107,8 +134,9 @@ footer{
     background-color: $primary-color;
     color: $secondary-color;
     font-size: large;
-    padding: 10px 10rem;
-    border-radius: 1rem;
+    padding: 5px 10rem;
+    border-radius: 0.5rem;
+    border: 5px solid $primary-color;
     &:hover {
         border: 5px solid $primary-color;
         background-color: $secondary-color;
@@ -122,7 +150,7 @@ footer{
     color: $secondary-color;
     font-size: large;
     padding: 10px 15px;
-    border-radius: 1rem;
+    border-radius: 0.5rem;
     text-align: left;
     width: 100%;
     &:hover {
@@ -138,7 +166,7 @@ footer{
     font-size: large;
     padding: 10px 15px;
     border: 1px solid gray;
-    border-radius: 1rem;
+    border-radius: 0.5rem;
     text-align: left;
     width: 100%;
     &:hover {
@@ -155,9 +183,25 @@ footer{
     background-color: $primary-color;
     color: $secondary-color;
     font-size: large;
-    padding: 10px 10rem;
-    border-radius: 1rem;
+    padding: 5px 10rem;
+    border-radius: 0.5rem;
     width: 50%;
+    border: 5px solid $primary-color;
+    &:hover {
+        border: 5px solid $primary-color;
+        background-color: $secondary-color;
+        color: $primary-color;
+      }
+}
+
+.btn-m{
+    background-color: $primary-color;
+    color: $secondary-color;
+    font-size: large;
+    padding: 5px 0;
+    border-radius: 0.5rem;
+    border: 5px solid $primary-color;
+    width: 30%;
     &:hover {
         border: 5px solid $primary-color;
         background-color: $secondary-color;
@@ -178,9 +222,10 @@ footer{
     width: 60%;
 }
 
+
 .shadow{
     box-shadow: 0 0 8px #ccc;
-    border-radius: 3rem;
+    border-radius: 1rem;
     margin: 2rem;
     padding: 2rem;
     text-align: left;
@@ -220,12 +265,16 @@ footer{
 }
 
 .row-container{
-    margin: 0 16%;
+    width: 60%;
+    margin: 0 auto;
+}
+.align-adjust{
+    width: 100%;
 }
 
 .shadow-sm{
     box-shadow: 0 0 8px #ccc;
-    border-radius: 1rem;
+    border-radius: 0.5rem;
     margin: 2rem;
     padding: 2rem;
     text-align: center;
@@ -248,9 +297,24 @@ footer{
     padding-bottom: 2.5rem;
     list-style: none;
 }
+.jumbo-text{
+    font-size: 12vw;
+    letter-spacing: 4rem;
+    margin-left: 4rem;
+    font-weight: bold;
+}
+.xlarge-text{
+    font-size: x-large;
+}
 
 .nav-pos{
     position: absolute;
     top: 15px;
     right: 15px;
 }
+
+.width-50{
+    width: 50%;
+    margin-left: 25%;
+}
+

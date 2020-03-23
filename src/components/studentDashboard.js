@@ -19,7 +19,7 @@ class StudentDashboard extends Component {
             <h1>Are you going to a class, or taking a test?</h1>
             <form>
                 <div className="spacer-vertical"></div>
-                <Link to="/student/class/attendance">
+                <Link to="/student/class/attend">
                     <button className="btn">
                         <img src={tickIcon} alt="attend class icon" className="icon-sm" />&nbsp;Attend class
                     </button>
@@ -32,7 +32,6 @@ class StudentDashboard extends Component {
                     </button>
                 </Link>
                 
-
             </form>
     </div>
       )

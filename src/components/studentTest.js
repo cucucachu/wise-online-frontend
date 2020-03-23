@@ -1,4 +1,5 @@
-import React, { PureComponent } from 'react'
+import React from 'react'
+import { Link } from 'react-router-dom'
 import editIcon from '../Assets/images/edit-icon.png'
 
 const StudentTest = () => {
@@ -26,7 +27,9 @@ const StudentTest = () => {
                     </ul>
                 </div>
                 <div className="spacer-vertical"></div>
-                <button className="btn">Begin</button>
+                <Link to="test/record">
+                    <button className="btn">Begin</button>
+                </Link>
             </div>
         </React.Fragment>
      );

@@ -44,26 +44,31 @@ class SchoolStep1 extends Component {
         this.setState({showHide: {display: 'block'}})
     }
     
-    handleSubmit = e =>{
+    handleSubmit = async e =>{
         e.preventDefault()
-        const { getSchoolID, authToggle } = this.context
-        const newSchool = createSchool(this.state.name, this.state.setupkey, this.state.email, this.state.password)
+        const { loggedinUser, authToggle } = this.context
 
-        //this object returns
-        // ctx.body = {
-        //     message: 'School created succesfully.',
-        //     id: school.id,
-        // }
+        try {
+            const emailLowerCase = this.state.email.toLowerCase()
+            const response = await createSchool(this.state.name, this.state.setupkey, emailLowerCase, this.state.password)
+            const newSchool = response.data
 
-        if(newSchool === 400){
-            this.setState({message: newSchool.message})
-            this.showError()
-            
-        }else{
-            getSchoolID(newSchool.id)
-            authToggle() 
-            this.props.history.push('/create-school')
+            if (response.status === 200) {
+                
+                loggedinUser(newSchool.id, newSchool.school.name, newSchool.school.id)
+                authToggle() 
+                this.props.history.push('/set-up-school')
+            }
+            else {
+                this.setState({message: 'Sorry, we could not find a school with that setup key.'})
+                this.showError()
+            }
         }
+        catch (error) {
+            this.setState({message: 'Opps, something went wrong. Please try again.'})
+            this.showError()
+        }
+        
         return
     }
   render(){
@@ -72,7 +77,7 @@ class SchoolStep1 extends Component {
             <div className="container">
                     <img src={editIcon} className="page-icon" alt="login icon"/>
                     <div className="spacer-vertical"></div>
-            <h1>Create Your Shool</h1>
+            <h1>Create Your School</h1>
 
             <form onSubmit={this.handleSubmit.bind(this)}>
                 <div className="spacer-vertical"></div>
@@ -96,7 +101,7 @@ class SchoolStep1 extends Component {
 
                 <div className="spacer-vertical"></div>
                 <div className="input-wrapper">
-                    <span className="input-label">School setupkey</span>
+                    <span className="input-label">School setup key</span>
                     <input type="text" name="setupkey" className="" value={this.state.setupkey} onChange={this.handleChangeKey.bind(this)}/>
                 </div>
  

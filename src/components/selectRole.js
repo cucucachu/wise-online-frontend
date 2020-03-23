@@ -14,27 +14,25 @@ const SelectRole = () => {
     // const { schoolName, schoolID } = useContext(AuthContext);
     return (
         <div className="container">
-                <img src={loginIcon} className="page-icon" alt="login icon"/>
-                <div className="spacer-vertical"></div>
-                <h1>Select your role</h1>
-                <div className="spacer-vertical"></div>
-            <div className="row">
-                <div className="col-sm-4">
-                    <div className="just-margin">
-                        <Link to="admin-login"><h2>Admin</h2></Link>
-                    </div>
-                </div>
-                <div className="col-sm-4">
-                    <div className="just-margin">
-                        <Link to="professor-login"><h2>Professor</h2></Link>
-                    </div>
-                </div>
-                <div className="col-sm-4">
-                    <div className="just-margin">
-                        <Link to="/student-login"><h2>Student</h2></Link>
-                    </div>
-                </div>
-            </div>
+            <img src={loginIcon} className="page-icon" alt="login icon"/>
+            <div className="spacer-vertical"></div>
+            <h1 style={{color: '#444'}}>I am a ...</h1>
+            <div className="spacer-vertical"></div>
+
+            <Link to="student-login">
+                <button className="btn-m">Student</button>
+            </Link>
+            <div className="spacer-vertical-s"></div>
+
+            <Link to="professor-login">
+                <button className="btn-m">Professor</button>
+            </Link>
+            <div className="spacer-vertical-s"></div>
+
+            <Link to="admin-login">
+                <button className="btn-m">Administrator</button>
+            </Link>
+
         </div>
     );
   }

@@ -11,19 +11,26 @@ import editIcon from '../Assets/images/edit-icon.png'
 import downloadIcon from '../Assets/images/download-icon-white.svg'
 import tickIcon from '../Assets/images/tick-icon-white.svg'
 
+//axios
 import { createCourse } from '../store/axios'
 //passing classId, students
+import { getCourses } from '../store/axios'
+// school, professor
+
+import { AuthContext } from '../contexts/AuthContext'
 
 
 class ProfessorCourse extends Component {
+    static contextType = AuthContext
     state={
         inputStype: {
-            borderRadius: '1rem',
+            borderRadius: '0.5rem',
             width: '100%',
             marginBottom: '5px',
         },
-        courseName: '',
-        courseID: ''
+        courseName: [],
+        courseIds: [],
+        students: []
     }
     handleChangeName = e =>{
         this.setState({courseName: e.target.value})
@@ -31,10 +38,37 @@ class ProfessorCourse extends Component {
     handleChangeID = e =>{
         this.setState({courseID: e.target.value})
     }
-    handleSubmit = e =>{
+    handleSubmit = async e =>{
         e.preventDefault()
-        const newCourse = createCourse(this.state.courseID, this.state.courseName)
+        const newCourse = await createCourse(this.state.courseID, this.state.courseName)
     }
+    async componentDidMount(){
+        const { userID, schoolID } = this.context
+        const response = await getCourses(schoolID, userID)
+        const allCources = response.data
+        console.log('allCources.classId: ', allCources.classId);
+        
+        this.setState({courseIds: allCources.classId})
+        // 0:
+        // classId: "Course4"
+        // professor: "5e77e47c7da0ce08306da1c2"
+        // students: Array(10)
+        // 0: "5e77e47f7da0ce08306da1f3"
+        // 1: "5e77e47f7da0ce08306da1f4"
+        // 2: "5e77e47f7da0ce08306da1f5"
+        // 3: "5e77e47f7da0ce08306da1f6"
+        // 4: "5e77e47f7da0ce08306da1f7"
+        // 5: "5e77e47f7da0ce08306da1f8"
+        // 6: "5e77e47f7da0ce08306da1f9"
+        // 7: "5e77e47f7da0ce08306da1fa"
+        // 8: "5e77e47f7da0ce08306da1fb"
+        // 9: "5e77e47f7da0ce08306da1fc"
+        // length: 10
+        // __proto__: Array(0)
+        // _id: "5e77e47d7da0ce08306da1cd"
+        // __proto__: Object
+    }
+
   render(){
 
       return(
@@ -43,6 +77,9 @@ class ProfessorCourse extends Component {
                     <img src={editIcon} className="page-icon" alt="login icon"/>
                     <div className="spacer-vertical"></div>
                 <h1>My Courses</h1>
+                {/* {this.state.courseIds.map((courseId, index) => (
+                                    <p>Course name: {courseId} </p>
+                                ))} */}
                 <div className="row">
                     <div className="col-sm-6">
                         <div className="shadow">
@@ -55,10 +92,19 @@ class ProfessorCourse extends Component {
                                     </ul>
                                     <button>Settings</button>
                                 </div>
+                                
                                 <div className="col-sm-6">
+                                    <Link to="/professor/attendance">
                                     <button className="btn-upload" style={{marginBottom: '5px', fontSize: 'medium'}}><img src={tickIcon} className="icon-xs" alt="tick icon" />Take attendance</button>
+                                    </Link>
+
+                                    <Link to="">
                                     <button className="btn-upload" style={{marginBottom: '5px', fontSize: 'medium'}}><img src={tickIcon} className="icon-xs" alt="edit icon" />Proctor exam</button>
+                                    </Link>
+
+                                    <Link to="">
                                     <button className="btn-upload" style={{marginBottom: '5px', fontSize: 'medium'}}><img src={downloadIcon} className="icon-xs" alt="download icon" />Download data</button>
+                                    </Link>
                                 </div>
                                 
                             </div>
@@ -71,7 +117,7 @@ class ProfessorCourse extends Component {
                                     <form onSubmit={this.handleSubmit.bind(this)}>
                                         <input type="text" placeholder="Enter class name" style={this.state.inputStype} onChange={this.handleChangeName.bind(this)}/>
                                         <input type="text" placeholder="Enter class ID" style={this.state.inputStype} onChange={this.handleChangeID.bind(this)}/>
-                                        <input type="submit" className="btn-upload" value="Create"/>
+                                        <input type="submit" style={{textAlign: 'center'}} className="btn-upload" value="Create"/>
                                     </form>
                                 </div>
                                 <div className="col-sm-6 text-plain-s">

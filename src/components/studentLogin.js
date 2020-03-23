@@ -32,16 +32,45 @@ class StudentLogin extends Component {
         this.setState({key: e.target.value})
     }
     showError = () =>{
-        // const displayStyle = {display: block}
         this.setState({showHide: {display: 'block'}})
     }
     
-    handleSubmit = e =>{
+    handleSubmit = async e =>{
         e.preventDefault()
-        
         const { loggedinUser, authToggle } = this.context
+
+        try {
+            const emailLowerCase = this.state.email.toLowerCase()
+            const response = await studentLogin(emailLowerCase, this.state.key)
+            const userStudent = response.data
+
+            // response 
+            // {message: "Logged In as Student with User ID: ", id: "5e7780e14251fe378c3d87aa", school: {…}}
+            // message: "Logged In as Student with User ID: "
+            // id: "5e7780e14251fe378c3d87aa"
+            // school: {id: "5e7780de4251fe378c3d8792", name: "UCSD"}
+            // __proto__: Object
+
+            if (response.status === 200) {
+                // argument (name, id, schoolID)
+                loggedinUser(userStudent.id, userStudent.school.name, userStudent.school.id)
+                authToggle() 
+                this.props.history.push('/student/dashboard')
+            }
+            else {
+                this.setState({message: 'Invalid email or student id. Please try again.'})
+                this.showError()
+            }
+
+        }
+        catch (error) {
+            this.setState({message: 'Opps, something went wrong. Please try again.'})
+            this.showError()
+        }
+        
+        // const { loggedinUser, authToggle } = this.context
         // const userAdmin = studentLogin({email: this.state.name, password: this.state.key});
-        const userStudent = studentLogin(this.state.email, this.state.key)
+        // const userStudent = studentLogin(this.state.email, this.state.key)
 
         //currently Promise pending due to DB connection 
 
@@ -53,14 +82,14 @@ class StudentLogin extends Component {
         // }
 
         // error message TBD
-        if(userStudent.status === 400){
-            this.setState({message: userStudent.message})
-            this.showError()
-        }else{
-            loggedinUser(userStudent.school.name, userStudent.school.id)
-            authToggle() //tihs triggers redirect to next page at HomePage.js
-            this.props.history.push('/student/dashboard')
-        }
+        // if(userStudent.status === 400){
+        //     this.setState({message: userStudent.message})
+        //     this.showError()
+        // }else{
+        //     loggedinUser(userStudent.school.name, userStudent.school.id)
+        //     authToggle() //tihs triggers redirect to next page at HomePage.js
+        //     this.props.history.push('/student/dashboard')
+        // }
         return
         
     }
@@ -82,7 +111,6 @@ class StudentLogin extends Component {
                 
                 <div className="spacer-vertical"></div>
                 <div className="input-wrapper">
-                    <div style={this.state.showHide}>{this.state.message}</div>
                     <span className="input-label">Student ID</span>
                     <input type="password" className="" onChange={this.handleChangeKey.bind(this)} value={this.state.key} />
                 </div>

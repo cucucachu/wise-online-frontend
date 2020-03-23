@@ -6,29 +6,37 @@ const AuthContextProvider = (props) => {
     const [username, setUsername] = useState('')
     const [userID, setUserID] = useState('')
     const [schoolID, setSchoolID] = useState('')
+    const [schoolName, setSchoolName] = useState('')
     const [professorID, setProfessorID] = useState('')
     var [isAuthenticated, setIsAuthenticated] = useState(false)
     var [isCreated, setIsCreated] = useState(false)
-    
+    var [attendanceCode, setAttendanceCode] = useState(null)
+    const [classID, setClassID] = useState('')
+
     const authToggle = ()=>{
         setIsAuthenticated(!isAuthenticated)
     }
     const toggleCreated = () =>{
-        setIsCreated({...isCreated, isCreated: !isCreated})
+        setIsCreated(!isCreated)
     }
-    const loggedinUser = (name, id) =>{
+    const loggedinUser = (userID, schoolName, schoolID) =>{
+        setUsername(userID)
+        setUserID(schoolName)
+        setSchoolID(schoolID)
+    }
+    const storeClassId = (classId) =>{
+        console.log('classId : ', classId);
         
-        setUsername(name)
-        setUserID(id)
+        setClassID(classId)
     }
-    const getSchoolID = (id) =>{
-        setSchoolID(id)
-    }
-    const getProfessorID = (id) =>{
-        setProfessorID(id)
-    }
+    // const getSchoolID = (id) =>{
+    //     setSchoolID(id)
+    // }
+    // const getProfessorID = (id) =>{
+    //     setProfessorID(id)
+    // }
     return ( 
-        <AuthContext.Provider value={{schoolID, username, userID, isAuthenticated, authToggle, loggedinUser, getSchoolID, getProfessorID, toggleCreated}}>
+        <AuthContext.Provider value={{ classID, schoolName, professorID, schoolID, username, userID, isAuthenticated, authToggle, loggedinUser, toggleCreated, storeClassId}}>
             {props.children}
         </AuthContext.Provider>
      );

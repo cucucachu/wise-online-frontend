@@ -33,13 +33,34 @@ class AdminLogin extends Component {
         this.setState({showHide: {display: 'block'}})
     }
 
-    handleSubmit = e =>{
+    handleSubmit = async e =>{
         e.preventDefault()
         const { loggedinUser, authToggle, isAuthenticated } = this.context
-        const userAdmin = adminLogin(this.state.email, this.state.key)
+
+        try {
+            const emailLowerCase = this.state.email.toLowerCase()
+            
+            const response = await adminLogin(emailLowerCase, this.state.key)
+            const userAdmin = response.data;
+
+            if (response.status === 200) {
+                loggedinUser(userAdmin.id, userAdmin.school.name, userAdmin.school.id)
+                authToggle() 
+                this.props.history.push('/create-school')
+                console.log('userAdmin: ', userAdmin)
+            }
+            else {
+                this.setState({message: 'Invalid email or password. Please try again.'})
+                this.showError()
+            }
+        }
+        catch (error) {
+            this.setState({message: 'Opps, something went wrong. Please try again.'})
+            this.showError()
+        }
 
         //currently Promise pending due to DB connection 
-        console.log('userAdmin: ', userAdmin)
+        
 
         //for test
         // if(userAdmin){
@@ -52,14 +73,14 @@ class AdminLogin extends Component {
         // }
 
         //error message TBD
-        if(userAdmin.status === 400){
-            this.setState({message: userAdmin.message})
-            this.showError()
-        }else{
-            loggedinUser(userAdmin.school.name, userAdmin.school.id)
-            authToggle() 
-            this.props.history.push('/create-school')
-        }
+        // if(userAdmin.status === 400){
+        //     this.setState({message: userAdmin.message})
+        //     this.showError()
+        // }else{
+        //     loggedinUser(userAdmin.school.name, userAdmin.school.id)
+        //     authToggle() 
+        //     this.props.history.push('/create-school')
+        // }
         
         return 
         

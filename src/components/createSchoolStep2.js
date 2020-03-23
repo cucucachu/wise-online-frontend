@@ -9,8 +9,10 @@ import {
 
 import editIcon from '../Assets/images/edit-icon.png';
 
+import { AuthContext } from '../contexts/AuthContext'
 
 class SchoolStep2 extends Component {
+    static contextType = AuthContext
   render(){
       return(
         <Fragment>

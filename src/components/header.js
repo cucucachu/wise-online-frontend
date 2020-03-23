@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 import { AuthContext } from '../contexts/AuthContext'
+import { logout } from '../store/axios';
 
 class Header extends Component {
   constructor( props ) {
@@ -12,11 +13,12 @@ class Header extends Component {
   }
   handleLogout = () =>{
     const { authToggle, isAuthenticated  } = this.context
+    
     if(isAuthenticated){
       authToggle()
-      this.props.history.push("/");
     }
-    
+
+    logout()
     this.props.history.push("/");
 
   }
