@@ -43,8 +43,11 @@ class ProfessorCourse extends Component {
 
     async loadCourses() {
         const { userID, schoolID } = this.context;
-        const response = await getCourses(schoolID, userID);
+        console.log('userID: ', userID);
         
+        const response = await getCourses(schoolID, userID);
+
+        console.log('response: ', response);
         
         const allCourses = response.data
         
