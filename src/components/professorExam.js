@@ -1,0 +1,79 @@
+import React, { Component, Fragment } from 'react'
+import { 
+    Link,
+   } from "react-router-dom"
+
+import editIcon from '../Assets/images/edit-icon.png'
+
+
+import { startTest } from '../store/axios'
+// startTest(courseId)
+
+import { AuthContext } from '../contexts/AuthContext'
+
+class ProfessorExam extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            attendanceCode: '',
+            course: {
+                classId: '...',
+            },
+        }
+    }
+
+    static contextType = AuthContext;
+
+    async loadAttendance(course) {
+        const response = await startTest(course._id);
+        console.log('response: ')
+        console.dir(response.data);
+
+        const attendanceData = response.data;
+        const state = Object.assign({}, this.state);
+
+        state.attendanceCode = attendanceData.keyCode;
+        this.setState(state);
+    }
+    
+    componentDidMount() {
+        console.log('mounted');
+        const { course } = this.props.location.state;
+        console.log('course:');
+        console.dir(course);
+
+        const state = Object.assign({}, this.state);
+        state.course = course;
+        this.loadAttendance(course);
+        this.setState(state);
+    }
+
+    render(){
+        const { attendanceCode } = this.context
+        return(
+            <Fragment>
+                <div className="container">
+                    <img src={editIcon} className="page-icon" alt="login icon"/>
+                    <div className="spacer-vertical"></div>
+                    <h1>{this.state.course.classId} Test code</h1>
+                    <div className="spacer-vertical"></div>
+                    
+                    <div className='jumbo-text text-plain'>
+                        {this.state.attendanceCode}
+                    </div>
+
+                    <div className="spacer-vertical-s"></div>
+                    <p className="text-plain xlarge-text width-50">
+                    Provide this code to your students, to enter before taking their test online.
+                    </p>
+                    <div className="spacer-vertical"></div>
+                    <Link to="/professor/course">
+                        <button className="btn">Done</button>
+                    </Link>
+                </div>
+            </Fragment>
+        )
+    }
+}
+
+export default ProfessorExam;

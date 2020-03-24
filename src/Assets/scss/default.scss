@@ -1,0 +1,349 @@
+@import './config.scss';
+
+body{
+    font-family: Arial, Helvetica, sans-serif;
+    color: $primary-color;
+}
+h1{
+    color: $plain-color !important;
+}
+header{
+    
+    display: block;
+}
+
+.page-header{
+    background-image: url('../images/header-background.svg');
+    background-position: center top;
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 100vw;
+    max-height: 100vh;
+    height: 100%;
+    position: absolute;
+    margin-top: 0;
+    top: 0;
+    z-index: -10;
+    border-bottom: 0;
+}
+
+.page-icon{
+    z-index: 10;
+    width: 18rem;
+    box-shadow: 0 0 10px grey;
+    border-radius: 9rem;
+    margin-top: 2rem;
+}
+
+.container{
+    text-align: center;
+}
+
+.text-plain{
+    color: $plain-color;
+    font-size: large;
+    font-weight: lighter;
+}
+.text-plain-s{
+    color: $plain-color;
+    font-size: medium;
+    font-weight: lighter;
+}
+
+.input-label{
+    display: inline-block;
+    background-color: $primary-color;
+    padding: 11px 30px;
+    color: $secondary-color;
+    border-top-left-radius: 0.5rem;
+    border-bottom-left-radius: 0.5rem;
+    border: 1px $primary-color;
+    width: 210px;
+    line-height: 1.5;
+    box-shadow: 0 0 5px #ccc;
+    text-align: left;
+}
+.input-label-att{
+    display: inline-block;
+    background-color: $primary-color;
+    padding-top: 11px;
+    padding-bottom: 11px;
+    padding-left: 30px;
+    color: $secondary-color;
+    border-top-left-radius: 0.5rem;
+    border-bottom-left-radius: 0.5rem;
+    border: 1px $primary-color;
+    width: 20%;
+    line-height: 1.5;
+    box-shadow: 0 0 5px #ccc;
+    text-align: left;
+}
+
+input{
+    padding: 10px 20px;
+    border-top-right-radius: 0.5rem;
+    border-bottom-right-radius: 0.5rem;
+    box-shadow: 0 0 5px #ccc;
+    width: 40%;
+    line-height: 1.5;
+    border: 1px solid #cccccc;
+}
+
+.keycode-input{
+    padding: 10px 20px;
+    border-radius: 0.5rem;
+    box-shadow: 0 0 5px #ccc;
+    width: 100%;
+    height: 10rem;
+    line-height: 1.5;
+    border: 1px solid #cccccc;
+    font-size: x-large;
+}
+.keycode-input:after{
+    content: "";
+    display: block;
+    padding-bottom: 100%;
+}
+.square {
+    // border: 1px solid black;
+    width: 90%;
+    margin: 0 auto;
+  }
+  
+  .square:after {
+    content: "";
+    display: block;
+    padding-bottom: 100%;
+  }
+  .content-input {
+    position: absolute;
+    width: 86%;
+    height: 128%;
+    margin-left: -52%;
+    background: transparent;
+    border-top-left-radius: 0.5rem;
+    border-bottom-left-radius: 0.5rem;
+  }
+
+.input-wrapper{
+    width: 100%;
+    font-size: large;
+}
+
+.spacer-vertical{
+    margin-top: 5rem;
+}
+.spacer-vertical-s{
+    margin-top: 2rem;
+}
+
+footer{
+    position: unset;
+    bottom: 0;
+    margin-top: 5rem;
+    text-align: center;
+    width: 100%;
+    color: $light-gray
+}
+
+.input-wrapper-bottom{
+    display: flex;
+    margin: 1rem 2rem;
+    justify-content: space-around;
+    font-weight: lighter;
+
+    a:link{
+        
+        text-decoration: underline;
+    }
+}
+
+.btn{
+    background-color: $primary-color;
+    color: $secondary-color;
+    font-size: large;
+    padding: 5px 10rem;
+    border-radius: 0.5rem;
+    border: 5px solid $primary-color;
+    &:hover {
+        border: 5px solid $primary-color;
+        background-color: $secondary-color;
+        color: $primary-color;
+      }
+}
+
+.btn-upload{
+    background-color: $primary-color;
+    border: 1px solid $primary-color;
+    color: $secondary-color;
+    font-size: large;
+    padding: 10px 15px;
+    border-radius: 0.5rem;
+    text-align: left;
+    width: 100%;
+    &:hover {
+        border: 1px solid $primary-color;
+        background-color: $secondary-color;
+        color: $primary-color;
+      }
+}
+
+.btn-download{
+    background-color: white;
+    color: gray;
+    font-size: large;
+    padding: 10px 15px;
+    border: 1px solid gray;
+    border-radius: 0.5rem;
+    text-align: left;
+    width: 100%;
+    &:hover {
+        border: 1px solid $primary-color;
+        background-color: $primary-color;
+        color: $secondary-color;
+      }
+    img{
+        color: gray;
+    }
+}
+
+.btn-l{
+    background-color: $primary-color;
+    color: $secondary-color;
+    font-size: large;
+    padding: 5px 10rem;
+    border-radius: 0.5rem;
+    width: 50%;
+    border: 5px solid $primary-color;
+    &:hover {
+        border: 5px solid $primary-color;
+        background-color: $secondary-color;
+        color: $primary-color;
+      }
+}
+
+.btn-m{
+    background-color: $primary-color;
+    color: $secondary-color;
+    font-size: large;
+    padding: 5px 0;
+    border-radius: 0.5rem;
+    border: 5px solid $primary-color;
+    width: 30%;
+    &:hover {
+        border: 5px solid $primary-color;
+        background-color: $secondary-color;
+        color: $primary-color;
+      }
+}
+
+.btn-s{
+    color: $secondary-color;
+    background: transparent;
+    border: 0;
+    // border: 1px solid $secondary-color;
+    // border-radius: 1rem;
+    margin-left: 15px
+}
+
+.input-width{
+    width: 60%;
+}
+
+
+.shadow{
+    box-shadow: 0 0 8px #ccc;
+    border-radius: 1rem;
+    margin: 2rem;
+    padding: 2rem;
+    text-align: left;
+}
+
+.icon-sm{
+    width: 20px;
+    height: auto;
+}
+.icon-xs{
+    width: 16px;
+    height: auto;
+    margin-right: 6px;
+}
+
+.just-margin{
+    margin: 0 2rem;
+    border: 5px solid $primary-color;
+    border: 1rem;
+}
+
+.custom-list{
+    list-style-type: none;
+    padding-left: 0;
+}
+
+//professor
+.course-title{
+    padding-top: 0;
+    padding-left: 15px;
+}
+
+//students
+
+.screen-adjust{
+    height: 47vh;
+}
+
+.row-container{
+    width: 60%;
+    margin: 0 auto;
+    padding-left: 20px;
+}
+.align-adjust{
+    width: 100%;
+}
+
+.shadow-sm{
+    box-shadow: 0 0 8px #ccc;
+    border-radius: 0.5rem;
+    margin: 2rem;
+    padding: 2rem;
+    text-align: center;
+    font-size: x-large;
+}
+
+.width-adjust-1{
+    margin: 0 20%;
+    text-align: left;
+}
+
+.text-sm{
+    font-weight: lighter;
+    font-size: medium;
+}
+
+.list-text{
+    font-size: x-large;
+    font-weight: lighter;
+    padding-bottom: 2.5rem;
+    list-style: none;
+}
+.jumbo-text{
+    font-size: 12vw;
+    letter-spacing: 4rem;
+    margin-left: 4rem;
+    font-weight: bold;
+}
+.xlarge-text{
+    font-size: x-large;
+}
+
+.nav-pos{
+    position: absolute;
+    top: 15px;
+    right: 15px;
+}
+
+.width-50{
+    width: 50%;
+    margin-left: 25%;
+}
+
