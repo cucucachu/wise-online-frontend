@@ -25,9 +25,7 @@ class ProfessorLogin extends Component {
     handleChangeName = e =>{
         this.setState({email: e.target.value})
     }
-    handleChangeKey = e =>{
-        console.log('onchange: ', e.target.value);
-        
+    handleChangeKey = e =>{        
         this.setState({key: e.target.value})
     }
     showError = () =>{

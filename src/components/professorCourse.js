@@ -52,23 +52,13 @@ class ProfessorCourse extends Component {
     async loadCourses() {
         const { userID, schoolID } = this.context;
 
-        console.log('Context');
-        console.dir(this.context);
-
-        if (!(userID && schoolID)) {
-            return;
-        } 
-
         let state = Object.assign({}, this.state);
         state.courses = [];
         this.setState(state);
 
-
-
         const response = await getCourses(schoolID, userID);
         const courses = response.data
         state = Object.assign({}, this.state);
-
 
         state.courses = courses;
 
@@ -81,71 +71,65 @@ class ProfessorCourse extends Component {
 
     render() {
         const { userID, schoolID } = this.context;
-
-        if (!(userID && schoolID)) {
-            return <Redirect to="/professor-login" />
-        }
-        else {
-            return(
-                <Fragment>
-                    <div className="container">
-                            <img src={editIcon} className="page-icon" alt="login icon"/>
-                            <div className="spacer-vertical"></div>
-                        <h1>My Courses</h1>
-                        {
-                            (() => {
-                                const rows = [];
-        
-                                for (let index = 0; index < this.state.courses.length; index++) {
-                                    if (index % 2){
-                                        continue;
-                                    }
-        
-                                    const course = this.state.courses[index];
-                                    const coursesForRow = [course];
-        
-                                    if (index + 1 < this.state.courses.length) {
-                                        coursesForRow.push(this.state.courses[index + 1]);
-                                
-                                    }
-        
-                                    rows.push(
-                                        <CourseCardRow 
-                                            courses={coursesForRow}
-                                            inputStype={this.state.inputStype}
-                                            key={`CoursesRow${index}`} 
-                                            lastRow={index >= this.state.courses.length - 1}
-                                            handleSubmitNewCourse={this.handleSubmitNewCourse}
-                                            handleChangeID={this.handleChangeID}
-                                            handleSubmitEditCourse={this.handleSubmitEditCourse}
-                                        />
-                                    );
+        return(
+            <Fragment>
+                <div className="container">
+                        <img src={editIcon} className="page-icon" alt="login icon"/>
+                        <div className="spacer-vertical"></div>
+                    <h1>My Courses</h1>
+                    {
+                        (() => {
+                            const rows = [];
+    
+                            for (let index = 0; index < this.state.courses.length; index++) {
+                                if (index % 2){
+                                    continue;
                                 }
-        
-                                if (this.state.courses.length % 2 === 0) {
-        
-                                    rows.push(
-                                        <CourseCardRow 
-                                            courses={[]}
-                                            inputStype={this.state.inputStype}
-                                            key={`CoursesRowLast`} 
-                                            lastRow={true}
-                                            handleSubmitNewCourse={this.handleSubmitNewCourse}
-                                            handleChangeID={this.handleChangeID}
-                                            handleSubmitEditCourse={this.handleSubmitEditCourse}
-                                        />
-                                    );
-        
+    
+                                const course = this.state.courses[index];
+                                const coursesForRow = [course];
+    
+                                if (index + 1 < this.state.courses.length) {
+                                    coursesForRow.push(this.state.courses[index + 1]);
+                            
                                 }
-        
-                                return rows;
-                            })()
-                        }
-                    
-                    </div>
-                </Fragment>
-            )
-        }
+    
+                                rows.push(
+                                    <CourseCardRow 
+                                        courses={coursesForRow}
+                                        inputStype={this.state.inputStype}
+                                        key={`CoursesRow${index}`} 
+                                        lastRow={index >= this.state.courses.length - 1}
+                                        handleSubmitNewCourse={this.handleSubmitNewCourse}
+                                        handleChangeID={this.handleChangeID}
+                                        handleSubmitEditCourse={this.handleSubmitEditCourse}
+                                    />
+                                );
+                            }
+    
+                            if (this.state.courses.length % 2 === 0) {
+    
+                                rows.push(
+                                    <CourseCardRow 
+                                        courses={[]}
+                                        inputStype={this.state.inputStype}
+                                        key={`CoursesRowLast`} 
+                                        lastRow={true}
+                                        handleSubmitNewCourse={this.handleSubmitNewCourse}
+                                        handleChangeID={this.handleChangeID}
+                                        handleSubmitEditCourse={this.handleSubmitEditCourse}
+                                    />
+                                );
+    
+                            }
+    
+                            return rows;
+                        })()
+                    }
+                
+                </div>
+            </Fragment>
+        )
 
     }
 }
