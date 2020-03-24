@@ -57,5 +57,5 @@ const StudentRecordTest = () => {
         </React.Fragment>
      )
 }
- 
+
 export default StudentRecordTest
