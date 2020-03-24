@@ -37,6 +37,10 @@ import { AuthContext } from '../contexts/AuthContext'
 import { adminLogin } from '../store/axios';
 
 import Header from '../components/header'
+<<<<<<< HEAD
+=======
+import ProfessorExam from '../components/professorExam';
+>>>>>>> 191d3fe1a7f62a2230afc905b7243cbf4c254647
 
 
 
@@ -63,6 +67,10 @@ static contextType = AuthContext
                         <Route path="/professor/course" component={ProfessorCourse} />
                         <Route path="/professor/claim-account" component={ProfessorClaim} />
                         <Route path="/professor/attendance" component={ProfessorAttendanace} />
+<<<<<<< HEAD
+=======
+                        <Route path="/professor/exam" component={ProfessorExam} />
+>>>>>>> 191d3fe1a7f62a2230afc905b7243cbf4c254647
 
                         {/* student */}
                         <Route path="/student-login" component={StudentLogin} />

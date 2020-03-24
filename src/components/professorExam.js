@@ -5,12 +5,13 @@ import {
 
 import editIcon from '../Assets/images/edit-icon.png'
 
-//axios
-import { startAttendance } from '../store/axios'
+
+import { startTest } from '../store/axios'
+// startTest(courseId)
 
 import { AuthContext } from '../contexts/AuthContext'
 
-class ProfessorAttendance extends Component {
+class ProfessorExam extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -24,7 +25,8 @@ class ProfessorAttendance extends Component {
     static contextType = AuthContext;
 
     async loadAttendance(course) {
-        const response = await startAttendance(course._id);
+        const response = await startTest(course._id);
+        console.log('response: ')
         console.dir(response.data);
 
         const attendanceData = response.data;
@@ -53,7 +55,7 @@ class ProfessorAttendance extends Component {
                 <div className="container">
                     <img src={editIcon} className="page-icon" alt="login icon"/>
                     <div className="spacer-vertical"></div>
-                    <h1>Attendance Started for {this.state.course.classId}</h1>
+                    <h1>{this.state.course.classId} Test code</h1>
                     <div className="spacer-vertical"></div>
                     
                     <div className='jumbo-text text-plain'>
@@ -62,8 +64,7 @@ class ProfessorAttendance extends Component {
 
                     <div className="spacer-vertical-s"></div>
                     <p className="text-plain xlarge-text width-50">
-                    {attendanceCode}
-                    Write this code down, and provide it to your students during class.
+                    Provide this code to your students, to enter before taking their test online.
                     </p>
                     <div className="spacer-vertical"></div>
                     <Link to="/professor/course">
@@ -75,4 +76,4 @@ class ProfessorAttendance extends Component {
     }
 }
 
-export default ProfessorAttendance;
+export default ProfessorExam;

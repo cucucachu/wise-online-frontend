@@ -10,6 +10,7 @@ function CourseCardRow (props) {
                 (() => {
                     const courseCards = [];
                     for (const course of props.courses) {
+                        //props.courses be in course
                         const component = <CourseCard course={course} key={course._id}/>
                         courseCards.push(component);
                     }

@@ -45,8 +45,18 @@ class ProfessorCourse extends Component {
         const { userID, schoolID } = this.context;
         const response = await getCourses(schoolID, userID);
         
+<<<<<<< HEAD
         const allCourses = response.data
         const state = Object.assign({}, this.state);
+=======
+        
+        const allCourses = response.data
+        
+        const state = Object.assign({}, this.state);
+        console.log('state: ', state);
+
+
+>>>>>>> 191d3fe1a7f62a2230afc905b7243cbf4c254647
         state.courses = allCourses;
 
         this.setState(state);
@@ -78,6 +88,7 @@ class ProfessorCourse extends Component {
 
                             if (index + 1 < this.state.courses.length) {
                                 coursesForRow.push(this.state.courses[index + 1]);
+                     
                             }
 
                             rows.push(

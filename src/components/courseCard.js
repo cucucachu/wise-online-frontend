@@ -32,7 +32,12 @@ function CourseCard (props) {
                         <button className="btn-upload" style={{marginBottom: '5px', fontSize: 'medium'}}><img src={tickIcon} className="icon-xs" alt="tick icon" />Take attendance</button>
                         </Link>
 
-                        <Link to="">
+                        <Link to={{
+                            pathname: '/professor/exam',
+                            state: {
+                                course: props.course,
+                            }
+                        }}>
                         <button className="btn-upload" style={{marginBottom: '5px', fontSize: 'medium'}}><img src={tickIcon} className="icon-xs" alt="edit icon" />Proctor exam</button>
                         </Link>
 
