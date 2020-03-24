@@ -29,9 +29,6 @@ class ProfessorClaim extends Component {
     handleChangeEmail = e =>{
         this.setState({email: e.target.value})
     }
-    handleChangeConEmail = e =>{
-        this.setState({conemail: e.target.value})
-    }
     handleChangePW = e =>{
         this.setState({password: e.target.value})
     }

@@ -3,7 +3,6 @@ import {
     BrowserRouter as Router,
     Switch,
     Route,
-    Redirect
    } from "react-router-dom";
 
 //components
@@ -38,6 +37,7 @@ import { adminLogin } from '../store/axios';
 
 import Header from '../components/header'
 import ProfessorExam from '../components/professorExam';
+import ProfessorClaimSuccess from '../components/professorClaimSuccess';
 
 
 
@@ -63,6 +63,7 @@ static contextType = AuthContext
                         <Route path="/professor-login" component={ProfessorLogin} />
                         <Route path="/professor/course" component={ProfessorCourse} />
                         <Route path="/professor/claim-account" component={ProfessorClaim} />
+                        <Route path="/professor/claim-account-success" component={ProfessorClaimSuccess} />
                         <Route path="/professor/attendance" component={ProfessorAttendanace} />
                         <Route path="/professor/exam" component={ProfessorExam} />
 
