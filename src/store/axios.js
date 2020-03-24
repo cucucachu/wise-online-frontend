@@ -1,6 +1,6 @@
 const axios = require('axios');
-// const baseURL = 'http://localhost:8080/';
-const baseURL = 'https://wiseonlineattend.appspot.com/' // URL for hosted backend
+const baseURL = 'http://localhost:8080/';
+// const baseURL = 'https://wiseonlineattend.appspot.com/' // URL for hosted backend
 
 // return axios.get('/api/employees', { proxy: { host: '127.0.0.1', port: 1337 } }) .then(res => { }) .catch(err => console.log(err));
 
@@ -58,6 +58,11 @@ async function createCourse(classId, students) {
     return response;
 }
 
+async function editCourse(courseId, classId) {
+    const response = await backend.post('professor/editCourse', {id: courseId, classId});
+    return response;
+}
+
 async function startAttendance(courseId) {
     const response = await backend.post('professor/startAttendance', {courseId});
     return response;
@@ -110,6 +115,7 @@ export {
     createSchool,
     claimProfessorAccount,
     createCourse,
+    editCourse,
     startAttendance,
     startTest,
     markAttendance,

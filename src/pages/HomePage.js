@@ -36,7 +36,7 @@ import ProfessorClaim from '../components/professorClaim'
 import { AuthContext } from '../contexts/AuthContext'
 import { adminLogin } from '../store/axios';
 
-import Header from '../components/header'
+import Header from '../components/header';
 import ProfessorExam from '../components/professorExam';
 
 
