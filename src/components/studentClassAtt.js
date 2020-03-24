@@ -57,14 +57,13 @@ handleSubmit = async e =>{
             <form onSubmit={this.handleSubmit.bind(this)}>
                 <div className="input-wrapper">
                     <span className="input-label-att">Class ID</span>
-                    <input type="text" className="" id="basic-url" aria-describedby="basic-addon3" name="classID" value={this.state.classID} onChange={this.handleChangeID.bind(this)} />
+                    <input type="text" className="input-att" id="basic-url" aria-describedby="basic-addon3" name="classID" value={this.state.classID} onChange={this.handleChangeID.bind(this)} />
                 </div>
-                <div className="spacer-vertical-s"></div>
-                {/* <div className="input-wrapper">
-                    <span className="input-label">Keycode</span>
-                    <input type="text" className="" id="basic-url" aria-describedby="basic-addon3" name="classID" value={this.state.keyCode} onChange={this.handleChangeKeyCode.bind(this)} />
-                </div> */}
-                <p className="width-adjust-1">What is my class ID?</p>
+                {/* <div className="spacer-vertical-s"></div> */}
+                <div className="container-note center">
+                  <p className="text-left" >What is my class ID?</p>
+                </div>
+                {/* <p className="width-adjust-1">What is my class ID?</p> */}
                 <div className="spacer-vertical"></div>
 
               <div className="row">

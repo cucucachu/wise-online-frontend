@@ -46,7 +46,7 @@ class AdminLogin extends Component {
             if (response.status === 200) {
                 loggedinUser(userAdmin.id, userAdmin.school.name, userAdmin.school.id)
                 authToggle() 
-                this.props.history.push('/create-school')
+                this.props.history.push('/admin/download')
                 console.log('userAdmin: ', userAdmin)
             }
             else {
