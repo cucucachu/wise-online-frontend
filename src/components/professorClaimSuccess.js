@@ -17,21 +17,7 @@ class ProfessorClaimSuccess extends Component {
     userID: '',
 };
 
-handleChangeID = e =>{
-    this.setState({classID: e.target.value})
-}
 
-handleSubmit = async e =>{
-    e.preventDefault()
-    const keycode =  this.state.keyCode1.concat(this.state.keyCode2, this.state.keyCode3, this.state.keyCode4)
-    
-    console.log('keycode: ', keycode)
-    
-    const response = await markAttendance(this.state.classID, keycode)
-    console.log('res: response', response);
-    
-    const attendance = response.data
-}
 componentDidMount(){
     const { userID } = this.context
     this.setState({userID: userID})
