@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import { 
-    BrowserRouter as Router,
-    Switch,
-    Route,
+    // BrowserRouter as Router,
+    // Switch,
+    // Route,
     Link
    } from "react-router-dom";
 
@@ -34,22 +34,23 @@ class ProfessorLogin extends Component {
     
     handleSubmit = async e =>{
         e.preventDefault()
-        const { loggedinUser, authToggle } = this.context
+        const { loggedinUser, authToggle, isAuthenticated } = this.context
 
         try {
             const emailLowerCase = this.state.email.toLowerCase()
+            
             const response = await professorLogin(emailLowerCase, this.state.key)
             const userProfessor = response.data;
 
             if (response.status === 200) {
                 console.log('userProfessor: ', userProfessor);
-                // message: "Logged In as Professor with User ID: "
-                // id: "5e7802fee18a2035a451d661"
-                // school: {id: "5e7802fee18a2035a451d65f", name: "South Coast College"}
-                // __proto__: Object
-                
+       
+                // (userID, schoolName, schoolID)
                 loggedinUser(userProfessor.id, userProfessor.school.name, userProfessor.school.id)
-                authToggle()
+                if(isAuthenticated === false){
+                    authToggle()
+                }
+                
                 this.props.history.push('/professor/course')
             }
             else {
@@ -101,6 +102,12 @@ class ProfessorLogin extends Component {
                 <div className="input-wrapper">
                     <span className="input-label">Password</span>
                     <input type="password" className="" name="key" onChange={this.handleChangeKey.bind(this)} value={this.state.key}/>
+                </div>
+
+                <div className="input-wrapper">
+                    <div className="input-wrapper-bottom">
+                        <Link to="/professor/claim-account">Claim your account</Link><Link to="/forgot-pw">Forgot Password</Link>
+                    </div>
                 </div>
   
                 <div className="spacer-vertical"></div>

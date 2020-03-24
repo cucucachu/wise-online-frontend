@@ -23,20 +23,6 @@ class StudentAttSuccess extends Component {
 handleChangeID = e =>{
     this.setState({classID: e.target.value})
 }
-handleChangeKeyCode1 = e =>{
-    
-  this.setState({keyCode1: e.target.value})
-}
-
-handleChangeKeyCode2 = e =>{
-  this.setState({keyCode2: e.target.value})
-}
-handleChangeKeyCode3 = e =>{
-  this.setState({keyCode3: e.target.value})
-}
-handleChangeKeyCode4 = e =>{
-  this.setState({keyCode4: e.target.value})
-}
 handleSubmit = async e =>{
     e.preventDefault()
     const keycode =  this.state.keyCode1.concat(this.state.keyCode2, this.state.keyCode3, this.state.keyCode4)

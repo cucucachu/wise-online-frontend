@@ -5,9 +5,6 @@ import downloadIcon from '../Assets/images/download-icon.svg';
 
 import '../Assets/css/radiobtn.css'
 import { 
-    BrowserRouter as Router,
-    Switch,
-    Route,
     Link
    } from "react-router-dom";
 
@@ -39,10 +36,10 @@ class SetUpSchoolPage extends Component {
                                         <span className="checkmark"></span>
                                         </label>
                                         {isFile1Uploaded ? <p　style={{paddingLeft: "35px"}}>Uploaded</p> : <p  className="text-plain">Not uploaded</p>}
-                                        <button　className="btn-upload">{isFile1Uploaded ? <div><img src={uploadIcon} className="icon-sm" />  {fileName1}</div> : 'Not uploaded'}
+                                        <button　className="btn-upload">{isFile1Uploaded ? <div><img src={uploadIcon} className="icon-sm"  alt="upload icon"/>  {fileName1}</div> : 'Not uploaded'}
                                         </button>
                                         <div className="spacer-vertical-s"></div>
-                                        <button　className="btn-download">{isFile1Uploaded ? <div><img src={downloadIcon} className="icon-sm" />  Download template</div> : 'Not uploaded'}
+                                        <button　className="btn-download">{isFile1Uploaded ? <div><img src={downloadIcon} className="icon-sm" alt="download icon"/>  Download template</div> : 'Not uploaded'}
                                         </button>                                    
                                     </div> 
                                 </div>
@@ -53,9 +50,9 @@ class SetUpSchoolPage extends Component {
                                         <span className="checkmark"></span>
                                         </label>
                                         {isFile1Uploaded ? <p　style={{paddingLeft: "35px"}}>Uploaded</p> : <p  className="text-plain">Not uploaded</p>}
-                                        <button　className="btn-upload">{isFile1Uploaded ? <div><img src={uploadIcon} className="icon-sm" />  {fileName1}</div> : 'Not uploaded'}</button>
+                                        <button　className="btn-upload">{isFile1Uploaded ? <div><img src={uploadIcon} className="icon-sm" alt="upload icon" />  {fileName1}</div> : 'Not uploaded'}</button>
                                         <div className="spacer-vertical-s"></div>
-                                        <button　className="btn-download">{isFile1Uploaded ? <div><img src={downloadIcon} className="icon-sm" />  Download template</div> : 'Not uploaded'}</button>  
+                                        <button　className="btn-download">{isFile1Uploaded ? <div><img src={downloadIcon} className="icon-sm" alt="download icon"/>  Download template</div> : 'Not uploaded'}</button>  
                                     </div>
                                 </div>
                                 

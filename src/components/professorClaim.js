@@ -29,9 +29,6 @@ class ProfessorClaim extends Component {
     handleChangeEmail = e =>{
         this.setState({email: e.target.value})
     }
-    handleChangeConEmail = e =>{
-        this.setState({conemail: e.target.value})
-    }
     handleChangePW = e =>{
         this.setState({password: e.target.value})
     }
@@ -47,25 +44,39 @@ class ProfessorClaim extends Component {
         this.setState({showHide: {display: 'block'}})
     }
     
-    handleSubmit = e =>{
+    handleSubmit = async e =>{
         e.preventDefault()
         console.log('state: ', this.state);
-        const { getProfessorID } = this.context
-        if(this.state.email === this.state.conemail && this.state.password === this.state.conpassword){
-            
-            const newProfessorAccount = claimProfessorAccount(this.state.setupkey, this.state.email, this.state.password)
-            if(newProfessorAccount){
-                //obj below return
-                // ctx.body = {
-                //     message: 'Account claimed succesfully.',
-                //     id: professor.id,
-                // }
-                getProfessorID(newProfessorAccount.id)
-                this.props.history.push('/professor/course')
-                
-            }
-        }
+        const { loggedinUser, authToggle, isAuthenticated } = this.context
 
+        if(this.state.password === this.state.conpassword){
+            try {
+                const emailLowerCase = this.state.email.toLowerCase()
+                const response = await claimProfessorAccount(this.state.setupkey, emailLowerCase, this.state.password)
+
+                const newProfessor = response.data;
+    
+                if (response.status === 200) {
+                    console.log('userProfessor: ', newProfessor);
+           
+                    loggedinUser(newProfessor.id, newProfessor.school.name, newProfessor.school.id)
+                    if(isAuthenticated === false){
+                        authToggle()
+                    }
+                    
+                    this.props.history.push('/professor/course')
+                }else if(response.status === 500 ) {
+                    this.setState({message: 'Claim professor account failed.'})
+                    this.showError()
+                }
+            }catch (error) {
+                this.setState({message: 'Opps, something went wrong. Please try again.'})
+                this.showError()
+            }
+        }else{
+            this.setState({message: 'Email and Confirm Email do not match. Please try again.'})
+            this.showError()
+        }
     }
   render(){
       return(
@@ -77,21 +88,14 @@ class ProfessorClaim extends Component {
 
             <form onSubmit={this.handleSubmit.bind(this)}>
                 <div className="spacer-vertical"></div>
-                <div className="input-wrapper">
-                    <span className="input-label">Setupkey</span>
-                    <input type="text" name="setupkey" className="" id="basic-url" aria-describedby="basic-addon3" value={this.state.setupkey} onChange={this.handleChangeKey.bind(this)} />
-                </div>
+                
                 <div className="spacer-vertical-s"></div>
                 <div className="input-wrapper">
+                    <div style={this.state.showHide}>{this.state.message}</div>
                     <span className="input-label">Email</span>
                     <input type="email" name="email" className="" id="basic-url" aria-describedby="basic-addon3" value={this.state.email} onChange={this.handleChangeEmail.bind(this)}/>
                 </div>
                 
-                <div className="spacer-vertical-s"></div>
-                <div className="input-wrapper">
-                    <span className="input-label">Confirm Email</span>
-                    <input type="email" name="conemail" className=""  value={this.state.conemail} onChange={this.handleChangeConEmail.bind(this)}/>
-                </div>
                 <div className="spacer-vertical-s"></div>
                 <div className="input-wrapper">
                     <div className="input-label">Password</div>
@@ -102,10 +106,15 @@ class ProfessorClaim extends Component {
                     <span className="input-label">Confirm Password</span>
                     <input type="password" name="confirmpassword" className="" value={this.state.conpassword} onChange={this.handleChangeConPW.bind(this)}/>
                 </div>
+                <div className="spacer-vertical-s"></div>
+                <div className="input-wrapper">
+                    <span className="input-label">Setup key</span>
+                    <input type="text" name="setupkey" className="" id="basic-url" aria-describedby="basic-addon3" value={this.state.setupkey} onChange={this.handleChangeKey.bind(this)} />
+                </div>
                 <div className="spacer-vertical"></div>
                 <div className="">
-                    {/* <Link to="/set-up-school"><button className="btn">Next</button></Link> */}
-                    <input type="submit" className="btn" value="Next" />
+
+                    <input type="submit" className="btn" value="Submit" />
                 </div>
             </form>
             </div>
