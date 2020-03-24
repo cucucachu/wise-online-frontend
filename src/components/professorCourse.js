@@ -91,7 +91,6 @@ class ProfessorCourse extends Component {
     
                                 if (index + 1 < this.state.courses.length) {
                                     coursesForRow.push(this.state.courses[index + 1]);
-                            
                                 }
     
                                 rows.push(
