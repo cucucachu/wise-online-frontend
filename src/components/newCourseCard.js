@@ -1,5 +1,12 @@
 import React, { Component } from 'react';
 
+const initialStyle = {
+    "box-shadow": "0 0 8px #4BA7EF",
+    "border-radius": "1rem",
+    "margin": "2rem",
+    "padding": "2rem",
+}
+
 class NewCourseCard extends Component {
     constructor(props) {
         super(props);
@@ -40,9 +47,13 @@ class NewCourseCard extends Component {
         else {
             return (
                 <div className="col-sm-6"onClick={this.handleClick}>
-                    <div className="shadow" >
+                    <div style={initialStyle} >
                         <div className="row">
-                            <h2 className="course-title">Create course</h2>
+                            <div style={{"text-align": "center"}}>
+                                <br/><br/><br/>
+                                <h2 className="course-title">Create course</h2>
+                                <br/><br/><br/><br/>
+                            </div>
                         </div>
                     </div>
                 </div>
