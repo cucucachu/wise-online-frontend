@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 const initialStyle = {
-    "box-shadow": "0 0 8px #4BA7EF",
+    "box-shadow": "0 0 8px #439ADE",
     "border-radius": "1rem",
     "margin": "2rem",
     "padding": "2rem",
