@@ -225,9 +225,20 @@ footer{
     border: 0;
     // border: 1px solid $secondary-color;
     // border-radius: 1rem;
-    margin-left: 15px
+    margin-left: 15px;
+    font-size: large;
 }
-
+.btn-backlink{
+    color: $secondary-color;
+    background: transparent;
+    border: 0;
+    // border: 1px solid $secondary-color;
+    // border-radius: 1rem;
+    position: absolute;
+    left: 15px;
+    top: 15px;
+    font-size: large;
+}
 .input-width{
     width: 60%;
 }

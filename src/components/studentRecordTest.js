@@ -43,7 +43,7 @@ const StudentRecordTest = () => {
                     width={600}
                     videoConstraints={videoConstraints}
                 /><br/>
-                <button onClick={capture}>Capture photo</button>
+                {/* <button onClick={capture}>Capture photo</button> */}
                 {/* <div className="">
                     <img src={cameraIcon} alt="camera icon" />
                 </div> */}

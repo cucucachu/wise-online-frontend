@@ -55,6 +55,8 @@ class StudentLogin extends Component {
                 // argument (name, id, schoolID)
                 loggedinUser(userStudent.id, userStudent.school.name, userStudent.school.id)
                 authToggle() 
+                console.log('userStudent: ', userStudent);
+                
                 this.props.history.push('/student/dashboard')
             }
             else {
