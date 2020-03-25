@@ -53,7 +53,7 @@ class StudentLogin extends Component {
 
             if (response.status === 200) {
                 // argument (name, id, schoolID)
-                loggedinUser(userStudent.id, userStudent.school.name, userStudent.school.id)
+                loggedinUser(userStudent.id, userStudent.name, userStudent.school.name, userStudent.school.id)
                 authToggle() 
                 console.log('userStudent: ', userStudent);
                 

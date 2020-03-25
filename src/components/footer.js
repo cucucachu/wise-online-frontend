@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import chatbotIcon from '../Assets/images/forum-blue.svg'
 
 class Footer extends Component {
   render(){
@@ -7,7 +8,9 @@ class Footer extends Component {
               <p className="footer-style">
               ®2020 Wise Education Systems, Inc.  All Rights Reserved
               </p>
-              
+              <div className="chatbot">
+                  <img src={chatbotIcon} alt="chatbot" className="chatbot-icon" />
+              </div>
           </footer>
       )
   }

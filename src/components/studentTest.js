@@ -27,9 +27,10 @@ const StudentTest = () => {
                     </ul>
                 </div>
                 <div className="spacer-vertical"></div>
-                <Link to="test/record">
+                <Link to="test-d">
                     <button className="btn">Begin</button>
                 </Link>
+                
             </div>
         </React.Fragment>
      );

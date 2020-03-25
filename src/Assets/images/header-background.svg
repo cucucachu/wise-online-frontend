@@ -5,15 +5,18 @@
 <style type="text/css">
 	.st0{fill:url(#SVGID_1_);}
 </style>
+<image style="overflow:visible;opacity:0.68;" width="2560" height="1600" xlink:href="../../../../../prof 4 copy 2 Retina.png"  transform="matrix(0.5329 0 0 0.5329 0 -65)">
+</image>
 <g>
 	<g>
-		<linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="683" y1="0" x2="683" y2="227">
+		
+			<linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="683" y1="0" x2="683" y2="240.0793" gradientTransform="matrix(1 0 0 1 0 -78)">
 			<stop  offset="0" style="stop-color:#00ADEB"/>
 			<stop  offset="0.281" style="stop-color:#00A4E6"/>
 			<stop  offset="0.7468" style="stop-color:#008AD9"/>
 			<stop  offset="0.9956" style="stop-color:#007AD1"/>
 		</linearGradient>
-		<path class="st0" d="M683.5,107.5c368.4,0,668.6,51,682.5,114.9V0H0v227h0.5C0.5,161,306.3,107.5,683.5,107.5z"/>
+		<path class="st0" d="M682.2,108.5c320.5,0,591.8,22.4,683.8,53.3V-78H0v239.3C93.6,130.6,363.7,108.5,682.2,108.5z"/>
 	</g>
 </g>
 </svg>

@@ -59,7 +59,7 @@ class ProfessorClaim extends Component {
                 if (response.status === 200) {
                     console.log('userProfessor: ', newProfessor);
            
-                    loggedinUser(newProfessor.id, newProfessor.school.name, newProfessor.school.id)
+                    loggedinUser(newProfessor.id, newProfessor.name, newProfessor.school.name, newProfessor.school.id)
                     if(isAuthenticated === false){
                         authToggle()
                     }

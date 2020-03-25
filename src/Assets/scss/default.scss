@@ -6,6 +6,7 @@ body{
 }
 h1{
     color: $plain-color !important;
+    font-weight: bold;
 }
 header{
     
@@ -133,7 +134,7 @@ footer{
 
 .input-wrapper-bottom{
     display: flex;
-    margin: 1rem 2rem;
+    margin: 1rem 5rem;
     justify-content: space-around;
     font-weight: lighter;
 
@@ -245,7 +246,27 @@ footer{
 .input-width{
     width: 60%;
 }
-
+input[type="file"] {
+    position: absolute;
+    // pointer-events: none;
+    opacity: 0;
+    // alternative to pointer-events, compatible with all browsers, just make it impossible to find
+    width: 1px;
+    height: 1px;
+    // background-color: $primary-color;
+    // border: 1px solid $primary-color;
+    // color: $secondary-color;
+    // font-size: large;
+    // padding: 10px 15px;
+    // border-radius: 0.5rem;
+    // text-align: left;
+    // width: 100%;
+    // &:hover {
+    //     border: 1px solid $primary-color;
+    //     background-color: $secondary-color;
+    //     color: $primary-color;
+    //   }
+  }
 
 .shadow{
     box-shadow: 0 0 8px #ccc;
@@ -346,3 +367,17 @@ footer{
     margin-left: 25%;
 }
 
+.chatbot{
+    position: fixed;
+    right: 40px;
+    bottom: 40px;
+    width: 100px;
+    height: 100px;
+    border-radius: 50px;
+    box-shadow: 0 0 10px grey;
+}
+.chatbot-icon{
+    width: 70%;
+    height: 70%;
+    margin-top: 17%;
+}

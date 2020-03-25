@@ -95,10 +95,23 @@ async function submitConfidenceScore(testAttendanceId, confidenceScore) {
 async function getCourses(school, professor) {
     const response = await backend.post('get/courses', {school, professor});
     return response;
+    
 }
 
 async function getStudents(school, professor, course) {
     const response = await backend.post('get/students', {school, professor, course});
+    return response;
+}
+
+async function postFiles(professorFile, studentFile) {
+    var formData = new FormData();
+    formData.append('professorFile', professorFile)
+    formData.append('studentFile', studentFile)
+    const response = await backend.post('admin/setupSchool', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+    });
     return response;
 }
 
@@ -117,4 +130,5 @@ export {
     submitConfidenceScore,
     getCourses,
     getStudents,
+    postFiles
 }

@@ -15,7 +15,6 @@ class AdminLogin extends Component {
     state={
         email: '',
         key: '',
-        display: 'none',
         message:'',
         showHide: {display: 'none'}
     };
@@ -35,7 +34,7 @@ class AdminLogin extends Component {
 
     handleSubmit = async e =>{
         e.preventDefault()
-        const { loggedinUser, authToggle, isAuthenticated } = this.context
+        const { loggedinUser, authToggle } = this.context
 
         try {
             const emailLowerCase = this.state.email.toLowerCase()
@@ -44,7 +43,7 @@ class AdminLogin extends Component {
             const userAdmin = response.data;
 
             if (response.status === 200) {
-                loggedinUser(userAdmin.id, userAdmin.school.name, userAdmin.school.id)
+                loggedinUser(userAdmin.id, '', userAdmin.school.name, userAdmin.school.id)
                 authToggle() 
                 this.props.history.push('/admin/download')
                 console.log('userAdmin: ', userAdmin)

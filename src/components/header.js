@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 import { AuthContext } from '../contexts/AuthContext'
-import { logout } from '../store/axios';
+import { logout } from '../store/axios'
+
+import chevronIcon from '../Assets/images/chevron-left.svg'
 
 class Header extends Component {
   constructor( props ) {
@@ -29,15 +31,21 @@ class Header extends Component {
   render(){
 
     
-    const { isAuthenticated, username } = this.context
+    const { isAuthenticated, username, schoolName } = this.context
+    const historyPath = this.props.history.location.pathname
       return(
           <header>
               <div className="logo"></div>
-              { this.props.history.location.pathname == '/' ? '' : (<button onClick={this.handleGoBack.bind(this)} className="btn-backlink">&lt; &nbsp;Go back </button>)}
+              { historyPath === '/' || 
+                historyPath === '/admin/download' ||
+                historyPath === '/create-school' ||
+                historyPath === '/professor/course' ||
+                historyPath === '/student/dashboard'
+               ? '' : (<button onClick={this.handleGoBack.bind(this)} className="btn-backlink"><img src={chevronIcon} className="icon-xs"/>&nbsp;Go back </button>)}
       
               <nav className="">
       {isAuthenticated === true ? 
-      (<p className="nav-pos">Logged in as {username} <button className="btn-s" onClick={this.handleLogout.bind(this)} >Log out</button></p> ):
+      (<p className="nav-pos">{ username === '' ? 'Logged in as ' + {schoolName} : 'Logged in as ' + 	 username} <button className="btn-s" onClick={this.handleLogout.bind(this)} >Log out</button></p> ):
       ''}
                 <ul>
 

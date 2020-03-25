@@ -38,6 +38,8 @@ import { adminLogin } from '../store/axios';
 import Header from '../components/header'
 import ProfessorExam from '../components/professorExam';
 import ProfessorClaimSuccess from '../components/professorClaimSuccess';
+import StudentTestId from '../components/studentTestId';
+import StudentRecError from '../components/studentRecordingError';
 
 
 
@@ -75,6 +77,9 @@ static contextType = AuthContext
                         <Route path="/student/class/attend" component={StudentClassAtt} />
                         <Route path="/student/class/attend-success" component={StudentAttSuccess} />
                         <Route path="/student/test/record" component={StudentRecordTest} />
+                        <Route path="/student/test-id" component={StudentTestId} />
+                        <Route path="/student/test/recording-error" component={StudentRecError} />
+                        
 
                         {/* landingpage */}
                         <Route exact path='/' component={SelectRole} />

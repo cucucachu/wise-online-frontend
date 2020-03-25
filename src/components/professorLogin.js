@@ -48,7 +48,7 @@ class ProfessorLogin extends Component {
                 console.log('userProfessor: ', userProfessor);
        
                 // (userID, schoolName, schoolID)
-                loggedinUser(userProfessor.id, userProfessor.school.name, userProfessor.school.id)
+                loggedinUser(userProfessor.id, userProfessor.name, userProfessor.school.name, userProfessor.school.id)
                 if(isAuthenticated === false){
                     authToggle()
                 }

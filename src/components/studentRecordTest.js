@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import Webcam from "react-webcam";
+import { Link } from 'react-router-dom'
 
 import editIcon from '../Assets/images/edit-icon.png'
 import cameraIcon from '../Assets/images/camera-icon.png'
@@ -11,21 +12,27 @@ const videoConstraints = {
     facingMode: "user"
     };
 
-const StudentRecordTest = () => {
+const StudentRecordTest = (props) => {
     const webcamRef = React.useRef(null);
     const capture = React.useCallback(
         () => {
+          
           const imageSrc = webcamRef.current.getScreenshot();
           console.log('image object updated every min: ', imageSrc);
+          if(imageSrc == null){
+            props.history.push("recording-error");
+          }
         },
         [webcamRef]
         
       );
+
       useEffect(() => {
         const interval = setInterval(() => {
           capture()
           console.log('This will run every min!');
         }, 60000);
+
         return () => clearInterval(interval);
       }, []);
     return ( 
@@ -41,6 +48,7 @@ const StudentRecordTest = () => {
                     ref={webcamRef}
                     screenshotFormat="image/jpeg"
                     width={600}
+                    // onUserMedia={onUserMedia}
                     videoConstraints={videoConstraints}
                 /><br/>
                 {/* <button onClick={capture}>Capture photo</button> */}
@@ -49,7 +57,9 @@ const StudentRecordTest = () => {
                 </div> */}
                 <p className="text-plain"><img className="icon-xs" src={recordingIcon} alt="recording icon"></img>Recording in progress</p>
                 <div className="spacer-vertical"></div>
+                <Link to="/student/dashboard">
                 <button className="btn">End recording</button>
+                </Link>
             </div>
         </React.Fragment>
      )

@@ -17,7 +17,6 @@ class ProfessorClaimSuccess extends Component {
     userID: '',
 };
 
-
 componentDidMount(){
     const { userID } = this.context
     this.setState({userID: userID})
