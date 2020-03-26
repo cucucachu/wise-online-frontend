@@ -11,7 +11,11 @@ function CourseCardRow (props) {
                     const courseCards = [];
                     for (const course of props.courses) {
                         //props.courses be in course
-                        const component = <CourseCard course={course} key={course._id}/>
+                        const component = <CourseCard 
+                            course={course} 
+                            handleSubmit={props.handleSubmitEditCourse}
+                            key={course._id}
+                        />
                         courseCards.push(component);
                     }
                     return courseCards;
@@ -24,7 +28,7 @@ function CourseCardRow (props) {
                             <NewCourseCard
                                 inputStype={props.inputStype}
                                 handleChangeID={props.handleChangeID}
-                                handleSubmit={props.handleSubmit}
+                                handleSubmit={props.handleSubmitNewCourse}
                             />
                         )
                     }

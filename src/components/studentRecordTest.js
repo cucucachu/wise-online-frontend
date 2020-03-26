@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react'
 import Webcam from "react-webcam";
-import { Link } from 'react-router-dom'
 
 import editIcon from '../Assets/images/edit-icon.png'
 import cameraIcon from '../Assets/images/camera-icon.png'
 import recordingIcon from '../Assets/images/recording-icon.png'
+import { Link } from "react-router-dom";
 
 const videoConstraints = {
     width: 1280,
@@ -64,5 +64,5 @@ const StudentRecordTest = (props) => {
         </React.Fragment>
      )
 }
- 
+
 export default StudentRecordTest

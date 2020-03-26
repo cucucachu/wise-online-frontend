@@ -23,8 +23,6 @@ class AdminLogin extends Component {
         this.setState({email: e.target.value})
     }
     handleChangeKey = e =>{
-        console.log('onchange: ', e.target.value)
-        
         this.setState({key: e.target.value})
     }
     

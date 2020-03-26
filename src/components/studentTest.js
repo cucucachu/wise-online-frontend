@@ -27,7 +27,7 @@ const StudentTest = () => {
                     </ul>
                 </div>
                 <div className="spacer-vertical"></div>
-                <Link to="test-d">
+                <Link to="test-id">
                     <button className="btn">Begin</button>
                 </Link>
                 
