@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import Webcam from "react-webcam";
+import Webcam, {onUserMediaError} from "react-webcam";
 
 import editIcon from '../Assets/images/edit-icon.png'
 import cameraIcon from '../Assets/images/camera-icon.png'
@@ -26,12 +26,12 @@ const StudentRecordTest = (props) => {
         [webcamRef]
         
       );
-
+      
       useEffect(() => {
         const interval = setInterval(() => {
           capture()
           console.log('This will run every min!');
-        }, 60000);
+        }, 5000);
 
         return () => clearInterval(interval);
       }, []);
@@ -48,8 +48,8 @@ const StudentRecordTest = (props) => {
                     ref={webcamRef}
                     screenshotFormat="image/jpeg"
                     width={600}
-                    // onUserMedia={onUserMedia}
                     videoConstraints={videoConstraints}
+                    // onUserMedia={onUserMedia}
                 /><br/>
                 {/* <button onClick={capture}>Capture photo</button> */}
                 {/* <div className="">
