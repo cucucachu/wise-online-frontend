@@ -7,6 +7,8 @@ import editIcon from '../Assets/images/edit-icon.png'
 import downloadIcon from '../Assets/images/download-icon-white.svg'
 import tickIcon from '../Assets/images/tick-icon-white.svg'
 
+import { downloadDataForCourseURL } from '../store/axios';
+
 class CourseCard extends Component {
     
     constructor(props) {
@@ -37,6 +39,10 @@ class CourseCard extends Component {
         state.classId = e.target.value;
         this.setState(state);
     }
+
+    downloadCourseData() {
+        window.location = downloadDataForCourseURL(this.props.course._id);
+    } 
 
     renderView() {
         return (
@@ -70,10 +76,8 @@ class CourseCard extends Component {
                             }}>
                             <button className="btn-upload" style={{marginBottom: '5px', fontSize: 'medium'}}><img src={tickIcon} className="icon-xs" alt="edit icon" />Proctor exam</button>
                             </Link>
-    
-                            <Link to="">
-                            <button className="btn-upload" style={{marginBottom: '5px', fontSize: 'medium'}}><img src={downloadIcon} className="icon-xs" alt="download icon" />Download data</button>
-                            </Link>
+
+                            <button className="btn-upload" onClick={this.downloadCourseData.bind(this)} style={{marginBottom: '5px', fontSize: 'medium'}}><img src={downloadIcon} className="icon-xs" alt="download icon" />Download data</button>
                         </div>
                         
                     </div>

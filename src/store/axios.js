@@ -47,6 +47,18 @@ async function claimProfessorAccount(setupKey, email, password) {
     return response;
 }
 
+function adminDownloadDataByCourseURL() {
+    return baseURL + 'admin/courses/attendanceData';
+}
+
+function adminDownloadDataByProfessorURL() {
+    return baseURL + 'admin/professors/attendanceData';
+}
+
+function adminDownloadDataByStudentURL() {
+    return baseURL + 'admin/students/attendanceData';
+}
+
 /* ----------------------------------------
     Professor Routes
 ------------------------------------------*/
@@ -69,6 +81,10 @@ async function startAttendance(courseId) {
 async function startTest(courseId) {
     const response = await backend.post('professor/startTest', {courseId});
     return response;
+}
+
+function downloadDataForCourseURL(courseId) {
+    return baseURL + 'professor/course/attendanceData/' + courseId;
 }
 
 /* ----------------------------------------
@@ -125,10 +141,14 @@ export {
     logout,
     createSchool,
     claimProfessorAccount,
+    adminDownloadDataByCourseURL,
+    adminDownloadDataByProfessorURL,
+    adminDownloadDataByStudentURL,
     createCourse,
     editCourse,
     startAttendance,
     startTest,
+    downloadDataForCourseURL,
     markAttendance,
     takeTest,
     submitConfidenceScore,
