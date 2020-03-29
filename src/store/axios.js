@@ -48,6 +48,30 @@ async function claimProfessorAccount(setupKey, email, password) {
 }
 
 /* ----------------------------------------
+    Admin Routes
+------------------------------------------*/
+
+async function postFiles(professorFile, studentFile) {
+    var formData = new FormData();
+    formData.append('professorFile', professorFile)
+    formData.append('studentFile', studentFile)
+    const response = await backend.post('admin/setupSchool', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+    });
+    return response;
+}
+
+function getStudentTemplateURL() {
+    return baseURL + 'admin/studentTemplate';
+}
+
+function getProfessorTemplateURL() {
+    return baseURL + 'admin/professorTemplate';
+}
+
+/* ----------------------------------------
     Professor Routes
 ------------------------------------------*/
 
@@ -106,18 +130,6 @@ async function getStudents(school, professor, course) {
     return response;
 }
 
-async function postFiles(professorFile, studentFile) {
-    var formData = new FormData();
-    formData.append('professorFile', professorFile)
-    formData.append('studentFile', studentFile)
-    const response = await backend.post('admin/setupSchool', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-    });
-    return response;
-}
-
 export {
     adminLogin,
     professorLogin,
@@ -125,6 +137,8 @@ export {
     logout,
     createSchool,
     claimProfessorAccount,
+    getStudentTemplateURL,
+    getProfessorTemplateURL,
     createCourse,
     editCourse,
     startAttendance,
