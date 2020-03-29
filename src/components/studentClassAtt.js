@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react'
 
 import attendClass from '../Assets/images/attend-class.png';
 import { markAttendance } from "../store/axios";
@@ -14,7 +14,9 @@ class StudentClassAtt extends Component {
     keyCode1: '',
     keyCode2: '',
     keyCode3: '',
-    keyCode4: ''
+    keyCode4: '',
+    message: '',
+    show: 'none',
 };
 
 handleChangeID = e =>{
@@ -42,9 +44,18 @@ handleSubmit = async e =>{
     
     const response = await markAttendance(this.state.classId, keycode)
     console.log('res: response', response);
-    this.props.history.push('/student/class/attend-success')
+
+    if (response.status === 200) {
+      this.props.history.push('/student/class/attend-success')
+    }
+    else {
+      const state = Object.assign({}, this.state);
+
+      state.message = 'Invalid Class ID or Test ID. Please try again.';
+      state.show = 'inline';
+      this.setState(state);
+    }
     
-    const attendance = response.data
 }
   render(){
       return(
@@ -53,6 +64,7 @@ handleSubmit = async e =>{
             <div className="spacer-vertical"></div>
                 <h1>Mark your attendance</h1>
 
+                <div style={{display: this.state.show}}>{this.state.message}</div>
             <div className="spacer-vertical"></div>
             <form onSubmit={this.handleSubmit.bind(this)}>
                 <div className="input-wrapper">
