@@ -1,6 +1,6 @@
 const axios = require('axios');
-// const baseURL = 'http://localhost:8080/';
-const baseURL = 'https://wiseonlineattend.appspot.com/' // URL for hosted backend
+const baseURL = 'http://localhost:8080/';
+// const baseURL = 'https://wiseonlineattend.appspot.com/' // URL for hosted backend
 
 const backend = axios.create({
         baseURL,
@@ -87,13 +87,13 @@ function getProfessorTemplateURL() {
     Professor Routes
 ------------------------------------------*/
 
-async function createCourse(classId, students) {
-    const response = await backend.post('professor/createCourse', {classId, students});
+async function createCourse(name, classId, students) {
+    const response = await backend.post('professor/createCourse', {name, classId, students});
     return response;
 }
 
-async function editCourse(courseId, classId) {
-    const response = await backend.post('professor/editCourse', {id: courseId, classId});
+async function editCourse(courseId, name, classId) {
+    const response = await backend.post('professor/editCourse', {id: courseId, name, classId});
     return response;
 }
 
