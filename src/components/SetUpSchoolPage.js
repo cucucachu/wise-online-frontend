@@ -5,8 +5,9 @@ import downloadIcon from '../Assets/images/download-icon.svg';
 
 import '../Assets/css/radiobtn.css'
 import { Link } from "react-router-dom";
-import { postFiles } from '../store/axios'
+import { postFiles, getStudentTemplateURL, getProfessorTemplateURL } from '../store/axios'
 import { fs } from 'fs'
+import Axios from 'axios';
 
 
 class SetUpSchoolPage extends Component {
@@ -35,15 +36,12 @@ class SetUpSchoolPage extends Component {
         this.setState({fileProfessorName: fileProfessor.name, fileProfessor: fileProfessor, checkProfessor: true})
     }
     handleDownloadStudent = async e =>{
-
-        const studentTemplate = await fs.writeFile('student.csv', 'First Name,Middle Name,Last Name,Email\n', 'utf8')
-        console.log('studentTemplate: ', studentTemplate);
-        
+        e.preventDefault();
+        window.location = getStudentTemplateURL();
     }
     handleDownloadProfessor = async e =>{
-        
-        await fs.writeFile('professor.csv', 'First Name,Middle Name,Last Name,Email\n', 'utf8')
-
+        e.preventDefault();
+        window.location = getProfessorTemplateURL();
     }
     showError = () =>{
         this.setState({showHide: {display: 'block'}})
@@ -101,8 +99,8 @@ class SetUpSchoolPage extends Component {
                                          <label className="btn-upload" htmlFor="fileupload1"><img src={uploadIcon} className="icon-sm" alt="upload icon"/>&nbsp;{this.state.fileStudentName}
                                         </label>
                                         <div className="spacer-vertical-s"></div>
-                                        <button　className="btn-download"> <div><img src={downloadIcon} className="icon-sm" />&nbsp;Download template</div> 
-                                        </button>                                    
+                                        <button　className="btn-download" onClick={this.handleDownloadStudent}> <div><img src={downloadIcon} className="icon-sm" />&nbsp;Download template</div>
+                                        </button>
                                     </div> 
                                 </div>
                       
@@ -124,7 +122,7 @@ class SetUpSchoolPage extends Component {
 
                                         <div className="spacer-vertical-s"></div>
                                         <a href="#" target="_blank">
-                                            <button　className="btn-download"><img src={downloadIcon} className="icon-sm" alt="download icon"/>&nbsp;Download template</button>  
+                                            <button　className="btn-download" onClick={this.handleDownloadProfessor}><img src={downloadIcon} className="icon-sm" alt="download icon"/>&nbsp;Download template</button>  
                                         </a>
                                     </div>
                                 </div>

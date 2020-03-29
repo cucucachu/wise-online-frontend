@@ -47,6 +47,22 @@ async function claimProfessorAccount(setupKey, email, password) {
     return response;
 }
 
+/* ----------------------------------------
+    Admin Routes
+------------------------------------------*/
+
+async function postFiles(professorFile, studentFile) {
+    var formData = new FormData();
+    formData.append('professorFile', professorFile)
+    formData.append('studentFile', studentFile)
+    const response = await backend.post('admin/setupSchool', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+    });
+    return response;
+}
+
 function adminDownloadDataByCourseURL() {
     return baseURL + 'admin/courses/attendanceData';
 }
@@ -57,6 +73,14 @@ function adminDownloadDataByProfessorURL() {
 
 function adminDownloadDataByStudentURL() {
     return baseURL + 'admin/students/attendanceData';
+}
+
+function getStudentTemplateURL() {
+    return baseURL + 'admin/studentTemplate';
+}
+
+function getProfessorTemplateURL() {
+    return baseURL + 'admin/professorTemplate';
 }
 
 /* ----------------------------------------
@@ -122,18 +146,6 @@ async function getStudents(school, professor, course) {
     return response;
 }
 
-async function postFiles(professorFile, studentFile) {
-    var formData = new FormData();
-    formData.append('professorFile', professorFile)
-    formData.append('studentFile', studentFile)
-    const response = await backend.post('admin/setupSchool', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-    });
-    return response;
-}
-
 export {
     adminLogin,
     professorLogin,
@@ -144,6 +156,8 @@ export {
     adminDownloadDataByCourseURL,
     adminDownloadDataByProfessorURL,
     adminDownloadDataByStudentURL,
+    getStudentTemplateURL,
+    getProfessorTemplateURL,
     createCourse,
     editCourse,
     startAttendance,
