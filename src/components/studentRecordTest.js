@@ -1,10 +1,12 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import Webcam, {onUserMediaError} from "react-webcam";
+import { Link } from "react-router-dom";
 
 import editIcon from '../Assets/images/edit-icon.png'
 import cameraIcon from '../Assets/images/camera-icon.png'
 import recordingIcon from '../Assets/images/recording-icon.png'
-import { Link } from "react-router-dom";
+
+import { uploadReferenceImage, checkForStudent } from '../store/faces';
 
 const videoConstraints = {
     width: 1280,
@@ -14,13 +16,24 @@ const videoConstraints = {
 
 const StudentRecordTest = (props) => {
     const webcamRef = React.useRef(null);
+    const { referenceImage, setReferenceImage } = useState(null);
+
     const capture = React.useCallback(
-        () => {
+        async () => {
           
           const imageSrc = webcamRef.current.getScreenshot();
           console.log('image object updated every min: ', imageSrc);
           if(imageSrc == null){
             props.history.push("recording-error");
+          }
+          else {
+            if (referenceImage === null) {
+              const faceId = await uploadReferenceImage(imageSrc);
+              setReferenceImage(faceId);
+            }
+            else {
+              await checkForStudent(testAttendanceId, referenceImage, imageSrc);
+            }
           }
         },
         [webcamRef]
