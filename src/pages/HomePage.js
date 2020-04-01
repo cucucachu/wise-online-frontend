@@ -46,7 +46,6 @@ import PrivateRouteProfessor from '../components/PrivateRouteProfessor';
 class HomePage extends Component {
 static contextType = AuthContext
   render(){
-      const { isAuthenticated } = this.context
       return(
           <Router>
             <Header />

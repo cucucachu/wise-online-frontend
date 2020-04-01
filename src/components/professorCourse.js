@@ -1,5 +1,4 @@
 import React, { Component, Fragment } from 'react'
-import { Redirect } from "react-router-dom";
 
 import editIcon from '../Assets/images/edit-icon.png'
 import CourseCardRow from './courseCardRow';
@@ -66,11 +65,16 @@ class ProfessorCourse extends Component {
     }
 
     async componentDidMount() {
-        await this.loadCourses();
+        const { cookies } = this.context
+        if(cookies === undefined){
+            this.props.history.push('/professor-login')
+        }else{
+            await this.loadCourses();
+        }
+        
     }
 
     render() {
-        const { userID, schoolID } = this.context;
         return(
             <Fragment>
                 <div className="container">

@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react'
-import Webcam, {onUserMediaError} from "react-webcam";
+import Webcam from "react-webcam";
 
 import editIcon from '../Assets/images/edit-icon.png'
-import cameraIcon from '../Assets/images/camera-icon.png'
+// import cameraIcon from '../Assets/images/camera-icon.png'
 import recordingIcon from '../Assets/images/recording-icon.png'
 import { Link } from "react-router-dom";
 
@@ -31,7 +31,7 @@ const StudentRecordTest = (props) => {
         const interval = setInterval(() => {
           capture()
           console.log('This will run every min!');
-        }, 5000);
+        }, 60000);
 
         return () => clearInterval(interval);
       }, []);
@@ -58,7 +58,7 @@ const StudentRecordTest = (props) => {
                 <p className="text-plain"><img className="icon-xs" src={recordingIcon} alt="recording icon"></img>Recording in progress</p>
                 <div className="spacer-vertical"></div>
                 <Link to="/student/dashboard">
-                <button className="btn">End recording</button>
+                  <button className="btn">End recording</button>
                 </Link>
             </div>
         </React.Fragment>

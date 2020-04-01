@@ -1,5 +1,4 @@
-import React, { useState, useContext } from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState, useContext, useEffect } from 'react'
 import editIcon from '../Assets/images/edit-icon.png'
 import { AuthContext } from '../contexts/AuthContext'
 import { takeTest } from '../store/axios'
@@ -10,7 +9,7 @@ const StudentTestId = (props) => {
     const [classId, setClassId] = useState('')
     const [message, setMessage] = useState('')
     const [showHide, setShowHide] = useState({display: 'none'})
-    const { storeTestID, storeClassId } = useContext(AuthContext)
+    const { storeTestID, storeClassId, cookies } = useContext(AuthContext)
 
     const handleChangeKey = e =>{
         console.log('onchange: ', e.target.value);
@@ -25,18 +24,16 @@ const StudentTestId = (props) => {
     const handleSubmit = async e =>{
         e.preventDefault()
         
-        console.log('testId: ', testId);
-
         storeTestID(testId)
         storeClassId(classId)
 
         try {
             const response = await takeTest(classId, testId)
-            const testObj = response.data
+            // const testObj = response.data
 
             if (response.status === 200) {
                                 
-                props.history.push('/test/record')
+                props.history.push('test/record')
             }
             else {
                 setMessage('Invalid Class ID or Test ID. Please try again.')
@@ -50,6 +47,13 @@ const StudentTestId = (props) => {
         }
 
     }
+    useEffect(() => {
+        
+        if(cookies === undefined){
+            this.props.history.push('/student-login')
+        }else{return}
+    }, [cookies])
+
     return ( 
         <React.Fragment>
             <div className="container">
@@ -61,12 +65,12 @@ const StudentTestId = (props) => {
                     <div className="input-wrapper">
                         <div style={showHide}>{message}</div>
                         <span className="input-label">Class ID</span>
-                        <input type="password" className="" name="key" onChange={handleChangeClass} value={classId}/>
+                        <input type="text" className="" name="key" onChange={handleChangeClass} value={classId}/>
                     </div>
                     <div className="spacer-vertical"></div>
                     <div className="input-wrapper">
                         <span className="input-label">Test ID</span>
-                        <input type="password" className="" name="key" onChange={handleChangeKey} value={testId}/>
+                        <input type="text" className="" name="key" onChange={handleChangeKey} value={testId}/>
                     </div>
                     <div className="spacer-vertical"></div><br/>
                     <input type="submit" className="btn-m" value="Begin test" />

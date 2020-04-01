@@ -44,7 +44,14 @@ handleSubmit = async e =>{
     console.log('res: response', response);
     this.props.history.push('/student/class/attend-success')
     
-    const attendance = response.data
+}
+componentDidMount(){
+  const { cookies } = this.context
+  console.log('cookies: ', cookies);
+  
+  if(cookies === undefined){
+      this.props.history.push('/student-login')
+  }else{return}
 }
   render(){
       return(
@@ -83,30 +90,6 @@ handleSubmit = async e =>{
                   </div>
                 </div>
 
-                {/* <div className="row">
-                  <div className="row-container">
-                    <div className="col-sm-3 ">
-                      <div className="square">
-                        <input type="text" className="content-input" value={this.state.keyCode1} onChange={this.handleChangeKeyCode1.bind(this)} />
-                      </div>
-                    </div>
-                    <div className="col-sm-3 ">
-                    <div className="square">
-                      <input className="content-input"  type="text"  value={this.state.keyCode2} onChange={this.handleChangeKeyCode2.bind(this)} />
-                  </div>
-                    </div>
-                    <div className="col-sm-3 ">
-                      <div className="square">
-                    <input type="text" className="content-input" value={this.state.keyCode3} onChange={this.handleChangeKeyCode3.bind(this)} />
-                    </div>
-                    </div>
-                    <div className="col-sm-3 ">
-                      <div className="square">
-                    <input type="text" className="content-input" value={this.state.keyCode4} onChange={this.handleChangeKeyCode4.bind(this)} />
-                    </div>
-                    </div>
-                  </div>
-                </div> */}
                 <div className="spacer-vertical"></div>
                 <input type="submit" className="btn" value="Next" />
             </form>

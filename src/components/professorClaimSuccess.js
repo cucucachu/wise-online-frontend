@@ -1,11 +1,7 @@
 import React, {Component} from 'react';
 
-// import attendClass from '../Assets/images/attend-class.png';
 import loginIcon from '../Assets/images/login-icon.png';
 import successIcon from '../Assets/images/success-icon.png'
-
-import { markAttendance } from "../store/axios";
-// markAttendance(classId, keyCode)
 
 import { AuthContext } from '../contexts/AuthContext'
 import { Link } from 'react-router-dom';

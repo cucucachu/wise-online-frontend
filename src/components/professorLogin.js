@@ -1,10 +1,5 @@
 import React, {Component} from 'react';
-import { 
-    // BrowserRouter as Router,
-    // Switch,
-    // Route,
-    Link
-   } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import { professorLogin } from '../store/axios'
 import { AuthContext } from '../contexts/AuthContext'
@@ -62,25 +57,7 @@ class ProfessorLogin extends Component {
             this.setState({message: 'Opps, something went wrong. Please try again.'})
             this.showError()
         }
-        // const { loggedinUser, authToggle } = this.context
-        // const userProfessor = professorLogin(this.state.email, this.state.key)
-
-        //for test to connect DB, use code below-triggers Redirect to another page
-        // if(userProfessor){
-        //     loggedinUser('Professor A', 'some id retunred')
-        //     authToggle() 
-        //     this.props.history.push('/professor/claim-account')
-        // }
-
-        //error message TBD
-        // if(userProfessor.status === 400){
-        //     this.setState({message: userProfessor.message})
-        //     this.showError()
-        // }else{
-        //     loggedinUser(userProfessor.school.name, userProfessor.school.id)
-        //     authToggle()
-        //     this.props.history.push('/professor-course')
-        // }
+  
         return
         
     }
@@ -112,9 +89,7 @@ class ProfessorLogin extends Component {
   
                 <div className="spacer-vertical"></div>
                 <div className="">
-                    {/* <Link to="/professor-course"> */}
                         <input type="submit" className="btn" value="Next" />
-                    {/* </Link> */}
                 </div>
             </form>
     </div>

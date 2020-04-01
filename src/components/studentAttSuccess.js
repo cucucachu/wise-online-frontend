@@ -32,10 +32,11 @@ handleSubmit = async e =>{
     const response = await markAttendance(this.state.classID, keycode)
     console.log('res: response', response);
     
-    const attendance = response.data
+    // const attendance = response.data
 }
 componentDidMount(){
-    const { classID } = this.context
+    const { classID, cookies } = this.context
+    console.log('cookies: ', cookies);
     this.setState({classID: classID})
     console.log('classID: ', this.state.classID);
     

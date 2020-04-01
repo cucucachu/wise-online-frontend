@@ -1,8 +1,5 @@
-import React, {Component, useContext, useState} from 'react'
-import { 
-    Link,
-    } from "react-router-dom";
-
+import React, { Component } from 'react'
+import { Link } from "react-router-dom"
 
 import loginIcon from '../Assets/images/login-icon.png'
 import { AuthContext } from '../contexts/AuthContext'
@@ -39,7 +36,8 @@ class AdminLogin extends Component {
             
             const response = await adminLogin(emailLowerCase, this.state.key)
             const userAdmin = response.data;
-
+            console.log('userAdmin: ', userAdmin);
+            
             if (response.status === 200) {
                 loggedinUser(userAdmin.id, '', userAdmin.school.name, userAdmin.school.id)
                 authToggle() 
@@ -55,39 +53,8 @@ class AdminLogin extends Component {
             this.setState({message: 'Opps, something went wrong. Please try again.'})
             this.showError()
         }
-
-        //currently Promise pending due to DB connection 
-        
-
-        //for test
-        // if(userAdmin){
-        //     loggedinUser('School A', 'some id retunred')
-            
-            
-        //     authToggle() 
-        //     console.log('isAuthenticated from adminlogin: ', isAuthenticated);
-        //     this.props.history.push('/create-school')
-        // }
-
-        //error message TBD
-        // if(userAdmin.status === 400){
-        //     this.setState({message: userAdmin.message})
-        //     this.showError()
-        // }else{
-        //     loggedinUser(userAdmin.school.name, userAdmin.school.id)
-        //     authToggle() 
-        //     this.props.history.push('/create-school')
-        // }
         
         return 
-        
-        //message sent by backend
-        //     message : 'Logged In as Admin with User ID: ',
-        //     id : id,
-        //     school: {
-        //         id: 111,
-        //         name: 'school.name',
-        //     }
         
     }
 

@@ -1,16 +1,20 @@
 import React, {Component} from 'react';
-import { 
-    BrowserRouter as Router,
-    Switch,
-    Route,
-    Link
-   } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import studentDashIcon from '../Assets/images/student-dash-icon.png';
 import tickIcon from '../Assets/images/tick-icon-white.svg'
 import editIcon from '../Assets/images/edit-icon-white.svg'
 
+import { AuthContext } from '../contexts/AuthContext'
+
 class StudentDashboard extends Component {
+    static contextType = AuthContext
+    componentDidMount(){
+        const { cookies } = this.context
+        if(cookies === undefined){
+            this.props.history.push('/student-login')
+        }else{return}
+    }
   render(){
       return(
         <div className="container">

@@ -1,8 +1,18 @@
-import React from 'react'
+import React, { useEffect, useContext} from 'react'
 import { Link } from 'react-router-dom'
+import { AuthContext } from '../contexts/AuthContext'
 import editIcon from '../Assets/images/edit-icon.png'
 
 const StudentRecError = () => {
+    const { cookies } = useContext(AuthContext)
+
+    useEffect(() => {
+        
+        if(cookies === undefined){
+            this.props.history.push('/student-login')
+        }else{return}
+    }, [cookies])
+    
     return ( 
         <React.Fragment>
             <div className="container">

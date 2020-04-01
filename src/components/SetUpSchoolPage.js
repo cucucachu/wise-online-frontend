@@ -4,7 +4,6 @@ import uploadIcon from '../Assets/images/upload-icon.svg';
 import downloadIcon from '../Assets/images/download-icon.svg';
 
 import '../Assets/css/radiobtn.css'
-import { Link } from "react-router-dom";
 import { postFiles } from '../store/axios'
 import { fs } from 'fs'
 
@@ -70,7 +69,14 @@ class SetUpSchoolPage extends Component {
             this.showError()
         }
     }
-
+    componentDidMount(){
+        const { cookies } = this.context
+        console.log('cookies: ', cookies);
+        
+        if(cookies === undefined){
+            this.props.history.push('/admin-login')
+        }else{return}
+      }
 
   render(){
 
@@ -101,7 +107,7 @@ class SetUpSchoolPage extends Component {
                                          <label className="btn-upload" htmlFor="fileupload1"><img src={uploadIcon} className="icon-sm" alt="upload icon"/>&nbsp;{this.state.fileStudentName}
                                         </label>
                                         <div className="spacer-vertical-s"></div>
-                                        <button　className="btn-download"> <div><img src={downloadIcon} className="icon-sm" />&nbsp;Download template</div> 
+                                        <button　className="btn-download"> <div><img src={downloadIcon} className="icon-sm" alt="download icon" />&nbsp;Download template</div> 
                                         </button>                                    
                                     </div> 
                                 </div>
@@ -123,9 +129,9 @@ class SetUpSchoolPage extends Component {
                                         </label>
 
                                         <div className="spacer-vertical-s"></div>
-                                        <a href="#" target="_blank">
+                                        
                                             <button　className="btn-download"><img src={downloadIcon} className="icon-sm" alt="download icon"/>&nbsp;Download template</button>  
-                                        </a>
+                                        
                                     </div>
                                 </div>
                                 

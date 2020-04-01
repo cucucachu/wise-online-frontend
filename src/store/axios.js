@@ -2,6 +2,8 @@ const axios = require('axios');
 // const baseURL = 'http://localhost:8080/';
 const baseURL = 'https://wiseonlineattend.appspot.com/' // URL for hosted backend
 
+axios.defaults.withCredentials = true
+
 const backend = axios.create({
         baseURL,
         timeout: 5000,
@@ -9,12 +11,18 @@ const backend = axios.create({
         withCredentials: true,
         validateStatus: () => true,
 })
+
+
+  // Alter defaults after instance has been created
+// backend.defaults.headers.common['Authorization'] = AUTH_TOKEN;
+
 /* ----------------------------------------
     Logins
 ------------------------------------------*/
 
 async function adminLogin(email, password) {
     const response = await backend.post('admin/login', {email, password})
+    
     return response;
 }
 

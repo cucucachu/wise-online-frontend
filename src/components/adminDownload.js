@@ -1,10 +1,18 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 
 import attendanceIcon from '../Assets/images/attendance-icon.png'
 import downloadIcon from '../Assets/images/download-icon-white.svg'
+import { AuthContext } from '../contexts/AuthContext'
 
 const AdminDownload = () => {
+    const { cookies } = useContext(AuthContext)
 
+    useEffect(() => {
+            
+            if(cookies === undefined){
+                this.props.history.push('/admin-login')
+            }else{return}
+        }, [cookies])
     return ( 
         <div className="container">
                 <img src={ attendanceIcon } className="page-icon" alt="login icon"/>

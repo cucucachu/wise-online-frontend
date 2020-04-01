@@ -1,7 +1,5 @@
 import React, { Component, Fragment } from 'react'
-import { 
-    Link,
-   } from "react-router-dom"
+import { Link } from "react-router-dom"
 
 import editIcon from '../Assets/images/edit-icon.png'
 
@@ -37,19 +35,21 @@ class ProfessorExam extends Component {
     }
     
     componentDidMount() {
-        console.log('mounted');
         const { course } = this.props.location.state;
+        const { cookies } = this.context
         console.log('course:');
         console.dir(course);
-
-        const state = Object.assign({}, this.state);
-        state.course = course;
-        this.loadAttendance(course);
-        this.setState(state);
+        if(cookies === undefined){
+            this.props.history.push('/professor-login')
+        }else{
+            const state = Object.assign({}, this.state);
+            state.course = course;
+            this.loadAttendance(course);
+            this.setState(state);
+        }
     }
 
     render(){
-        const { attendanceCode } = this.context
         return(
             <Fragment>
                 <div className="container">
