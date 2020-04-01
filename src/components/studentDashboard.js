@@ -9,8 +9,19 @@ import { AuthContext } from '../contexts/AuthContext'
 
 class StudentDashboard extends Component {
     static contextType = AuthContext
-    componentDidMount(){
+  
+    componentDidMount() {
+        this.timer = setInterval(
+            () => this.checkCookie(),
+            300000
+        );
+        }
+    componentWillUnmount() {
+        clearInterval(this.timer);
+        }
+    checkCookie(){
         const { cookies } = this.context
+        
         if(cookies === undefined){
             this.props.history.push('/student-login')
         }else{return}

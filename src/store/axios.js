@@ -56,16 +56,52 @@ async function claimProfessorAccount(setupKey, email, password) {
 }
 
 /* ----------------------------------------
-    Professor Routes
+    Admin Routes
 ------------------------------------------*/
 
-async function createCourse(classId, students) {
-    const response = await backend.post('professor/createCourse', {classId, students});
+async function postFiles(professorFile, studentFile) {
+    var formData = new FormData();
+    formData.append('professorFile', professorFile)
+    formData.append('studentFile', studentFile)
+    const response = await backend.post('admin/setupSchool', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+    });
     return response;
 }
 
-async function editCourse(courseId, classId) {
-    const response = await backend.post('professor/editCourse', {id: courseId, classId});
+function adminDownloadDataByCourseURL() {
+    return baseURL + 'admin/courses/attendanceData';
+}
+
+function adminDownloadDataByProfessorURL() {
+    return baseURL + 'admin/professors/attendanceData';
+}
+
+function adminDownloadDataByStudentURL() {
+    return baseURL + 'admin/students/attendanceData';
+}
+
+function getStudentTemplateURL() {
+    return baseURL + 'admin/studentTemplate';
+}
+
+function getProfessorTemplateURL() {
+    return baseURL + 'admin/professorTemplate';
+}
+
+/* ----------------------------------------
+    Professor Routes
+------------------------------------------*/
+
+async function createCourse(name, classId, students) {
+    const response = await backend.post('professor/createCourse', {name, classId, students});
+    return response;
+}
+
+async function editCourse(courseId, name, classId) {
+    const response = await backend.post('professor/editCourse', {id: courseId, name, classId});
     return response;
 }
 
@@ -77,6 +113,10 @@ async function startAttendance(courseId) {
 async function startTest(courseId) {
     const response = await backend.post('professor/startTest', {courseId});
     return response;
+}
+
+function downloadDataForCourseURL(courseId) {
+    return baseURL + 'professor/course/attendanceData/' + courseId;
 }
 
 /* ----------------------------------------
@@ -114,18 +154,6 @@ async function getStudents(school, professor, course) {
     return response;
 }
 
-async function postFiles(professorFile, studentFile) {
-    var formData = new FormData();
-    formData.append('professorFile', professorFile)
-    formData.append('studentFile', studentFile)
-    const response = await backend.post('admin/setupSchool', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-    });
-    return response;
-}
-
 export {
     adminLogin,
     professorLogin,
@@ -133,10 +161,16 @@ export {
     logout,
     createSchool,
     claimProfessorAccount,
+    adminDownloadDataByCourseURL,
+    adminDownloadDataByProfessorURL,
+    adminDownloadDataByStudentURL,
+    getStudentTemplateURL,
+    getProfessorTemplateURL,
     createCourse,
     editCourse,
     startAttendance,
     startTest,
+    downloadDataForCourseURL,
     markAttendance,
     takeTest,
     submitConfidenceScore,

@@ -47,12 +47,17 @@ const StudentTestId = (props) => {
         }
 
     }
-    useEffect(() => {
-        
+    const checkCookie = ()=>{
         if(cookies === undefined){
-            this.props.history.push('/student-login')
+            props.history.push('/student-login')
         }else{return}
-    }, [cookies])
+    }
+    useEffect(() => {
+        const interval = setInterval(() => {
+            checkCookie()
+        }, 300000);
+        return () => clearInterval(interval)
+    })
 
     return ( 
         <React.Fragment>

@@ -14,13 +14,13 @@ class Header extends Component {
     redirect: false
   }
   handleLogout = () =>{
-    const { authToggle, isAuthenticated  } = this.context
+    const { authToggle, isAuthenticated } = this.context
     
     if(isAuthenticated){
       authToggle()
     }
-
     logout()
+  
     this.props.history.push("/");
 
   }

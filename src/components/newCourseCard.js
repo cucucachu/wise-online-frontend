@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 
 const initialStyle = {
-    "box-shadow": "0 0 8px #439ADE",
-    "border-radius": "1rem",
+    "boxShadow": "0 0 8px #439ADE",
+    "borderRadius": "1rem",
     "margin": "2rem",
     "padding": "2rem",
 }
@@ -31,11 +31,14 @@ class NewCourseCard extends Component {
                         <div className="row">
                             <div className="col-sm-6">
                                 <form onSubmit={this.props.handleSubmit}>
+                                    <input type="text" placeholder="Enter class name" style={this.props.inputStype} onChange={this.props.handleChangeName}/>
                                     <input type="text" placeholder="Enter class ID" style={this.props.inputStype} onChange={this.props.handleChangeID}/>
                                     <input type="submit" style={{textAlign: 'center'}} className="btn-upload" value="Create"/>
                                 </form>
                             </div>
                             <div className="col-sm-6 text-plain-s">
+                                Create a class name<br/>
+                                e.g. ECON 101<br/>
                                 Create a unique class ID<br/>
                                 e.g. My ECON 101
                             </div>
@@ -49,7 +52,7 @@ class NewCourseCard extends Component {
                 <div className="col-sm-6"onClick={this.handleClick}>
                     <div style={initialStyle} >
                         <div className="row">
-                            <div style={{"text-align": "center"}}>
+                            <div style={{"textAlign": "center"}}>
                                 <br/><br/><br/>
                                 <h2 className="course-title">Create course</h2>
                                 <br/><br/><br/><br/>

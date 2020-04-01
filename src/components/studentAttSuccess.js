@@ -35,11 +35,26 @@ handleSubmit = async e =>{
     // const attendance = response.data
 }
 componentDidMount(){
-    const { classID, cookies } = this.context
-    console.log('cookies: ', cookies);
+    const { classID } = this.context
     this.setState({classID: classID})
     console.log('classID: ', this.state.classID);
-    
+
+    this.timer = setInterval(
+      () => this.checkCookie(),
+      
+      300000
+    );
+}
+componentWillUnmount() {
+  clearInterval(this.timer);
+}
+checkCookie(){
+const { cookies } = this.context
+console.log('cookies: ', cookies);
+
+if(cookies === undefined){
+  this.props.history.push('/student-login')
+}else{return}
 }
   render(){
       return(

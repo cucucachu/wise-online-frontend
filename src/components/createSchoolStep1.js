@@ -66,13 +66,23 @@ class SchoolStep1 extends Component {
         return
     }
     componentDidMount(){
-        const { cookies } = this.context
-        console.log('cookies: ', cookies);
-        
-        if(cookies === undefined){
-            this.props.history.push('/admin-login')
-        }else{return}
+        this.timer = setInterval(
+            () => this.checkCookie(),
+            
+            300000
+          );
       }
+    componentWillUnmount() {
+        clearInterval(this.timer);
+      }
+    checkCookie(){
+    const { cookies } = this.context
+    console.log('cookies: ', cookies);
+    
+    if(cookies === undefined){
+        this.props.history.push('/professor-login')
+    }else{return}
+    }
   render(){
       return(
         <Fragment>

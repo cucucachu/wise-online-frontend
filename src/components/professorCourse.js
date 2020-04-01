@@ -23,6 +23,7 @@ class ProfessorCourse extends Component {
         }
 
         this.handleChangeID = this.handleChangeID.bind(this);
+        this.handleChangeName = this.handleChangeName.bind(this);
         this.handleSubmitNewCourse = this.handleSubmitNewCourse.bind(this);
         this.handleSubmitEditCourse = this.handleSubmitEditCourse.bind(this);
     }
@@ -36,15 +37,22 @@ class ProfessorCourse extends Component {
         this.setState(state);
     }
 
-    async handleSubmitEditCourse(e, courseId, classId) {
+    handleChangeName = e => {
+        const state = Object.assign({}, this.state);
+
+        state.courseName = e.target.value;
+        this.setState(state);
+    }
+
+    async handleSubmitEditCourse(e, courseId, name, classId) {
         e.preventDefault()
-        await editCourse(courseId, classId);
+        await editCourse(courseId, name, classId);
         await this.loadCourses();
     }
 
     handleSubmitNewCourse = async e =>{
         e.preventDefault()
-        await createCourse(this.state.courseId);
+        await createCourse(this.state.courseName, this.state.courseId);
         await this.loadCourses();
     }
 
@@ -65,15 +73,25 @@ class ProfessorCourse extends Component {
     }
 
     async componentDidMount() {
-        const { cookies } = this.context
-        if(cookies === undefined){
-            this.props.history.push('/professor-login')
-        }else{
-            await this.loadCourses();
-        }
-        
-    }
+  
+        await this.loadCourses();
 
+        this.timer = setInterval(
+            () => this.checkCookie(),
+            300000
+          );
+    }
+    componentWillUnmount() {
+        clearInterval(this.timer);
+      }
+    checkCookie(){
+    const { cookies } = this.context
+    console.log('cookies: ', cookies);
+    
+    if(cookies === undefined){
+        this.props.history.push('/professor-login')
+    }else{return}
+    }
     render() {
         return(
             <Fragment>
@@ -105,6 +123,7 @@ class ProfessorCourse extends Component {
                                         lastRow={index >= this.state.courses.length - 1}
                                         handleSubmitNewCourse={this.handleSubmitNewCourse}
                                         handleChangeID={this.handleChangeID}
+                                        handleChangeName={this.handleChangeName}
                                         handleSubmitEditCourse={this.handleSubmitEditCourse}
                                     />
                                 );
@@ -120,6 +139,7 @@ class ProfessorCourse extends Component {
                                         lastRow={true}
                                         handleSubmitNewCourse={this.handleSubmitNewCourse}
                                         handleChangeID={this.handleChangeID}
+                                        handleChangeName={this.handleChangeName}
                                         handleSubmitEditCourse={this.handleSubmitEditCourse}
                                     />
                                 );

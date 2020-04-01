@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useContext } from 'react'
 import Webcam from "react-webcam";
 
 import editIcon from '../Assets/images/edit-icon.png'
 // import cameraIcon from '../Assets/images/camera-icon.png'
 import recordingIcon from '../Assets/images/recording-icon.png'
 import { Link } from "react-router-dom";
+import { AuthContext } from '../contexts/AuthContext'
 
 const videoConstraints = {
     width: 1280,
@@ -14,6 +15,7 @@ const videoConstraints = {
 
 const StudentRecordTest = (props) => {
     const webcamRef = React.useRef(null);
+    const { cookies } = useContext(AuthContext)
     const capture = React.useCallback(
         () => {
           
@@ -26,15 +28,20 @@ const StudentRecordTest = (props) => {
         [webcamRef]
         
       );
-      
+      const checkCookie = ()=>{
+        if(cookies === undefined){
+            props.history.push('/student-login')
+        }else{return}
+    }
       useEffect(() => {
         const interval = setInterval(() => {
+          checkCookie()
           capture()
           console.log('This will run every min!');
         }, 60000);
 
         return () => clearInterval(interval);
-      }, []);
+      });
     return ( 
         <React.Fragment>
             <div className="container">

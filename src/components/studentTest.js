@@ -3,20 +3,24 @@ import { Link } from 'react-router-dom'
 import { AuthContext } from '../contexts/AuthContext'
 import editIcon from '../Assets/images/edit-icon.png'
 
-const StudentTest = () => {
+const StudentTest = (props) => {
 
     const { cookies } = useContext(AuthContext)
-
-    useEffect(() => {
-        
+    const checkCookie = ()=>{
         if(cookies === undefined){
-            this.props.history.push('/student-login')
+            props.history.push('/student-login')
         }else{return}
-    }, [cookies])
+    }
+    useEffect(() => {
+        const interval = setInterval(() => {
+            checkCookie()
+        }, 300000);
+        return () => clearInterval(interval)
+    })
 
     return ( 
         <React.Fragment>
-            <div className="container">
+            <div classsName="container">
                 <img src={editIcon} className="page-icon" alt="edit icon"/>
                 <div className="spacer-vertical"></div>
                 <h1>Instructions</h1>
