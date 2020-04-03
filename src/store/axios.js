@@ -1,6 +1,6 @@
 const axios = require('axios');
-const baseURL = 'http://localhost:8080/';
-// const baseURL = 'https://wiseonlineattend.appspot.com/' // URL for hosted backend
+// const baseURL = 'http://localhost:8080/';
+const baseURL = 'https://wiseonlineattend.appspot.com/' // URL for hosted backend
 
 axios.defaults.withCredentials = true
 
