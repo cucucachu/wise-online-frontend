@@ -59,12 +59,12 @@ class StudentRecordTest extends Component {
 	async capture() {
 		const imageSrc = this.webcamRef.current.getScreenshot();    
 
-		const image = this.convertImage(imageSrc);
 
 		if(imageSrc == null){
 		  this.props.history.push("recording-error");
 		}
 		else {
+      const image = this.convertImage(imageSrc);
 		  if (!this.state.referenceImage) {
 				const faceId = await uploadReferenceImage(image);
 	

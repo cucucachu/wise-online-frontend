@@ -50,7 +50,7 @@ handleSubmit = async e =>{
 
       if (response.status === 200) {
                           
-          this.props.history.push('test/record')
+          this.props.history.push('attend-success')
       }
       else {
           const state = Object.assign({}, this.state);
