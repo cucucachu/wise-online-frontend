@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import Webcam, {onUserMediaError} from "react-webcam";
 import { Link } from "react-router-dom";
 
+import { AuthContext } from '../contexts/AuthContext'
 import editIcon from '../Assets/images/edit-icon.png'
 import cameraIcon from '../Assets/images/camera-icon.png'
 import recordingIcon from '../Assets/images/recording-icon.png'
@@ -17,18 +18,37 @@ const videoConstraints = {
 const StudentRecordTest = (props) => {
     const webcamRef = React.useRef(null);
     const { referenceImage, setReferenceImage } = useState(null);
+    const { testAttendanceId } = useContext(AuthContext)
+
+    const convertImage = image => {
+        
+      var data = image.split(',')[1];
+      
+      var bytes = window.atob(data);
+      var buf = new ArrayBuffer(bytes.length);
+      var byteArr = new Uint8Array(buf);
+  
+      for (var i = 0; i < bytes.length; i++) {
+          byteArr[i] = bytes.charCodeAt(i);
+      }
+
+      return byteArr;
+    }
 
     const capture = React.useCallback(
         async () => {
           
-          const imageSrc = webcamRef.current.getScreenshot();
-          console.log('image object updated every min: ', imageSrc);
+          const imageSrc = webcamRef.current.getScreenshot();    
+
+          const image = convertImage(imageSrc);
+
           if(imageSrc == null){
             props.history.push("recording-error");
           }
           else {
-            if (referenceImage === null) {
-              const faceId = await uploadReferenceImage(imageSrc);
+            if (!referenceImage) {
+              console.log(imageSrc);
+              const faceId = await uploadReferenceImage(image);
               setReferenceImage(faceId);
             }
             else {
@@ -36,14 +56,14 @@ const StudentRecordTest = (props) => {
             }
           }
         },
-        [webcamRef]
+        [webcamRef, referenceImage, setReferenceImage]
         
       );
       
       useEffect(() => {
         const interval = setInterval(() => {
           capture()
-          console.log('This will run every min!');
+          // console.log('This will run every min!');
         }, 5000);
 
         return () => clearInterval(interval);
@@ -62,12 +82,7 @@ const StudentRecordTest = (props) => {
                     screenshotFormat="image/jpeg"
                     width={600}
                     videoConstraints={videoConstraints}
-                    // onUserMedia={onUserMedia}
                 /><br/>
-                {/* <button onClick={capture}>Capture photo</button> */}
-                {/* <div className="">
-                    <img src={cameraIcon} alt="camera icon" />
-                </div> */}
                 <p className="text-plain"><img className="icon-xs" src={recordingIcon} alt="recording icon"></img>Recording in progress</p>
                 <div className="spacer-vertical"></div>
                 <Link to="/student/dashboard">

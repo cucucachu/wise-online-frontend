@@ -10,7 +10,7 @@ const StudentTestId = (props) => {
     const [classId, setClassId] = useState('')
     const [message, setMessage] = useState('')
     const [showHide, setShowHide] = useState({display: 'none'})
-    const { storeTestID, storeClassId } = useContext(AuthContext)
+    const { storeTestID, storeClassId, storeTestAttendanceId } = useContext(AuthContext)
 
     const handleChangeKey = e =>{
         console.log('onchange: ', e.target.value);
@@ -35,7 +35,7 @@ const StudentTestId = (props) => {
             const testObj = response.data
 
             if (response.status === 200) {
-                                
+                storeTestAttendanceId(response.data.testAttendanceId);
                 props.history.push('test/record')
             }
             else {
@@ -45,6 +45,7 @@ const StudentTestId = (props) => {
 
         }
         catch (error) {
+            console.log(error.message);
             setMessage('Opps, something went wrong. Please try again.')
             showError()
         }

@@ -8,6 +8,7 @@ const AuthContextProvider = (props) => {
     const [schoolID, setSchoolID] = useState('')
     const [schoolName, setSchoolName] = useState('')
     const [testID, setTestID] = useState('')
+    const [testAttendanceId, setTestAttendanceId] = useState('');
     // const [professorID, setProfessorID] = useState('')
     var [isAuthenticated, setIsAuthenticated] = useState(false)
     var [isCreated, setIsCreated] = useState(false)
@@ -34,11 +35,14 @@ const AuthContextProvider = (props) => {
     const storeTestID = (id) =>{
         setTestID(id)
     }
+    const storeTestAttendanceId = (id) =>{
+        setTestAttendanceId(id)
+    }
     // const getProfessorID = (id) =>{
     //     setProfessorID(id)
     // }
     return ( 
-        <AuthContext.Provider value={{ classID, schoolName, schoolID, username, userID, isAuthenticated, storeTestID, authToggle, loggedinUser, toggleCreated, storeClassId}}>
+        <AuthContext.Provider value={{ classID, schoolName, schoolID, username, userID, isAuthenticated, storeTestID, storeTestAttendanceId, testAttendanceId, authToggle, loggedinUser, toggleCreated, storeClassId}}>
             {props.children}
         </AuthContext.Provider>
      );
