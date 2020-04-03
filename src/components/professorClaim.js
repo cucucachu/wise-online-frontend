@@ -50,19 +50,28 @@ class ProfessorClaim extends Component {
                 const newProfessor = response.data;
     
                 if (response.status === 200) {
+                    console.log('response.status 200: ', response);
+                    
                     console.log('userProfessor: ', newProfessor);
            
-                    loggedinUser(newProfessor.id, newProfessor.name, newProfessor.school.name, newProfessor.school.id)
-                    if(isAuthenticated === false){
-                        authToggle()
-                    }
+                    // loggedinUser(newProfessor.id, newProfessor.name, newProfessor.school.name, newProfessor.school.id)
+                    // loggedinUser(newProfessor.id, newProfessor.id, newProfessor.id, newProfessor.id)
+                    // if(isAuthenticated === false){
+                    //     authToggle()
+                    // }
                     
-                    this.props.history.push('/professor/course')
+                    this.props.history.push('/professor/claim-account-success')
+
                 }else if(response.status === 500 ) {
+                    console.log('response.status 500: ', response);
+                    
                     this.setState({message: 'Claim professor account failed.'})
                     this.showError()
                 }
+
             }catch (error) {
+                console.log('rno response: ', error);
+                
                 this.setState({message: 'Opps, something went wrong. Please try again.'})
                 this.showError()
             }

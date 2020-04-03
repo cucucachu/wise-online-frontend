@@ -2,6 +2,8 @@ import axios from 'axios';
 import { submitConfidenceScore } from './axios';
 import { baseURL, apiKey } from '../config/facesConfig';
 
+
+
 const detectFacesEndpoint = axios.create({
     baseURL,
     timeout: 3000,
