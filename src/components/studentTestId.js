@@ -35,7 +35,7 @@ const StudentTestId = (props) => {
             const testObj = response.data
 
             if (response.status === 200) {
-                storeTestAttendanceId(response.data.testAttendanceId);
+                storeTestAttendanceId(response.data.id);
                 props.history.push('test/record')
             }
             else {

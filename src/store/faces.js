@@ -23,18 +23,13 @@ const verifyFacesEndpoint = axios.create({
 });
 
 async function uploadFace(image) {
-    console.log('/uploadFace');    
-    
     const response = await detectFacesEndpoint.post('/detect', image);
-    console.log('   face uploaded with id ' + response.data[0].faceId);
-    return response.data[0].faceId;
+
+    return response.data.length ? response.data[0].faceId : false;
 }
 
 async function verifyFace(faceId1, faceId2) {
-    console.log('/verifyFace');    
-    const response = await verifyFacesEndpoint('/verify', { faceId1, faceId2 });
-    console.log('   face verified: ' + response.data.confidence);
-
+    const response = await verifyFacesEndpoint.post('/verify', { faceId1, faceId2 });
     return response.data.confidence;
 }
 
@@ -43,11 +38,9 @@ async function uploadReferenceImage(image) {
 }
 
 async function checkForStudent(testAttendanceId, referenceImageId, image) {
-    console.log('/checkForStudent');    
     const faceId2 = await uploadFace(image);
+    const confidenceScore = faceId2 ? await verifyFace(referenceImageId, faceId2) : 0;
 
-    const confidenceScore = await verifyFace(referenceImageId, faceId2);
-    
     return submitConfidenceScore(testAttendanceId, confidenceScore);
 }
 
