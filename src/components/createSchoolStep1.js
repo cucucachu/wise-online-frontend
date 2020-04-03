@@ -1,10 +1,4 @@
 import React, { Component, Fragment } from 'react'
-import { 
-    BrowserRouter as Router,
-    Switch,
-    Route,
-    Link
-   } from "react-router-dom";
 
 import editIcon from '../Assets/images/edit-icon.png';
 
@@ -70,6 +64,24 @@ class SchoolStep1 extends Component {
         }
         
         return
+    }
+    componentDidMount(){
+        this.timer = setInterval(
+            () => this.checkCookie(),
+            
+            300000
+          );
+      }
+    componentWillUnmount() {
+        clearInterval(this.timer);
+      }
+    checkCookie(){
+    const { cookies } = this.context
+    console.log('cookies: ', cookies);
+    
+    if(cookies === undefined){
+        this.props.history.push('/professor-login')
+    }else{return}
     }
   render(){
       return(

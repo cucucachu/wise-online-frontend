@@ -1,5 +1,4 @@
 import React, { Component, Fragment } from 'react'
-import { Redirect } from "react-router-dom";
 
 import editIcon from '../Assets/images/edit-icon.png'
 import CourseCardRow from './courseCardRow';
@@ -74,11 +73,26 @@ class ProfessorCourse extends Component {
     }
 
     async componentDidMount() {
+  
         await this.loadCourses();
-    }
 
+        this.timer = setInterval(
+            () => this.checkCookie(),
+            300000
+          );
+    }
+    componentWillUnmount() {
+        clearInterval(this.timer);
+      }
+    checkCookie(){
+    const { cookies } = this.context
+    console.log('cookies: ', cookies);
+    
+    if(cookies === undefined){
+        this.props.history.push('/professor-login')
+    }else{return}
+    }
     render() {
-        const { userID, schoolID } = this.context;
         return(
             <Fragment>
                 <div className="container">

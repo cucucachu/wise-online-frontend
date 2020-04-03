@@ -1,11 +1,7 @@
 import React, {Component} from 'react';
 
-// import attendClass from '../Assets/images/attend-class.png';
 import loginIcon from '../Assets/images/login-icon.png';
 import successIcon from '../Assets/images/success-icon.png'
-
-import { markAttendance } from "../store/axios";
-// markAttendance(classId, keyCode)
 
 import { AuthContext } from '../contexts/AuthContext'
 import { Link } from 'react-router-dom';
@@ -20,7 +16,23 @@ class ProfessorClaimSuccess extends Component {
 componentDidMount(){
     const { userID } = this.context
     this.setState({userID: userID})
-    
+
+    this.timer = setInterval(
+        () => this.checkCookie(),
+        
+        300000
+      );
+}
+componentWillUnmount() {
+    clearInterval(this.timer);
+  }
+checkCookie(){
+const { cookies } = this.context
+console.log('cookies: ', cookies);
+
+if(cookies === undefined){
+    this.props.history.push('/professor-login')
+}else{return}
 }
   render(){
       return(

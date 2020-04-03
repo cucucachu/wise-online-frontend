@@ -1,10 +1,5 @@
 import React, {Component} from 'react';
-import { 
-    BrowserRouter as Router,
-    Switch,
-    Route,
-    Link
-   } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import loginIcon from '../Assets/images/login-icon.png';
 
@@ -42,18 +37,10 @@ class StudentLogin extends Component {
             const response = await studentLogin(emailLowerCase, this.state.key)
             const userStudent = response.data
 
-            // response 
-            // {message: "Logged In as Student with User ID: ", id: "5e7780e14251fe378c3d87aa", school: {…}}
-            // message: "Logged In as Student with User ID: "
-            // id: "5e7780e14251fe378c3d87aa"
-            // school: {id: "5e7780de4251fe378c3d8792", name: "UCSD"}
-            // __proto__: Object
-
             if (response.status === 200) {
                 // argument (name, id, schoolID)
                 loggedinUser(userStudent.id, userStudent.name, userStudent.school.name, userStudent.school.id)
-                authToggle() 
-                console.log('userStudent: ', userStudent);
+                authToggle()                 
                 
                 this.props.history.push('/student/dashboard')
             }
@@ -67,29 +54,7 @@ class StudentLogin extends Component {
             this.setState({message: 'Opps, something went wrong. Please try again.'})
             this.showError()
         }
-        
-        // const { loggedinUser, authToggle } = this.context
-        // const userAdmin = studentLogin({email: this.state.name, password: this.state.key});
-        // const userStudent = studentLogin(this.state.email, this.state.key)
-
-        //currently Promise pending due to DB connection 
-
-        //for test to connect DB, use code below
-        // if(userStudent){
-        //     loggedinUser('Professor A', 'some id retunred')
-        //     authToggle() 
-        //     this.props.history.push('/student/dashboard')
-        // }
-
-        // error message TBD
-        // if(userStudent.status === 400){
-        //     this.setState({message: userStudent.message})
-        //     this.showError()
-        // }else{
-        //     loggedinUser(userStudent.school.name, userStudent.school.id)
-        //     authToggle() //tihs triggers redirect to next page at HomePage.js
-        //     this.props.history.push('/student/dashboard')
-        // }
+   
         return
         
     }

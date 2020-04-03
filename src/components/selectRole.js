@@ -1,17 +1,10 @@
-import React, {Component, useContext } from 'react';
-import { 
-    BrowserRouter as Router,
-    Switch,
-    Route,
-    Link
-   } from "react-router-dom";
-import { AuthContext } from '../contexts/AuthContext'
+import React from 'react';
+import { Link } from "react-router-dom";
 
 import loginIcon from '../Assets/images/login-icon.png';
 
 
 const SelectRole = () => {
-    // const { schoolName, schoolID } = useContext(AuthContext);
     return (
         <div className="container">
             <img src={loginIcon} className="page-icon" alt="login icon"/>

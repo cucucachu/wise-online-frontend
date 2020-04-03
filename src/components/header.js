@@ -14,13 +14,13 @@ class Header extends Component {
     redirect: false
   }
   handleLogout = () =>{
-    const { authToggle, isAuthenticated  } = this.context
+    const { authToggle, isAuthenticated } = this.context
     
     if(isAuthenticated){
       authToggle()
     }
-
     logout()
+  
     this.props.history.push("/");
 
   }
@@ -41,7 +41,7 @@ class Header extends Component {
                 historyPath === '/create-school' ||
                 historyPath === '/professor/course' ||
                 historyPath === '/student/dashboard'
-               ? '' : (<button onClick={this.handleGoBack.bind(this)} className="btn-backlink"><img src={chevronIcon} className="icon-xs"/>&nbsp;Go back </button>)}
+               ? '' : (<button onClick={this.handleGoBack.bind(this)} className="btn-backlink"><img src={chevronIcon} className="icon-xs" alt="chevron icon"/>&nbsp;Go back </button>)}
       
               <nav className="">
       {isAuthenticated === true ? 

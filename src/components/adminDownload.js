@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 
 import attendanceIcon from '../Assets/images/attendance-icon.png'
 import downloadIcon from '../Assets/images/download-icon-white.svg'
+import { AuthContext } from '../contexts/AuthContext'
 
 import { adminDownloadDataByCourseURL, adminDownloadDataByProfessorURL, adminDownloadDataByStudentURL } from '../store/axios';
 
@@ -17,8 +18,20 @@ function downloadDataByStudent() {
     window.location = adminDownloadDataByStudentURL();
 }
 
-const AdminDownload = () => {
+const AdminDownload = (props) => {
+    const { cookies } = useContext(AuthContext)
 
+    const checkCookie = ()=>{
+        if(cookies === undefined){
+            props.history.push('/student-login')
+        }else{return}
+    }
+    useEffect(() => {
+        const interval = setInterval(() => {
+            checkCookie()
+        }, 300000);
+        return () => clearInterval(interval)
+    })
     return ( 
         <div className="container">
                 <img src={ attendanceIcon } className="page-icon" alt="login icon"/>

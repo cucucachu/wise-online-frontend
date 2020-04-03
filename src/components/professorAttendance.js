@@ -7,7 +7,6 @@ import editIcon from '../Assets/images/edit-icon.png'
 
 //axios
 import { startAttendance } from '../store/axios'
-
 import { AuthContext } from '../contexts/AuthContext'
 
 class ProfessorAttendance extends Component {
@@ -44,8 +43,24 @@ class ProfessorAttendance extends Component {
         state.course = course;
         this.loadAttendance(course);
         this.setState(state);
-    }
 
+        this.timer = setInterval(
+            () => this.checkCookie(),
+            
+            300000
+          );
+    }
+    componentWillUnmount() {
+        clearInterval(this.timer);
+      }
+    checkCookie(){
+    const { cookies } = this.context
+    console.log('cookies: ', cookies);
+    
+    if(cookies === undefined){
+        this.props.history.push('/professor-login')
+    }else{return}
+    }
     render(){
         const { attendanceCode } = this.context
         return(

@@ -35,39 +35,67 @@ handleChangeKeyCode3 = e =>{
 handleChangeKeyCode4 = e =>{
   this.setState({keyCode4: e.target.value})
 }
+showError = () =>{
+  this.setState({showHide: {display: 'block'}})
+}
 handleSubmit = async e =>{
     e.preventDefault()
     const { storeClassId } = this.context
     storeClassId(this.state.classId)
 
     const keycode =  this.state.keyCode1.concat(this.state.keyCode2, this.state.keyCode3, this.state.keyCode4)
-    
-    const response = await markAttendance(this.state.classId, keycode)
-    console.log('res: response', response);
+    try {
+      const response = await markAttendance(this.state.classId, keycode)
+      // const testObj = response.data
 
-    if (response.status === 200) {
-      this.props.history.push('/student/class/attend-success')
-    }
-    else {
-      const state = Object.assign({}, this.state);
+      if (response.status === 200) {
+                          
+          this.props.history.push('test/record')
+      }
+      else {
+          const state = Object.assign({}, this.state);
+          state.message = 'Invalid Class ID or Test Key. Please try again.';
+          state.show = 'inline';
+          this.setState(state);
+      }
 
-      state.message = 'Invalid Class ID or Test ID. Please try again.';
-      state.show = 'inline';
-      this.setState(state);
-    }
+  }
+  catch (error) {
+      this.setState({message: 'Opps, something went wrong. Please try again.'})
+      this.showError()
+  }
     
 }
+  componentDidMount() {
+    this.timer = setInterval(
+      () => this.checkCookie(),
+      
+      30000
+    );
+  }
+  componentWillUnmount() {
+    clearInterval(this.timer);
+  }
+  checkCookie(){
+    const { cookies } = this.context
+    console.log('cookies: ', cookies);
+    
+    if(cookies === undefined){
+        this.props.history.push('/student-login')
+    }else{return}
+  }
   render(){
       return(
         <div className="container">
             <img src={attendClass} className="page-icon" alt="login icon"/>
             <div className="spacer-vertical"></div>
-                <h1>Mark your attendance</h1>
+            <h1>Mark your attendance</h1>
 
-                <div style={{display: this.state.show}}>{this.state.message}</div>
+            
             <div className="spacer-vertical"></div>
             <form onSubmit={this.handleSubmit.bind(this)}>
                 <div className="input-wrapper">
+                  <div style={{display: this.state.show}}>{this.state.message}</div>
                     <span className="input-label-att">Class ID</span>
                     <input type="text" className="input-att" id="basic-url" aria-describedby="basic-addon3" name="classID" value={this.state.classID} onChange={this.handleChangeID.bind(this)} />
                 </div>
@@ -95,30 +123,6 @@ handleSubmit = async e =>{
                   </div>
                 </div>
 
-                {/* <div className="row">
-                  <div className="row-container">
-                    <div className="col-sm-3 ">
-                      <div className="square">
-                        <input type="text" className="content-input" value={this.state.keyCode1} onChange={this.handleChangeKeyCode1.bind(this)} />
-                      </div>
-                    </div>
-                    <div className="col-sm-3 ">
-                    <div className="square">
-                      <input className="content-input"  type="text"  value={this.state.keyCode2} onChange={this.handleChangeKeyCode2.bind(this)} />
-                  </div>
-                    </div>
-                    <div className="col-sm-3 ">
-                      <div className="square">
-                    <input type="text" className="content-input" value={this.state.keyCode3} onChange={this.handleChangeKeyCode3.bind(this)} />
-                    </div>
-                    </div>
-                    <div className="col-sm-3 ">
-                      <div className="square">
-                    <input type="text" className="content-input" value={this.state.keyCode4} onChange={this.handleChangeKeyCode4.bind(this)} />
-                    </div>
-                    </div>
-                  </div>
-                </div> */}
                 <div className="spacer-vertical"></div>
                 <input type="submit" className="btn" value="Next" />
             </form>
