@@ -20,7 +20,7 @@ const StudentTest = (props) => {
 
     return ( 
         <React.Fragment>
-            <div classsName="container">
+            <div className="container">
                 <img src={editIcon} className="page-icon" alt="edit icon"/>
                 <div className="spacer-vertical"></div>
                 <h1>Instructions</h1>

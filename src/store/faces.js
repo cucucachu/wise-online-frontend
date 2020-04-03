@@ -9,6 +9,7 @@ const detectFacesEndpoint = axios.create({
         'Content-Type': 'application/octet-stream',
         'Ocp-Apim-Subscription-Key': apiKey
     },
+    withCredentials: false,
     validateStatus: () => true,
 });
 
@@ -19,6 +20,7 @@ const verifyFacesEndpoint = axios.create({
         'Content-Type': 'application/json',
         'Ocp-Apim-Subscription-Key': apiKey
     },
+    withCredentials: false,
     validateStatus: () => true,
 });
 
