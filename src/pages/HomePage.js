@@ -67,7 +67,8 @@ static contextType = AuthContext
                         <Route path="/professor-login" component={ProfessorLogin} />
                         <PrivateRouteProfessor path="/professor/course" component={ProfessorCourse} />
                         <Route path="/professor/claim-account" component={ProfessorClaim} />
-                        <PrivateRouteProfessor path="/professor/claim-account-success" component={ProfessorClaimSuccess} />
+                        {/* <PrivateRouteProfessor path="/professor/claim-account-success" component={ProfessorClaimSuccess} /> */}
+                        <Route path="/professor/claim-account-success" component={ProfessorClaimSuccess} />
                         <PrivateRouteProfessor path="/professor/attendance" component={ProfessorAttendanace} />
                         <PrivateRouteProfessor path="/professor/exam" component={ProfessorExam} />
 
