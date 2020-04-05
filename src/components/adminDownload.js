@@ -27,6 +27,7 @@ const AdminDownload = (props) => {
         }else{return}
     }
     useEffect(() => {
+
         const interval = setInterval(() => {
             checkCookie()
         }, 300000);
