@@ -35,13 +35,16 @@ import SelectRole from '../components/selectRole'
 //contexts
 import { AuthContext } from '../contexts/AuthContext'
 
-import Header from '../components/header';
+import Header from '../components/header'
 
-import PrivateRouteAdmin from '../components/PrivateRoute';
-import PrivateRouteStudent from '../components/PrivateRouteStudent';
-import PrivateRouteProfessor from '../components/PrivateRouteProfessor';
-
-
+import PrivateRouteAdmin from '../components/PrivateRoute'
+import PrivateRouteStudent from '../components/PrivateRouteStudent'
+import PrivateRouteProfessor from '../components/PrivateRouteProfessor'
+import StudentFeeWaive from '../components/studentFeeWaive'
+import StudentFeeWaiveSelect from '../components/studentFeeWaiveSelect'
+import StudentFeeWaiveForm from '../components/studentFeeWaiveForm'
+import StudentFeeWaiveNote from '../components/studentFeeWaiveNote';
+import StudentFeeWaiveConfirm from '../components/studentFeeWaiveConfirm';
 
 class HomePage extends Component {
 static contextType = AuthContext
@@ -83,7 +86,11 @@ static contextType = AuthContext
                         {/* <Route path="/student/test/record" component={StudentRecordTest} /> */}
                         <PrivateRouteStudent path="/student/test-id" component={StudentTestId} />
                         <PrivateRouteStudent path="/student/test/recording-error" component={StudentRecError} />
-
+                        <Route path="/student/fee-waiver" component={StudentFeeWaive} />
+                        <Route path="/student/fee-waiver-select-school" component={StudentFeeWaiveSelect} />
+                        <Route path="/student/fee-waiver-form" component={StudentFeeWaiveForm} />
+                        <Route path="/student/fee-waiver-note" component={StudentFeeWaiveNote} />
+                        <Route path="/student/fee-waiver-confirmation" component={StudentFeeWaiveConfirm} />
                         {/* landingpage */}
                         <Route exact path='/' component={SelectRole} />
                 </Switch>   

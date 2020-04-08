@@ -10,8 +10,10 @@ const AuthContextProvider = (props) => {
     const [schoolID, setSchoolID] = useState('')
     const [schoolName, setSchoolName] = useState('')
     const [testID, setTestID] = useState('')
-    const [testAttendanceId, setTestAttendanceId] = useState('');
-    // const [professorID, setProfessorID] = useState('')
+    const [testAttendanceId, setTestAttendanceId] = useState('')
+    const [firstName, setFirstName] = useState('')
+    const [lastName, setLastName] = useState('')
+    const [email, setEmail] = useState('')
     var [isAuthenticated, setIsAuthenticated] = useState(false)
     var [isCreated, setIsCreated] = useState(false)
     // var [attendanceCode, setAttendanceCode] = useState(null)
@@ -40,11 +42,17 @@ const AuthContextProvider = (props) => {
     const storeTestAttendanceId = (id) =>{
         setTestAttendanceId(id)
     }
-    // const getProfessorID = (id) =>{
-    //     setProfessorID(id)
-    // }
+    const storeSchoolName = (name) =>{
+        setSchoolName(name)
+    }
+    const studentForm = (firstName, lastName, email) =>{
+        console.log('first: ', firstName);
+        setFirstName(firstName)
+        setLastName(lastName)
+        setEmail(email)
+    }
     return ( 
-        <AuthContext.Provider value={{ cookies, classID, schoolName, schoolID, username, userID, isAuthenticated, storeTestID, storeTestAttendanceId, testAttendanceId, authToggle, loggedinUser, toggleCreated, storeClassId}}>
+        <AuthContext.Provider value={{ email, lastName, firstName, cookies, classID, schoolName, schoolID, username, userID, isAuthenticated, storeTestID, storeTestAttendanceId, testAttendanceId, authToggle, loggedinUser, toggleCreated, storeClassId, storeSchoolName, studentForm}}>
             {props.children}
         </AuthContext.Provider>
      );

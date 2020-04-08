@@ -8,9 +8,9 @@ class Footer extends Component {
               <p className="footer-style">
               ®2020 Wise Education Systems, Inc.  All Rights Reserved
               </p>
-              <div className="chatbot">
+              {/* <div className="chatbot">
                   <img src={chatbotIcon} alt="chatbot" className="chatbot-icon" />
-              </div>
+              </div> */}
           </footer>
       )
   }
