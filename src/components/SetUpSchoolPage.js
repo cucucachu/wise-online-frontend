@@ -96,7 +96,7 @@ class SetUpSchoolPage extends Component {
                 <div className="container">
                     <img src={setUpIcon} className="page-icon" alt="login icon"/>
                     <div className="spacer-vertical"></div>
-                    <h1>Set up your shool</h1>
+                    <h1>Set up your school</h1>
                     <p className="text-plain">Information must match the provided template </p>
                     <div className="spacer-vertical-s"></div>
                     <div className="container">

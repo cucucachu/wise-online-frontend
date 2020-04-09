@@ -13,7 +13,7 @@ class SchoolStep2 extends Component {
             <div className="container">
                     <img src={editIcon} className="page-icon" alt="login icon"/>
                     <div className="spacer-vertical"></div>
-            <h1>Create Your Shool</h1>
+            <h1>Create Your School</h1>
 
             <form>
                 <div className="spacer-vertical"></div>
