@@ -85,7 +85,7 @@ class AdminLogin extends Component {
                 </div>
                 <div className="input-wrapper">
                     <div className="input-wrapper-bottom width-md">
-                        <Link to="/create-school">Create your school</Link><Link to="/forgot-password">Forgot Password</Link>
+                        <Link to="/create-school">Create your school</Link><Link to="admin/forgot-pw">Forgot Password</Link>
                     </div>
                 </div>
                 <div className="spacer-vertical"></div>

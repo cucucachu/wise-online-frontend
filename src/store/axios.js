@@ -74,6 +74,10 @@ async function postFiles(professorFile, studentFile) {
     });
     return response;
 }
+async function adminRequestResetPW(email) {
+    const response = await backend.post('/admin/requestPasswordReset', {email});
+    return response;
+}
 
 function adminDownloadDataByCourseURL() {
     return baseURL + 'admin/courses/attendanceData';
@@ -101,6 +105,10 @@ function getProfessorTemplateURL() {
 
 async function createCourse(name, classId, students) {
     const response = await backend.post('professor/createCourse', {name, classId, students});
+    return response;
+}
+async function professorRequestResetPW(email) {
+    const response = await backend.post('/professor/requestPasswordReset', {email});
     return response;
 }
 
@@ -142,6 +150,10 @@ async function submitConfidenceScore(testAttendanceId, confidenceScore) {
     const response = await backend.post('student/submitConfidenceScore', {testAttendanceId, confidenceScore});
     return response;
 }
+async function submitFeeWaive(data) {
+    const response = await backend.post('/student/waiveFee', {data});
+    return response;
+}
 
 /* ----------------------------------------
     Get Routes
@@ -155,6 +167,10 @@ async function getCourses(school, professor) {
 
 async function getStudents(school, professor, course) {
     const response = await backend.post('get/students', {school, professor, course});
+    return response;
+}
+async function getSchoolNames() {
+    const response = await backend.post('/schools/active');
     return response;
 }
 
@@ -180,5 +196,9 @@ export {
     submitConfidenceScore,
     getCourses,
     getStudents,
-    postFiles
+    postFiles,
+    adminRequestResetPW,
+    professorRequestResetPW,
+    getSchoolNames,
+    submitFeeWaive
 }

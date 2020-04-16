@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 import educationIcon from '../Assets/images/wise-education.png'
 
-import { studentLogin } from '../store/axios'
+import { getSchoolNames } from '../store/axios'
 import { AuthContext } from '../contexts/AuthContext'
 
 
@@ -11,7 +11,7 @@ class StudentFeeWaiveSelect extends Component {
     static contextType = AuthContext
 
     state={
-        schoolName: '',
+        schoolName: [],
         display: 'none',
         message:'Please select your school to proceed.',
         showHide: {display: 'none'}
@@ -29,7 +29,8 @@ class StudentFeeWaiveSelect extends Component {
     
     handleSubmit = async e =>{
         e.preventDefault()
-        const { storeSchoolName } = this.context
+        // const { storeSchoolName } = this.context
+        sessionStorage.setItem('schoolName', this.state.schoolName)
         console.log('schoolName: ', this.state.schoolName);
         
         if(this.state.schoolName === 'not selected' || this.state.schoolName === ''){
@@ -65,7 +66,12 @@ class StudentFeeWaiveSelect extends Component {
         return
         
     }
-    
+async componentDidMount(){
+    const response = await getSchoolNames()
+    console.log('response: ', response.data);
+    const schoolNames = response.data
+    this.setState({schoolNames: schoolNames})
+}
   render(){
     
       return(

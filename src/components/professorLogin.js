@@ -88,7 +88,7 @@ class ProfessorLogin extends Component {
                 <div className="input-wrapper">
                     <div className="input-wrapper-bottom width-md">
                         <Link to="/professor/claim-account" className="align-l">Claim your account</Link>
-                        <Link to="/forgot-password" className="align-r">Forgot Password</Link>
+                        <Link to="professor/forgot-pw" className="align-r">Forgot Password</Link>
                     </div>
                 </div>
   

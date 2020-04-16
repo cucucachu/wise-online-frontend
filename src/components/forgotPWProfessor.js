@@ -7,22 +7,18 @@ import { studentLogin } from '../store/axios'
 import { AuthContext } from '../contexts/AuthContext'
 
 
-class ForgotPW extends Component {
+class ForgotPWProfessor extends Component {
     static contextType = AuthContext
 
     state={
         email: '',
-        key: '',
         display: 'none',
         message:'',
         showHide: {display: 'none'}
     };
 
-    handleChangeName = e =>{
+    handleChangeEmail = e =>{
         this.setState({email: e.target.value})
-    }
-    handleChangeKey = e =>{
-        this.setState({key: e.target.value})
     }
     showError = () =>{
         this.setState({showHide: {display: 'block'}})
@@ -31,7 +27,7 @@ class ForgotPW extends Component {
     handleSubmit = async e =>{
         e.preventDefault()
         const { loggedinUser, authToggle } = this.context
-        this.props.history.push('/reset-pw-sent')
+        this.props.history.push('reset-pw-sent')
         // try {
         //     const emailLowerCase = this.state.email.toLowerCase()
         //     const response = await studentLogin(emailLowerCase, this.state.key)
@@ -81,7 +77,7 @@ class ForgotPW extends Component {
                 <div className="input-wrapper">
                     <div style={this.state.showHide}>{this.state.message}</div>
                     <span className="input-label">School email</span>
-                    <input type="email" placeholder="School email" className="" id="basic-url" aria-describedby="basic-addon3"value={this.state.email} onChange={this.handleChangeName.bind(this)}/>
+                    <input type="email" placeholder="School email" className="" id="basic-url" aria-describedby="basic-addon3"value={this.state.email} onChange={this.handleChangeEmail.bind(this)}/>
                 </div>
                         
                 <div className="spacer-vertical"></div>
@@ -96,6 +92,6 @@ class ForgotPW extends Component {
   }
 }
 
-export default ForgotPW;
+export default ForgotPWProfessor;
 
 

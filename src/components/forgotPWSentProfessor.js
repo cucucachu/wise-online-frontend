@@ -7,7 +7,7 @@ import { studentLogin } from '../store/axios'
 import { AuthContext } from '../contexts/AuthContext'
 
 
-class ForgotPwSent extends Component {
+class ForgotPWSentProfessor extends Component {
     static contextType = AuthContext
 
     
@@ -38,6 +38,6 @@ class ForgotPwSent extends Component {
   }
 }
 
-export default ForgotPwSent;
+export default ForgotPWSentProfessor;
 
 

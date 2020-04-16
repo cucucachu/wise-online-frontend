@@ -3,6 +3,7 @@ import React, {Component} from 'react';
 import educationIcon from '../Assets/images/wise-education.png'
 
 import { AuthContext } from '../contexts/AuthContext'
+import { submitFeeWaive } from '../store/axios'
 
 
 class StudentFeeWaiveForm extends Component {
@@ -32,33 +33,29 @@ class StudentFeeWaiveForm extends Component {
     
     handleSubmit = e =>{
         e.preventDefault()
-        
-        const { studentForm, firstName } = this.context
-        studentForm(this.state.firstName, this.state.lastName, this.state.email )
-        
-        this.props.history.push('fee-waiver-confirmation')
-        // try {
-        //     const emailLowerCase = this.state.email.toLowerCase()
-        //     const response = await studentLogin(emailLowerCase, this.state.key)
-        //     const userStudent = response.data
 
-        //     if (response.status === 200) {
-        //         // argument (name, id, schoolID)
-        //         loggedinUser(userStudent.id, userStudent.name, userStudent.school.name, userStudent.school.id)
-        //         authToggle()                 
+        
+        try {
+            const schoolName = sessionStorage.getItem('schoolName')
+            const emailLowerCase = this.state.email.toLowerCase()
+            const data = {firstName: this.state.firstName, lastName: this.state.lastName, email: emailLowerCase, school: schoolName}
+            const response = await submitFeeWaive(data)
+            // const userStudent = response.data
+
+            if (response.status === 200) {            
                 
-        //         this.props.history.push('/student/dashboard')
-        //     }
-        //     else {
-        //         this.setState({message: 'Invalid email or student id. Please try again.'})
-        //         this.showError()
-        //     }
+                this.props.history.push('fee-waiver-confirmation')
+            }
+            else {
+                this.setState({message: 'Invalid name or email. Please try again.'})
+                this.showError()
+            }
 
-        // }
-        // catch (error) {
-        //     this.setState({message: 'Opps, something went wrong. Please try again.'})
-        //     this.showError()
-        // }
+        }
+        catch (error) {
+            this.setState({message: 'Opps, something went wrong. Please try again.'})
+            this.showError()
+        }
    
         return
         

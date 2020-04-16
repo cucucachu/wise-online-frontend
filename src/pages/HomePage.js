@@ -48,8 +48,10 @@ import StudentFeeWaiveNote from '../components/studentFeeWaiveNote';
 import StudentFeeWaiveConfirm from '../components/studentFeeWaiveConfirm';
 
 import headerBackground from '../Assets/images/header-img-mobile.png'
-import ForgotPW from '../components/forgotPW';
-import ForgotPwSent from '../components/forgotPwSent';
+import ForgotPWAdmin from '../components/forgotPWAdmin';
+import ForgotPWProfessor from '../components/forgotPWProfessor';
+import ForgotPWSentProfessor from '../components/forgotPWSentProfessor';
+import ForgotPWSentAdmin from '../components/forgotPWSentAdmin';
 
 class HomePage extends Component {
 static contextType = AuthContext
@@ -99,8 +101,10 @@ static contextType = AuthContext
                         <Route path="/student/fee-waiver-note" component={StudentFeeWaiveNote} />
                         <Route path="/student/fee-waiver-confirmation" component={StudentFeeWaiveConfirm} />
 
-                        <Route path="/forgot-password" component={ForgotPW} />
-                        <Route path="/reset-pw-sent" component={ForgotPwSent} />
+                        <Route path="/admin/forgot-pw" component={ForgotPWAdmin} />
+                        <Route path="/professor/forgot-pw" component={ForgotPWProfessor} />
+                        <Route path="/admin/reset-pw-sent" component={ForgotPWSentAdmin} />
+                        <Route path="/professor/reset-pw-sent" component={ForgotPWSentProfessor} />
 
                         {/* landingpage */}
 
