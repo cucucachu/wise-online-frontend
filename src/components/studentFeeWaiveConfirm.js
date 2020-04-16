@@ -56,7 +56,7 @@ class StudentFeeWaiveConfirm extends Component {
 
   render(){
     const { firstName, lastName, email, schoolName } = this.context
-    console.log('first: ', firstName);
+    console.log('school: ', schoolName);
     
         // console.log('firstname: ', firstName);
         

@@ -96,35 +96,59 @@ handleSubmit = async e =>{
             <form onSubmit={this.handleSubmit.bind(this)}>
                 <div className="input-wrapper">
                   <div style={{display: this.state.show}}>{this.state.message}</div>
-                    <span className="input-label-att">Class ID</span>
-                    <input type="text" className="input-att" id="basic-url" aria-describedby="basic-addon3" name="classID" value={this.state.classID} onChange={this.handleChangeID.bind(this)} />
+                    <span className="input-label">Class ID</span>
+                    <input type="text" placeholder="Class ID" className="" id="basic-url" aria-describedby="basic-addon3" name="classID" value={this.state.classID} onChange={this.handleChangeID.bind(this)} />
                 </div>
                 {/* <div className="spacer-vertical-s"></div> */}
-                <div className="container-note center">
-                  <p className="text-left" >What is my class ID?</p>
+                <div className="container-note input-wrapper">
+                  <div className="space-adjust-2">
+                    <p className="text-left tooltip-login" >What is my class ID?<br/>
+                      <span className="tooltiptext">
+                      The class ID is needed to ensure you have authorization to join a class, and can only be obtained from your instructor.
+                      </span>
+                    </p>
+                  </div>
+                  
                 </div>
-                {/* <p className="width-adjust-1">What is my class ID?</p> */}
                 <div className="spacer-vertical"></div>
 
-              <div className="row">
+              {/* <div className="row">
                   <div className="row-container">
-                    <div className="col-sm-3">
+                    <div className="col">
                       <input type="text" className="keycode-input" value={this.state.keyCode1} onChange={this.handleChangeKeyCode1.bind(this)} />
                     </div>
-                    <div className="col-sm-3">
+                    <div className="col">
                     <input type="text" className="keycode-input" value={this.state.keyCode2} onChange={this.handleChangeKeyCode2.bind(this)} />
                     </div>
-                    <div className="col-sm-3">
+                    <div className="col">
                     <input type="text" className="keycode-input" value={this.state.keyCode3} onChange={this.handleChangeKeyCode3.bind(this)} />
                     </div>
-                    <div className="col-sm-3">
+                    <div className="col">
                     <input type="text" className="keycode-input" value={this.state.keyCode4} onChange={this.handleChangeKeyCode4.bind(this)} />
                     </div>
                   </div>
+                </div> */}
+                <div className="container input-wrapper">
+                  <div className="space-adjust-1">
+                <div className="row space-adjust">
+                  <div className="col">
+                    <input type="text" className="keycode-input" value={this.state.keyCode1} onChange={this.handleChangeKeyCode1.bind(this)} maxlength="1"  />
+                  </div>
+                  <div className="col">
+                    <input type="text" className="keycode-input" value={this.state.keyCode2} onChange={this.handleChangeKeyCode2.bind(this)} maxlength="1"  />
+                  </div>
+                  <div className="col">
+                    <input type="text" className="keycode-input" value={this.state.keyCode3} onChange={this.handleChangeKeyCode3.bind(this)} maxlength="1"  />
+                  </div>
+                  <div className="col">
+                    <input type="text" className="keycode-input" value={this.state.keyCode4} onChange={this.handleChangeKeyCode4.bind(this)} maxlength="1"  />
+                  </div>
                 </div>
-
+                </div>
+                </div>
+                
                 <div className="spacer-vertical"></div>
-                <input type="submit" className="btn" value="Next" />
+                <input type="submit" className="btn-att" value="Next" />
             </form>
             
     </div>

@@ -41,8 +41,11 @@ class AdminLogin extends Component {
             if (response.status === 200) {
                 loggedinUser(userAdmin.id, '', userAdmin.school.name, userAdmin.school.id)
                 authToggle() 
+                sessionStorage.setItem('userID', userAdmin.id)
+                sessionStorage.setItem('username', userAdmin.name)
+                sessionStorage.setItem('schoolName', userAdmin.school.name)
+                sessionStorage.setItem('schoolID', userAdmin.school.id)
                 this.props.history.push('/admin/download')
-                console.log('userAdmin: ', userAdmin)
             }
             else {
                 this.setState({message: 'Invalid email or password. Please try again.'})
@@ -71,17 +74,18 @@ class AdminLogin extends Component {
                 <div className="input-wrapper">
                     <div style={this.state.showHide}>{this.state.message}</div>
                     <span className="input-label">Email</span>
-                    <input type="email" className="" id="basic-url"  aria-describedby="basic-addon3" name="email" value={this.state.email} onChange={this.handleChangeName.bind(this)} />
+                    <input type="email" placeholder="Email" className="" id="basic-url"  aria-describedby="basic-addon3" name="email" value={this.state.email} onChange={this.handleChangeName.bind(this)} />
                 </div>
                 
                 <div className="spacer-vertical"></div>
                 <div className="input-wrapper">
                     <span className="input-label">Key</span>
-                    <input type="password" className="" name="key" onChange={this.handleChangeKey.bind(this)} value={this.state.key}/>
+                    <input type="password" placeholder="Key"
+                    className="" name="key" onChange={this.handleChangeKey.bind(this)} value={this.state.key}/>
                 </div>
                 <div className="input-wrapper">
-                    <div className="input-wrapper-bottom">
-                        <Link to="/create-school">Create your school</Link><Link to="/forgot-pw">Forgot Password</Link>
+                    <div className="input-wrapper-bottom width-md">
+                        <Link to="/create-school">Create your school</Link><Link to="/forgot-password">Forgot Password</Link>
                     </div>
                 </div>
                 <div className="spacer-vertical"></div>

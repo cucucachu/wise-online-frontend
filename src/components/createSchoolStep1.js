@@ -96,25 +96,25 @@ class SchoolStep1 extends Component {
                 <div className="input-wrapper">
                     <div style={this.state.showHide}>{this.state.message}</div>
                     <span className="input-label">School name</span>
-                    <input type="text" className="" name="name" id="basic-url" aria-describedby="basic-addon3" value={this.state.name} onChange={this.handleChangeName.bind(this)}/>
+                    <input type="text" placeholder="School name" className="" name="name" id="basic-url" aria-describedby="basic-addon3" value={this.state.name} onChange={this.handleChangeName.bind(this)}/>
                 </div>
                 
                 <div className="spacer-vertical"></div>
                 <div className="input-wrapper">
                     <span className="input-label">School email</span>
-                    <input type="email" name="email" className="" value={this.state.email} onChange={this.handleChangeEmail.bind(this)}/>
+                    <input type="email" placeholder="School email" name="email" className="" value={this.state.email} onChange={this.handleChangeEmail.bind(this)}/>
                 </div>
 
                 <div className="spacer-vertical"></div>
                 <div className="input-wrapper">
                     <span className="input-label">School password</span>
-                    <input type="password" name="password" className="" value={this.state.password} onChange={this.handleChangePW.bind(this)} />
+                    <input type="password" placeholder="School password" name="password" className="" value={this.state.password} onChange={this.handleChangePW.bind(this)} />
                 </div>
 
                 <div className="spacer-vertical"></div>
                 <div className="input-wrapper">
                     <span className="input-label">School setup key</span>
-                    <input type="text" name="setupkey" className="" value={this.state.setupkey} onChange={this.handleChangeKey.bind(this)}/>
+                    <input type="text" placeholder="School setup key" name="setupkey" className="" value={this.state.setupkey} onChange={this.handleChangeKey.bind(this)}/>
                 </div>
  
                 <div className="spacer-vertical"></div>

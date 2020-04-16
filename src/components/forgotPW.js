@@ -1,42 +1,37 @@
-import React, {Component} from 'react';
+import React, {Component} from 'react'
+import { Link } from "react-router-dom"
 
-import educationIcon from '../Assets/images/wise-education.png'
+import loginIcon from '../Assets/images/login-icon.png'
 
+import { studentLogin } from '../store/axios'
 import { AuthContext } from '../contexts/AuthContext'
 
 
-class StudentFeeWaiveForm extends Component {
+class ForgotPW extends Component {
     static contextType = AuthContext
 
     state={
         email: '',
-        firstName: '',
-        lastName: '',
+        key: '',
         display: 'none',
         message:'',
         showHide: {display: 'none'}
     };
 
-    handleFirstName = e =>{
-        this.setState({firstName: e.target.value})
-    }
-    handleLastName = e =>{
-        this.setState({lastName: e.target.value})
-    }
-    handleEmail = e =>{
+    handleChangeName = e =>{
         this.setState({email: e.target.value})
+    }
+    handleChangeKey = e =>{
+        this.setState({key: e.target.value})
     }
     showError = () =>{
         this.setState({showHide: {display: 'block'}})
     }
     
-    handleSubmit = e =>{
+    handleSubmit = async e =>{
         e.preventDefault()
-        
-        const { studentForm, firstName } = this.context
-        studentForm(this.state.firstName, this.state.lastName, this.state.email )
-        
-        this.props.history.push('fee-waiver-confirmation')
+        const { loggedinUser, authToggle } = this.context
+        this.props.history.push('/reset-pw-sent')
         // try {
         //     const emailLowerCase = this.state.email.toLowerCase()
         //     const response = await studentLogin(emailLowerCase, this.state.key)
@@ -44,6 +39,10 @@ class StudentFeeWaiveForm extends Component {
 
         //     if (response.status === 200) {
         //         // argument (name, id, schoolID)
+        //         sessionStorage.setItem('userID', userStudent.id)
+        //         sessionStorage.setItem('username', userStudent.name)
+        //         sessionStorage.setItem('schoolName', userStudent.name)
+        //         sessionStorage.setItem('schoolID', userStudent.school.id)
         //         loggedinUser(userStudent.id, userStudent.name, userStudent.school.name, userStudent.school.id)
         //         authToggle()                 
                 
@@ -68,30 +67,28 @@ class StudentFeeWaiveForm extends Component {
     
       return(
         <div className="container">
-            <img src={educationIcon} className="page-icon" alt="wise education icon"/>
+            <img src={loginIcon} className="page-icon" alt="login icon"/>
             <div className="spacer-vertical"></div>
-            <h1>Input your information</h1>
+            <h1>Forgot my Password</h1>
+            <div className="spacer-vertical-s"></div>
+            <div className="width-adjust-1">
+                <p className="text-plain ">
+                    We will send you a link to reset your password. Please allow a few moments for the email to reach your inbox.
+                </p>
+            </div>
             <form onSubmit={this.handleSubmit.bind(this)}>
             <div className="spacer-vertical"></div>
                 <div className="input-wrapper">
                     <div style={this.state.showHide}>{this.state.message}</div>
-                    <span className="input-label">First Name</span>
-                    <input type="text" placeholder="First Name" className="" value={this.state.firstName} onChange={this.handleFirstName.bind(this)}/>
+                    <span className="input-label">School email</span>
+                    <input type="email" placeholder="School email" className="" id="basic-url" aria-describedby="basic-addon3"value={this.state.email} onChange={this.handleChangeName.bind(this)}/>
                 </div>
-                <div className="spacer-vertical-s"></div>
-                <div className="input-wrapper">
-                    <div style={this.state.showHide}>{this.state.message}</div>
-                    <span className="input-label">Last Name</span>
-                    <input type="text" placeholder="Last Name" className="" value={this.state.lastName} onChange={this.handleLastName.bind(this)}/>
-                </div>
-                <div className="spacer-vertical-s"></div>
-                <div className="input-wrapper">
-                    <span className="input-label">Email</span>
-                    <input type="email" placeholder="Email" className="" onChange={this.handleEmail.bind(this)} value={this.state.email} />
-                </div>
+                        
                 <div className="spacer-vertical"></div>
                 <div className="">
-                        <input type="submit" className="btn" value="Next" />
+                    {/* <Link to="/student/dashboard"> */}
+                        <input type="submit" className="btn" value="Reset password" />
+                    {/* </Link> */}
                 </div>
             </form>
     </div>
@@ -99,6 +96,6 @@ class StudentFeeWaiveForm extends Component {
   }
 }
 
-export default StudentFeeWaiveForm;
+export default ForgotPW;
 
 

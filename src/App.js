@@ -7,6 +7,7 @@ import Footer from './components/footer';
 import HomePage from './pages/HomePage'
 
 import './Assets/css/default.min.css'
+// import './Assets/css/bootstrap-grid.min.css'
 import AuthContextProvider from './contexts/AuthContext';
 
 function App() {

@@ -95,23 +95,23 @@ class ProfessorClaim extends Component {
                 <div className="input-wrapper">
                     <div style={this.state.showHide}>{this.state.message}</div>
                     <span className="input-label">Email</span>
-                    <input type="email" name="email" className="" id="basic-url" aria-describedby="basic-addon3" value={this.state.email} onChange={this.handleChangeEmail.bind(this)}/>
+                    <input type="email" placeholder="Email" name="email" className="" id="basic-url" aria-describedby="basic-addon3" value={this.state.email} onChange={this.handleChangeEmail.bind(this)}/>
                 </div>
                 
                 <div className="spacer-vertical-s"></div>
                 <div className="input-wrapper">
                     <div className="input-label">Password</div>
-                    <input type="password" className="" name="password" value={this.state.password} onChange={this.handleChangePW.bind(this)}/>
+                    <input type="password" placeholder="Password" className="" name="password" value={this.state.password} onChange={this.handleChangePW.bind(this)}/>
                 </div>
                 <div className="spacer-vertical-s"></div>
                 <div className="input-wrapper">
                     <span className="input-label">Confirm Password</span>
-                    <input type="password" name="confirmpassword" className="" value={this.state.conpassword} onChange={this.handleChangeConPW.bind(this)}/>
+                    <input type="password" placeholder="Confirm Password" name="confirmpassword" className="" value={this.state.conpassword} onChange={this.handleChangeConPW.bind(this)}/>
                 </div>
                 <div className="spacer-vertical-s"></div>
                 <div className="input-wrapper">
                     <span className="input-label">Setup key</span>
-                    <input type="text" name="setupkey" className="" id="basic-url" aria-describedby="basic-addon3" value={this.state.setupkey} onChange={this.handleChangeKey.bind(this)} />
+                    <input type="text" placeholder="Setup Key" name="setupkey" className="" id="basic-url" aria-describedby="basic-addon3" value={this.state.setupkey} onChange={this.handleChangeKey.bind(this)} />
                 </div>
                 <div className="spacer-vertical"></div>
                 <div className="">

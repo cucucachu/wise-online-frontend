@@ -47,6 +47,8 @@
     content: "";
     position: absolute;
     display: none;
+    margin-left: 3px;
+    margin-top: 3px;
   }
   
   /* Show the checkmark when checked */

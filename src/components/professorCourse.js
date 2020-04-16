@@ -57,13 +57,20 @@ class ProfessorCourse extends Component {
     }
 
     async loadCourses() {
-        const { userID, schoolID } = this.context;
-
+        // const { userID, schoolID } = this.context;
+        const userID = sessionStorage.getItem('userID')
+        const schoolID = sessionStorage.getItem('schoolID')
+        console.log('userID from context: ', userID);
+        console.log('schoolUD: ', schoolID);
+        
+        
         let state = Object.assign({}, this.state);
         state.courses = [];
         this.setState(state);
 
         const response = await getCourses(schoolID, userID);
+        console.log('response: ', response);
+        
         const courses = response.data
         state = Object.assign({}, this.state);
 
@@ -76,22 +83,24 @@ class ProfessorCourse extends Component {
   
         await this.loadCourses();
 
-        this.timer = setInterval(
-            () => this.checkCookie(),
-            300000
-          );
+        // this.timer = setInterval(
+        //     () => this.checkCookie(),
+        //     300000
+        //   );
     }
     componentWillUnmount() {
         clearInterval(this.timer);
       }
-    checkCookie(){
-    const { cookies } = this.context
-    console.log('cookies: ', cookies);
+    // checkCookie(){
+    // const { cookies } = this.context
+    // console.log('cookies: ', cookies);
     
-    if(cookies === undefined){
-        this.props.history.push('/professor-login')
-    }else{return}
-    }
+    // if(cookies === undefined){
+    //     console.log('cookies expired: ', cookies);
+        
+    //     this.props.history.push('/professor-login')
+    // }else{return}
+    // }
     render() {
         return(
             <Fragment>

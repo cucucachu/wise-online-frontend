@@ -36,8 +36,9 @@ import SelectRole from '../components/selectRole'
 import { AuthContext } from '../contexts/AuthContext'
 
 import Header from '../components/header'
+import HeaderNew from '../components/headerNew'
 
-import PrivateRouteAdmin from '../components/PrivateRoute'
+import PrivateRouteAdmin from '../components/PrivateRouteAdmin'
 import PrivateRouteStudent from '../components/PrivateRouteStudent'
 import PrivateRouteProfessor from '../components/PrivateRouteProfessor'
 import StudentFeeWaive from '../components/studentFeeWaive'
@@ -46,14 +47,20 @@ import StudentFeeWaiveForm from '../components/studentFeeWaiveForm'
 import StudentFeeWaiveNote from '../components/studentFeeWaiveNote';
 import StudentFeeWaiveConfirm from '../components/studentFeeWaiveConfirm';
 
+import headerBackground from '../Assets/images/header-img-mobile.png'
+import ForgotPW from '../components/forgotPW';
+import ForgotPwSent from '../components/forgotPwSent';
+
 class HomePage extends Component {
 static contextType = AuthContext
   render(){
       return(
           <Router>
-            <Header />
+            <HeaderNew />
             <div className="wrap">
-                <div className="page-header"></div>
+                <div className="page-header">
+                  <img src={headerBackground} className="bg-img"/>
+                </div>
 
                 <Switch>
                        {/* admin */}
@@ -91,7 +98,12 @@ static contextType = AuthContext
                         <Route path="/student/fee-waiver-form" component={StudentFeeWaiveForm} />
                         <Route path="/student/fee-waiver-note" component={StudentFeeWaiveNote} />
                         <Route path="/student/fee-waiver-confirmation" component={StudentFeeWaiveConfirm} />
+
+                        <Route path="/forgot-password" component={ForgotPW} />
+                        <Route path="/reset-pw-sent" component={ForgotPwSent} />
+
                         {/* landingpage */}
+
                         <Route exact path='/' component={SelectRole} />
                 </Switch>   
             </div>

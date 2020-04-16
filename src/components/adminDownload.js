@@ -1,8 +1,9 @@
 import React, { useContext, useEffect } from 'react';
+import { Link } from 'react-router-dom'
 
 import attendanceIcon from '../Assets/images/attendance-icon.png'
 import downloadIcon from '../Assets/images/download-icon-white.svg'
-import { AuthContext } from '../contexts/AuthContext'
+// import { AuthContext } from '../contexts/AuthContext'
 
 import { adminDownloadDataByCourseURL, adminDownloadDataByProfessorURL, adminDownloadDataByStudentURL } from '../store/axios';
 
@@ -19,20 +20,21 @@ function downloadDataByStudent() {
 }
 
 const AdminDownload = (props) => {
-    const { cookies } = useContext(AuthContext)
+    const schoolName = sessionStorage.getItem('schoolName')
+    // const { cookies } = useContext(AuthContext)
 
-    const checkCookie = ()=>{
-        if(cookies === undefined){
-            props.history.push('/student-login')
-        }else{return}
-    }
-    useEffect(() => {
+    // const checkCookie = ()=>{
+    //     if(cookies === undefined){
+    //         props.history.push('/student-login')
+    //     }else{return}
+    // }
+    // useEffect(() => {
 
-        const interval = setInterval(() => {
-            checkCookie()
-        }, 300000);
-        return () => clearInterval(interval)
-    })
+    //     const interval = setInterval(() => {
+    //         checkCookie()
+    //     }, 300000);
+    //     return () => clearInterval(interval)
+    // })
     return ( 
         <div className="container">
                 <img src={ attendanceIcon } className="page-icon" alt="login icon"/>
@@ -44,6 +46,10 @@ const AdminDownload = (props) => {
                 <button className="btn-l" onClick={downloadDataByProfessor}><img src={downloadIcon} className="icon-xs" alt="download icon" />Download data by professor</button>
                 <div className="spacer-vertical"></div>
                 <button className="btn-l" onClick={downloadDataByStudent}><img src={downloadIcon} className="icon-xs" alt="download icon" />Download data by student</button>
+                <div className="spacer-vertical"></div>
+                <Link to="/set-up-school">
+                    <button className="btn-l">Set up your school</button>
+                </Link>
         </div>
   );
   }

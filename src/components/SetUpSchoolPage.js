@@ -71,23 +71,23 @@ class SetUpSchoolPage extends Component {
         }
     }
     componentDidMount(){
-        this.timer = setInterval(
-            () => this.checkCookie(),
+        // this.timer = setInterval(
+        //     () => this.checkCookie(),
             
-            300000
-          );
+        //     300000
+        //   );
       }
       componentWillUnmount() {
         clearInterval(this.timer);
       }
-    checkCookie(){
-    const { cookies } = this.context
-    console.log('cookies: ', cookies);
+    // checkCookie(){
+    // const { cookies } = this.context
+    // console.log('cookies: ', cookies);
     
-    if(cookies === undefined){
-        this.props.history.push('/admin-login')
-    }else{return}
-    }
+    // if(cookies === undefined){
+    //     this.props.history.push('/admin-login')
+    // }else{return}
+    // }
   render(){
 
       return(
@@ -100,7 +100,7 @@ class SetUpSchoolPage extends Component {
                     <p className="text-plain">Information must match the provided template </p>
                     <div className="spacer-vertical-s"></div>
                     <div className="container">
-                        <div className="row">
+                        <div className="row align-1">
                             <form>
                             <div className="col-sm-6">
                                     <div className="shadow">
@@ -149,6 +149,7 @@ class SetUpSchoolPage extends Component {
                             </form>
                             
                         </div>
+                        <div className="spacer-vertical"></div>
                         <button onClick={this.handleSubmit.bind(this)} className="btn">Next</button>
                     </div>
                 </div>
