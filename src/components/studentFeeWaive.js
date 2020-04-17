@@ -1,6 +1,5 @@
-import React, { useEffect, useContext } from 'react'
+import React　from 'react'
 import { Link } from 'react-router-dom'
-import { AuthContext } from '../contexts/AuthContext'
 import educationIcon from '../Assets/images/wise-education.png'
 
 const StudentFeeWaive = (props) => {

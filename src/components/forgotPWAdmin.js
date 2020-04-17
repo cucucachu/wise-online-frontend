@@ -26,12 +26,11 @@ class ForgotPWAdmin extends Component {
     
     handleSubmit = async e =>{
         e.preventDefault()
-        const { loggedinUser, authToggle } = this.context
-        this.props.history.push('/reset-pw-sent')
+        
         try {
             const emailLowerCase = this.state.email.toLowerCase()
-            const response = await adminRequestResetPW(emailLowerCase)
-            const pwReset = response.data
+            const response = await adminRequestResetPW({adminEmail: emailLowerCase})
+            console.log('response: ', response.data);
 
             if (response.status === 200) {
                              

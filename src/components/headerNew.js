@@ -8,6 +8,7 @@ import chevronIcon from '../Assets/images/chevron-left.svg'
 const HeaderNew = (props) => {
     const [schoolName, setSchoolName] = useState('')
     const [username, setUsername] = useState('')
+    const [isLoggedIn, setIsLoggedIn] = useState('')
 
     const handleLogout = () =>{
         sessionStorage.clear()
@@ -21,9 +22,9 @@ const HeaderNew = (props) => {
     const historyPath = props.history.location.pathname
 
     useEffect(() => {
-        // Update the document title using the browser API
         setSchoolName(sessionStorage.getItem('schoolName'))
         setUsername(sessionStorage.getItem('username'))
+        setIsLoggedIn(sessionStorage.getItem('isLoggedIn'))
         console.log('schooname: ', schoolName);
         
       });
@@ -33,15 +34,15 @@ const HeaderNew = (props) => {
               <div className="logo"></div>
               { historyPath === '/' || 
                 historyPath === '/admin/download' ||
-                historyPath === '/create-school' ||
+                // historyPath === '/create-school' ||
                 historyPath === '/professor/course' ||
                 historyPath === '/student/dashboard'
                ? '' : (<button onClick={handleGoBack} className="btn-backlink"><img src={chevronIcon} className="icon-xs" alt="chevron icon"/>&nbsp;Go back </button>)}
       
               <nav className="">
-      { schoolName ? 
-      (<p className="nav-pos"><span className="hide-mobile">{ username === '' ?  'Logged in as ' + schoolName  : 'Logged in as ' + username} </span><button className="btn-s" onClick={handleLogout} >Log out</button></p> ):
-      ''}
+                { isLoggedIn ? 
+                (<p className="nav-pos"><span className="hide-mobile">{ username === '' ?  'Logged in as ' + schoolName  : 'Logged in as ' + username} </span><button className="btn-s" onClick={handleLogout} >Log out</button></p> ):
+                ''}
               </nav>
                 
           </header>

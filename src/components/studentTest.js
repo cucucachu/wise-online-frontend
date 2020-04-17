@@ -27,16 +27,16 @@ const StudentTest = (props) => {
                 <div className="spacer-vertical"></div>
                 <div className="width-adjust-1">
                     <ul>
-                        <li className="list-text">0. Allow camera permissions<br/>
+                        <li className="list-text">1. Allow camera permissions<br/>
                             <div className="text-sm text-plain">Wise uses confidential facial recognition to make sure you’re really you</div>
                         </li>
-                        <li className="list-text">1. Open your online test<br/>
+                        <li className="list-text">2. Open your online test<br/>
                             <div className="text-sm text-plain">Get ready to begin your online test</div>
                         </li>
-                        <li className="list-text">2. Start the recoding and begin your test<br/>
+                        <li className="list-text">3. Start the recording and begin your test<br/>
                             <div className="text-sm text-plain">Get ready to begin your online test</div>
                         </li>
-                        <li className="list-text">3. Stop the recoding when you finish<br/>
+                        <li className="list-text">4. Stop the recording when you finish<br/>
                             <div className="text-sm text-plain">Get ready to begin your online test</div>
                         </li>
                     </ul>

@@ -31,7 +31,7 @@ class StudentFeeWaiveForm extends Component {
         this.setState({showHide: {display: 'block'}})
     }
     
-    handleSubmit = e =>{
+    handleSubmit = async e =>{
         e.preventDefault()
 
         
@@ -39,9 +39,12 @@ class StudentFeeWaiveForm extends Component {
             const schoolName = sessionStorage.getItem('schoolName')
             const emailLowerCase = this.state.email.toLowerCase()
             const data = {firstName: this.state.firstName, lastName: this.state.lastName, email: emailLowerCase, school: schoolName}
+            // data.firstName || !data.lastName || !data.email || !data.school
+            console.log('data: ', data);
+            
             const response = await submitFeeWaive(data)
-            // const userStudent = response.data
-
+            console.log('response: ', response);
+            
             if (response.status === 200) {            
                 
                 this.props.history.push('fee-waiver-confirmation')
@@ -77,7 +80,6 @@ class StudentFeeWaiveForm extends Component {
                 </div>
                 <div className="spacer-vertical-s"></div>
                 <div className="input-wrapper">
-                    <div style={this.state.showHide}>{this.state.message}</div>
                     <span className="input-label">Last Name</span>
                     <input type="text" placeholder="Last Name" className="" value={this.state.lastName} onChange={this.handleLastName.bind(this)}/>
                 </div>

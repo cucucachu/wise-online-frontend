@@ -1,11 +1,9 @@
 import React, {Component} from 'react'
-import { Link } from "react-router-dom"
 
 import loginIcon from '../Assets/images/login-icon.png'
 
-import { studentLogin } from '../store/axios'
 import { AuthContext } from '../contexts/AuthContext'
-
+import { professorRequestResetPW } from '../store/axios'
 
 class ForgotPWProfessor extends Component {
     static contextType = AuthContext
@@ -26,34 +24,24 @@ class ForgotPWProfessor extends Component {
     
     handleSubmit = async e =>{
         e.preventDefault()
-        const { loggedinUser, authToggle } = this.context
-        this.props.history.push('reset-pw-sent')
-        // try {
-        //     const emailLowerCase = this.state.email.toLowerCase()
-        //     const response = await studentLogin(emailLowerCase, this.state.key)
-        //     const userStudent = response.data
 
-        //     if (response.status === 200) {
-        //         // argument (name, id, schoolID)
-        //         sessionStorage.setItem('userID', userStudent.id)
-        //         sessionStorage.setItem('username', userStudent.name)
-        //         sessionStorage.setItem('schoolName', userStudent.name)
-        //         sessionStorage.setItem('schoolID', userStudent.school.id)
-        //         loggedinUser(userStudent.id, userStudent.name, userStudent.school.name, userStudent.school.id)
-        //         authToggle()                 
-                
-        //         this.props.history.push('/student/dashboard')
-        //     }
-        //     else {
-        //         this.setState({message: 'Invalid email or student id. Please try again.'})
-        //         this.showError()
-        //     }
+        try {
+            const emailLowerCase = this.state.email.toLowerCase()
+            const response = await professorRequestResetPW({professorEmail: emailLowerCase})
 
-        // }
-        // catch (error) {
-        //     this.setState({message: 'Opps, something went wrong. Please try again.'})
-        //     this.showError()
-        // }
+            if (response.status === 200) {
+                this.props.history.push('reset-pw-sent')
+            }
+            else {
+                this.setState({message: 'Invalid email. Please try again.'})
+                this.showError()
+            }
+
+        }
+        catch (error) {
+            this.setState({message: 'Opps, something went wrong. Please try again.'})
+            this.showError()
+        }
    
         return
         

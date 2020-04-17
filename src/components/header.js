@@ -13,14 +13,15 @@ class Header extends Component {
   state={
     redirect: false,
     schoolName: sessionStorage.getItem('schoolName'),
-    username: sessionStorage.getItem('username')
+    username: sessionStorage.getItem('username'),
+    isLoggedIn: sessionStorage.setItem('isLoggedIn')
   }
   handleLogout = () =>{
-    const { authToggle, isAuthenticated } = this.context
+    // const { authToggle, isAuthenticated } = this.context
     
-    if(isAuthenticated){
-      authToggle()
-    }
+    // if(isAuthenticated){
+    //   authToggle()
+    // }
     sessionStorage.clear();
     logout()
   
@@ -37,7 +38,7 @@ class Header extends Component {
 
   render(){
 
-    console.log('state: ', this.state.schoolName);
+    console.log('login: ', this.state.isLoggedIn);
     
     
     const historyPath = this.props.history.location.pathname
@@ -53,9 +54,9 @@ class Header extends Component {
                ? '' : (<button onClick={this.handleGoBack.bind(this)} className="btn-backlink"><img src={chevronIcon} className="icon-xs" alt="chevron icon"/>&nbsp;Go back </button>)}
       
               <nav className="">
-      { this.state.schoolName ? 
-      (<p className="nav-pos"><span className="hide-mobile">{ this.state.username === '' ?  'Logged in as ' + this.state.schoolName  : 'Logged in as ' + 	 this.state.username} </span><button className="btn-s" onClick={this.handleLogout.bind(this)} >Log out</button></p> ):
-      ''}
+                { this.state.isLoggedIn === true ? 
+                (<p className="nav-pos"><span className="hide-mobile">{ this.state.username === '' ?  'Logged in as ' + this.state.schoolName  : 'Logged in as ' + 	 this.state.username} </span><button className="btn-s" onClick={this.handleLogout.bind(this)} >Log out</button></p> ):
+                ''}
               </nav>
                 
           </header>

@@ -44,6 +44,7 @@ class StudentLogin extends Component {
                 sessionStorage.setItem('username', userStudent.name)
                 sessionStorage.setItem('schoolName', userStudent.name)
                 sessionStorage.setItem('schoolID', userStudent.school.id)
+                sessionStorage.setItem('isLoggedIn', true)
                 // loggedinUser(userStudent.id, userStudent.name, userStudent.school.name, userStudent.school.id)
                 // authToggle()                 
                 

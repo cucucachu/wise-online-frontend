@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React　from 'react';
 import { Link } from 'react-router-dom'
 
 import attendanceIcon from '../Assets/images/attendance-icon.png'
@@ -20,7 +20,7 @@ function downloadDataByStudent() {
 }
 
 const AdminDownload = (props) => {
-    const schoolName = sessionStorage.getItem('schoolName')
+    // const schoolName = sessionStorage.getItem('schoolName')
     // const { cookies } = useContext(AuthContext)
 
     // const checkCookie = ()=>{

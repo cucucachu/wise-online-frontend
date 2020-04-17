@@ -75,7 +75,7 @@ async function postFiles(professorFile, studentFile) {
     return response;
 }
 async function adminRequestResetPW(email) {
-    const response = await backend.post('/admin/requestPasswordReset', {email});
+    const response = await backend.post('/admin/requestPasswordReset', email);
     return response;
 }
 
@@ -108,7 +108,7 @@ async function createCourse(name, classId, students) {
     return response;
 }
 async function professorRequestResetPW(email) {
-    const response = await backend.post('/professor/requestPasswordReset', {email});
+    const response = await backend.post('/professor/requestPasswordReset', email);
     return response;
 }
 
@@ -151,7 +151,7 @@ async function submitConfidenceScore(testAttendanceId, confidenceScore) {
     return response;
 }
 async function submitFeeWaive(data) {
-    const response = await backend.post('/student/waiveFee', {data});
+    const response = await backend.post('student/waiveFee', data);
     return response;
 }
 
@@ -170,7 +170,7 @@ async function getStudents(school, professor, course) {
     return response;
 }
 async function getSchoolNames() {
-    const response = await backend.post('/schools/active');
+    const response = await backend.get('schools/active');
     return response;
 }
 

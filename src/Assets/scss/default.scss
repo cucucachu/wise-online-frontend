@@ -1,5 +1,11 @@
 @import './config.scss';
 
+// @media only screen and (min-width: 2500px){
+//     .page-icon{
+//         margin-top: 10rem;
+//     }
+// }
+
 body{
     font-family: Arial, Helvetica, sans-serif;
     color: $primary-color;
@@ -17,7 +23,9 @@ button:focus { outline: none; }
 .bg-img{
     display: none;
 }
-
+.hidden{
+    display: none;
+}
 .page-header{
     background-image: url('../images/header-background.svg');
     background-position: center top;
@@ -62,7 +70,7 @@ button:focus { outline: none; }
 .input-label{
     display: inline-block;
     background-color: $primary-color;
-    padding: 11px 15px;
+    padding: 11px;
     color: $secondary-color;
     border-top-left-radius: 0.5rem;
     border-bottom-left-radius: 0.5rem;
@@ -161,7 +169,7 @@ footer{
 }
 
 .input-wrapper-bottom{
-    display: flex;
+    // display: flex;
     margin: 1rem 0;
     justify-content: space-between;
     font-weight: lighter;
@@ -329,7 +337,7 @@ input[type="file"] {
     box-shadow: 0 0 8px #ccc;
     border-radius: 1rem;
     margin: 2rem;
-    padding: 2rem;
+    padding: 0 1rem;
     text-align: left;
 }
 
@@ -388,6 +396,10 @@ input[type="file"] {
     height: 5rem;
     background-color: white;
 }
+.student-login-wrapper {
+    justify-content: space-between;
+    display: flex;
+}
 .shadow-sm{
     box-shadow: 0 0 8px #ccc;
     border-radius: 0.5rem;
@@ -412,12 +424,6 @@ input[type="file"] {
     width: 70%;
     margin-top: 5px;
     margin: 0 auto;
-}
-.align-l{
-    text-align: left;
-}
-.align-r{
-    text-align: right;
 }
 .text-sm{
     font-weight: lighter;
@@ -500,12 +506,37 @@ input[type="file"] {
   .tooltip-login:hover .tooltiptext {
     visibility: visible;
   }
-@media only screen and (max-width: 1025px) {
-    // .page-icon{
-    //     margin-top: 8rem;
-    // }
+@media only screen and (max-width: 1024px){
 
 }
+@media only screen and (max-width: 992px) {
+    .input-label{
+        font-size: 16px;
+    }
+    input{
+        font-size: 16px;
+    }
+    .width-md{
+        font-size: 16px;
+    }
+}
+@media only screen and (max-width: 850px){
+    .input-label{
+        width: 25%;
+    }
+    .width-md{
+        width: 75%;
+    }
+}
+@media only screen and (max-width: 560px){
+    .input-label{
+        width: 35%;
+    }
+    .width-md{
+        width: 85%;
+    }
+}
+
 @media only screen and (max-width: 414px) {
 .btn-m{
     width: 80%;
@@ -532,6 +563,8 @@ input{
 }
 .width-md{
     width: 75%;
+    // display: flex;
+    // justify-content: space-between;
 }
 .width-slim{
     width: 100%;
@@ -590,7 +623,7 @@ input{
     display: none;
 }
 .input-wrapper-bottom{
-    margin: 1rem 3rem;
+    // margin: 1rem 0;
     font-size: 16px;
 }
 .width-adjust-2{
@@ -616,5 +649,20 @@ input{
 }
 .space-adjust-2 {
     width: 95%;
+}
+.student-login-wrapper{
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+    text-align: left;
+}
+.student-login-wrapper > a{
+    padding-top: 20px;
+}
+.align-l{
+    text-align: left;
+}
+.align-r{
+    text-align: right;
 }
 }

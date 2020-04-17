@@ -45,10 +45,11 @@ class ProfessorLogin extends Component {
                 sessionStorage.setItem('username', userProfessor.name)
                 sessionStorage.setItem('schoolName', userProfessor.name)
                 sessionStorage.setItem('schoolID', userProfessor.school.id)
-                loggedinUser(userProfessor.id, userProfessor.name, userProfessor.school.name, userProfessor.school.id)
-                if(isAuthenticated === false){
-                    authToggle()
-                }
+                sessionStorage.setItem('isLoggedIn', true)
+                // loggedinUser(userProfessor.id, userProfessor.name, userProfessor.school.name, userProfessor.school.id)
+                // if(isAuthenticated === false){
+                //     authToggle()
+                // }
                 
                 this.props.history.push('/professor/course')
             }
@@ -87,8 +88,11 @@ class ProfessorLogin extends Component {
 
                 <div className="input-wrapper">
                     <div className="input-wrapper-bottom width-md">
-                        <Link to="/professor/claim-account" className="align-l">Claim your account</Link>
-                        <Link to="professor/forgot-pw" className="align-r">Forgot Password</Link>
+                        <div className="student-login-wrapper">
+                            <Link  to="/professor/claim-account" >Claim your account</Link>
+                            <Link  to="professor/forgot-pw" >Forgot Password</Link>
+                        </div>
+                        
                     </div>
                 </div>
   

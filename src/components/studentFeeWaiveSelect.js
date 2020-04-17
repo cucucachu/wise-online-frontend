@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import { Link } from "react-router-dom";
 
 import educationIcon from '../Assets/images/wise-education.png'
 
@@ -11,15 +10,16 @@ class StudentFeeWaiveSelect extends Component {
     static contextType = AuthContext
 
     state={
-        schoolName: [],
+        schools: [],
+        shoolName: '',
         display: 'none',
         message:'Please select your school to proceed.',
+        listItems: '',
         showHide: {display: 'none'}
     };
 
     handleChangeSchool = e =>{
         this.setState({schoolName: e.target.value})
-        console.log('schoolname: ', this.state.schoolName);
         console.log('e: ', e.target.value);
         
     }
@@ -37,7 +37,7 @@ class StudentFeeWaiveSelect extends Component {
             this.setState({showHide: {display: 'block'}})
             
         }else{
-            storeSchoolName(this.state.schoolName)
+            // storeSchoolName(this.state.schoolName)
             this.props.history.push('fee-waiver-note')
         }
         // try {
@@ -69,8 +69,12 @@ class StudentFeeWaiveSelect extends Component {
 async componentDidMount(){
     const response = await getSchoolNames()
     console.log('response: ', response.data);
-    const schoolNames = response.data
-    this.setState({schoolNames: schoolNames})
+    const schools = response.data
+    this.setState({schools: schools})
+    const listItems = schools.map((school) =>
+    <option value={school.id} key={school.id}>{school.name}</option>
+    );
+    this.setState({listItems: listItems})
 }
   render(){
     
@@ -89,13 +93,11 @@ async componentDidMount(){
                     <input type="email" className="" id="basic-url" aria-describedby="basic-addon3" /> */}
                     <select id="schools" name="schools" value={this.state.schoolName} onChange={this.handleChangeSchool.bind(this)} className="student-form-select text-plain shadow">
                         <option value="not selected">Select university</option>
-                        <option value="schoolA">School A</option>
-                        <option value="schoolB">School B</option>
-                        <option value="schoolC">School C</option>
-                        <option value="schoolD">School D</option>
+                        {this.state.listItems}
+                        
                     </select>
                 </div>
-                
+               
                 {/* <div className="spacer-vertical"></div>
                 <div className="input-wrapper">
                     <span className="input-label">Student ID</span>

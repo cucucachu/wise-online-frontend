@@ -91,6 +91,7 @@ static contextType = AuthContext
                         <PrivateRouteStudent path="/student/tests" component={StudentTest} />
                         <PrivateRouteStudent path="/student/class/attend" component={StudentClassAtt} />
                         <PrivateRouteStudent path="/student/class/attend-success" component={StudentAttSuccess} />
+                        <Route path="/test-route/student-success" component={StudentAttSuccess} />
                         <PrivateRouteStudent path="/student/test/record" component={StudentRecordTest} />
                         {/* <Route path="/student/test/record" component={StudentRecordTest} /> */}
                         <PrivateRouteStudent path="/student/test-id" component={StudentTestId} />

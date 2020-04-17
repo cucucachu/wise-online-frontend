@@ -39,12 +39,13 @@ class AdminLogin extends Component {
             console.log('userAdmin: ', userAdmin);
             
             if (response.status === 200) {
-                loggedinUser(userAdmin.id, '', userAdmin.school.name, userAdmin.school.id)
-                authToggle() 
+                // loggedinUser(userAdmin.id, '', userAdmin.school.name, userAdmin.school.id)
+                // authToggle() 
                 sessionStorage.setItem('userID', userAdmin.id)
                 sessionStorage.setItem('username', userAdmin.name)
                 sessionStorage.setItem('schoolName', userAdmin.school.name)
                 sessionStorage.setItem('schoolID', userAdmin.school.id)
+                sessionStorage.setItem('isLoggedIn', true)
                 this.props.history.push('/admin/download')
             }
             else {
@@ -85,14 +86,15 @@ class AdminLogin extends Component {
                 </div>
                 <div className="input-wrapper">
                     <div className="input-wrapper-bottom width-md">
-                        <Link to="/create-school">Create your school</Link><Link to="admin/forgot-pw">Forgot Password</Link>
+                        <div className="student-login-wrapper">
+                            <Link to="/create-school">Create your school</Link>
+                            <Link to="admin/forgot-pw">Forgot Password</Link>
+                        </div>
                     </div>
                 </div>
                 <div className="spacer-vertical"></div>
                 <div className="">
-                    {/* <Link to="/select-role"> */}
                         <input type="submit" className="btn" value="Next" />
-                    {/* </Link> */}
                 </div>
             </form>
     </div>
@@ -101,71 +103,3 @@ class AdminLogin extends Component {
 }
 
 export default AdminLogin;
-
-
-
-// import { AuthContext } from '../contexts/AuthContext'
-
-// import axios from 'axios'
-// import loginIcon from '../Assets/images/login-icon.png'
-
-
-// const AdminLogin = () => {
-//     const { user, authToggle} = useContext(AuthContext)
-//     const [schoolName, setSchoolName] = useState('')
-//     const [schoolID, setSchoolID] = useState('')
-//     const [schoolData, setSchoolData] = useState({schoolName: '', schoolID: ''})
-
-//     const handleSubmit = (e) =>{
-
-//         e.preventDefault()
-        
-//         setSchoolData(schoolData)
-        
-//         // axios.post(DBname, {name})
-//         axios.post('http://localhost:3000/users', {schoolData})
-//         .then(res =>{
-//             console.log('response: ', res)
-            
-            
-//         })
-//         axios.get('http://localhost:3000/users')
-//         .then(res =>{
-//             console.log('get all data: ', res);
-//             console.log('res from api: ', res.data.id);
-//         })
-//     }
-//     return ( 
-//         <div className="container">
-//                 <img src={loginIcon} className="page-icon" alt="login icon"/>
-//                 <div className="spacer-vertical"></div>
-//                 <h1>Administration login</h1>
-//                 <form onClick={handleSubmit}>
-//                 <div className="spacer-vertical"></div>
-//                     <div className="input-wrapper">
-//                         <span className="input-label">Name</span>
-//                         <input type="email" className="" id="basic-url" value={schoolName} aria-describedby="basic-addon3" onChange={(e) => setSchoolName(e.target.value)} />
-//                     </div>
-                    
-//                     <div className="spacer-vertical"></div>
-//                     <div className="input-wrapper">
-//                         <span className="input-label">ID</span>
-//                         <input type="password" className="" value={schoolID} onChange={(e) => setSchoolID(e.target.value)}/>
-//                     </div>
-//                     <div className="input-wrapper">
-//                         <div className="input-wrapper-bottom">
-//                             <Link to="/create-school">Create your school</Link><Link to="/forgot-pw">Forgot Password</Link>
-//                         </div>
-//                     </div>
-//                     <div className="spacer-vertical"></div>
-//                     <div className="">
-//                         <Link to="/create-school"><button className="btn">Submit</button></Link>
-                        
-//                     </div>
-//                 </form>
-//         </div>
-//   );
-//   }
-   
-//   export default AdminLogin;
-
