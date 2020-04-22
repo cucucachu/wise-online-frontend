@@ -1,30 +1,28 @@
 import React, {Component} from 'react';
 
-import attendClass from '../Assets/images/attend-class.png';
+import loginIcon from '../Assets/images/login-icon.png'
 import successIcon from '../Assets/images/success-icon.png'
 
 import { Link } from 'react-router-dom';
 
-class StudentAttSuccess extends Component {
-  state={
-    classID: sessionStorage.getItem('classId')
-  }
+class ProfessorResetPWSuccess extends Component {
 
 
   render(){
       return(
         <div className="container">
-            <img src={attendClass} className="page-icon" alt="login icon"/>
+            <img src={loginIcon} className="page-icon" alt="login icon"/>
             <div className="spacer-vertical"></div>
                 <h1 style={{color: '#4ebd0f'}}>Success!</h1>
 
             <div className="spacer-vertical-s"></div>
             <img src={successIcon} className="page-icon" alt="success icon" style={{boxShadow: '0 0 0 transparent'}}/>
             <div className="spacer-vertical-s"></div>
-            <p className="text-plain">Your attendance has been registered for:</p>
-            <h2>{this.state.classID}</h2>
-            <Link to="/student/dashboard">
-                <button className="btn" >Done</button>
+            <p className="text-plain">Your password has been reset.</p>
+            {/* <h2>{this.state.classID}</h2> */}
+            <div className="spacer-vertical"></div>
+            <Link to="/professor-login">
+                <button className="btn" >Log in</button>
             </Link>
             
     </div>
@@ -32,6 +30,6 @@ class StudentAttSuccess extends Component {
   }
 }
 
-export default StudentAttSuccess;
+export default ProfessorResetPWSuccess;
 
 

@@ -54,6 +54,8 @@ import ForgotPWSentProfessor from '../components/forgotPWSentProfessor';
 import ForgotPWSentAdmin from '../components/forgotPWSentAdmin';
 import AdminResetPW from '../components/adminResetPW';
 import ProfessorResetPW from '../components/professorResetPW';
+import AdminResetPWSuccess from '../components/adminResetPWSuccess';
+import ProfessorResetPWSuccess from '../components/professorResetPWSuccess';
 
 class HomePage extends Component {
 static contextType = AuthContext
@@ -75,12 +77,14 @@ static contextType = AuthContext
                         <PrivateRouteAdmin path="/admin/download" component={AdminDownload}/>
                         {/* <Route path="/admin/download" component={AdminDownload} /> */}
                         <Route path="/admin/reset-password" component={AdminResetPW} />
+                        <Route path="/admin/reset-success" component={AdminResetPWSuccess} />
                         <Route path="/admin-login" component={AdminLogin} />
 
                         {/* professor */}
                         
                         <Route path="/professor-login" component={ProfessorLogin} />
                         <Route path="/professor/reset-password" component={ProfessorResetPW} />
+                        <Route path="/professor/reset-success" component={ProfessorResetPWSuccess} />
                         <PrivateRouteProfessor path="/professor/course" component={ProfessorCourse} />
                         <Route path="/professor/claim-account" component={ProfessorClaim} />
                         {/* <PrivateRouteProfessor path="/professor/claim-account-success" component={ProfessorClaimSuccess} /> */}

@@ -78,6 +78,10 @@ async function adminRequestResetPW(email) {
     const response = await backend.post('/admin/requestPasswordReset', email);
     return response;
 }
+async function resetAdminPW(data){
+    const response = await backend.post('/admin/resetPassword', data)
+    return response
+}
 
 function adminDownloadDataByCourseURL() {
     return baseURL + 'admin/courses/attendanceData';
@@ -110,6 +114,10 @@ async function createCourse(name, classId, students) {
 async function professorRequestResetPW(email) {
     const response = await backend.post('/professor/requestPasswordReset', email);
     return response;
+}
+async function resetProfessorPW(data){
+    const response = await backend.post('/professor/resetPassword', data)
+    return response
 }
 
 async function editCourse(courseId, name, classId) {
@@ -200,5 +208,7 @@ export {
     adminRequestResetPW,
     professorRequestResetPW,
     getSchoolNames,
-    submitFeeWaive
+    submitFeeWaive,
+    resetAdminPW,
+    resetProfessorPW
 }

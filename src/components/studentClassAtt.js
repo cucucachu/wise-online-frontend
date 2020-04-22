@@ -40,8 +40,6 @@ showError = () =>{
 }
 handleSubmit = async e =>{
     e.preventDefault()
-    const { storeClassId } = this.context
-    storeClassId(this.state.classId)
 
     const keycode =  this.state.keyCode1.concat(this.state.keyCode2, this.state.keyCode3, this.state.keyCode4)
     try {
@@ -49,7 +47,7 @@ handleSubmit = async e =>{
       // const testObj = response.data
 
       if (response.status === 200) {
-                          
+          sessionStorage.setItem('classId', this.state.classId)
           this.props.history.push('attend-success')
       }
       else {

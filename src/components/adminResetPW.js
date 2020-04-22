@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react'
 
 import loginIcon from '../Assets/images/login-icon.png'
 import queryString from 'query-string'
+import { resetAdminPW } from '../store/axios'
 
 
 const AdminResetPW = (props) => {
@@ -10,7 +11,7 @@ const AdminResetPW = (props) => {
     const [pw, setPw] = useState('')
     const [confirmPw, setConfirmPw] = useState('')
     const [showHide, setShowHide] = useState({display: 'none'})
-    const message = 'Confirmation password does not match your password. Please try again.'
+    const [message, setMessage] = useState('')
 
     const handlePW = (e) =>{
         setPw(e.target.value)
@@ -18,11 +19,27 @@ const AdminResetPW = (props) => {
     const handleConfirmPW = (e) =>{
         setConfirmPw(e.target.value)
     }
-    const handleSubmit = (e) =>{
+    const handleSubmit = async e =>{
         e.preventDefault()
         if(pw === confirmPw){
-            //call axios
+            const data = {adminId: userID, passwordResetKey: key, password: pw}
+            const response = await resetAdminPW(data)
+
+            try{
+                if(response.status === 200){
+                    props.history.push('reset-success')
+                }else{
+                    setMessage('Invalid Professor ID or Reset Key.')
+                    setShowHide({display: 'block'})
+                }
+            }catch(error){
+                setMessage('Opps, something went wrong. Please try again.')
+                setShowHide({display: 'block'})
+            }
+            
+
         }else{
+            setMessage('The password you typed does not match the confirmation password. Please try again.')
             setShowHide({display: 'block'})
         }
     }

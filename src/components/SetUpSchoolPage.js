@@ -23,7 +23,8 @@ class SetUpSchoolPage extends Component {
         isFileStudent: false,
         isFileProfessor: false,
         checkStudent: false,
-        checkProfessor: false
+        checkProfessor: false,
+        isLoading: false
     };
     handleFileStudent = async e =>{
         
@@ -50,6 +51,7 @@ class SetUpSchoolPage extends Component {
     }
     handleSubmit= async e =>{
         e.preventDefault()
+        this.setState({isLoading: true})
         try {
             const response = await postFiles(this.state.fileProfessor, this.state.fileStudent)
             const result = response.data
@@ -70,24 +72,7 @@ class SetUpSchoolPage extends Component {
             this.showError()
         }
     }
-    componentDidMount(){
-        // this.timer = setInterval(
-        //     () => this.checkCookie(),
-            
-        //     300000
-        //   );
-      }
-      componentWillUnmount() {
-        clearInterval(this.timer);
-      }
-    // checkCookie(){
-    // const { cookies } = this.context
-    // console.log('cookies: ', cookies);
-    
-    // if(cookies === undefined){
-    //     this.props.history.push('/admin-login')
-    // }else{return}
-    // }
+
   render(){
 
       return(
