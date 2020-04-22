@@ -29,22 +29,23 @@ class AdminLogin extends Component {
 
     handleSubmit = async e =>{
         e.preventDefault()
-        const { loggedinUser, authToggle } = this.context
+        // const { loggedinUser, authToggle } = this.context
 
         try {
             const emailLowerCase = this.state.email.toLowerCase()
             
             const response = await adminLogin(emailLowerCase, this.state.key)
             const userAdmin = response.data;
-            console.log('userAdmin: ', userAdmin);
+            sessionStorage.setItem('userID', userAdmin.id)
+            sessionStorage.setItem('username', userAdmin.name)
+            sessionStorage.setItem('schoolName', userAdmin.school.name)
+            sessionStorage.setItem('schoolID', userAdmin.school.id)
             
             if (response.status === 200) {
                 // loggedinUser(userAdmin.id, '', userAdmin.school.name, userAdmin.school.id)
                 // authToggle() 
-                sessionStorage.setItem('userID', userAdmin.id)
-                sessionStorage.setItem('username', userAdmin.name)
-                sessionStorage.setItem('schoolName', userAdmin.school.name)
-                sessionStorage.setItem('schoolID', userAdmin.school.id)
+                
+                
                 sessionStorage.setItem('isLoggedIn', true)
                 this.props.history.push('/admin/download')
             }

@@ -32,7 +32,6 @@ const AuthContextProvider = (props) => {
         setSchoolID(schoolID)
     }
     const storeClassId = (classId) =>{
-        console.log('classId : ', classId);
         
         setClassID(classId)
     }
@@ -46,7 +45,6 @@ const AuthContextProvider = (props) => {
         setSchoolName(name)
     }
     const studentForm = (firstName, lastName, email) =>{
-        console.log('first: ', firstName);
         setFirstName(firstName)
         setLastName(lastName)
         setEmail(email)

@@ -19,9 +19,7 @@ class StudentFeeWaiveSelect extends Component {
     };
 
     handleChangeSchool = e =>{
-        this.setState({schoolName: e.target.value})
-        console.log('e: ', e.target.value);
-        
+        this.setState({schoolName: e.target.value})        
     }
     showError = () =>{
         this.setState({showHide: {display: 'block'}})
@@ -31,7 +29,6 @@ class StudentFeeWaiveSelect extends Component {
         e.preventDefault()
         // const { storeSchoolName } = this.context
         sessionStorage.setItem('schoolName', this.state.schoolName)
-        console.log('schoolName: ', this.state.schoolName);
         
         if(this.state.schoolName === 'not selected' || this.state.schoolName === ''){
             this.setState({showHide: {display: 'block'}})
@@ -68,7 +65,6 @@ class StudentFeeWaiveSelect extends Component {
     }
 async componentDidMount(){
     const response = await getSchoolNames()
-    console.log('response: ', response.data);
     const schools = response.data
     this.setState({schools: schools})
     const listItems = schools.map((school) =>

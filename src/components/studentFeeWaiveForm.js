@@ -40,10 +40,8 @@ class StudentFeeWaiveForm extends Component {
             const emailLowerCase = this.state.email.toLowerCase()
             const data = {firstName: this.state.firstName, lastName: this.state.lastName, email: emailLowerCase, school: schoolName}
             // data.firstName || !data.lastName || !data.email || !data.school
-            console.log('data: ', data);
             
             const response = await submitFeeWaive(data)
-            console.log('response: ', response);
             
             if (response.status === 200) {            
                 

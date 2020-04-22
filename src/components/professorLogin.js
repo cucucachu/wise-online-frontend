@@ -37,19 +37,12 @@ class ProfessorLogin extends Component {
             const response = await professorLogin(emailLowerCase, this.state.key)
             const userProfessor = response.data;
 
-            if (response.status === 200) {
-                console.log('userProfessor: ', userProfessor);
-       
-                // (userID, schoolName, schoolID)
+            if (response.status === 200) {       
                 sessionStorage.setItem('userID', userProfessor.id)
                 sessionStorage.setItem('username', userProfessor.name)
                 sessionStorage.setItem('schoolName', userProfessor.name)
                 sessionStorage.setItem('schoolID', userProfessor.school.id)
                 sessionStorage.setItem('isLoggedIn', true)
-                // loggedinUser(userProfessor.id, userProfessor.name, userProfessor.school.name, userProfessor.school.id)
-                // if(isAuthenticated === false){
-                //     authToggle()
-                // }
                 
                 this.props.history.push('/professor/course')
             }

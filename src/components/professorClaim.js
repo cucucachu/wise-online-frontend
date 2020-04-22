@@ -29,7 +29,6 @@ class ProfessorClaim extends Component {
         this.setState({conpassword: e.target.value})
     }
     handleChangeKey = e =>{
-        console.log('onchange: ', e.target.value);
         
         this.setState({setupkey: e.target.value})
     }
@@ -39,8 +38,7 @@ class ProfessorClaim extends Component {
     
     handleSubmit = async e =>{
         e.preventDefault()
-        console.log('state: ', this.state);
-        const { loggedinUser, authToggle, isAuthenticated } = this.context
+        // const { loggedinUser, authToggle, isAuthenticated } = this.context
 
         if(this.state.password === this.state.conpassword){
             try {
@@ -50,27 +48,17 @@ class ProfessorClaim extends Component {
                 const newProfessor = response.data;
     
                 if (response.status === 200) {
-                    console.log('response.status 200: ', response);
-                    
-                    console.log('userProfessor: ', newProfessor);
-           
-                    // loggedinUser(newProfessor.id, newProfessor.name, newProfessor.school.name, newProfessor.school.id)
-                    // loggedinUser(newProfessor.id, newProfessor.id, newProfessor.id, newProfessor.id)
-                    // if(isAuthenticated === false){
-                    //     authToggle()
-                    // }
                     
                     this.props.history.push('/professor/claim-account-success')
 
                 }else if(response.status === 500 ) {
-                    console.log('response.status 500: ', response);
+                    // console.log('response.status 500: ', response);
                     
                     this.setState({message: 'Claim professor account failed.'})
                     this.showError()
                 }
 
             }catch (error) {
-                console.log('rno response: ', error);
                 
                 this.setState({message: 'Opps, something went wrong. Please try again.'})
                 this.showError()

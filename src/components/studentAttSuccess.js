@@ -26,18 +26,14 @@ handleChangeID = e =>{
 handleSubmit = async e =>{
     e.preventDefault()
     const keycode =  this.state.keyCode1.concat(this.state.keyCode2, this.state.keyCode3, this.state.keyCode4)
-    
-    console.log('keycode: ', keycode)
-    
+        
     const response = await markAttendance(this.state.classID, keycode)
-    console.log('res: response', response);
     
     // const attendance = response.data
 }
 componentDidMount(){
     const { classID } = this.context
     this.setState({classID: classID})
-    console.log('classID: ', this.state.classID);
 
     this.timer = setInterval(
       () => this.checkCookie(),

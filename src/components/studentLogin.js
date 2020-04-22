@@ -30,7 +30,7 @@ class StudentLogin extends Component {
     
     handleSubmit = async e =>{
         e.preventDefault()
-        const { loggedinUser, authToggle } = this.context
+        // const { loggedinUser, authToggle } = this.context
 
         try {
             const emailLowerCase = this.state.email.toLowerCase()
@@ -89,11 +89,12 @@ class StudentLogin extends Component {
                     <div className="width-md">
                         {/* <Link to="#">What's my student ID?</Link> */}
                         <p className="tooltip-login">
-                            <span className="for-border">What's my student ID?</span><br/>
-                            <span className="tooltiptext">
-                            {/* <div class="arrow bottom right"></div> */}
-                            Your school’s student ID is a code of letters and/or numbers provided to identify you by your school.  Wise uses your school’s student ID to verify your identity, securely.  If you have forgotten your school ID, please contact the appropriate individual at your school.
+                            <span className="for-border">What's my student ID?<br />
+                                <span className="tooltiptext">
+                                Your school’s student ID is a code of letters and/or numbers provided to identify you by your school.  Wise uses your school’s student ID to verify your identity, securely.  If you have forgotten your school ID, please contact the appropriate individual at your school.
                                 </span>
+                            </span><br/>
+                            
                         </p>
                         
 

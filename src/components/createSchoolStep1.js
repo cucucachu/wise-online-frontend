@@ -30,7 +30,6 @@ class SchoolStep1 extends Component {
         this.setState({password: e.target.value})
     }
     handleChangeKey = e =>{
-        console.log('onchange: ', e.target.value)
         
         this.setState({setupkey: e.target.value})
     }
@@ -65,24 +64,7 @@ class SchoolStep1 extends Component {
         
         return
     }
-    componentDidMount(){
-        this.timer = setInterval(
-            () => this.checkCookie(),
-            
-            300000
-          );
-      }
-    componentWillUnmount() {
-        clearInterval(this.timer);
-      }
-    checkCookie(){
-    const { cookies } = this.context
-    console.log('cookies: ', cookies);
-    
-    if(cookies === undefined){
-        this.props.history.push('/professor-login')
-    }else{return}
-    }
+
   render(){
       return(
         <Fragment>

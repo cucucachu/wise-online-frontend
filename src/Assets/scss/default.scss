@@ -491,7 +491,7 @@ input[type="file"] {
   .tooltip-login .tooltiptext {
     visibility: hidden;
     font-size: 16px;
-    width: 60vw;
+    width: auto;
     background-color: gray;
     color: white;
     text-align: left;
@@ -503,10 +503,22 @@ input[type="file"] {
     margin-top: 10px;
     z-index: 1;
   }
-  .tooltip-login:hover .tooltiptext {
+  .for-border:hover .tooltiptext {
+    visibility: visible;
+  }
+  .tooltip-show:hover .tooltiptext{
     visibility: visible;
   }
 @media only screen and (max-width: 1024px){
+    .input-label{
+        width: 22%;
+    }
+    .space-adjust-2{
+        width: 72%;
+    }
+    .width-md{
+        width: 72%;
+    }
 
 }
 @media only screen and (max-width: 992px) {
@@ -524,6 +536,9 @@ input[type="file"] {
     .input-label{
         width: 25%;
     }
+    .space-adjust-2{
+        width: 75%;
+    }
     .width-md{
         width: 75%;
     }
@@ -531,6 +546,9 @@ input[type="file"] {
 @media only screen and (max-width: 560px){
     .input-label{
         width: 35%;
+    }
+    .space-adjust-2{
+        width: 85%;
     }
     .width-md{
         width: 85%;
@@ -561,6 +579,9 @@ input{
 .input-label{
     display: none;
 }
+.space-adjust-2{
+    width: 75%;
+}
 .width-md{
     width: 75%;
     // display: flex;
@@ -571,6 +592,10 @@ input{
 }
 .btn{
     width: 80%;
+}
+.btn-l{
+    width: 80%;
+    padding: 5px;
 }
 .input-label-att{
     width: 22%;
@@ -625,6 +650,10 @@ input{
 .input-wrapper-bottom{
     // margin: 1rem 0;
     font-size: 16px;
+}
+.width-adjust-1{
+    margin: 0;
+    text-align: center;
 }
 .width-adjust-2{
     width: 95%;

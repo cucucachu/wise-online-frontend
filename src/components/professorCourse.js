@@ -60,8 +60,9 @@ class ProfessorCourse extends Component {
         // const { userID, schoolID } = this.context;
         const userID = sessionStorage.getItem('userID')
         const schoolID = sessionStorage.getItem('schoolID')
-        console.log('userID from context: ', userID);
-        console.log('schoolUD: ', schoolID);
+
+        console.log('userId: ', userID);
+        console.log('schoolId: ', schoolID);
         
         
         let state = Object.assign({}, this.state);
@@ -69,7 +70,7 @@ class ProfessorCourse extends Component {
         this.setState(state);
 
         const response = await getCourses(schoolID, userID);
-        console.log('response: ', response);
+        console.log('res: ', response);
         
         const courses = response.data
         state = Object.assign({}, this.state);
@@ -83,14 +84,10 @@ class ProfessorCourse extends Component {
   
         await this.loadCourses();
 
-        // this.timer = setInterval(
-        //     () => this.checkCookie(),
-        //     300000
-        //   );
     }
-    componentWillUnmount() {
-        clearInterval(this.timer);
-      }
+    // componentWillUnmount() {
+    //     clearInterval(this.timer);
+    //   }
     // checkCookie(){
     // const { cookies } = this.context
     // console.log('cookies: ', cookies);

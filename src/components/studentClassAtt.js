@@ -66,24 +66,24 @@ handleSubmit = async e =>{
   }
     
 }
-  componentDidMount() {
-    this.timer = setInterval(
-      () => this.checkCookie(),
+  // componentDidMount() {
+  //   this.timer = setInterval(
+  //     () => this.checkCookie(),
       
-      30000
-    );
-  }
-  componentWillUnmount() {
-    clearInterval(this.timer);
-  }
-  checkCookie(){
-    const { cookies } = this.context
-    console.log('cookies: ', cookies);
+  //     30000
+  //   );
+  // }
+  // componentWillUnmount() {
+  //   clearInterval(this.timer);
+  // }
+  // checkCookie(){
+  //   const { cookies } = this.context
+  //   console.log('cookies: ', cookies);
     
-    if(cookies === undefined){
-        this.props.history.push('/student-login')
-    }else{return}
-  }
+  //   if(cookies === undefined){
+  //       this.props.history.push('/student-login')
+  //   }else{return}
+  // }
   render(){
       return(
         <div className="container">
@@ -102,32 +102,16 @@ handleSubmit = async e =>{
                 {/* <div className="spacer-vertical-s"></div> */}
                 <div className="container-note input-wrapper">
                   <div className="space-adjust-2">
-                    <p className="text-left tooltip-login" >What is my class ID?<br/>
-                      <span className="tooltiptext">
-                      The class ID is needed to ensure you have authorization to join a class, and can only be obtained from your instructor.
+                    <p className="text-left tooltip-login" ><span className="tooltip-show">What is my class ID?<br/>
+                        <span className="tooltiptext">
+                        The class ID is needed to ensure you have authorization to join a class, and can only be obtained from your instructor.
+                        </span>
                       </span>
                     </p>
                   </div>
                   
                 </div>
                 <div className="spacer-vertical"></div>
-
-              {/* <div className="row">
-                  <div className="row-container">
-                    <div className="col">
-                      <input type="text" className="keycode-input" value={this.state.keyCode1} onChange={this.handleChangeKeyCode1.bind(this)} />
-                    </div>
-                    <div className="col">
-                    <input type="text" className="keycode-input" value={this.state.keyCode2} onChange={this.handleChangeKeyCode2.bind(this)} />
-                    </div>
-                    <div className="col">
-                    <input type="text" className="keycode-input" value={this.state.keyCode3} onChange={this.handleChangeKeyCode3.bind(this)} />
-                    </div>
-                    <div className="col">
-                    <input type="text" className="keycode-input" value={this.state.keyCode4} onChange={this.handleChangeKeyCode4.bind(this)} />
-                    </div>
-                  </div>
-                </div> */}
                 <div className="container input-wrapper">
                   <div className="space-adjust-1">
                 <div className="row space-adjust">

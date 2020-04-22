@@ -35,7 +35,7 @@ import SelectRole from '../components/selectRole'
 //contexts
 import { AuthContext } from '../contexts/AuthContext'
 
-import Header from '../components/header'
+// import Header from '../components/header'
 import HeaderNew from '../components/headerNew'
 
 import PrivateRouteAdmin from '../components/PrivateRouteAdmin'
@@ -52,6 +52,8 @@ import ForgotPWAdmin from '../components/forgotPWAdmin';
 import ForgotPWProfessor from '../components/forgotPWProfessor';
 import ForgotPWSentProfessor from '../components/forgotPWSentProfessor';
 import ForgotPWSentAdmin from '../components/forgotPWSentAdmin';
+import AdminResetPW from '../components/adminResetPW';
+import ProfessorResetPW from '../components/professorResetPW';
 
 class HomePage extends Component {
 static contextType = AuthContext
@@ -72,11 +74,13 @@ static contextType = AuthContext
                         <Route path="/create-school" component={SchoolStep1} />
                         <PrivateRouteAdmin path="/admin/download" component={AdminDownload}/>
                         {/* <Route path="/admin/download" component={AdminDownload} /> */}
+                        <Route path="/admin/reset-password" component={AdminResetPW} />
                         <Route path="/admin-login" component={AdminLogin} />
 
                         {/* professor */}
                         
                         <Route path="/professor-login" component={ProfessorLogin} />
+                        <Route path="/professor/reset-password" component={ProfessorResetPW} />
                         <PrivateRouteProfessor path="/professor/course" component={ProfessorCourse} />
                         <Route path="/professor/claim-account" component={ProfessorClaim} />
                         {/* <PrivateRouteProfessor path="/professor/claim-account-success" component={ProfessorClaimSuccess} /> */}

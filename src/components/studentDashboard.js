@@ -5,27 +5,27 @@ import studentDashIcon from '../Assets/images/student-dash-icon.png';
 import tickIcon from '../Assets/images/tick-icon-white.svg'
 import editIcon from '../Assets/images/edit-icon-white.svg'
 
-import { AuthContext } from '../contexts/AuthContext'
+// import { AuthContext } from '../contexts/AuthContext'
 
 class StudentDashboard extends Component {
-    static contextType = AuthContext
+    // static contextType = AuthContext
   
-    componentDidMount() {
-        this.timer = setInterval(
-            () => this.checkCookie(),
-            300000
-        );
-        }
-    componentWillUnmount() {
-        clearInterval(this.timer);
-        }
-    checkCookie(){
-        const { cookies } = this.context
+    // componentDidMount() {
+    //     this.timer = setInterval(
+    //         () => this.checkCookie(),
+    //         300000
+    //     );
+    //     }
+    // componentWillUnmount() {
+    //     clearInterval(this.timer);
+    //     }
+    // checkCookie(){
+    //     const { cookies } = this.context
         
-        if(cookies === undefined){
-            this.props.history.push('/student-login')
-        }else{return}
-    }
+    //     if(cookies === undefined){
+    //         this.props.history.push('/student-login')
+    //     }else{return}
+    // }
   render(){
       return(
         <div className="container">

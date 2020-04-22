@@ -1,5 +1,4 @@
 import React, {Component} from 'react'
-import { Link } from "react-router-dom"
 
 import loginIcon from '../Assets/images/login-icon.png'
 
@@ -30,7 +29,6 @@ class ForgotPWAdmin extends Component {
         try {
             const emailLowerCase = this.state.email.toLowerCase()
             const response = await adminRequestResetPW({adminEmail: emailLowerCase})
-            console.log('response: ', response.data);
 
             if (response.status === 200) {
                              
