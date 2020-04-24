@@ -30,13 +30,13 @@ async function adminLogin(email, password) {
     return response;
 }
 
-async function professorLogin(email, password) {
-    const response = await backend.post('professor/login', {email, password});
+async function professorLogin(email, password, isAgreed) {
+    const response = await backend.post('professor/login', {email, password, isAgreed});
     return response;
 }
 
-async function studentLogin(email, studentId) {
-    const response = await backend.post('student/login', {email, password : studentId});
+async function studentLogin(email, studentId, isAgreed) {
+    const response = await backend.post('student/login', {email, password : studentId, isAgreed});
     return response;
 }
 

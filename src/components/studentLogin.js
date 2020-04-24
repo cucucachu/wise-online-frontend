@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, {Component, Fragment} from 'react'
 // import { Link } from "react-router-dom"
 
 import loginIcon from '../Assets/images/login-icon.png'
@@ -15,7 +15,9 @@ class StudentLogin extends Component {
         key: '',
         display: 'none',
         message:'',
-        showHide: {display: 'none'}
+        showHide: {display: 'none'},
+        isFirstTime: false,
+        isAgreed: false
     };
 
     handleChangeName = e =>{
@@ -27,40 +29,77 @@ class StudentLogin extends Component {
     showError = () =>{
         this.setState({showHide: {display: 'block'}})
     }
-    
+    handleRadio = e =>{
+        e.preventDefault()
+        this.setState(prevState => ({
+            isAgreed: !prevState.isAgreed
+          }));
+
+    }
     handleSubmit = async e =>{
         e.preventDefault()
         // const { loggedinUser, authToggle } = this.context
-
-        try {
-            const emailLowerCase = this.state.email.toLowerCase()
-            const response = await studentLogin(emailLowerCase, this.state.key)
-            const userStudent = response.data
-
-            if (response.status === 200) {
-                // argument (name, id, schoolID)
+        if(this.state.isAgreed === true){
+            try{
+                const response = await studentLogin(this.state.email, this.state.key, this.state.isAgreed)
                 
-                sessionStorage.setItem('userID', userStudent.id)
-                sessionStorage.setItem('username', userStudent.name)
-                sessionStorage.setItem('schoolName', userStudent.name)
-                sessionStorage.setItem('schoolID', userStudent.school.id)
-                sessionStorage.setItem('isLoggedIn', true)
-                // loggedinUser(userStudent.id, userStudent.name, userStudent.school.name, userStudent.school.id)
-                // authToggle()                 
+                if(response.status === 200){
+                    const userStudent = response.data
+                    sessionStorage.setItem('userID', userStudent.id)
+                    sessionStorage.setItem('username', userStudent.name)
+                    sessionStorage.setItem('schoolName', userStudent.name)
+                    sessionStorage.setItem('schoolID', userStudent.school.id)
+                    sessionStorage.setItem('isLoggedIn', true)                
+                    
+                    this.props.history.push('/student/dashboard')
+                }else{
+                    this.setState({message: 'Invalid email or student id. Please try again.'})
+                    this.showError()
+                }
                 
-                this.props.history.push('/student/dashboard')
-            }
-            else {
-                this.setState({message: 'Invalid email or student id. Please try again.'})
+            }catch(error){
+                this.setState({message: 'Opps, something went wrong. Please try again.'})
                 this.showError()
             }
+        }else{
+            try {
+            
+                const response = await studentLogin(this.state.email, this.state.key)
+                const userStudent = response.data
+    
+                if (response.status === 200) {
+                    // argument (name, id, schoolID)
+                    //check is the student ever checked terms and conditions
+                    if(userStudent.isAgreed === false){
+                        //show checkbox
+                        this.setState({message: 'Please agree to terms and conditions'})
+                        this.showError()
+                        this.setState({isFirstTime: true})
+                        return
+                    }else{
+                    
+                    sessionStorage.setItem('userID', userStudent.id)
+                    sessionStorage.setItem('username', userStudent.name)
+                    sessionStorage.setItem('schoolName', userStudent.name)
+                    sessionStorage.setItem('schoolID', userStudent.school.id)
+                    sessionStorage.setItem('isLoggedIn', true)                
+                    
+                    this.props.history.push('/student/dashboard')
+                    }
+                    
+                }
+                else {
+                    this.setState({message: 'Invalid email or student id. Please try again.'})
+                    this.showError()
+                }
+    
+            }
+            catch (error) {
+                this.setState({message: 'Opps, something went wrong. Please try again.'})
+                this.showError()
+            }
+        }
 
-        }
-        catch (error) {
-            this.setState({message: 'Opps, something went wrong. Please try again.'})
-            this.showError()
-        }
-   
         return
         
     }
@@ -101,6 +140,21 @@ class StudentLogin extends Component {
                     </div>
                 </div>
                 <div className="spacer-vertical"></div>
+                {this.state.isFirstTime ? 
+                <React.Fragment>
+                    <div className="input-wrapper">
+                        <div className="row content-center">
+                            <div className="col-sm-1">
+                                <button className="mimic-radio" onClick={this.handleRadio.bind(this)} >{this.state.isAgreed ? <strong>&#10003;</strong> : ''}</button>
+                                
+                            </div>
+                            <div className="col-sm-11">
+                                <strong>I agree to the terms of use.</strong></div>
+                            </div>
+                        <div className="spacer-vertical"></div>
+                    </div>
+                </React.Fragment>
+                : ''}
                 <div className="">
                         <input type="submit" className="btn" value="Submit" />
                 </div>

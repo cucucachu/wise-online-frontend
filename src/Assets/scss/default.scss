@@ -1,11 +1,5 @@
 @import './config.scss';
 
-// @media only screen and (min-width: 2500px){
-//     .page-icon{
-//         margin-top: 10rem;
-//     }
-// }
-
 body{
     font-family: Arial, Helvetica, sans-serif;
     color: $primary-color;
@@ -46,7 +40,7 @@ button:focus { outline: none; }
     width: 18rem;
     box-shadow: 0 0 10px grey;
     border-radius: 9rem;
-    margin-top: 2rem;
+    margin-top: 10rem;
 }
 
 .container{
@@ -66,7 +60,9 @@ button:focus { outline: none; }
     font-size: medium;
     font-weight: lighter;
 }
-
+.content-center{
+    justify-content: center;
+}
 .input-label{
     display: inline-block;
     background-color: $primary-color;
@@ -75,7 +71,7 @@ button:focus { outline: none; }
     border-top-left-radius: 0.5rem;
     border-bottom-left-radius: 0.5rem;
     border: 1px $primary-color;
-    width: 20%;
+    width: 22%;
     line-height: 1.5;
     box-shadow: 0 0 5px #ccc;
     text-align: left;
@@ -509,6 +505,42 @@ input[type="file"] {
   .tooltip-show:hover .tooltiptext{
     visibility: visible;
   }
+@media only screen and (max-width: 2800px){
+.page-icon{
+    margin-top: 14rem;
+}
+}
+@media only screen and (max-width: 2600px){
+.page-icon{
+    margin-top: 12rem;
+}
+}
+@media only screen and (max-width: 2400px){
+.page-icon{
+    margin-top: 10rem;
+}
+}
+@media only screen and (max-width: 2200px){
+.page-icon{
+    margin-top: 8rem;
+}
+}
+@media only screen and (max-width: 1920px){
+.page-icon{
+    margin-top: 6rem;
+}
+}
+@media only screen and (max-width: 1640px){
+.page-icon{
+    margin-top: 4rem;
+}
+}
+@media only screen and (max-width: 1440px){
+.page-icon{
+    margin-top: 2rem;
+}
+
+}
 @media only screen and (max-width: 1024px){
     .input-label{
         width: 22%;
@@ -519,7 +551,6 @@ input[type="file"] {
     .width-md{
         width: 72%;
     }
-
 }
 @media only screen and (max-width: 992px) {
     .input-label{
@@ -534,13 +565,13 @@ input[type="file"] {
 }
 @media only screen and (max-width: 850px){
     .input-label{
-        width: 25%;
+        width: 27%;
     }
     .space-adjust-2{
-        width: 75%;
+        width: 77%;
     }
     .width-md{
-        width: 75%;
+        width: 77%;
     }
 }
 @media only screen and (max-width: 560px){

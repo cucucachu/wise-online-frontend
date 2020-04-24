@@ -3,13 +3,7 @@ import { Link } from "react-router-dom"
 
 import loginIcon from '../Assets/images/login-icon.png'
 
-import { studentLogin } from '../store/axios'
-import { AuthContext } from '../contexts/AuthContext'
-
-
 class ForgotPWSentProfessor extends Component {
-    static contextType = AuthContext
-
     
   render(){
     

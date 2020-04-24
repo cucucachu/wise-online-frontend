@@ -5,6 +5,7 @@ import {
 
 import downloadIcon from '../Assets/images/download-icon-white.svg'
 import tickIcon from '../Assets/images/tick-icon-white.svg'
+import settingIcon from '../Assets/images/settings.svg'
 
 import { downloadDataForCourseURL } from '../store/axios';
 
@@ -63,7 +64,10 @@ class CourseCard extends Component {
                                 <li>{this.props.course.attendances ? this.props.course.attendances.length : 0} class{this.props.course.attendances && this.props.course.attendances.length === 1 ? '' : 'es'} recorded</li>
                                 <li>{this.props.course.tests ? this.props.course.tests.length : 0} test{this.props.course.tests && this.props.course.tests.length === 1 ? '' : 's'} recorded</li>
                             </ul>
-                            <button onClick={this.handleClickEdit}>Settings</button>
+                            <button onClick={this.handleClickEdit}>
+                                <img src={settingIcon} className="icon-sm" alt="setting icon"/>
+                                Settings
+                            </button>
                         </div>
                         
                         <div className="col-sm-6">

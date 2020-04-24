@@ -1,28 +1,28 @@
 import React, {Component} from 'react';
 
-import loginIcon from '../Assets/images/login-icon.png'
+import setUpIcon from '../Assets/images/setting-icon.png'
 import successIcon from '../Assets/images/success-icon.png'
 
 import { Link } from 'react-router-dom';
 
-class ProfessorResetPWSuccess extends Component {
+class SetupSchoolSuccess extends Component {
 
 
   render(){
       return(
         <div className="container">
-            <img src={loginIcon} className="page-icon" alt="login icon"/>
+            <img src={setUpIcon} className="page-icon" alt="login icon"/>
             <div className="spacer-vertical"></div>
                 <h1 style={{color: '#4ebd0f'}}>Success!</h1>
 
             <div className="spacer-vertical-s"></div>
             <img src={successIcon} className="page-icon" alt="success icon" style={{boxShadow: '0 0 0 transparent'}}/>
             <div className="spacer-vertical-s"></div>
-            <p className="text-plain">Your password has been reset.</p>
+            <p className="text-plain">Your school has been set up.</p>
             {/* <h2>{this.state.classID}</h2> */}
             <div className="spacer-vertical"></div>
-            <Link to="/professor-login">
-                <button className="btn" >Log in</button>
+            <Link to="/admin/download">
+                <button className="btn" >Finish</button>
             </Link>
             
     </div>
@@ -30,4 +30,4 @@ class ProfessorResetPWSuccess extends Component {
   }
 }
 
-export default ProfessorResetPWSuccess;
+export default SetupSchoolSuccess;

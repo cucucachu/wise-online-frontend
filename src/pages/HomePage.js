@@ -56,6 +56,7 @@ import AdminResetPW from '../components/adminResetPW';
 import ProfessorResetPW from '../components/professorResetPW';
 import AdminResetPWSuccess from '../components/adminResetPWSuccess';
 import ProfessorResetPWSuccess from '../components/professorResetPWSuccess';
+import SetupSchoolSuccess from '../components/setUpSchoolSuccess';
 
 class HomePage extends Component {
 static contextType = AuthContext
@@ -65,7 +66,7 @@ static contextType = AuthContext
             <HeaderNew />
             <div className="wrap">
                 <div className="page-header">
-                  <img src={headerBackground} className="bg-img"/>
+                  <img src={headerBackground} className="bg-img" alt="background image"/>
                 </div>
 
                 <Switch>
@@ -78,6 +79,7 @@ static contextType = AuthContext
                         {/* <Route path="/admin/download" component={AdminDownload} /> */}
                         <Route path="/admin/reset-password" component={AdminResetPW} />
                         <Route path="/admin/reset-success" component={AdminResetPWSuccess} />
+                        <PrivateRouteAdmin path="/admin/set-up-success" component={SetupSchoolSuccess} />
                         <Route path="/admin-login" component={AdminLogin} />
 
                         {/* professor */}

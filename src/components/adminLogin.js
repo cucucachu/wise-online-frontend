@@ -81,8 +81,8 @@ class AdminLogin extends Component {
                 
                 <div className="spacer-vertical"></div>
                 <div className="input-wrapper">
-                    <span className="input-label">Key</span>
-                    <input type="password" placeholder="Key"
+                    <span className="input-label">Password</span>
+                    <input type="password" placeholder="Password"
                     className="" name="key" onChange={this.handleChangeKey.bind(this)} value={this.state.key}/>
                 </div>
                 <div className="input-wrapper">

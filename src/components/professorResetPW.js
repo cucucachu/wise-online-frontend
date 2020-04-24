@@ -3,7 +3,6 @@ import React, {useState, useEffect} from 'react'
 import loginIcon from '../Assets/images/login-icon.png'
 import queryString from 'query-string'
 import { resetProfessorPW } from '../store/axios'
-import '../Assets/css/spinner.css'
 
 const ProfessorResetPW = (props) => {
     const [userID, setUserID] = useState('')
@@ -86,9 +85,7 @@ const ProfessorResetPW = (props) => {
                         <input type="submit" className="btn" value="Reset password" />
                 </div>
             </form>
-            {/* <div style={{backgroundColor: 'gray'}}>
-            <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
-            </div> */}
+
     </div>
      );
 }

@@ -45,7 +45,7 @@ class ProfessorClaim extends Component {
                 const emailLowerCase = this.state.email.toLowerCase()
                 const response = await claimProfessorAccount(this.state.setupkey, emailLowerCase, this.state.password)
 
-                const newProfessor = response.data;
+                // const newProfessor = response.data;
     
                 if (response.status === 200) {
                     
