@@ -57,16 +57,17 @@ class CourseCard extends Component {
             <div className="col-sm-6">
                 <div className="shadow">
                     <div className="row ">
-                        <h2 className="course-title">{this.props.course.name}</h2>
+                        
                         <div className="col-sm-6">
+                            <h2 className="course-title">{this.props.course.name}</h2>
                             <p>Class ID: {this.props.course.classId}</p>
                             <ul className="text-plain custom-list">
                                 <li>{this.props.course.attendances ? this.props.course.attendances.length : 0} class{this.props.course.attendances && this.props.course.attendances.length === 1 ? '' : 'es'} recorded</li>
                                 <li>{this.props.course.tests ? this.props.course.tests.length : 0} test{this.props.course.tests && this.props.course.tests.length === 1 ? '' : 's'} recorded</li>
                             </ul>
-                            <button onClick={this.handleClickEdit}>
+                            <button className="btn-setting" onClick={this.handleClickEdit}>
                                 <img src={settingIcon} className="icon-sm" alt="setting icon"/>
-                                Settings
+                                &nbsp;Settings
                             </button>
                         </div>
                         

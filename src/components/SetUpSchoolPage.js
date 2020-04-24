@@ -52,6 +52,7 @@ class SetUpSchoolPage extends Component {
     }
     handleSubmit= async e =>{
         e.preventDefault()
+        
         this.setState({isLoading: true})
         try {
             const response = await postFiles(this.state.fileProfessor, this.state.fileStudent)
@@ -61,8 +62,10 @@ class SetUpSchoolPage extends Component {
                 this.props.history.push('/admin/set-up-success')
             }
             else {
+                console.log('res: ', response);
+                
                 this.setState({isLoading: false})
-                this.setState({message: 'No file uploaded.'})
+                this.setState({message: response.data.error})
                 this.showError()
             }
 
@@ -94,12 +97,13 @@ class SetUpSchoolPage extends Component {
                      <React.Fragment>
                          <p className="text-plain">Information must match the provided template </p>
                         <div className="spacer-vertical-s"></div>
+                        <h3 style={this.state.showHide}>{this.state.message}</h3>
                         <div className="container">
                             <div className="row align-1">
-                                <form>
+                                
+                                <form className="width-adjust-3">
                                 <div className="col-sm-6">
                                         <div className="shadow">
-                                            <h3 style={this.state.showHide}>{this.state.message}</h3>
                                         
                                             <label className="radio-container"><h2 style={{paddingTop: "5px"}} className="text-plain">Student roster</h2>
                                             {this.state.checkStudent ? <input type="checkbox" checked/> : <input type="checkbox" /> }
@@ -119,7 +123,7 @@ class SetUpSchoolPage extends Component {
                         
                                     <div className="col-sm-6">
                                         <div className="shadow">
-                                            <h3 style={this.state.showHide}>{this.state.message}</h3>
+                                            {/* <h3 style={this.state.showHide}>{this.state.message}</h3> */}
 
                                             <label className="radio-container"><h2 className="text-plain" style={{paddingTop: "5px"}}>Professor roster</h2>
                                             {this.state.checkProfessor ? <input type="checkbox" checked/> : <input type="checkbox"/>}

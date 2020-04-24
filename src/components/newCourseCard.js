@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 
-const initialStyle = {
-    "boxShadow": "0 0 8px #439ADE",
-    "borderRadius": "1rem",
-    "margin": "2rem",
-    "padding": "2rem",
-}
+// const initialStyle = {
+//     "boxShadow": "0 0 8px #439ADE",
+//     "borderRadius": "1rem",
+//     "margin": "2rem",
+//     "padding": "2rem",
+// }
 
 class NewCourseCard extends Component {
     constructor(props) {
@@ -50,12 +50,11 @@ class NewCourseCard extends Component {
         else {
             return (
                 <div className="col-sm-6"onClick={this.handleClick}>
-                    <div style={initialStyle} >
+                    <div className="create-course-div shadow" >
                         <div className="row">
-                            <div style={{"textAlign": "center"}}>
-                                <br/><br/><br/>
-                                <h2 className="course-title">Create course</h2>
-                                <br/><br/><br/><br/>
+                            <div className="create-course">
+                                <h2 className="center-v-h">Create course</h2>
+
                             </div>
                         </div>
                     </div>

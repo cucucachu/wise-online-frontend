@@ -304,6 +304,13 @@ footer{
     top: 15px;
     font-size: large;
 }
+.btn-setting{
+    width: 100%;
+    border-radius: 5px;
+    border: 1px solid gray;
+    text-align: left;
+    color: gray;
+}
 .input-width{
     width: 60%;
 }
@@ -361,9 +368,24 @@ input[type="file"] {
 //professor
 .course-title{
     padding-top: 0;
-    padding-left: 15px;
+    margin-top: 0;
 }
-
+.create-course{
+    margin: 0 auto;
+}
+.create-course-div{
+    border: 1px solid $primary-color;
+}
+.create-course-div:hover{
+    background-color: $primary-color;
+    color: white;
+}
+.center-v-h{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100px;
+}
 //students
 
 .screen-adjust{
@@ -411,6 +433,9 @@ input[type="file"] {
 }
 .width-adjust-2{
     width: 610px;
+}
+.width-adjust-3{
+    width: 100%;
 }
 .width-slim{
     width: 58%;
