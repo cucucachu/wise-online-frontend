@@ -52,29 +52,34 @@ class SetUpSchoolPage extends Component {
     }
     handleSubmit= async e =>{
         e.preventDefault()
-        
-        this.setState({isLoading: true})
-        try {
-            const response = await postFiles(this.state.fileProfessor, this.state.fileStudent)
-
-            if (response.status === 200) {
-                                
-                this.props.history.push('/admin/set-up-success')
+        if(this.state.fileStudent.name === undefined || this.state.fileProfessor.name === undefined){
+            this.setState({message: 'Please upload both files.'})
+            this.showError()
+        }else{
+            this.setState({isLoading: true})
+            try {
+                const response = await postFiles(this.state.fileProfessor, this.state.fileStudent)
+    
+                if (response.status === 200) {
+                                    
+                    this.props.history.push('/admin/set-up-success')
+                }
+                else {
+                    console.log('res: ', response);
+                    
+                    this.setState({isLoading: false})
+                    this.setState({message: response.data.error})
+                    this.showError()
+                }
+    
             }
-            else {
-                console.log('res: ', response);
-                
+            catch (error) {
                 this.setState({isLoading: false})
-                this.setState({message: response.data.error})
+                this.setState({message: 'Opps, something went wrong. Please try again.'})
                 this.showError()
             }
-
         }
-        catch (error) {
-            this.setState({isLoading: false})
-            this.setState({message: 'Opps, something went wrong. Please try again.'})
-            this.showError()
-        }
+        
     }
 
   render(){
@@ -106,7 +111,7 @@ class SetUpSchoolPage extends Component {
                                         <div className="shadow">
                                         
                                             <label className="radio-container"><h2 style={{paddingTop: "5px"}} className="text-plain">Student roster</h2>
-                                            {this.state.checkStudent ? <input type="checkbox" checked/> : <input type="checkbox" /> }
+                                            {this.state.checkStudent ? <input type="checkbox" disabled="disabled" checked/> : <input type="checkbox" disabled="disabled" /> }
                                             <span className="checkmark"></span>
                                             </label>
                                             {this.state.isFileStudent ? <p　style={{paddingLeft: "35px"}}>Uploaded</p> : <p  style={{paddingLeft: "35px", color: 'gray'}} className="text-plain">Not uploaded</p>}
@@ -126,7 +131,7 @@ class SetUpSchoolPage extends Component {
                                             {/* <h3 style={this.state.showHide}>{this.state.message}</h3> */}
 
                                             <label className="radio-container"><h2 className="text-plain" style={{paddingTop: "5px"}}>Professor roster</h2>
-                                            {this.state.checkProfessor ? <input type="checkbox" checked/> : <input type="checkbox"/>}
+                                            {this.state.checkProfessor ? <input type="checkbox" disabled="disabled" checked/> : <input type="checkbox" disabled="disabled"/>}
                                             <span className="checkmark"></span>
                                             </label>
                                             {this.state.isFileProfessor ? <p　style={{paddingLeft: "35px"}}>Uploaded</p> : <p  style={{paddingLeft: "35px", color: 'gray'}} className="text-plain">Not uploaded</p>}        
