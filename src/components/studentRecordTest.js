@@ -73,7 +73,7 @@ class StudentRecordTest extends Component {
 				this.setState(state);
 		  }
 		  else {
-			await checkForStudent(this.context.testAttendanceId, this.state.referenceImage, image);
+			await checkForStudent(this.context.testAttendanceId, this.state.referenceImage, image, imageSrc);
 		  }
 		}
 	}

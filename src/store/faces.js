@@ -44,11 +44,11 @@ async function uploadReferenceImage(image) {
     return uploadFace(image);
 }
 
-async function checkForStudent(testAttendanceId, referenceImageId, image) {
-    const faceId2 = await uploadFace(image);
+async function checkForStudent(testAttendanceId, referenceImageId, imageForFacesAPI, imageForStorage) {
+    const faceId2 = await uploadFace(imageForFacesAPI);
     const confidenceScore = faceId2 ? await verifyFace(referenceImageId, faceId2) : 0;
 
-    return submitConfidenceScore(testAttendanceId, confidenceScore);
+    return submitConfidenceScore(testAttendanceId, confidenceScore, imageForStorage);
 }
 
 export { uploadReferenceImage, checkForStudent };
