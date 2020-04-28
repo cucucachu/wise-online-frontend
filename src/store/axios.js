@@ -154,8 +154,8 @@ async function takeTest(classId, keyCode) {
 }
 
 // testAttendanceId will be returned as part of the response from takeTest()
-async function submitConfidenceScore(testAttendanceId, confidenceScore) {
-    const response = await backend.post('student/submitConfidenceScore', {testAttendanceId, confidenceScore});
+async function submitConfidenceScore(testAttendanceId, confidenceScore, image) {
+    const response = await backend.post('student/submitConfidenceScore', {testAttendanceId, confidenceScore, image});
     return response;
 }
 async function submitFeeWaive(data) {
