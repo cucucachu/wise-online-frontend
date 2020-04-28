@@ -52,7 +52,7 @@ handleSubmit = async e =>{
       }
       else {
           const state = Object.assign({}, this.state);
-          state.message = 'Invalid Class ID or Test Key. Please try again.';
+          state.message = 'Invalid Class ID or Attendance Code. Please try again.';
           state.show = 'block';
           this.setState(state);
       }
