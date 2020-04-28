@@ -32,7 +32,9 @@ class StudentRecordTest extends Component {
 
 
 	componentDidMount() {
-		const interval = setInterval(this.capture, 5000);
+		const minTime = 50 * 1000;
+		const offsetTime = Math.floor(Math.random() * 20) * 1000;
+		const interval = setInterval(this.capture, minTime + offsetTime);
 		const state = Object.assign({}, this.state);
 		state.interval = interval;
 		this.setState(state);
