@@ -78,7 +78,7 @@ class SchoolStep1 extends Component {
                 <div className="input-wrapper">
                     <div style={this.state.showHide}>{this.state.message}</div>
                     <span className="input-label">School name</span>
-                    <input type="text" placeholder="School name" className="" name="name" id="basic-url" aria-describedby="basic-addon3" value={this.state.name} onChange={this.handleChangeName.bind(this)}/>
+                    <input type="text" placeholder="School name" className="" name="name" value={this.state.name} onChange={this.handleChangeName.bind(this)}/>
                 </div>
                 
                 <div className="spacer-vertical"></div>

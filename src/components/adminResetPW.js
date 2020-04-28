@@ -72,14 +72,14 @@ const AdminResetPW = (props) => {
                 <div className="input-wrapper">
                     <div style={showHide}>{message}</div>
                     <span className="input-label">Password</span>
-                    <input type="pw" placeholder="New Password" className="" id="basic-url" aria-describedby="basic-addon3" value={pw} onChange={handlePW}/>
+                    <input type="pw" placeholder="New Password" className="" value={pw} onChange={handlePW}/>
                 </div>
                         
                 <div className="spacer-vertical"></div>
 
                 <div className="input-wrapper">
                     <span className="input-label">Confirm Password</span>
-                    <input type="pw" placeholder="Confirm Password" className="" id="basic-url" aria-describedby="basic-addon3" value={confirmPw} onChange={handleConfirmPW}/>
+                    <input type="pw" placeholder="Confirm Password" className="" value={confirmPw} onChange={handleConfirmPW}/>
                 </div>
                 <div className="spacer-vertical"></div>
                 <div className="">

@@ -76,7 +76,7 @@ class AdminLogin extends Component {
                 <div className="input-wrapper">
                     <div style={this.state.showHide}>{this.state.message}</div>
                     <span className="input-label">Email</span>
-                    <input type="email" placeholder="Email" className="" id="basic-url"  aria-describedby="basic-addon3" name="email" value={this.state.email} onChange={this.handleChangeName.bind(this)} />
+                    <input type="email" placeholder="Email" className=""  name="email" value={this.state.email} onChange={this.handleChangeName.bind(this)} />
                 </div>
                 
                 <div className="spacer-vertical"></div>

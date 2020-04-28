@@ -95,9 +95,8 @@ handleSubmit = async e =>{
                 <div className="input-wrapper">
                   <div style={{display: this.state.show}}>{this.state.message}</div>
                     <span className="input-label">Class ID</span>
-                    <input type="text" placeholder="Class ID" className="" id="basic-url" aria-describedby="basic-addon3" name="classID" value={this.state.classID} onChange={this.handleChangeID.bind(this)} />
+                    <input type="text" placeholder="Class ID" className="" name="classID" value={this.state.classID} onChange={this.handleChangeID.bind(this)} />
                 </div>
-                {/* <div className="spacer-vertical-s"></div> */}
                 <div className="container-note input-wrapper">
                   <div className="space-adjust-2">
                     <p className="text-left tooltip-login" ><span className="tooltip-show">What is my class ID?<br/>

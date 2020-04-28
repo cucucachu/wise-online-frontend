@@ -113,7 +113,7 @@ class ProfessorLogin extends Component {
                 <div className="input-wrapper">
                     <div style={this.state.showHide}>{this.state.message}</div>
                     <span className="input-label" >Email</span>
-                    <input type="email" className="" id="basic-url" aria-describedby="basic-addon3" value={this.state.email} placeholder="Email" onChange={this.handleChangeName.bind(this)}/>
+                    <input type="email" className="" value={this.state.email} placeholder="Email" onChange={this.handleChangeName.bind(this)}/>
                 </div>
                 
                 <div className="spacer-vertical"></div>

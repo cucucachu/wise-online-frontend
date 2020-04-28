@@ -85,8 +85,7 @@ async componentDidMount(){
             <div className="spacer-vertical"></div>
                 <div className="input-wrapper">
                     <div style={this.state.showHide}>{this.state.message}</div>
-                    {/* <span className="input-label">Email</span>
-                    <input type="email" className="" id="basic-url" aria-describedby="basic-addon3" /> */}
+                   
                     <select id="schools" name="schools" value={this.state.schoolName} onChange={this.handleChangeSchool.bind(this)} className="student-form-select text-plain shadow">
                         <option value="not selected">Select university</option>
                         {this.state.listItems}
@@ -94,21 +93,10 @@ async componentDidMount(){
                     </select>
                 </div>
                
-                {/* <div className="spacer-vertical"></div>
-                <div className="input-wrapper">
-                    <span className="input-label">Student ID</span>
-                    <input type="password" className="" onChange={this.handleChangeKey.bind(this)} value={this.state.key} />
-                </div>
-                <div className="input-wrapper">
-                    <div className="text-plain" style={{width: '58%'}}>
-                        <Link to="#">What's my student ID?</Link>
-                    </div>
-                </div> */}
+    
                 <div className="spacer-vertical"></div>
                 <div className="">
-                    {/* <Link to="/student/dashboard"> */}
                         <input type="submit" className="btn" value="Next" />
-                    {/* </Link> */}
                 </div>
             </form>
     </div>

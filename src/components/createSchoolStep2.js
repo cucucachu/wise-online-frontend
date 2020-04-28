@@ -19,7 +19,7 @@ class SchoolStep2 extends Component {
                 <div className="spacer-vertical"></div>
                 <div className="input-wrapper">
                     <span className="input-label">Email</span>
-                    <input type="email" className="" id="basic-url" aria-describedby="basic-addon3" />
+                    <input type="email" className="" />
                 </div>
                 
                 <div className="spacer-vertical-s"></div>
