@@ -15,8 +15,8 @@ class ProfessorLogin extends Component {
         display: 'none',
         message:'',
         showHide: { display: 'none'},
-        isFirstTime: false,
-        isAgreed: false
+        // isFirstTime: false,
+        hasAgreedToTerms: false
     };
 
     handleChangeName = e =>{
@@ -28,19 +28,19 @@ class ProfessorLogin extends Component {
     showError = () =>{
         this.setState({showHide: {display: 'block'}})
     }
-    handleRadio = e =>{
-        e.preventDefault()
-        this.setState(prevState => ({
-            isAgreed: !prevState.isAgreed
-          }));
+    // handleRadio = e =>{
+    //     e.preventDefault()
+    //     this.setState(prevState => ({
+    //         isAgreed: !prevState.isAgreed
+    //       }));
 
-    }
+    // }
     handleSubmit = async e =>{
         e.preventDefault()
         // const { loggedinUser, authToggle } = this.context
-        if(this.state.isAgreed === true){
+        // if(this.state.hasAgreedToTerms === true){
             try{
-                const response = await professorLogin(this.state.email, this.state.key, this.state.isAgreed)
+                const response = await professorLogin(this.state.email, this.state.key)
                 
                 if(response.status === 200){
                     const userProfessor = response.data
@@ -60,44 +60,44 @@ class ProfessorLogin extends Component {
                 this.setState({message: 'Opps, something went wrong. Please try again.'})
                 this.showError()
             }
-        }else{
-            try {
+        // }else{
+        //     try {
             
-                const response = await professorLogin(this.state.email, this.state.key)
-                const userProfessor = response.data
+        //         const response = await professorLogin(this.state.email, this.state.key)
+        //         const userProfessor = response.data
     
-                if (response.status === 200) {
-                    // argument (name, id, schoolID)
-                    //check is the student ever checked terms and conditions
-                    if(userProfessor.isAgreed === false){
-                        //show checkbox
-                        this.setState({message: 'Please agree to terms and conditions'})
-                        this.showError()
-                        this.setState({isFirstTime: true})
-                        return
-                    }else{
+        //         if (response.status === 200) {
+        //             // argument (name, id, schoolID)
+        //             //check is the student ever checked terms and conditions
+        //             if(userProfessor.hasAgreedToTerms === false){
+        //                 //show checkbox
+        //                 this.setState({message: 'Please agree to terms and conditions'})
+        //                 this.showError()
+        //                 this.setState({isFirstTime: true})
+        //                 return
+        //             }else{
                     
-                    sessionStorage.setItem('userID', userProfessor.id)
-                    sessionStorage.setItem('username', userProfessor.name)
-                    sessionStorage.setItem('schoolName', userProfessor.name)
-                    sessionStorage.setItem('schoolID', userProfessor.school.id)
-                    sessionStorage.setItem('isLoggedIn', true)                
+        //             sessionStorage.setItem('userID', userProfessor.id)
+        //             sessionStorage.setItem('username', userProfessor.name)
+        //             sessionStorage.setItem('schoolName', userProfessor.name)
+        //             sessionStorage.setItem('schoolID', userProfessor.school.id)
+        //             sessionStorage.setItem('isLoggedIn', true)                
                     
-                    this.props.history.push('/professor/course')
-                    }
+        //             this.props.history.push('/professor/course')
+        //             }
                     
-                }
-                else {
-                    this.setState({message: 'Invalid email or student id. Please try again.'})
-                    this.showError()
-                }
+        //         }
+        //         else {
+        //             this.setState({message: 'Invalid email or student id. Please try again.'})
+        //             this.showError()
+        //         }
     
-            }
-            catch (error) {
-                this.setState({message: 'Opps, something went wrong. Please try again.'})
-                this.showError()
-            }
-        }
+        //     }
+        //     catch (error) {
+        //         this.setState({message: 'Opps, something went wrong. Please try again.'})
+        //         this.showError()
+        //     }
+        // }
 
         return
         
@@ -133,7 +133,7 @@ class ProfessorLogin extends Component {
                 </div>
   
                 <div className="spacer-vertical"></div>
-                {this.state.isFirstTime ? 
+                {/* {this.state.isFirstTime ? 
                 <React.Fragment>
                     <div className="input-wrapper">
                         <div className="row content-center">
@@ -147,7 +147,7 @@ class ProfessorLogin extends Component {
                         <div className="spacer-vertical"></div>
                     </div>
                 </React.Fragment>
-                : ''}
+                : ''} */}
                 <div className="">
                         <input type="submit" className="btn" value="Next" />
                 </div>

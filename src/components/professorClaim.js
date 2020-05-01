@@ -16,7 +16,8 @@ class ProfessorClaim extends Component {
         setupkey: '',
         password: '',
         conpassword: '',
-        showHide: {display: 'none'}
+        showHide: {display: 'none'},
+        hasAgreedToTerms: false
     };
 
     handleChangeEmail = e =>{
@@ -35,12 +36,20 @@ class ProfessorClaim extends Component {
     showError = () =>{
         this.setState({showHide: {display: 'block'}})
     }
+    handleRadio = e =>{
+        e.preventDefault()
+        this.setState(prevState => ({
+            hasAgreedToTerms: !prevState.hasAgreedToTerms
+          }));
+    }
     
     handleSubmit = async e =>{
         e.preventDefault()
         // const { loggedinUser, authToggle, isAuthenticated } = this.context
-
-        if(this.state.password === this.state.conpassword){
+        if(this.state.hasAgreedToTerms === false){
+            this.setState({message: 'Please agree to terms and conditions'})
+            this.showError()
+        }else if(this.state.password === this.state.conpassword){
             try {
                 const emailLowerCase = this.state.email.toLowerCase()
                 const response = await claimProfessorAccount(this.state.setupkey, emailLowerCase, this.state.password)
@@ -52,7 +61,6 @@ class ProfessorClaim extends Component {
                     this.props.history.push('/professor/claim-account-success')
 
                 }else if(response.status === 500 ) {
-                    // console.log('response.status 500: ', response);
                     
                     this.setState({message: 'Claim professor account failed.'})
                     this.showError()
@@ -67,6 +75,7 @@ class ProfessorClaim extends Component {
             this.setState({message: 'Email and Confirm Email do not match. Please try again.'})
             this.showError()
         }
+
     }
   render(){
       return(
@@ -102,8 +111,16 @@ class ProfessorClaim extends Component {
                     <input type="text" placeholder="Setup Key" name="setupkey" className="" value={this.state.setupkey} onChange={this.handleChangeKey.bind(this)} />
                 </div>
                 <div className="spacer-vertical"></div>
+                    <div className="input-wrapper">
+                        <div className="row content-center">
+                            <div className="col">
+                                <button className="mimic-radio" onClick={this.handleRadio.bind(this)} >{this.state.hasAgreedToTerms ? <strong>&#10003;</strong> : ''}</button>
+                                <strong>&nbsp;I agree to the terms of use.</strong></div>
+                                
+                            </div>
+                        <div className="spacer-vertical"></div>
+                    </div>
                 <div className="">
-
                     <input type="submit" className="btn" value="Submit" />
                 </div>
             </form>

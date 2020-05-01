@@ -3,7 +3,7 @@ import React, {Component, Fragment} from 'react'
 
 import loginIcon from '../Assets/images/login-icon.png'
 
-import { studentLogin } from '../store/axios'
+import { studentLogin, studentAgreeToTerms } from '../store/axios'
 import { AuthContext } from '../contexts/AuthContext'
 
 
@@ -16,8 +16,8 @@ class StudentLogin extends Component {
         display: 'none',
         message:'',
         showHide: {display: 'none'},
-        isFirstTime: false,
-        isAgreed: false
+        isFirstTime: true,
+        hasAgreedToTerms: false
     };
 
     handleChangeName = e =>{
@@ -32,16 +32,18 @@ class StudentLogin extends Component {
     handleRadio = e =>{
         e.preventDefault()
         this.setState(prevState => ({
-            isAgreed: !prevState.isAgreed
+            hasAgreedToTerms: !prevState.hasAgreedToTerms
           }));
 
     }
     handleSubmit = async e =>{
         e.preventDefault()
-        // const { loggedinUser, authToggle } = this.context
-        if(this.state.isAgreed === true){
+        if(this.state.hasAgreedToTerms === true){
             try{
-                const response = await studentLogin(this.state.email, this.state.key, this.state.isAgreed)
+                const response = await studentLogin(this.state.email, this.state.key)
+                const isAgreed = await studentAgreeToTerms(this.state.key)
+                console.log('agreed: ', isAgreed)
+                
                 
                 if(response.status === 200){
                     const userStudent = response.data
@@ -68,9 +70,8 @@ class StudentLogin extends Component {
                 const userStudent = response.data
     
                 if (response.status === 200) {
-                    // argument (name, id, schoolID)
                     //check is the student ever checked terms and conditions
-                    if(userStudent.isAgreed === false){
+                    if(userStudent.hasAgreedToTerms === false){
                         //show checkbox
                         this.setState({message: 'Please agree to terms and conditions'})
                         this.showError()
@@ -144,13 +145,13 @@ class StudentLogin extends Component {
                 <React.Fragment>
                     <div className="input-wrapper">
                         <div className="row content-center">
-                            <div className="col-sm-1">
-                                <button className="mimic-radio" onClick={this.handleRadio.bind(this)} >{this.state.isAgreed ? <strong>&#10003;</strong> : ''}</button>
+                            <div className="col">
+                                <button className="mimic-radio" onClick={this.handleRadio.bind(this)} >{this.state.hasAgreedToTerms ? <strong>&#10003;</strong> : ''}</button>
+                                <strong>&nbsp;I agree to the terms of use.</strong>
                                 
                             </div>
-                            <div className="col-sm-11">
-                                <strong>I agree to the terms of use.</strong></div>
-                            </div>
+                            
+                        </div>
                         <div className="spacer-vertical"></div>
                     </div>
                 </React.Fragment>

@@ -30,13 +30,13 @@ async function adminLogin(email, password) {
     return response;
 }
 
-async function professorLogin(email, password, isAgreed) {
-    const response = await backend.post('professor/login', {email, password, isAgreed});
+async function professorLogin(email, password) {
+    const response = await backend.post('professor/login', {email, password});
     return response;
 }
 
-async function studentLogin(email, studentId, isAgreed) {
-    const response = await backend.post('student/login', {email, password : studentId, isAgreed});
+async function studentLogin(email, studentId) {
+    const response = await backend.post('student/login', {email, password : studentId});
     return response;
 }
 
@@ -70,10 +70,12 @@ async function postFiles(professorFile, studentFile) {
     const response = await backend.post('admin/setupSchool', formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
-        }
+        },
+        timeout: 60000,
     });
     return response;
 }
+
 async function adminRequestResetPW(email) {
     const response = await backend.post('/admin/requestPasswordReset', email);
     return response;
@@ -162,6 +164,10 @@ async function submitFeeWaive(data) {
     const response = await backend.post('student/waiveFee', data);
     return response;
 }
+async function studentAgreeToTerms(student){
+    const response = await backend.post('/student/agreeToTerms', student)
+    return response;
+}
 
 /* ----------------------------------------
     Get Routes
@@ -210,5 +216,6 @@ export {
     getSchoolNames,
     submitFeeWaive,
     resetAdminPW,
-    resetProfessorPW
+    resetProfessorPW,
+    studentAgreeToTerms
 }
