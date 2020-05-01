@@ -16,7 +16,7 @@ class StudentLogin extends Component {
         display: 'none',
         message:'',
         showHide: {display: 'none'},
-        isFirstTime: true,
+        isFirstTime: false,
         hasAgreedToTerms: false
     };
 
