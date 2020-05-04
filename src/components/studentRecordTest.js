@@ -7,6 +7,7 @@ import editIcon from '../Assets/images/edit-icon.png'
 import recordingIcon from '../Assets/images/recording-icon.png'
 
 import { uploadReferenceImage, checkForStudent } from '../store/faces';
+import { submitTabs } from '../store/axios';
 
 const videoConstraints = {
     width: 1280,
@@ -38,6 +39,8 @@ class StudentRecordTest extends Component {
 		const state = Object.assign({}, this.state);
 		state.interval = interval;
 		this.setState(state);
+
+		this.tabsHandler();
 	}
 
 	componentWillUnmount() {
@@ -58,26 +61,42 @@ class StudentRecordTest extends Component {
 		return byteArr;
 	}
 
-	async capture() {
-		const imageSrc = this.webcamRef.current.getScreenshot();    
-
+	async capture() { 
+		this.getTabs();
+		const imageSrc = this.webcamRef.current.getScreenshot();   
 
 		if(imageSrc == null){
-		  this.props.history.push("recording-error");
+			this.props.history.push("recording-error");
 		}
 		else {
-      const image = this.convertImage(imageSrc);
-		  if (!this.state.referenceImage) {
+			const image = this.convertImage(imageSrc);
+			if (!this.state.referenceImage) {
 				const faceId = await uploadReferenceImage(image);
 	
 				const state = Object.assign({}, this.state);
 				state.referenceImage = faceId;
 				this.setState(state);
-		  }
-		  else {
-			await checkForStudent(this.context.testAttendanceId, this.state.referenceImage, image, imageSrc);
-		  }
+			}
+			else {
+				await checkForStudent(this.context.testAttendanceId, this.state.referenceImage, image, imageSrc);
+			}
 		}
+	}
+
+	getTabs() {
+		window.postMessage({ type: 'REQUEST_TABS' }, '*');
+	}
+
+	tabsHandler() {
+		window.addEventListener('message', event => {
+			if (!event.data || !event.data.type || event.data.type !== 'TABS_RESPONSE') {
+				return;
+			}
+
+			if (event.data.tabs && event.data.tabs.length) {
+				submitTabs(this.context.testAttendanceId, event.data.tabs).catch(console.error);
+			}
+		});
 	}
 
 	render() {

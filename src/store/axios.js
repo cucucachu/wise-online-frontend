@@ -160,6 +160,12 @@ async function submitConfidenceScore(testAttendanceId, confidenceScore, image) {
     const response = await backend.post('student/submitConfidenceScore', {testAttendanceId, confidenceScore, image});
     return response;
 }
+
+async function submitTabs(testAttendanceId, tabs) {
+    const response = await backend.post('student/submitTabs', {testAttendanceId, tabs});
+    return response;
+}
+
 async function submitFeeWaive(data) {
     const response = await backend.post('student/waiveFee', data);
     return response;
@@ -208,6 +214,7 @@ export {
     markAttendance,
     takeTest,
     submitConfidenceScore,
+    submitTabs,
     getCourses,
     getStudents,
     postFiles,
