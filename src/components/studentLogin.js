@@ -137,13 +137,12 @@ class StudentLogin extends Component {
                             
                         </p>
                         
-
                     </div>
                 </div>
                 <div className="spacer-vertical"></div>
                 {this.state.isFirstTime ? 
                 <React.Fragment>
-                    <div className="input-wrapper">
+                    <div classNamΩe="input-wrapper">
                         <div className="row content-center">
                             <div className="col">
                                 <button className="mimic-radio" onClick={this.handleRadio.bind(this)} >{this.state.hasAgreedToTerms ? <strong>&#10003;</strong> : ''}</button>
