@@ -141,6 +141,12 @@ function downloadDataForCourseURL(courseId) {
     return baseURL + 'professor/course/attendanceData/' + courseId;
 }
 
+async function getImage(testAttendanceId, imageNumber) {
+    const response = await backend.get(`professor/testResults/${testAttendanceId}/images/${imageNumber}`);
+    const image = response.data;
+    return image;
+}
+
 /* ----------------------------------------
     Student Routes
 ------------------------------------------*/
@@ -224,5 +230,6 @@ export {
     submitFeeWaive,
     resetAdminPW,
     resetProfessorPW,
-    studentAgreeToTerms
+    studentAgreeToTerms,
+    getImage,
 }
