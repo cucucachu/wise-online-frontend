@@ -122,6 +122,16 @@ input{
     line-height: 1.5;
     border: 1px solid #cccccc;
 }
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+/* Firefox and */
+input[type=number] {
+  -moz-appearance: textfield;
+}
 .input-att{
     width: 350px;
 }
@@ -532,6 +542,9 @@ input[type="file"] {
   .tooltip-show:hover .tooltiptext{
     visibility: visible;
   }
+.font-terms{
+    font-size: 1.7rem;
+}
 @media only screen and (max-width: 2800px){
 .page-icon{
     margin-top: 14rem;

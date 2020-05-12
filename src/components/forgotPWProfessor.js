@@ -65,7 +65,7 @@ class ForgotPWProfessor extends Component {
                 <div className="input-wrapper">
                     <div style={this.state.showHide}>{this.state.message}</div>
                     <span className="input-label">School email</span>
-                    <input type="email" placeholder="School email" className="" value={this.state.email} onChange={this.handleChangeEmail.bind(this)}/>
+                    <input type="email" placeholder="School email" className="" value={this.state.email} onChange={this.handleChangeEmail.bind(this)} required/>
                 </div>
                         
                 <div className="spacer-vertical"></div>

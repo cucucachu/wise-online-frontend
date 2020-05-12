@@ -74,17 +74,17 @@ class StudentFeeWaiveForm extends Component {
                 <div className="input-wrapper">
                     <div style={this.state.showHide}>{this.state.message}</div>
                     <span className="input-label">First Name</span>
-                    <input type="text" placeholder="First Name" className="" value={this.state.firstName} onChange={this.handleFirstName.bind(this)}/>
+                    <input type="text" placeholder="First Name" className="" value={this.state.firstName} onChange={this.handleFirstName.bind(this)} required/>
                 </div>
                 <div className="spacer-vertical-s"></div>
                 <div className="input-wrapper">
                     <span className="input-label">Last Name</span>
-                    <input type="text" placeholder="Last Name" className="" value={this.state.lastName} onChange={this.handleLastName.bind(this)}/>
+                    <input type="text" placeholder="Last Name" className="" value={this.state.lastName} onChange={this.handleLastName.bind(this)} required/>
                 </div>
                 <div className="spacer-vertical-s"></div>
                 <div className="input-wrapper">
                     <span className="input-label">Email</span>
-                    <input type="email" placeholder="Email" className="" onChange={this.handleEmail.bind(this)} value={this.state.email} />
+                    <input type="email" placeholder="Email" className="" onChange={this.handleEmail.bind(this)} value={this.state.email} required/>
                 </div>
                 <div className="spacer-vertical"></div>
                 <div className="">

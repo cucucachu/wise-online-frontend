@@ -81,10 +81,7 @@ class StudentFeeWaiveConfirm extends Component {
                 </p>
                 
                     <div className="spacer-vertical"></div>
-                    {/* <div className="radio">
-                    <input id="radio-1" name="radio" type="radio" checked />
-        <label for="radio-1" className="radio-label">Checked</label>
-                    </div> */}
+
                     <div className="row">
                         <div className="col-sm-1">
                             <button className="mimic-radio" onClick={this.handleRadio.bind(this)} >{this.state.toggleCss ? <strong>&#10003;</strong> : ''}</button>

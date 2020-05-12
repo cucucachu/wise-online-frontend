@@ -25,6 +25,7 @@ handleChangeID = e =>{
 }
 handleChangeKeyCode1 = e =>{
   e.preventDefault()
+
   this.setState({keyCode1: e.target.value})
 
   const index = Array.prototype.indexOf.call(e.target.form, e.target);
@@ -118,7 +119,7 @@ handleSubmit = async e =>{
                 <div className="input-wrapper">
                   <div style={{display: this.state.show}}>{this.state.message}</div>
                     <span className="input-label">Class ID</span>
-                    <input type="text" placeholder="Class ID" className="" name="classID" value={this.state.classID} onChange={this.handleChangeID.bind(this)} />
+                    <input type="text" placeholder="Class ID" className="" name="classID" value={this.state.classID} onChange={this.handleChangeID.bind(this)} required/>
                 </div>
                 <div className="container-note input-wrapper">
                   <div className="space-adjust-2">
@@ -136,16 +137,16 @@ handleSubmit = async e =>{
                   <div className="space-adjust-1">
                 <div className="row space-adjust">
                   <div className="col">
-                    <input type="text" className="keycode-input" value={this.state.keyCode1} onChange={this.handleChangeKeyCode1.bind(this)} maxlength="1" ref={this.state.textInput} name="code1"/>
+                    <input type="number" className="keycode-input" value={this.state.keyCode1} onChange={this.handleChangeKeyCode1.bind(this)} maxlength="1" ref={this.state.textInput} name="code1" required/>
                   </div>
                   <div className="col">
-                    <input type="text" className="keycode-input" value={this.state.keyCode2} onChange={this.handleChangeKeyCode2.bind(this)} maxlength="1" name="code2" />
+                    <input type="number" className="keycode-input" value={this.state.keyCode2} onChange={this.handleChangeKeyCode2.bind(this)} maxlength="1" name="code2" required/>
                   </div>
                   <div className="col">
-                    <input type="text" className="keycode-input" value={this.state.keyCode3} onChange={this.handleChangeKeyCode3.bind(this)} maxlength="1" name="code3" />
+                    <input type="number" className="keycode-input" value={this.state.keyCode3} onChange={this.handleChangeKeyCode3.bind(this)} maxlength="1" name="code3" required/>
                   </div>
                   <div className="col">
-                    <input type="text" className="keycode-input" value={this.state.keyCode4} onChange={this.handleChangeKeyCode4.bind(this)} maxlength="1" name="code4" />
+                    <input type="number" className="keycode-input" value={this.state.keyCode4} onChange={this.handleChangeKeyCode4.bind(this)} maxlength="1" name="code4" required/>
                   </div>
                 </div>
                 </div>

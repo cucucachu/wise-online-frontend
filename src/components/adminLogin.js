@@ -76,14 +76,14 @@ class AdminLogin extends Component {
                 <div className="input-wrapper">
                     <div style={this.state.showHide}>{this.state.message}</div>
                     <span className="input-label">Email</span>
-                    <input type="email" placeholder="Email" className=""  name="email" value={this.state.email} onChange={this.handleChangeName.bind(this)} />
+                    <input type="email" placeholder="Email" className=""  name="email" value={this.state.email} onChange={this.handleChangeName.bind(this)} required/>
                 </div>
                 
                 <div className="spacer-vertical"></div>
                 <div className="input-wrapper">
                     <span className="input-label">Password</span>
                     <input type="password" placeholder="Password"
-                    className="" name="key" onChange={this.handleChangeKey.bind(this)} value={this.state.key}/>
+                    className="" name="key" onChange={this.handleChangeKey.bind(this)} value={this.state.key} required/>
                 </div>
                 <div className="input-wrapper">
                     <div className="input-wrapper-bottom width-md">

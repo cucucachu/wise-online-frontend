@@ -117,13 +117,13 @@ class StudentLogin extends Component {
                 <div className="input-wrapper">
                     <div style={this.state.showHide}>{this.state.message}</div>
                     <span className="input-label">Email</span>
-                    <input type="email" className="" value={this.state.email} onChange={this.handleChangeName.bind(this)} placeholder="Email"/>
+                    <input type="email" className="" value={this.state.email} onChange={this.handleChangeName.bind(this)} placeholder="Email" required/>
                 </div>
                 
                 <div className="spacer-vertical"></div>
                 <div className="input-wrapper">
                     <span className="input-label">Student ID</span>
-                    <input type="password" className="" onChange={this.handleChangeKey.bind(this)} value={this.state.key} placeholder="Student ID"/>
+                    <input type="password" className="" onChange={this.handleChangeKey.bind(this)} value={this.state.key} placeholder="Student ID" required/>
                 </div>
                 <div className="input-wrapper">
                     <div className="width-md">
@@ -146,7 +146,7 @@ class StudentLogin extends Component {
                         <div className="row content-center">
                             <div className="col">
                                 <button className="mimic-radio" onClick={this.handleRadio.bind(this)} >{this.state.hasAgreedToTerms ? <strong>&#10003;</strong> : ''}</button>
-                                <strong>&nbsp;I agree to the terms of use.</strong>
+                                <strong className="font-terms">&nbsp;I agree to the terms of use.</strong>
                                 
                             </div>
                             
