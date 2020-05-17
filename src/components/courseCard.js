@@ -6,6 +6,8 @@ import {
 import downloadIcon from '../Assets/images/download-icon-white.svg'
 import tickIcon from '../Assets/images/tick-icon-white.svg'
 import settingIcon from '../Assets/images/settings.svg'
+import editIcon from '../Assets/images/edit-icon-white.svg'
+import viewIcon from '../Assets/images/eye-icon-white.svg'
 
 import { downloadDataForCourseURL } from '../store/axios';
 
@@ -87,10 +89,22 @@ class CourseCard extends Component {
                                     course: this.props.course,
                                 }
                             }}>
-                            <button className="btn-upload" style={{marginBottom: '5px', fontSize: 'medium'}}><img src={tickIcon} className="icon-xs" alt="edit icon" />Proctor exam</button>
+                            <button className="btn-upload" style={{marginBottom: '5px', fontSize: 'medium'}}><img src={editIcon} className="icon-xs" alt="edit icon" />Proctor exam</button>
                             </Link>
 
                             <button className="btn-upload" onClick={this.downloadCourseData.bind(this)} style={{marginBottom: '5px', fontSize: 'medium'}}><img src={downloadIcon} className="icon-xs" alt="download icon" />Download data</button>
+
+                            <Link to={{
+                                pathname: `/professor/proctoring/${this.props.course._id}`,
+                                state: {
+                                    course: this.props.course,
+                                }
+                            }}>
+                            <button className="btn-upload" style={{marginBottom: '5px', fontSize: 'medium'}}>
+                                <img src={viewIcon} className="icon-xs" alt="download icon" />
+                                View proctoring
+                            </button>
+                            </Link>
                         </div>
                         
                     </div>

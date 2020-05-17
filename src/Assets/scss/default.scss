@@ -225,7 +225,7 @@ footer{
     border: 1px solid $primary-color;
     color: $secondary-color;
     font-size: large;
-    padding: 10px 15px;
+    padding: 5px 15px;
     border-radius: 0.5rem;
     text-align: left;
     width: 100%;
@@ -352,6 +352,9 @@ input[type="file"] {
     margin: 2rem;
     padding: 1rem;
     text-align: left;
+}
+.col-md-4 > .shadow {
+    margin: 10px 0;
 }
 
 .icon-sm{
@@ -545,6 +548,14 @@ input[type="file"] {
 .font-terms{
     font-size: 1.7rem;
 }
+
+
+//on bootstrap
+.content-center{
+    justify-content: center;
+}
+
+
 @media only screen and (max-width: 2800px){
 .page-icon{
     margin-top: 14rem;
@@ -573,11 +584,13 @@ input[type="file"] {
 @media only screen and (max-width: 1640px){
 .page-icon{
     margin-top: 4rem;
+    width: 12rem;
 }
 }
 @media only screen and (max-width: 1440px){
 .page-icon{
     margin-top: 2rem;
+    
 }
 
 }
@@ -642,6 +655,7 @@ input[type="file"] {
 }
 .page-icon{
     margin-top: 5rem;
+    width: 10rem;
 }
 input{
     border-radius: .5rem;
@@ -743,6 +757,9 @@ input{
 }
 .shadow{
     padding: 5px;
+}
+.col-md-6 > .shadow{
+    padding: 8px;
 }
 .space-adjust-1{
     width: 95%;

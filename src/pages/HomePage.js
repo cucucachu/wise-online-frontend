@@ -57,6 +57,8 @@ import ProfessorResetPW from '../components/professorResetPW';
 import AdminResetPWSuccess from '../components/adminResetPWSuccess';
 import ProfessorResetPWSuccess from '../components/professorResetPWSuccess';
 import SetupSchoolSuccess from '../components/setUpSchoolSuccess';
+import ViewProctoring from '../components/professorViewProctoring';
+import ViewTestResults from '../components/professorTestResults';
 
 class HomePage extends Component {
 static contextType = AuthContext
@@ -93,14 +95,19 @@ static contextType = AuthContext
                         <Route path="/professor/claim-account-success" component={ProfessorClaimSuccess} />
                         <PrivateRouteProfessor path="/professor/attendance" component={ProfessorAttendanace} />
                         <PrivateRouteProfessor path="/professor/exam" component={ProfessorExam} />
+                        <PrivateRouteProfessor path="/professor/proctoring/:courseId" component={ViewProctoring} />
+                        <PrivateRouteProfessor path="/professor/view-report/:testId" component={ViewTestResults} />
+                        {/* <PrivateRouteProfessor 
+                        path="/professor/proctoring/:courseId" 
+                        render={(props) => <ViewProctoring {...props} />} /> */}
 
                         {/* student */}
                         <Route path="/student-login" component={StudentLogin} />
                         <PrivateRouteStudent path="/student/dashboard" component={StudentDashboard} />
                         <PrivateRouteStudent path="/student/classes" component={StudentClass} />
                         <PrivateRouteStudent path="/student/tests" component={StudentTest} />
-                        {/* <PrivateRouteStudent path="/student/class/attend" component={StudentClassAtt} /> */}
-                        <Route path="/student/class/attend" component={StudentClassAtt} />
+                        <PrivateRouteStudent path="/student/class/attend" component={StudentClassAtt} />
+     
                         <PrivateRouteStudent path="/student/class/attend-success" component={StudentAttSuccess} />
                         <Route path="/test-route/student-success" component={StudentAttSuccess} />
                         <PrivateRouteStudent path="/student/test/record" component={StudentRecordTest} />

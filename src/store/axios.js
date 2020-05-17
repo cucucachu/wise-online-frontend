@@ -191,6 +191,18 @@ async function getCourses(school, professor) {
     
 }
 
+async function getTestsByCourse(professor, data) {
+    const response = await backend.get(`/professor/courses/${data}/tests`, professor);
+    return response;
+}
+
+// const tests = await testController.testsForCourse(professor, {courseId: ctx.params.courseId});
+
+async function getTestResults(professor, data){
+    const response = await backend.post('/professor/tests/:testId/results', {professor, data});
+    return response;
+}
+
 async function getStudents(school, professor, course) {
     const response = await backend.post('get/students', {school, professor, course});
     return response;
@@ -232,4 +244,6 @@ export {
     resetProfessorPW,
     studentAgreeToTerms,
     getImage,
+    getTestsByCourse,
+    getTestResults,
 }

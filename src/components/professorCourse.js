@@ -60,10 +60,6 @@ class ProfessorCourse extends Component {
         // const { userID, schoolID } = this.context;
         const userID = sessionStorage.getItem('userID')
         const schoolID = sessionStorage.getItem('schoolID')
-
-        console.log('userId: ', userID);
-        console.log('schoolId: ', schoolID);
-        
         
         let state = Object.assign({}, this.state);
         state.courses = [];
@@ -73,6 +69,7 @@ class ProfessorCourse extends Component {
         console.log('res: ', response);
         
         const courses = response.data
+        sessionStorage.setItem('courses', courses)
         state = Object.assign({}, this.state);
 
         state.courses = courses;

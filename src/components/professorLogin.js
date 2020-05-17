@@ -44,11 +44,13 @@ class ProfessorLogin extends Component {
                 
                 if(response.status === 200){
                     const userProfessor = response.data
+                    console.log('user: ', userProfessor)
                     sessionStorage.setItem('userID', userProfessor.id)
                     sessionStorage.setItem('username', userProfessor.name)
                     sessionStorage.setItem('schoolName', userProfessor.name)
                     sessionStorage.setItem('schoolID', userProfessor.school.id)
-                    sessionStorage.setItem('isLoggedIn', true)                
+                    sessionStorage.setItem('isLoggedIn', true)       
+                    sessionStorage.setItem('professor', userProfessor)         
                     
                     this.props.history.push('/professor/course')
                 }else{
