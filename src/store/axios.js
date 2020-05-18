@@ -199,7 +199,7 @@ async function getTestsByCourse(professor, data) {
 // const tests = await testController.testsForCourse(professor, {courseId: ctx.params.courseId});
 
 async function getTestResults(professor, data){
-    const response = await backend.post('/professor/tests/:testId/results', {professor, data});
+    const response = await backend.get(`/professor/tests/${data}/results`, {professor, data});
     return response;
 }
 

@@ -9,7 +9,6 @@ function ExamCardRow (props) {
                 (() => {
                     const examCards = [];
                     for (const exam of props.exams) {
-                        console.log('exam: ', exam);
                         
                         //props.courses be in course
                         const component = <ExamCard 

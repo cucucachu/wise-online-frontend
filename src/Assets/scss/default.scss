@@ -46,7 +46,6 @@ button:focus { outline: none; }
 .container{
     text-align: center;
 }
-
 .text-plain{
     color: $plain-color;
     font-size: large;
@@ -352,6 +351,11 @@ input[type="file"] {
     margin: 2rem;
     padding: 1rem;
     text-align: left;
+}
+.underbar{
+    border-bottom: 1px solid gray;
+    list-style: none;
+    color: $plain-color;
 }
 .col-md-4 > .shadow {
     margin: 10px 0;

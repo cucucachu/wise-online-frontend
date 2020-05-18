@@ -16,7 +16,7 @@ class ExamCard extends Component {
             classId: props.exam,
             name: props.exam,
             editing: false,
-            examDate: '',
+            formattedDate: ''
         }
 
         // // this.handleClickEdit = this.handleClickEdit.bind(this);
@@ -54,12 +54,12 @@ class ExamCard extends Component {
                 <div className="shadow">
                         
                             <h3 className="course-title">{formattedDate} </h3>
-                            {/* <h2>{this.props.examId}</h2> */}
                         
                             <Link to={{
                                 pathname: `/professor/view-report/${this.props.examId}`,
                                 state: {
-                                    testId: this.props.examId,
+                                    // examId: this.props.examId,
+                                    examDate: formattedDate,
                                 }
                             }}>
                             <button className="btn-upload" style={{marginBottom: '5px', fontSize: 'medium'}}><img src={viewIcon} className="icon-xs" alt="tick icon" />View Reports &amp; Videos</button>
