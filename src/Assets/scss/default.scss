@@ -365,11 +365,17 @@ input[type="file"] {
     margin: 3px;
 
 }
+.red-flag-l{
+    width: 1.6rem;
+}
 .red-text{
     color: red;
 }
 .red-text:hover{
     color: red;
+}
+.border-right{
+    border-right: 1px solid gray;
 }
 .col-md-4 > .shadow {
     margin: 10px 0;

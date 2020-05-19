@@ -4,7 +4,7 @@ import redFlag from '../Assets/images/red-flag.png'
 import { Link } from 'react-router-dom'
 import chevronRight from '../Assets/images/chevron_right.svg'
 
-import { getTestResults } from '../store/axios'
+// import { getTestResults } from '../store/axios'
 
 class ViewTestResults extends Component{
     constructor(props){
@@ -16,28 +16,17 @@ class ViewTestResults extends Component{
             exams: []
         }
     }
-    async loadTestResults(){
-        //professor id and data
-        const professor = {id: sessionStorage.getItem('userID')}        
-        const response = await getTestResults(professor, this.props.match.params.testId)
-        console.log('response: ', response)
-        // this.setState({testResults: response.data})
-        const testResults = response.data.proctoringResults
-        this.setState({testResults: testResults})
-        console.log('state: ', this.state.testResults);
-        
-        
-        // console.log(': ', response.data.map((item,i) => <li key={i}>{item}</li>));
-        
-        // const testResultList = testResults.map((testResult) =>
-        //                         <li>{testResult.student}</li>
-        //                       )
-        // this.setState({studentList: testResultList})
-        
-    }
+    // async loadTestResults(){
+    //     const professor = {id: sessionStorage.getItem('userID')}        
+    //     const response = await getTestResults(professor, this.props.match.params.testId)
+    //     console.log('response: ', response)
+    //     const testResults = response.data.proctoringResults
+    //     this.setState({testResults: testResults})
+    //     console.log('state: ', this.state.testResults);
+
+    // }
 
     async componentDidMount(){
-        console.log('props: ', this.state);
         
         const { examDate } = this.props.location.state
         const { exam } = this.props.location.state
@@ -45,7 +34,7 @@ class ViewTestResults extends Component{
         console.log('exam: ', exam.results)
         
         this.setState({examDate: examDate})
-        await this.loadTestResults()
+        // await this.loadTestResults()
     }
     render(){
         return(
@@ -72,7 +61,12 @@ class ViewTestResults extends Component{
                     <ul>{
                         this.state.exams.map((result,i) => 
                         <li className="underbar" key={i}>{result.student} 
-                        {result.confidenceScore < 0.4 ? <Link >
+                        {result.confidenceScore < 0.4 ? <Link to={{
+                                pathname: `/professor/view-detail`,
+                                state: {
+                                    testResult: result,
+                                }
+                            }}>
                             <img className="red-flag" src={redFlag} alt="red flag icon"/><span className="red-text">Red Flags Detected</span>
                             <img src={chevronRight} alt="chevron right icon" />
 

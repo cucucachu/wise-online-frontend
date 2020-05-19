@@ -59,6 +59,7 @@ import ProfessorResetPWSuccess from '../components/professorResetPWSuccess';
 import SetupSchoolSuccess from '../components/setUpSchoolSuccess';
 import ViewProctoring from '../components/professorViewProctoring';
 import ViewTestResults from '../components/professorTestResults';
+import ViewEachTestResult from '../components/professorViewTestData';
 
 class HomePage extends Component {
 static contextType = AuthContext
@@ -97,6 +98,7 @@ static contextType = AuthContext
                         <PrivateRouteProfessor path="/professor/exam" component={ProfessorExam} />
                         <PrivateRouteProfessor path="/professor/proctoring/:courseId" component={ViewProctoring} />
                         <PrivateRouteProfessor path="/professor/view-report/:testId" component={ViewTestResults} />
+                        <PrivateRouteProfessor path="/professor/view-detail" component={ViewEachTestResult} />
                         {/* <PrivateRouteProfessor 
                         path="/professor/proctoring/:courseId" 
                         render={(props) => <ViewProctoring {...props} />} /> */}
