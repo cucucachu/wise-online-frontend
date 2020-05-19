@@ -15,7 +15,8 @@ class ExamCard extends Component {
             classId: props.exam,
             name: props.exam,
             editing: false,
-            formattedDate: ''
+            formattedDate: '',
+            isRedTab: 0
         }
     }
 
@@ -26,7 +27,10 @@ class ExamCard extends Component {
     }
 
     componentDidMount(){
-        this.setState({formattedDate: moment.utc(this.props.examDate).format('MMM DD, YYYY')})
+        this.setState({formattedDate: moment.utc(this.props.examDate).format('MMM DD, YYYY'), isRedTab: this.props.isRedTab})
+        console.log('redTab: ', this.props.isRedTab);
+        
+        
     }
 
     render() {
@@ -36,7 +40,7 @@ class ExamCard extends Component {
             <div className="col-12 col-md-4">
                 <div className="shadow">
                         
-                            <h3 className="course-title">{formattedDate} {this.props.isRedFlag.length >= 1 ? <img className="red-flag" src={redFlag} alt="red flag icon"/> : ' '}</h3>
+                            <h3 className="course-title">{formattedDate} {this.props.isRedFlag.length >= 1 || this.props.isRedTab > 0 ? <img className="red-flag" src={redFlag} alt="red flag icon"/> : ' '}</h3>
                         
                             <Link to={{
                                 pathname: `/professor/view-report/${this.props.examId}`,

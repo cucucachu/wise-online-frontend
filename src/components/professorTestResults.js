@@ -61,7 +61,7 @@ class ViewTestResults extends Component{
                     <ul>{
                         this.state.exams.map((result,i) => 
                         <li className="underbar" key={i}>{result.student} 
-                        {result.confidenceScore < 0.4 ? <Link to={{
+                        {result.confidenceScore < 0.4 || result.tabs.red.length > 0 ? <Link to={{
                                 pathname: `/professor/view-detail`,
                                 state: {
                                     testResult: result,
@@ -71,7 +71,13 @@ class ViewTestResults extends Component{
                             <img src={chevronRight} alt="chevron right icon" />
 
                         </Link> : 
-                        <Link >
+                        <Link 
+                            to={{
+                            pathname: `/professor/view-detail`,
+                            state: {
+                                testResult: result,
+                            }
+                        }}>
                         
                         <img src={chevronRight} alt="chevron right icon" />
 

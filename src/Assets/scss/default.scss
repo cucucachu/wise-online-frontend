@@ -377,6 +377,11 @@ input[type="file"] {
 .border-right{
     border-right: 1px solid gray;
 }
+.result-li{
+    list-style: none;
+    text-align: left;
+    text-decoration: underline;
+}
 .col-md-4 > .shadow {
     margin: 10px 0;
 }
