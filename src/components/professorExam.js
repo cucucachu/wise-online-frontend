@@ -34,36 +34,26 @@ class ProfessorExam extends Component {
         this.setState(state);
     }
     
-    // componentDidMount() {
-    //     const { course } = this.props.location.state;
-    //     const { cookies } = this.context
-    //     console.log('course:');
-    //     console.dir(course);
-    //     if(cookies === undefined){
-    //         this.props.history.push('/professor-login')
-    //     }else{
-    //         const state = Object.assign({}, this.state);
-    //         state.course = course;
-    //         this.loadAttendance(course);
-    //         this.setState(state);
-    //     }
-    //     this.timer = setInterval(
-    //         () => this.checkCookie(),
+    componentDidMount() {
+        const { course } = this.props.location.state;
+        // const { cookies } = this.context
+        console.log('course:');
+        console.dir(course);
+        const state = Object.assign({}, this.state);
+        state.course = course;
+        this.loadAttendance(course);
+        this.setState(state);
+
+        this.timer = setInterval(
+            () => this.checkCookie(),
             
-    //         30000
-    //       );
-    // }
-    // componentWillUnmount() {
-    //     clearInterval(this.timer);
-    //   }
-    //   checkCookie(){
-    //     const { cookies } = this.context
-    //     console.log('cookies: ', cookies);
-        
-    //     if(cookies === undefined){
-    //         this.props.history.push('/student-login')
-    //     }else{return}
-    //   }
+            30000
+          );
+    }
+    componentWillUnmount() {
+        clearInterval(this.timer);
+      }
+
     render(){
         return(
             <Fragment>

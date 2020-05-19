@@ -3,7 +3,7 @@ import viewIcon from '../Assets/images/view-icon.png'
 import ExamCardRow from './examCardRow'
 
 //axios
-import { getTestsByCourse } from '../store/axios'
+import { getTestsByCourse, getTestResults } from '../store/axios'
 // import { AuthContext } from '../contexts/AuthContext'
 
 class ViewProctoring extends Component {
@@ -19,7 +19,8 @@ class ViewProctoring extends Component {
             courseName: '',
             courseId: '',
             exams: [],
-            selectedCourse: ''
+            selectedCourse: '',
+            examData: [],
         }
 
     }
@@ -37,35 +38,17 @@ class ViewProctoring extends Component {
         
         const exams = response.data
         console.log('exams: ', exams);
+        for(const exam of exams){
+             
+             const responseResult = await getTestResults(professor, exam.id)
+             console.log('responseResult data: ', responseResult.data.proctoringResults);
+             const resultsArr = responseResult.data.proctoringResults
+             
+             this.state.examData.push({id: exam.id, date: exam.date, results: resultsArr})
+        }
         
-        
+        console.log('examdata: ', this.state.examData);
         state = Object.assign({}, this.state);
-        const manualData = [
-            {
-            date: "2020-05-16T16:28:48.630Z",
-            id: "5ec014c0a514313bc0167d02"
-            },
-            {
-            date: "2020-05-16T16:28:48.630Z",
-            id: "5ec014c0a514313bc0167d02"
-            },
-            {
-            date: "2020-05-16T16:28:48.630Z",
-            id: "5ec014c0a514313bc0167d02"
-            },
-            {
-            date: "2020-05-16T16:28:48.630Z",
-            id: "5ec014c0a514313bc0167d02"
-            },
-            {
-            date: "2020-05-16T16:28:48.630Z",
-            id: "5ec014c0a514313bc0167d02"
-            },
-            {
-            date: "2020-05-16T16:28:48.630Z",
-            id: "5ec014c0a514313bc0167d02"
-            }
-        ]
         state.exams = exams;
         // state.exams = manualData
 
@@ -75,10 +58,7 @@ class ViewProctoring extends Component {
         
         this.setState({selectedCourse: course.name})
     }
-    // componentDidMount(){
-        
-    //     console.log('location: ', this.props.match.params.courseId)
-    // }
+
     async componentDidMount() {
         
         await this.loadProctoring();
@@ -95,14 +75,10 @@ class ViewProctoring extends Component {
              
                     <ExamCardRow 
                         exams={this.state.exams}
+                        examData={this.state.examData}
                         selectedCourse={this.state.selectedCourse}
                         inputStype={this.state.inputStype}
                         key={`CoursesRowLast`} 
-                        // lastRow={true}
-                        // handleSubmitNewCourse={this.handleSubmitNewCourse}
-                        handleChangeID={this.handleChangeID}
-                        handleChangeName={this.handleChangeName}
-                        // handleSubmitEditCourse={this.handleSubmitEditCourse}
                     />
                 </div>
             </Fragment>

@@ -348,7 +348,7 @@ input[type="file"] {
 .shadow{
     box-shadow: 0 0 8px #ccc;
     border-radius: 1rem;
-    margin: 2rem;
+    margin: 1rem;
     padding: 1rem;
     text-align: left;
 }
@@ -356,6 +356,20 @@ input[type="file"] {
     border-bottom: 1px solid gray;
     list-style: none;
     color: $plain-color;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.red-flag{
+    width: 20px;
+    margin: 3px;
+
+}
+.red-text{
+    color: red;
+}
+.red-text:hover{
+    color: red;
 }
 .col-md-4 > .shadow {
     margin: 10px 0;

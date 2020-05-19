@@ -4,9 +4,8 @@ import {
    } from "react-router-dom"
 
 import viewIcon from '../Assets/images/eye-icon-white.svg'
-import Moment from 'react-moment'
 import moment from 'moment'
-import { downloadDataForCourseURL } from '../store/axios';
+import redFlag from '../Assets/images/red-flag.png'
 
 class ExamCard extends Component {
     
@@ -18,10 +17,6 @@ class ExamCard extends Component {
             editing: false,
             formattedDate: ''
         }
-
-        // // this.handleClickEdit = this.handleClickEdit.bind(this);
-        // this.handleChangeId = this.handleChangeId.bind(this);
-        // this.handleChangeName = this.handleChangeName.bind(this);
     }
 
     static inputStype = {
@@ -29,18 +24,6 @@ class ExamCard extends Component {
         width: '100%',
         marginBottom: '5px',
     }
-
-    // handleChangeId(e) {
-    //     const state = Object.assign({}, this.state);
-    //     state.classId = e.target.value;
-    //     this.setState(state);
-    // }
-
-    // handleChangeName(e) {
-    //     const state = Object.assign({}, this.state);
-    //     state.name = e.target.value;
-    //     this.setState(state);
-    // }
 
     componentDidMount(){
         this.setState({formattedDate: moment.utc(this.props.examDate).format('MMM DD, YYYY')})
@@ -53,13 +36,14 @@ class ExamCard extends Component {
             <div className="col-12 col-md-4">
                 <div className="shadow">
                         
-                            <h3 className="course-title">{formattedDate} </h3>
+                            <h3 className="course-title">{formattedDate} {this.props.isRedFlag.length >= 1 ? <img className="red-flag" src={redFlag} alt="red flag icon"/> : ' '}</h3>
                         
                             <Link to={{
                                 pathname: `/professor/view-report/${this.props.examId}`,
                                 state: {
                                     // examId: this.props.examId,
                                     examDate: formattedDate,
+                                    exam: this.props.exam
                                 }
                             }}>
                             <button className="btn-upload" style={{marginBottom: '5px', fontSize: 'medium'}}><img src={viewIcon} className="icon-xs" alt="tick icon" />View Reports &amp; Videos</button>
