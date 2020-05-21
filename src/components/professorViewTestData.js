@@ -22,12 +22,13 @@ class ViewEachTestResult extends Component{
             retrivedImg: '',
             imgNum: 0,
             numberOfImgs: 0,
-            playVideo: false
+            playVideo: false,
+            toggleName: 'Play'
         }
     }
     handlePlay(){
         this.setState({
-            playVideo: !this.state.playVideo
+            playVideo: !this.state.playVideo, toggleName: 'Stop'
           },()=>{
             this.playStop()
           }
@@ -103,7 +104,7 @@ Red Flags Detected</h2> : '' }
                             <img src={this.state.retrivedImg} className="custom-video-frame" />
                             <div className="spacer-vertical-s"></div>
                             <p>Video red flags</p>
-                            <button onClick={this.handlePlay.bind(this)}>Play video</button>
+                            <button className="btn" onClick={this.handlePlay.bind(this)}>{this.state.toggleName}</button>
                         </div>
                         <div className="col-sm-6 col-md-3 border-right">
                             <h3 className="text-plain">Red Flag tabs</h3>
