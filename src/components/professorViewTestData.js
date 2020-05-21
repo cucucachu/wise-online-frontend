@@ -3,6 +3,8 @@ import viewIcon from '../Assets/images/view-icon.png'
 import moment from 'moment'
 
 import redFlag from '../Assets/images/red-flag.png'
+import PlayIcon from '../Assets/images/play_circle_white.svg'
+import PauseIcon from '../Assets/images/pause_circle_white.svg'
 import { Link } from 'react-router-dom'
 import chevronRight from '../Assets/images/chevron_right.svg'
 import { getTestImage } from '../store/axios'
@@ -23,12 +25,15 @@ class ViewEachTestResult extends Component{
             imgNum: 0,
             numberOfImgs: 0,
             playVideo: false,
-            toggleName: 'Play'
+            toggleIcon: true,
+            showHideStyle: true,
+            showPause: false,
+            isRedFlag: false,
         }
     }
     handlePlay(){
         this.setState({
-            playVideo: !this.state.playVideo, toggleName: 'Stop'
+            playVideo: !this.state.playVideo, showHideStyle: false
           },()=>{
             this.playStop()
           }
@@ -47,24 +52,49 @@ class ViewEachTestResult extends Component{
               );
         }else{
             clearInterval(this.timerID);
+            this.setState({playVideo: false, showHideStyle: true, showPause: false})
+            // this.setState({toggleName: 'Play'})
         }
+    }
+    handlePauseBtn(){
+        if(this.state.playVideo === true){
+            this.setState({showPause: true})
+        }
+        
+    }
+    hidePauseBtn(){
+        this.setState({showPause: false})
+    }
+    calcTimeLeft(){
+        const total = this.state.result.numberOfImages
+        // if (total > 0) {
+        //     timeLeft = {
+        //       hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
+        //       minutes: Math.floor((difference / 1000 / 60) % 60),
+        //       seconds: Math.floor((difference / 1000) % 60)
+        //     };
+        //   }
+        
+        //   return timeLeft;
     }
     async componentDidMount(){
         
         const { testResult } = this.props.location.state
         
         this.setState({formattedDate: moment.utc(testResult.startTime).format('MMM DD, YYYY'), testResult: testResult, red: testResult.tabs.red.length, redArr: testResult.tabs.red, yellowArr: testResult.tabs.yellow, testId: testResult.id, numberOfImgs: testResult.numberOfImages})
-
+        if(testResult.confidenceScore <= 0.4 || testResult.tabs.red.length > 0){
+            this.setState({isRedFlag: true})
+        }else{
+            this.setState({isRedFlag: false})
+        }
         const response = await getTestImage(testResult.id, this.state.imgNum)
         const retrivedImg = response.data
         console.log('image: ', retrivedImg);
         this.setState({retrivedImg: retrivedImg})
 
         console.log('test result: ', testResult);
+            
         
-        
-        
-
     }
     componentWillUnmount() {
         clearInterval(this.timerID);
@@ -101,10 +131,18 @@ Red Flags Detected</h2> : '' }
                     <div className="spacer-vertical-s"></div>
                     <div className="row">
                         <div className="col-sm-6 col-md-3 view-details ">
-                            <img src={this.state.retrivedImg} className="custom-video-frame" />
+                            <div className="video-holder">
+                                <img src={this.state.retrivedImg} className="custom-video-frame" onClick={this.handlePlay.bind(this)} onMouseEnter={this.handlePauseBtn.bind(this)} onMouseLeave={this.hidePauseBtn.bind(this)}/>
+                               
+                                {/* {this.state.toggleIcon ? <img className="icon-on-video" src={PlayIcon} alt="play icon" style={this.state.showHideStyle}/> : <img className="icon-on-video" src={PauseIcon} style={this.state.showHideStyle} alt="puse icon"/>} */}
+                                <img className="icon-on-video" src={PlayIcon} alt="play icon" style={{display: this.state.showHideStyle ? 'block' : 'none' }}/>
+                                <img className="icon-on-video" src={PauseIcon} style={{display: this.state.showPause ? 'block' : 'none' }} alt="puse icon"/>
+                            </div>
+                            
+                            
                             <div className="spacer-vertical-s"></div>
-                            <p>Video red flags</p>
-                            <button className="btn" onClick={this.handlePlay.bind(this)}>{this.state.toggleName}</button>
+        <p>Video {this.state.isRedFlag ? <span className="red-text">red flags</span> : ''} {}</p>
+                            {/* <button className="btn" onClick={this.handlePlay.bind(this)}>{this.state.toggleName}</button> */}
                         </div>
                         <div className="col-sm-6 col-md-3 border-right">
                             <h3 className="text-plain">Red Flag tabs</h3>

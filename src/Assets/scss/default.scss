@@ -381,9 +381,20 @@ input[type="file"] {
     list-style: none;
     text-align: left;
     text-decoration: underline;
+    overflow-wrap: anywhere;
+    padding-left: 0;
 }
 .custom-video-frame{
     width: 100%;
+}
+.custom-video-frame:hover{
+    cursor: pointer;
+}
+.icon-on-video{
+    position: absolute;
+    left: 34%;
+    top: 12%;
+    width: 32%;
 }
 .col-md-4 > .shadow {
     margin: 10px 0;
