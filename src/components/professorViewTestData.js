@@ -5,6 +5,7 @@ import moment from 'moment'
 import redFlag from '../Assets/images/red-flag.png'
 import { Link } from 'react-router-dom'
 import chevronRight from '../Assets/images/chevron_right.svg'
+import { getTestImage } from '../store/axios'
 
 
 class ViewEachTestResult extends Component{
@@ -16,34 +17,93 @@ class ViewEachTestResult extends Component{
             red: 1,
             redArr: [],
             greenArr: [],
-            yellowArr: []
+            yellowArr: [],
+            testId: '',
+            retrivedImg: '',
+            imgNum: 0,
+            numberOfImgs: 0,
+            playVideo: false
         }
     }
+    handlePlay(){
+        this.setState({
+            playVideo: !this.state.playVideo
+          },()=>{
+            this.playStop()
+          }
+          );
+        console.log('clicked: ', this.state.playVideo);
 
-    componentDidMount(){
+        
+    }
+    playStop(){
+        if(this.state.playVideo === true){
+            console.log('palyvideo on: ', );
+            
+            this.timerID = setInterval(
+                () => this.tick(),
+                2000
+              );
+        }else{
+            clearInterval(this.timerID);
+        }
+    }
+    async componentDidMount(){
         
         const { testResult } = this.props.location.state
         
-        this.setState({formattedDate: moment.utc(testResult.startTime).format('MMM DD, YYYY'), testResult: testResult, red: testResult.tabs.red.length, redArr: testResult.tabs.red, yellowArr: testResult.tabs.yellow})
+        this.setState({formattedDate: moment.utc(testResult.startTime).format('MMM DD, YYYY'), testResult: testResult, red: testResult.tabs.red.length, redArr: testResult.tabs.red, yellowArr: testResult.tabs.yellow, testId: testResult.id, numberOfImgs: testResult.numberOfImages})
 
+        const response = await getTestImage(testResult.id, this.state.imgNum)
+        const retrivedImg = response.data
+        console.log('image: ', retrivedImg);
+        this.setState({retrivedImg: retrivedImg})
 
         console.log('test result: ', testResult);
         
+        
+        
 
     }
+    componentWillUnmount() {
+        clearInterval(this.timerID);
+      }
+    async tick() {
+        if(this.state.imgNum < this.state.numberOfImgs){
+            this.setState({
+                imgNum: this.state.imgNum +1
+              });
+            console.log('imgNum: ', this.state.imgNum);
+            
+            const response = await getTestImage(this.state.testId, this.state.imgNum)
+            const retrivedImg = response.data
+            console.log('retrived image: ', retrivedImg);
+            
+            this.setState({retrivedImg: retrivedImg})
+        }else{
+            this.setState({imgNum: 0})
+            const response = await getTestImage(this.state.testId, this.state.imgNum)
+            const retrivedImg = response.data
+            this.setState({retrivedImg: retrivedImg})
+        }
+        
+      }
     render(){
         return(
             <Fragment>
                 <div className="container">
                     <img src={viewIcon} className="page-icon" alt="view icon"/>
                     <div className="spacer-vertical-s"></div>
-                    <h1>{this.state.testResult.student}, {this.state.formattedDate}, {this.state.red}</h1>
+                    <h1>{this.state.testResult.student}, {this.state.formattedDate}</h1>
         {this.state.testResult.confidenceScore <= 0.4  || this.state.red > 0 ? <h2 className="red-text"><img className="red-flag-l" src={redFlag} alt="red flag icon" />&nbsp;
 Red Flags Detected</h2> : '' }
                     <div className="spacer-vertical-s"></div>
                     <div className="row">
                         <div className="col-sm-6 col-md-3 view-details ">
-                            video here
+                            <img src={this.state.retrivedImg} className="custom-video-frame" />
+                            <div className="spacer-vertical-s"></div>
+                            <p>Video red flags</p>
+                            <button onClick={this.handlePlay.bind(this)}>Play video</button>
                         </div>
                         <div className="col-sm-6 col-md-3 border-right">
                             <h3 className="text-plain">Red Flag tabs</h3>

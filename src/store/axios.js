@@ -202,6 +202,10 @@ async function getTestResults(professor, data){
     const response = await backend.get(`/professor/tests/${data}/results`, {professor, data});
     return response;
 }
+async function getTestImage(testId, imgNum){
+    const response = await backend.get(`/professor/testResults/${testId}/images/${imgNum}`);
+    return response;
+}
 
 async function getStudents(school, professor, course) {
     const response = await backend.post('get/students', {school, professor, course});
@@ -246,4 +250,5 @@ export {
     getImage,
     getTestsByCourse,
     getTestResults,
+    getTestImage,
 }

@@ -44,11 +44,11 @@ class ProfessorExam extends Component {
         this.loadAttendance(course);
         this.setState(state);
 
-        this.timer = setInterval(
-            () => this.checkCookie(),
+        // this.timer = setInterval(
+        //     () => this.checkCookie(),
             
-            30000
-          );
+        //     30000
+        //   );
     }
     componentWillUnmount() {
         clearInterval(this.timer);
