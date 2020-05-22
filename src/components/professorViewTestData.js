@@ -130,7 +130,7 @@ class ViewEachTestResult extends Component{
 Red Flags Detected</h2> : '' }
                     <div className="spacer-vertical-s"></div>
                     <div className="row">
-                        <div className="col-sm-6 col-md-3 view-details ">
+                        <div className="col-md-6 col-lg-3 view-details ">
                             <div className="video-holder">
                                 <img src={this.state.retrivedImg} className="custom-video-frame" onClick={this.handlePlay.bind(this)} onMouseEnter={this.handlePauseBtn.bind(this)} onMouseLeave={this.hidePauseBtn.bind(this)}/>
                                
@@ -143,7 +143,7 @@ Red Flags Detected</h2> : '' }
         <p style={{color: this.state.isRedFlag ? 'red' : '#ccc'}}>Video {this.state.isRedFlag ? <span className="red-text">red flags</span> : ''} {this.state.timeLeft}</p>
                            
                         </div>
-                        <div className="col-sm-6 col-md-3 border-right">
+                        <div className="col-md-6 col-lg-3 border-right-md">
                             <h3 className="text-plain">Red Flag tabs</h3>
                             <ul className="result-li">
                                 {
@@ -154,7 +154,7 @@ Red Flags Detected</h2> : '' }
                                 }
                             </ul>
                         </div>
-                        <div className="col-sm-6 col-md-3 border-right">
+                        <div className="col-md-6 col-lg-3 border-right">
                         <h3 className="text-plain">Unknown tabs</h3>
                             <ul className="result-li">
                                 {
@@ -165,7 +165,7 @@ Red Flags Detected</h2> : '' }
                                 }
                             </ul>
                         </div>
-                        <div className="col-sm-6 col-md-3">
+                        <div className="col-md-6 col-lg-3">
                         <h3 className="text-plain"> Whitelisted tabs</h3>
                             <ul className="result-li">
                                 {

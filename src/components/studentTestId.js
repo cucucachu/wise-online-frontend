@@ -71,12 +71,12 @@ const StudentTestId = (props) => {
                     <div className="input-wrapper">
                         <div style={showHide}>{message}</div>
                         <span className="input-label">Class ID</span>
-                        <input type="text" className="" name="key" onChange={handleChangeClass} value={classId} required/>
+                        <input type="text" className="" name="key" onChange={handleChangeClass} value={classId} placeholder="Class ID" required/>
                     </div>
                     <div className="spacer-vertical"></div>
                     <div className="input-wrapper">
                         <span className="input-label">Test ID</span>
-                        <input type="text" className="" name="key" onChange={handleChangeKey} value={testId} required/>
+                        <input type="text" className="" name="key" placeholder="Test ID" onChange={handleChangeKey} value={testId} required/>
                     </div>
                     <div className="spacer-vertical"></div><br/>
                     <input type="submit" className="btn-m" value="Begin test" />

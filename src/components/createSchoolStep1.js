@@ -74,32 +74,32 @@ class SchoolStep1 extends Component {
             <h1>Create Your School</h1>
 
             <form onSubmit={this.handleSubmit.bind(this)}>
-                <div className="spacer-vertical"></div>
+                <div className="spacer-vertical-s"></div>
                 <div className="input-wrapper">
                     <div style={this.state.showHide}>{this.state.message}</div>
                     <span className="input-label">School name</span>
                     <input type="text" placeholder="School name" className="" name="name" value={this.state.name} onChange={this.handleChangeName.bind(this)}/>
                 </div>
                 
-                <div className="spacer-vertical"></div>
+                <div className="spacer-vertical-s"></div>
                 <div className="input-wrapper">
                     <span className="input-label">School email</span>
                     <input type="email" placeholder="School email" name="email" className="" value={this.state.email} onChange={this.handleChangeEmail.bind(this)}/>
                 </div>
 
-                <div className="spacer-vertical"></div>
+                <div className="spacer-vertical-s"></div>
                 <div className="input-wrapper">
                     <span className="input-label">School password</span>
                     <input type="password" placeholder="School password" name="password" className="" value={this.state.password} onChange={this.handleChangePW.bind(this)} />
                 </div>
 
-                <div className="spacer-vertical"></div>
+                <div className="spacer-vertical-s"></div>
                 <div className="input-wrapper">
                     <span className="input-label">School setup key</span>
                     <input type="text" placeholder="School setup key" name="setupkey" className="" value={this.state.setupkey} onChange={this.handleChangeKey.bind(this)}/>
                 </div>
  
-                <div className="spacer-vertical"></div>
+                <div className="spacer-vertical-s"></div>
                 <div className="">
                 {/* <Link to="/create-school/step2"> */}
                     <input type="submit" className="btn" value="Next" />

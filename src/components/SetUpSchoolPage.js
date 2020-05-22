@@ -65,8 +65,8 @@ class SetUpSchoolPage extends Component {
                     this.props.history.push('/admin/set-up-success')
                 }
                 else {                    
-                    this.setState({isLoading: false})
-                    this.setState({message: response.data.error})
+                    this.setState({isLoading: false, message: response.data.error})
+                    // this.setState({message: response.data.error})
                     this.showError()
                 }
     

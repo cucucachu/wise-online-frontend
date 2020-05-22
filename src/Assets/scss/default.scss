@@ -296,8 +296,6 @@ footer{
     color: $secondary-color;
     background: transparent;
     border: 0;
-    // border: 1px solid $secondary-color;
-    // border-radius: 1rem;
     margin-left: 5px;
     font-size: large;
 
@@ -306,8 +304,6 @@ footer{
     color: $secondary-color;
     background: transparent;
     border: 0;
-    // border: 1px solid $secondary-color;
-    // border-radius: 1rem;
     position: absolute;
     left: 15px;
     top: 15px;
@@ -325,24 +321,10 @@ footer{
 }
 input[type="file"] {
     position: absolute;
-    // pointer-events: none;
     opacity: 0;
-    // alternative to pointer-events, compatible with all browsers, just make it impossible to find
     width: 1px;
     height: 1px;
-    // background-color: $primary-color;
-    // border: 1px solid $primary-color;
-    // color: $secondary-color;
-    // font-size: large;
-    // padding: 10px 15px;
-    // border-radius: 0.5rem;
-    // text-align: left;
-    // width: 100%;
-    // &:hover {
-    //     border: 1px solid $primary-color;
-    //     background-color: $secondary-color;
-    //     color: $primary-color;
-    //   }
+
   }
 
 .shadow{
@@ -516,6 +498,9 @@ input[type="file"] {
     padding-bottom: 2.5rem;
     list-style: none;
 }
+.omit-indent{
+    padding-left: 0;
+}
 .jumbo-text{
     font-size: 12vw;
     letter-spacing: 4rem;
@@ -606,6 +591,9 @@ input[type="file"] {
 .page-icon{
     margin-top: 14rem;
 }
+.border-right-md{
+    border-right: 1px solid gray;
+}
 }
 @media only screen and (max-width: 2600px){
 .page-icon{
@@ -614,28 +602,31 @@ input[type="file"] {
 }
 @media only screen and (max-width: 2400px){
 .page-icon{
-    margin-top: 10rem;
+    margin-top: 6rem;
+    width: 12rem;
 }
 }
 @media only screen and (max-width: 2200px){
 .page-icon{
     margin-top: 8rem;
+    width: 12rem;
 }
 }
 @media only screen and (max-width: 1920px){
 .page-icon{
-    margin-top: 6rem;
+    margin-top: 5rem;
+    width: 12rem;
 }
 }
 @media only screen and (max-width: 1640px){
 .page-icon{
     margin-top: 4rem;
-    width: 12rem;
+    width: 10rem;
 }
 }
 @media only screen and (max-width: 1440px){
 .page-icon{
-    margin-top: 2rem;
+    margin-top: 2.5rem;
     
 }
 
@@ -673,6 +664,18 @@ input[type="file"] {
         width: 77%;
     }
 }
+//professor video check
+@media (min-width: 768px) {
+    .border-right-md{
+        border: 0;
+    }
+
+}
+@media only screen and (max-width: 680px){
+    .hide-mobile{
+        display: none;
+    }
+}
 @media only screen and (max-width: 560px){
     .input-label{
         width: 35%;
@@ -682,6 +685,9 @@ input[type="file"] {
     }
     .width-md{
         width: 85%;
+    }
+    .hide-mobile{
+        display: none;
     }
 }
 

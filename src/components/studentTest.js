@@ -26,7 +26,7 @@ const StudentTest = (props) => {
                 <h1>Instructions</h1>
                 <div className="spacer-vertical"></div>
                 <div className="width-adjust-1">
-                    <ul>
+                    <ul className="omit-indent">
                         <li className="list-text">1. Allow camera permissions<br/>
                             <div className="text-sm text-plain">Wise uses confidential facial recognition to make sure you’re really you</div>
                         </li>

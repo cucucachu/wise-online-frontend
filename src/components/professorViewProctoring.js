@@ -4,7 +4,7 @@ import ExamCardRow from './examCardRow'
 
 //axios
 import { getTestsByCourse, getTestResults } from '../store/axios'
-// import { AuthContext } from '../contexts/AuthContext'
+import '../Assets/css/spinner.css'
 
 class ViewProctoring extends Component {
     
@@ -21,12 +21,14 @@ class ViewProctoring extends Component {
             exams: [],
             selectedCourse: '',
             examData: [],
+            isLoading: true,
         }
 
     }
 
 
     async loadProctoring() {
+        // this.setState({isLoading: true})
         const professor = {id: sessionStorage.getItem('userID'), courses: sessionStorage.getItem('courses')}
         // const data = {courseId: this.props.match.params.courseId}
         
@@ -37,32 +39,39 @@ class ViewProctoring extends Component {
         const response = await getTestsByCourse(professor, this.props.match.params.courseId);
         
         const exams = response.data
-        console.log('exams: ', exams);
         for(const exam of exams){
              
-             const responseResult = await getTestResults(professor, exam.id)
-             console.log('responseResult data: ', responseResult.data.proctoringResults);
-             const resultsArr = responseResult.data.proctoringResults
+            try{
+                const responseResult = await getTestResults(professor, exam.id)
+                if(responseResult.status === 200){
+                    const resultsArr = responseResult.data.proctoringResults
              
-             this.state.examData.push({id: exam.id, date: exam.date, results: resultsArr})
+                    this.state.examData.push({id: exam.id, date: exam.date, results: resultsArr})
+                }else{
+                    console.log(responseResult.data.error)
+                }
+            }catch(error){
+                this.setState({isLoading: false})
+                console.log('error happened: ', error);
+                
+            }
+             
+             
         }
         
-        console.log('examdata: ', this.state.examData);
         state = Object.assign({}, this.state);
         state.exams = exams;
         // state.exams = manualData
 
         this.setState(state);
         const { course } = this.props.location.state
-        console.log('name: ', course);
         
         this.setState({selectedCourse: course.name})
     }
 
     async componentDidMount() {
-        
         await this.loadProctoring();
-
+        this.setState({isLoading: false})
 
     }
     render() {
@@ -72,14 +81,22 @@ class ViewProctoring extends Component {
                     <img src={viewIcon} className="page-icon" alt="view icon"/>
                     <div className="spacer-vertical"></div>
                     <h1>{this.state.selectedCourse}&nbsp; Proctoring</h1>
-             
+
+                    {this.state.isLoading ?
+                    <div >
+                        <div className="spacer-vertical"></div>
+                        <h2>Loading
+                            <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
+                        </h2>
+                    </div>
+                     : 
                     <ExamCardRow 
                         exams={this.state.exams}
                         examData={this.state.examData}
                         selectedCourse={this.state.selectedCourse}
                         inputStype={this.state.inputStype}
                         key={`CoursesRowLast`} 
-                    />
+                    /> }
                 </div>
             </Fragment>
         )
