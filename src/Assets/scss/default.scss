@@ -316,6 +316,7 @@ footer{
     text-align: left;
     color: gray;
 }
+
 .input-width{
     width: 60%;
 }
@@ -368,6 +369,8 @@ input[type="file"] {
 }
 .custom-video-frame{
     width: 100%;
+    background-color: lightgray;
+    // min-height: ;
 }
 .custom-video-frame:hover{
     cursor: pointer;
@@ -540,13 +543,11 @@ input[type="file"] {
     box-shadow: 0 5px 5px #ccc;
 }
 .mimic-radio{
-    width: 30px;
-    height: 30px;
+    padding-top: 7px;
     border: 4px solid $primary-color;
     border-radius: 0.5rem;
     color: $primary-color;
-    padding: 0;
-    vertical-align: sub;
+    vertical-align: unset;
 }
 .tooltip-login {
     position: relative;

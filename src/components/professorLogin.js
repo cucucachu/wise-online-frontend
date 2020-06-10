@@ -135,21 +135,7 @@ class ProfessorLogin extends Component {
                 </div>
   
                 <div className="spacer-vertical"></div>
-                {/* {this.state.isFirstTime ? 
-                <React.Fragment>
-                    <div className="input-wrapper">
-                        <div className="row content-center">
-                            <div className="col-sm-1">
-                                <button className="mimic-radio" onClick={this.handleRadio.bind(this)} >{this.state.isAgreed ? <strong>&#10003;</strong> : ''}</button>
-                                
-                            </div>
-                            <div className="col-sm-11">
-                                <strong>I agree to the terms of use.</strong></div>
-                            </div>
-                        <div className="spacer-vertical"></div>
-                    </div>
-                </React.Fragment>
-                : ''} */}
+            
                 <div className="">
                         <input type="submit" className="btn" value="Next" />
                 </div>

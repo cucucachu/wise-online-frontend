@@ -33,7 +33,7 @@ const StudentTestId = (props) => {
 
             if (response.status === 200) {
                 storeTestAttendanceId(response.data.id);
-                props.history.push('test/record')
+                props.history.push('record-agree-to-terms')
             }
             else {
                 setMessage('Invalid Class ID or Test ID. Please try again.')

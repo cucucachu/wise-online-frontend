@@ -11,11 +11,11 @@
     "browser-sync": "^2.26.7",
     "dotenv": "^8.2.0",
     "fix": "0.0.6",
-    "gulp": "^3.8.11",
+    "gulp": "^4.0.2",
     "gulp-changed": "^4.0.2",
     "gulp-clean-css": "^4.3.0",
     "gulp-rename": "^2.0.0",
-    "gulp-sass": "^4.0.2",
+    "gulp-sass": "^4.1.0",
     "gulp-uglify": "^3.0.2",
     "moment": "^2.25.3",
     "node-sass": "^4.14.1",
@@ -49,5 +49,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "devDependencies": {}
 }
