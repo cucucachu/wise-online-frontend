@@ -155,7 +155,7 @@ class StudentLogin extends Component {
                     </div>
                 </React.Fragment>
                 : ''}
-                <div className="">
+                <div className="test">
                         <input type="submit" className="btn" value="Submit" />
                 </div>
             </form>

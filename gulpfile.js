@@ -2,11 +2,12 @@
  
 var gulp = require('gulp');
 var sass = require('gulp-sass');
+var minifyCSS = require('gulp-clean-css');
+var rename = require('gulp-rename')
+var changed = require('gulp-changed')
 var SCSS_SRC = './src/Assets/scss/**/*.scss';
 var SCSS_DEST = './src/Assets/css';
 
- 
-	
 function style() {
     // Where should gulp look for the sass files?
     // My .sass files are stored in the styles folder
@@ -18,8 +19,9 @@ function style() {
             // Use sass with the files found, and log any errors
             .pipe(sass())
             .on("error", sass.logError)
- 
-            // What is the destination for the compiled file?
+            .pipe(cleanCSS({compatibility: 'ie8'}))
+            .pipe(rename({suffix: '.min'}))
+            .pipe(changed(SCSS_DEST))
             .pipe(gulp.dest(SCSS_DEST))
     );
 }
@@ -36,6 +38,7 @@ function watch(){
 }
     
 // Don't forget to expose the task!
+//type gult watch
 exports.watch = watch
 
 
