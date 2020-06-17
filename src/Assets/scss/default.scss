@@ -543,11 +543,10 @@ input[type="file"] {
     box-shadow: 0 5px 5px #ccc;
 }
 .mimic-radio{
-    padding-top: 7px;
     border: 4px solid $primary-color;
     border-radius: 0.5rem;
     color: $primary-color;
-    vertical-align: unset;
+    vertical-align: top;
 }
 
 .tooltip-login {

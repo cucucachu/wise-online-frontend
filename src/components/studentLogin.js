@@ -1,5 +1,5 @@
-import React, {Component, Fragment} from 'react'
-// import { Link } from "react-router-dom"
+import React, {Component } from 'react'
+import { Link } from "react-router-dom"
 
 import loginIcon from '../Assets/images/login-icon.png'
 
@@ -145,8 +145,8 @@ class StudentLogin extends Component {
                     <div classNamΩe="input-wrapper">
                         <div className="row content-center">
                             <div className="col">
-                                <button className="mimic-radio" onClick={this.handleRadio.bind(this)} >{this.state.hasAgreedToTerms ? <strong>&#10003;</strong> : ''}</button>
-                                <strong className="font-terms">&nbsp;I agree to the terms of use.</strong>
+                                <button  className="mimic-radio" onClick={this.handleRadio.bind(this)} >{this.state.hasAgreedToTerms ? <strong>&#10003;</strong> : ''}</button>
+                                <strong className="font-terms">&nbsp;I agree to the <Link to="https://www.wiseattend.com/privacy">terms of use</Link>.</strong>
                                 
                             </div>
                             

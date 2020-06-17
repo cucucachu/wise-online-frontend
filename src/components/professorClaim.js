@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react'
-
+import { Link } from 'react-router-dom'
 import editIcon from '../Assets/images/edit-icon.png';
 import { claimProfessorAccount } from '../store/axios'
 // setupKey, email, password
@@ -114,8 +114,8 @@ class ProfessorClaim extends Component {
                     <div className="input-wrapper">
                         <div className="row content-center">
                             <div className="col">
-                                <button className="mimic-radio" onClick={this.handleRadio.bind(this)} >{this.state.hasAgreedToTerms ? <strong>&#10003;</strong> : ''}</button>
-                                <strong>&nbsp;I agree to the terms of use.</strong></div>
+                                <button style={this.state.hasAgreedToTerms ? {paddingTop: 0, paddingBottom: 0} : {padding: '13px'}} className="mimic-radio" onClick={this.handleRadio.bind(this)} >{this.state.hasAgreedToTerms ? <strong>&#10003;</strong> : ''}</button>
+                                <strong>&nbsp;I agree to the <Link to="https://www.wiseattend.com/privacy">terms of use</Link>.</strong></div>
                                 
                             </div>
                         <div className="spacer-vertical"></div>

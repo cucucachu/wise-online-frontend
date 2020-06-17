@@ -44,7 +44,7 @@ const StudentRecordAgreeToTerms = (props) => {
                 {/* style={ isLoggedIn ? { display:'block'} : {display : 'none'} }  */}
                                     <span style={hasAgreed? {paddingRight: '5px', paddingLeft: '5px'} : {paddingLeft: '12px', paddingRight: '12px'}} className="mimic-radio" onClick={handleRadio} >{hasAgreed ? <strong>&#10003;</strong> : ''}</span>
                                 
-                                <strong className="font-terms">&nbsp;I agree to the terms of use.</strong>
+                                <strong className="font-terms">&nbsp;I agree to the <Link to="https://www.wiseattend.com/privacy">terms of use</Link>.</strong>
            
                         <div className="spacer-vertical"></div>
                     </div>
