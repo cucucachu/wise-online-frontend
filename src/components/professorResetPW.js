@@ -46,9 +46,8 @@ const ProfessorResetPW = (props) => {
         console.log(props.location.search)
         const values = queryString.parse(props.location.search)
         // https://online.wiseattend.com/admin/reset-password?adminId=5e9f5a847b83fe13804e3deb&passwordResetKey=RESET-123
-        console.log('id: ', values.adminId);
-        console.log('key: ', values.passwordResetKey);
-        setUserID(values.adminId)
+
+        setUserID(values.professorId)
         setKey(values.passwordResetKey)
         // return () => {
         //     cleanup
