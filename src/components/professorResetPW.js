@@ -22,6 +22,7 @@ const ProfessorResetPW = (props) => {
         e.preventDefault()
         if(pw === confirmPw){
             const data = {professorId: userID, passwordResetKey: key, password: pw}
+            
             const response = await resetProfessorPW(data)
 
             try{
@@ -43,9 +44,9 @@ const ProfessorResetPW = (props) => {
         }
     }
     useEffect(() => {
-        console.log(props.location.search)
+        // console.log(props.location.search)
         const values = queryString.parse(props.location.search)
-        // https://online.wiseattend.com/admin/reset-password?adminId=5e9f5a847b83fe13804e3deb&passwordResetKey=RESET-123
+        // https://online.wiseattend.com/admin/reset-password?professorId=5e9f5a847b83fe13804e3deb&passwordResetKey=RESET-123
 
         setUserID(values.professorId)
         setKey(values.passwordResetKey)
@@ -70,14 +71,14 @@ const ProfessorResetPW = (props) => {
                 <div className="input-wrapper">
                     <div style={showHide}>{message}</div>
                     <span className="input-label">Password</span>
-                    <input type="pw" placeholder="New Password" className="" value={pw} onChange={handlePW} required/>
+                    <input type="password" placeholder="New Password" className="" value={pw} onChange={handlePW} required/>
                 </div>
                         
                 <div className="spacer-vertical"></div>
 
                 <div className="input-wrapper">
                     <span className="input-label">Confirm Password</span>
-                    <input type="pw" placeholder="Confirm Password" className="" value={confirmPw} onChange={handleConfirmPW}required/>
+                    <input type="password" placeholder="Confirm Password" className="" value={confirmPw} onChange={handleConfirmPW}required/>
                 </div>
                 <div className="spacer-vertical"></div>
                 <div className="">
