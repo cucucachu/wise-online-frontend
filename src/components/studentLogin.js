@@ -6,7 +6,6 @@ import loginIcon from '../Assets/images/login-icon.png'
 import { studentLogin, studentAgreeToTerms } from '../store/axios'
 import { AuthContext } from '../contexts/AuthContext'
 
-
 class StudentLogin extends Component {
     static contextType = AuthContext
 
@@ -41,9 +40,7 @@ class StudentLogin extends Component {
         if(this.state.hasAgreedToTerms === true){
             try{
                 const response = await studentLogin(this.state.email, this.state.key)
-                const isAgreed = await studentAgreeToTerms(this.state.key)
-                console.log('agreed: ', isAgreed)
-                
+                const isAgreed = await studentAgreeToTerms(this.state.key)                
                 
                 if(response.status === 200){
                     const userStudent = response.data
@@ -78,7 +75,6 @@ class StudentLogin extends Component {
                         this.setState({isFirstTime: true})
                         return
                     }else{
-                    
                     sessionStorage.setItem('userID', userStudent.id)
                     sessionStorage.setItem('username', userStudent.name)
                     sessionStorage.setItem('schoolName', userStudent.name)
@@ -88,12 +84,10 @@ class StudentLogin extends Component {
                     this.props.history.push('/student/dashboard')
                     }
                     
-                }
-                else {
+                }else {
                     this.setState({message: 'Invalid email or student id. Please try again.'})
                     this.showError()
                 }
-    
             }
             catch (error) {
                 this.setState({message: 'Opps, something went wrong. Please try again.'})
@@ -104,7 +98,15 @@ class StudentLogin extends Component {
         return
         
     }
-    
+    componentDidMount(){
+        if(this.props.location.state){
+            const historyStates = this.props.location.state
+            const { message, showHide } =this.props.location.state
+            console.log('see if it is coming', historyStates)
+            this.setState({message: historyStates.message, showHide: historyStates.showHide})
+        }else{return}
+        
+    }
   render(){
     
       return(

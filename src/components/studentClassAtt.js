@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 
 import attendClass from '../Assets/images/attend-class.png';
-import { markAttendance } from "../store/axios";
-// markAttendance(classId, keyCode)
+import { markAttendance, logout } from "../store/axios";
 
 import { AuthContext } from '../contexts/AuthContext'
 
@@ -73,7 +72,15 @@ handleSubmit = async e =>{
       if (response.status === 200) {
           sessionStorage.setItem('classId', this.state.classId)
           this.props.history.push('attend-success')
-      }
+      }else if(response.status === 401){
+        console.log('res: ', response)
+        sessionStorage.clear();
+        logout()
+        this.props.history.push({
+          pathname: '/student-login',
+          state: { message: 'Sorry, your login has expired, please log in again.', showHide: {display: 'block'} }
+        })
+    }
       else {
           const state = Object.assign({}, this.state);
           state.message = 'Invalid Class ID or Attendance Code. Please try again.';

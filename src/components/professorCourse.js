@@ -4,7 +4,7 @@ import editIcon from '../Assets/images/edit-icon.png'
 import CourseCardRow from './courseCardRow';
 
 //axios
-import { createCourse, editCourse, getCourses } from '../store/axios'
+import { createCourse, editCourse, getCourses, logout } from '../store/axios'
 import { AuthContext } from '../contexts/AuthContext'
 
 class ProfessorCourse extends Component {
@@ -66,15 +66,25 @@ class ProfessorCourse extends Component {
         this.setState(state);
 
         const response = await getCourses(schoolID, userID);
-        console.log('res: ', response);
+        if(response.status === 401){
+            sessionStorage.clear();
+            logout()
+            this.props.history.push({
+                pathname: '/professor-login',
+                state: { message: 'Sorry, your login has expired, please log in again.', showHide: {display: 'block'} }
+              })
+        }else{
+            console.log('res: ', response);
         
-        const courses = response.data
-        sessionStorage.setItem('courses', courses)
-        state = Object.assign({}, this.state);
-
-        state.courses = courses;
-
-        this.setState(state);
+            const courses = response.data
+            sessionStorage.setItem('courses', courses)
+            state = Object.assign({}, this.state);
+    
+            state.courses = courses;
+    
+            this.setState(state);
+        }
+        
     }
 
     async componentDidMount() {

@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 
 import educationIcon from '../Assets/images/wise-education.png'
 
-// import { studentLogin } from '../store/axios'
 import { AuthContext } from '../contexts/AuthContext'
 
 

@@ -2,10 +2,10 @@ import React, {Component} from 'react';
 import setUpIcon from '../Assets/images/setting-icon.png';
 import uploadIcon from '../Assets/images/upload-icon.svg';
 import downloadIcon from '../Assets/images/download-icon.svg';
+import { logout } from '../store/axios'
 
 import '../Assets/css/radiobtn.css'
 import '../Assets/css/spinner.css'
-// import { Link } from "react-router-dom";
 import { postFiles, getStudentTemplateURL, getProfessorTemplateURL } from '../store/axios'
 import { AuthContext } from '../contexts/AuthContext'
 
@@ -63,6 +63,13 @@ class SetUpSchoolPage extends Component {
                 if (response.status === 200) {
                                     
                     this.props.history.push('/admin/set-up-success')
+                }else if(response.status === 401){
+                    sessionStorage.clear();
+                    logout()
+                    this.props.history.push({
+                        pathname: '/admin-login',
+                        state: { message: 'Sorry, your login has expired, please log in again.', showHide: {display: 'block'} }
+                      })
                 }
                 else {                    
                     this.setState({isLoading: false, message: response.data.error})

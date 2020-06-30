@@ -62,6 +62,14 @@ class AdminLogin extends Component {
         return 
         
     }
+    
+    componentDidMount(){
+        if(this.props.location.state){
+            const historyStates = this.props.location.state
+            const { message, showHide } =this.props.location.state
+            this.setState({message: historyStates.message, showHide: historyStates.showHide})
+        }else{return}
+    }
 
     render(){
         

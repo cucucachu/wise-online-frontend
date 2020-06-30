@@ -44,20 +44,7 @@ class ViewTestResults extends Component{
                     <div className="spacer-vertical"></div>
                     <h1>{this.state.examDate}</h1>
                     <div className="shadow">
-                    {/* <ul>{
-                        this.state.testResults.map((result,i) => 
-                        
-                        <li className="underbar" key={i}>
-                            <span>{result.student} </span>
-                        <Link >
-                            <img className="red-flag" src={redFlag} alt="red flag icon"/><span className="red-text">Red Flags Detected</span>
-                            <img src={chevronRight} alt="chevron right icon" />
-
-                        </Link>
-                        
-                        </li>
-                        )
-                    }</ul> */}
+         
                     <ul>{
                         this.state.exams.map((result,i) => 
                         <li className="underbar" key={i}>{result.student} 

@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from 'react'
 import editIcon from '../Assets/images/edit-icon.png'
 import { AuthContext } from '../contexts/AuthContext'
 import { takeTest } from '../store/axios'
-//classID key
+import { logout } from '../store/axios'
 
 const StudentTestId = (props) => {
     const [testId, setTestId] = useState('')
@@ -34,6 +34,13 @@ const StudentTestId = (props) => {
             if (response.status === 200) {
                 storeTestAttendanceId(response.data.id);
                 props.history.push('record-agree-to-terms')
+            }else if(response.status === 401){
+                sessionStorage.clear();
+                logout()
+                this.props.history.push({
+                    pathname: '/student-login',
+                    state: { message: 'Sorry, your login has expired, please log in again.', showHide: {display: 'block'}}
+                  })
             }
             else {
                 setMessage('Invalid Class ID or Test ID. Please try again.')

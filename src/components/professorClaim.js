@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import { Link } from 'react-router-dom'
 import editIcon from '../Assets/images/edit-icon.png';
-import { claimProfessorAccount } from '../store/axios'
+import { claimProfessorAccount, logout } from '../store/axios'
 // setupKey, email, password
 
 import { AuthContext } from '../contexts/AuthContext'

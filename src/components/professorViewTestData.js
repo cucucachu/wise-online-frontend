@@ -5,10 +5,8 @@ import moment from 'moment'
 import redFlag from '../Assets/images/red-flag.png'
 import PlayIcon from '../Assets/images/play_circle_white.svg'
 import PauseIcon from '../Assets/images/pause_circle_white.svg'
-import { Link } from 'react-router-dom'
-import chevronRight from '../Assets/images/chevron_right.svg'
-import { getTestImage } from '../store/axios'
 
+import { getTestImage, logout } from '../store/axios'
 
 class ViewEachTestResult extends Component{
     constructor(props){
@@ -89,11 +87,18 @@ class ViewEachTestResult extends Component{
             this.setState({isRedFlag: false})
         }
         const response = await getTestImage(testResult.id, this.state.imgNum)
-        const retrivedImg = response.data
-        this.setState({retrivedImg: retrivedImg, timeLeft: this.hhmmss(testResult.numberOfImages)})
-
-        console.log('test result: ', testResult);
-            
+        if(response.status === 401){
+            sessionStorage.clear()
+            logout()
+            this.props.history.push({
+                pathname: '/professor-login',
+                state: { message: 'Sorry, your login has expired, please log in again.', showHide: {display: 'block'} }
+              })
+        }else{
+            const retrivedImg = response.data
+            this.setState({retrivedImg: retrivedImg, timeLeft: this.hhmmss(testResult.numberOfImages)})
+        }
+        
         
     }
     componentWillUnmount() {

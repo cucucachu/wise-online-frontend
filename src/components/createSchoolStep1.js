@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react'
 
 import editIcon from '../Assets/images/edit-icon.png';
 
-import { createSchool } from '../store/axios'
+import { createSchool, logout } from '../store/axios'
 // name, setupKey, email, password
 
 import { AuthContext } from '../contexts/AuthContext'
@@ -51,6 +51,13 @@ class SchoolStep1 extends Component {
                 loggedinUser(newSchool.id, newSchool.school.name, newSchool.school.id)
                 authToggle() 
                 this.props.history.push('/set-up-school')
+            }else if(response.status === 401){
+                sessionStorage.clear();
+                logout()
+                this.props.history.push({
+                    pathname: '/admin-login',
+                    state: { message: 'Sorry, your login has expired, please log in again.', showHide: {display: 'block'} }
+                  })
             }
             else {
                 this.setState({message: 'Sorry, we could not find a school with that setup key.'})

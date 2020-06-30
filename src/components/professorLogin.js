@@ -15,7 +15,6 @@ class ProfessorLogin extends Component {
         display: 'none',
         message:'',
         showHide: { display: 'none'},
-        // isFirstTime: false,
         hasAgreedToTerms: false
     };
 
@@ -104,6 +103,14 @@ class ProfessorLogin extends Component {
         return
         
     }
+    componentDidMount(){
+        if(this.props.location.state){
+            const historyStates = this.props.location.state
+            const { message, showHide } =this.props.location.state
+            this.setState({message: historyStates.message, showHide: historyStates.showHide})
+        }else{return}
+    }
+    
   render(){
       return(
         <div className="container">

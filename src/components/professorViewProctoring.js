@@ -3,7 +3,7 @@ import viewIcon from '../Assets/images/view-icon.png'
 import ExamCardRow from './examCardRow'
 
 //axios
-import { getTestsByCourse, getTestResults } from '../store/axios'
+import { getTestsByCourse, getTestResults, logout } from '../store/axios'
 import '../Assets/css/spinner.css'
 
 class ViewProctoring extends Component {
@@ -47,6 +47,13 @@ class ViewProctoring extends Component {
                     const resultsArr = responseResult.data.proctoringResults
              
                     this.state.examData.push({id: exam.id, date: exam.date, results: resultsArr})
+                }else if(response.status === 401){
+                    sessionStorage.clear();
+                    logout()
+                    this.props.history.push({
+                        pathname: '/professor-login',
+                        state: { message: 'Sorry, your login has expired, please log in again.', showHide: {display: 'block'} }
+                      })
                 }else{
                     console.log(responseResult.data.error)
                 }

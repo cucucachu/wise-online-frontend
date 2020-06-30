@@ -1,12 +1,10 @@
 import React, { Component, Fragment } from 'react'
-import { 
-    Link,
-   } from "react-router-dom"
+import { Link } from "react-router-dom"
 
 import editIcon from '../Assets/images/edit-icon.png'
 
 //axios
-import { startAttendance } from '../store/axios'
+import { startAttendance, logout } from '../store/axios'
 import { AuthContext } from '../contexts/AuthContext'
 
 class ProfessorAttendance extends Component {
@@ -25,12 +23,21 @@ class ProfessorAttendance extends Component {
     async loadAttendance(course) {
         const response = await startAttendance(course._id);
         console.dir(response.data);
-
-        const attendanceData = response.data;
-        const state = Object.assign({}, this.state);
-
-        state.attendanceCode = attendanceData.keyCode;
-        this.setState(state);
+        if(response.status === 401){
+            sessionStorage.clear();
+            logout()
+            this.props.history.push({
+                pathname: '/professor-login',
+                state: { message: 'Sorry, your login has expired, please log in again.', showHide: {display: 'block'} }
+              })
+        }else{
+            const attendanceData = response.data;
+            const state = Object.assign({}, this.state);
+    
+            state.attendanceCode = attendanceData.keyCode;
+            this.setState(state);
+        }
+        
     }
     
     componentDidMount() {

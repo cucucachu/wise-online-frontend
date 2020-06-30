@@ -17,11 +17,7 @@ class Header extends Component {
     isLoggedIn: sessionStorage.setItem('isLoggedIn')
   }
   handleLogout = () =>{
-    // const { authToggle, isAuthenticated } = this.context
-    
-    // if(isAuthenticated){
-    //   authToggle()
-    // }
+
     sessionStorage.clear();
     logout()
   
@@ -39,7 +35,6 @@ class Header extends Component {
   render(){
 
     console.log('login: ', this.state.isLoggedIn);
-    
     
     const historyPath = this.props.history.location.pathname
     
