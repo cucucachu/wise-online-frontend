@@ -17,7 +17,7 @@ const StudentRecordAgreeToTerms = (props) => {
     const handleConfirm = (e) =>{
         e.preventDefault()
         if(hasAgreed){
-            props.history.push('test/record')
+            props.history.push('chrome-extension')
         }else{
             setShowHide(true)
         }

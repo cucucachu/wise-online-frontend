@@ -61,6 +61,7 @@ import ViewProctoring from '../components/professorViewProctoring';
 import ViewTestResults from '../components/professorTestResults';
 import ViewEachTestResult from '../components/professorViewTestData';
 import StudentRecordAgreeToTerms from '../components/studentRecordAgreeToTerms';
+import StudentInstallChromeExtension from '../components/studentInstallChromeExtension';
 
 class HomePage extends Component {
 static contextType = AuthContext
@@ -117,6 +118,7 @@ static contextType = AuthContext
                         {/* <Route path="/student/test/record" component={StudentRecordTest} /> */}
                         <PrivateRouteStudent path="/student/test-id" component={StudentTestId} />
                         <PrivateRouteStudent path="/student/record-agree-to-terms" component={StudentRecordAgreeToTerms} />
+                        <PrivateRouteStudent path="/student/chrome-extension" component={StudentInstallChromeExtension} />
                         <PrivateRouteStudent path="/student/test/recording-error" component={StudentRecError} />
                         <Route path="/student/fee-waiver" component={StudentFeeWaive} />
                         <Route path="/student/fee-waiver-select-school" component={StudentFeeWaiveSelect} />
