@@ -55,7 +55,7 @@ class AdminLogin extends Component {
             }
         }
         catch (error) {
-            this.setState({message: 'Opps, something went wrong. Please try again.'})
+            this.setState({message: 'Oops, something went wrong. Please try again.'})
             this.showError()
         }
         
