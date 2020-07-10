@@ -41,6 +41,7 @@ class StudentRecordTest extends Component {
 		this.setState(state);
 
 		this.tabsHandler();
+
 	}
 
 	componentWillUnmount() {
@@ -62,6 +63,7 @@ class StudentRecordTest extends Component {
 	}
 
 	async capture() { 
+		
 		this.getTabs();
 		const imageSrc = this.webcamRef.current.getScreenshot();   
 

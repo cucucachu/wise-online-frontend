@@ -131,6 +131,9 @@ static contextType = AuthContext
                         <Route path="/admin/reset-pw-sent" component={ForgotPWSentAdmin} />
                         <Route path="/professor/reset-pw-sent" component={ForgotPWSentProfessor} />
 
+                        {/* <Route path="/test" component={StudentRecordTest} />
+                        <Route path="/test-error" component={StudentRecError} /> */}
+
                         {/* landingpage */}
 
                         <Route exact path='/' component={SelectRole} />

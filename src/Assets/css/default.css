@@ -499,8 +499,8 @@ input[type="file"] {
   color: #1376cc;
   vertical-align: unset; }
 
-.test {
-  background-color: red; }
+.test:hover {
+  cursor: pointer; }
 
 .tooltip-login {
   position: relative;

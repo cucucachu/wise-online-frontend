@@ -5,8 +5,10 @@ import moment from 'moment'
 import redFlag from '../Assets/images/red-flag.png'
 import PlayIcon from '../Assets/images/play_circle_white.svg'
 import PauseIcon from '../Assets/images/pause_circle_white.svg'
-
+import chevronLeft from '../Assets/images/chevron-left-black.svg'
+import chevronRight from '../Assets/images/chevron_right-black.svg'
 import { getTestImage, logout } from '../store/axios'
+import '../Assets/css/default.min.css'
 
 class ViewEachTestResult extends Component{
     constructor(props){
@@ -27,8 +29,47 @@ class ViewEachTestResult extends Component{
             showHideStyle: true,
             showPause: false,
             isRedFlag: false,
-            timeLeft: ''
+            timeLeft: '',
+            hasImg: false,
+            showBtns: true,
+            testResultId: ''
         }
+    }
+    async previousSlide(){
+        if(this.state.imgNum <= 0){
+            console.log('first image')
+        }else{
+            const response = await getTestImage(this.state.testResultId, this.state.imgNum-1)
+            if(response.status === 200){
+                this.setState({retrivedImg: response.data, imgNum: this.state.imgNum-1})
+            }else if(response.status === 401){
+                sessionStorage.clear()
+                logout()
+                this.props.history.push({
+                    pathname: '/professor-login',
+                    state: { message: 'Sorry, your login has expired, please log in again.', showHide: {display: 'block'} }
+                  })
+            }else{console.log('error')}
+        }
+        
+    }
+    async nextSlide(){
+        if(this.state.imgNum >= this.state.numberOfImgs-1){
+            console.log('last image')
+        }else{
+            const response = await getTestImage(this.state.testResultId, this.state.imgNum+1)
+            if(response.status === 200){
+                this.setState({retrivedImg: response.data, imgNum: this.state.imgNum+1})
+            }else if(response.status === 401){
+                sessionStorage.clear()
+                logout()
+                this.props.history.push({
+                    pathname: '/professor-login',
+                    state: { message: 'Sorry, your login has expired, please log in again.', showHide: {display: 'block'} }
+                  })
+            }else{console.log('error')}
+        }
+        
     }
     handlePlay(){
         this.setState({
@@ -37,12 +78,11 @@ class ViewEachTestResult extends Component{
             this.playStop()
           }
           );
-        console.log('clicked: ', this.state.playVideo);
-
         
     }
     playStop(){
         if(this.state.playVideo === true){
+            this.setState({showBtns: false})
             console.log('palyvideo on: ', );
             
             this.timerID = setInterval(
@@ -51,7 +91,7 @@ class ViewEachTestResult extends Component{
               );
         }else{
             clearInterval(this.timerID);
-            this.setState({playVideo: false, showHideStyle: true, showPause: false})
+            this.setState({playVideo: false, showHideStyle: true, showPause: false, showBtns: true})
             // this.setState({toggleName: 'Play'})
         }
     }
@@ -79,6 +119,7 @@ class ViewEachTestResult extends Component{
     async componentDidMount(){
         
         const { testResult } = this.props.location.state
+        this.setState({testResultId: testResult.id})
         
         this.setState({formattedDate: moment.utc(testResult.startTime).format('MMM DD, YYYY'), testResult: testResult, red: testResult.tabs.red.length, redArr: testResult.tabs.red, yellowArr: testResult.tabs.yellow, testId: testResult.id, numberOfImgs: testResult.numberOfImages})
         if(testResult.confidenceScore <= 0.4 || testResult.tabs.red.length > 0){
@@ -94,10 +135,13 @@ class ViewEachTestResult extends Component{
                 pathname: '/professor-login',
                 state: { message: 'Sorry, your login has expired, please log in again.', showHide: {display: 'block'} }
               })
-        }else{
+        }else if(response.status === 200){
+            // console.log('checking', response.data)
             const retrivedImg = response.data
-            this.setState({retrivedImg: retrivedImg, timeLeft: this.hhmmss(testResult.numberOfImages)})
-        }
+            if(retrivedImg !== null){
+                this.setState({retrivedImg: retrivedImg, timeLeft: this.hhmmss(testResult.numberOfImages), hasImg: true})
+            }else{console.log('no data')}
+        }else{console.log('error', response)}
         
         
     }
@@ -105,19 +149,34 @@ class ViewEachTestResult extends Component{
         clearInterval(this.timerID);
       }
     async tick() {
-        if(this.state.imgNum < this.state.numberOfImgs){
-            this.setState({
-                imgNum: this.state.imgNum +1
-              });
+        //imgNum is a counter 
+        if(this.state.imgNum < this.state.numberOfImgs-1){
             
-            const response = await getTestImage(this.state.testId, this.state.imgNum)
-            const retrivedImg = response.data
-            this.setState({retrivedImg: retrivedImg})
-            const differences = this.state.numberOfImgs - this.state.imgNum
-            this.setState({timeLeft: this.hhmmss(differences)})
+            this.setState({
+                imgNum: this.state.imgNum +1 
+              });
+            try{
+                console.log('counter: ', this.state.imgNum)
+                console.log('database num: ', this.state.numberOfImgs)
+                const response = await getTestImage(this.state.testId, this.state.imgNum)
+                if(response.status === 200){
+                    const retrivedImg = response.data
+                    this.setState({retrivedImg: retrivedImg})
+                    const differences = this.state.numberOfImgs-1 - this.state.imgNum
+                    this.setState({timeLeft: this.hhmmss(differences)})
+                }else{
+                    console.log('server error')
+                }
+            }
+            catch (error){
+                console.log('Oops, something went wrong. Please try again.')
+            }
+            
+            
         }else{
             this.setState({imgNum: 0})
             const response = await getTestImage(this.state.testId, this.state.imgNum)
+
             const retrivedImg = response.data
             this.setState({retrivedImg: retrivedImg})
             this.setState({timeLeft: this.hhmmss(this.state.numberOfImgs)})
@@ -131,21 +190,36 @@ class ViewEachTestResult extends Component{
                     <img src={viewIcon} className="page-icon" alt="view icon"/>
                     <div className="spacer-vertical-s"></div>
                     <h1>{this.state.testResult.student}, {this.state.formattedDate}</h1>
-        {this.state.testResult.confidenceScore <= 0.4  || this.state.red > 0 ? <h2 className="red-text"><img className="red-flag-l" src={redFlag} alt="red flag icon" />&nbsp;
-Red Flags Detected</h2> : '' }
+                    {this.state.testResult.confidenceScore <= 0.4  || this.state.red > 0 ? <h2 className="red-text"><img className="red-flag-l" src={redFlag} alt="red flag icon" />&nbsp;Red Flags Detected</h2> : '' }
                     <div className="spacer-vertical-s"></div>
                     <div className="row">
                         <div className="col-md-6 col-lg-3 view-details ">
+                            {this.state.hasImg ? 
                             <div className="video-holder">
-                                <img src={this.state.retrivedImg} className="custom-video-frame" onClick={this.handlePlay.bind(this)} onMouseEnter={this.showPauseBtn.bind(this)} onMouseLeave={this.hidePauseBtn.bind(this)}/>
-                               
-                                <img className="icon-on-video" src={PlayIcon} alt="play icon" style={{display: this.state.showHideStyle ? 'block' : 'none' }} onClick={this.handlePlay.bind(this)}/>
-                                <img className="icon-on-video" src={PauseIcon} style={{display: this.state.showPause ? 'block' : 'none' }} alt="puse icon" onMouseEnter={this.showPauseBtn.bind(this)} onClick={this.handlePlay.bind(this)}/>
-                            </div>
-                            
+                            <img src={this.state.retrivedImg} className="custom-video-frame" onClick={this.handlePlay.bind(this)} onMouseEnter={this.showPauseBtn.bind(this)} onMouseLeave={this.hidePauseBtn.bind(this)}/>
+                           
+                            <img className="icon-on-video" src={PlayIcon} alt="play icon" style={{display: this.state.showHideStyle ? 'block' : 'none' }} onClick={this.handlePlay.bind(this)}/>
+                            <img className="icon-on-video" src={PauseIcon} style={{display: this.state.showPause ? 'block' : 'none' }} alt="puse icon" onMouseEnter={this.showPauseBtn.bind(this)} onClick={this.handlePlay.bind(this)}/>
+                            </div> :
+                            <div className="video-holder">No images</div>
+                            }
                             
                             <div className="spacer-vertical-s"></div>
-        <p style={{color: this.state.isRedFlag ? 'red' : '#ccc'}}>Video {this.state.isRedFlag ? <span className="red-text">red flags</span> : ''} {this.state.timeLeft}</p>
+                            {/* <p style={{color: this.state.isRedFlag ? 'red' : '#ccc'}}>Video {this.state.isRedFlag ? <span className="red-text">red flags</span> : ''} {this.state.timeLeft}</p> */}
+                            
+                            <p style={{color: this.state.isRedFlag ? 'red' : '#ccc'}}>Video {this.state.isRedFlag ? <span className="red-text">red flags</span> : ''} Frame&nbsp;{this.state.imgNum +1}&nbsp;of&nbsp;{this.state.numberOfImgs+1}</p>
+
+                            {this.state.showBtns ? 
+                            <div className="playbutton-wrapper text-plain">
+                                <div className="btn-slide test" onClick={this.previousSlide.bind(this)}>
+                                    <img className="icon-xxs" src={chevronLeft} alt="chevron left icon" />
+                                    &nbsp;Previous
+                                </div>
+                                <div className="btn-slide" onClick={this.nextSlide.bind(this)}> 
+                                    Next&nbsp;
+                                    <img className="icon-xxs" src={chevronRight} alt="chevron right icon" />
+                                </div>
+                            </div> : ''}
                            
                         </div>
                         <div className="col-md-6 col-lg-3 border-right-gray-lg">
@@ -155,7 +229,7 @@ Red Flags Detected</h2> : '' }
                                 this.state.red > 0 ?
                                 this.state.redArr.map((result, i) =>
                                 <li className="" key={i}>{result}</li>
-                                ) : 'no data'
+                                ) : 'none'
                                 }
                             </ul>
                         </div>
@@ -166,7 +240,7 @@ Red Flags Detected</h2> : '' }
                                 this.state.greenArr.length > 0 ?
                                 this.state.greenArr.map((result, i) =>
                                 <li key={i}>{result}</li>
-                                ) : 'no data'
+                                ) : 'none'
                                 }
                             </ul>
                         </div>
@@ -177,7 +251,7 @@ Red Flags Detected</h2> : '' }
                                 this.state.yellowArr.length > 0 ?
                                 this.state.yellowArr.map((result, i) =>
                                 <li key={i}>{result}</li>
-                                ) : 'no data'
+                                ) : 'none'
                                 }
                             </ul>
                         </div>

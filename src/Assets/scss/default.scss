@@ -316,6 +316,11 @@ footer{
     text-align: left;
     color: gray;
 }
+.btn-slide{
+    &:hover{
+        cursor: pointer;
+    }
+}
 
 .input-width{
     width: 60%;
@@ -327,7 +332,10 @@ input[type="file"] {
     height: 1px;
 
   }
-
+.playbutton-wrapper{
+    display: flex;
+    justify-content: space-between;
+}
 .shadow{
     box-shadow: 0 0 8px #ccc;
     border-radius: 1rem;
@@ -397,7 +405,11 @@ input[type="file"] {
     height: auto;
     margin-right: 6px;
 }
-
+.icon-xxs{
+    width: 8px;
+    height: auto;
+    opacity: 0.8;
+}
 .just-margin{
     margin: 0 2rem;
     border: 5px solid $primary-color;
@@ -733,6 +745,13 @@ input{
     width: 80%;
     padding: 5px;
 }
+
+
+// a {
+//     &:hover { }
+//     &:visited { }
+//     &:focus { }
+//   }
 .input-label-att{
     width: 22%;
     padding-left: 5px;
