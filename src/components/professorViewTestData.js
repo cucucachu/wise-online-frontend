@@ -1,18 +1,25 @@
 import React, { Component, Fragment} from 'react'
 import viewIcon from '../Assets/images/view-icon.png'
 import moment from 'moment'
+import VideoModal from './videoModal'
 
 import redFlag from '../Assets/images/red-flag.png'
 import PlayIcon from '../Assets/images/play_circle_white.svg'
 import PauseIcon from '../Assets/images/pause_circle_white.svg'
+import PauseIconBk from '../Assets/images/pause_circle_black.svg'
 import chevronLeft from '../Assets/images/chevron-left-black.svg'
 import chevronRight from '../Assets/images/chevron_right-black.svg'
 import { getTestImage, logout } from '../store/axios'
-import '../Assets/css/default.min.css'
 
 class ViewEachTestResult extends Component{
     constructor(props){
         super(props)
+        this.playStop = this.playStop.bind(this)
+        this.handlePlay = this.handlePlay.bind(this)
+        this.nextSlide = this.nextSlide.bind(this)
+        this.previousSlide = this.previousSlide.bind(this)
+        this.toggleModal = this.toggleModal.bind(this)
+
         this.state = {
             testResult: {},
             formattedDate: '',
@@ -31,10 +38,13 @@ class ViewEachTestResult extends Component{
             isRedFlag: false,
             timeLeft: '',
             hasImg: false,
-            showBtns: true,
-            testResultId: ''
+            testResultId: '',
+            openModal: false,
+            
         }
     }
+
+    
     async previousSlide(){
         if(this.state.imgNum <= 0){
             console.log('first image')
@@ -83,7 +93,7 @@ class ViewEachTestResult extends Component{
     playStop(){
         if(this.state.playVideo === true){
             this.setState({showBtns: false})
-            console.log('palyvideo on: ', );
+            console.log('paly video: ', );
             
             this.timerID = setInterval(
                 () => this.tick(),
@@ -104,7 +114,11 @@ class ViewEachTestResult extends Component{
     hidePauseBtn(){
         this.setState({showPause: false})
     }
-
+    toggleModal(){
+        this.setState(prevState => ({
+            openModal: !prevState.openModal
+          }));
+    }
     pad(num) {
         return ("0"+num).slice(-2);
     }
@@ -176,7 +190,6 @@ class ViewEachTestResult extends Component{
         }else{
             this.setState({imgNum: 0})
             const response = await getTestImage(this.state.testId, this.state.imgNum)
-
             const retrivedImg = response.data
             this.setState({retrivedImg: retrivedImg})
             this.setState({timeLeft: this.hhmmss(this.state.numberOfImgs)})
@@ -184,8 +197,13 @@ class ViewEachTestResult extends Component{
         
       }
     render(){
+        const showSlide = {justifyContent: 'space-between'}
+        const showPauseIcon = {justifyContent: 'center'}
+
         return(
             <Fragment>
+                {this.state.openModal ?  <VideoModal playVideo={this.state.playVideo} playStop={this.playStop} handlePlay={this.handlePlay} retrivedImg={this.state.retrivedImg} imgNum={this.state.imgNum} numberOfImgs={this.state.numberOfImgs} nextSlide={this.nextSlide} previousSlide={this.previousSlide} toggleModal={this.toggleModal}/> 
+                :
                 <div className="container">
                     <img src={viewIcon} className="page-icon" alt="view icon"/>
                     <div className="spacer-vertical-s"></div>
@@ -199,7 +217,7 @@ class ViewEachTestResult extends Component{
                             <img src={this.state.retrivedImg} className="custom-video-frame" onClick={this.handlePlay.bind(this)} onMouseEnter={this.showPauseBtn.bind(this)} onMouseLeave={this.hidePauseBtn.bind(this)}/>
                            
                             <img className="icon-on-video" src={PlayIcon} alt="play icon" style={{display: this.state.showHideStyle ? 'block' : 'none' }} onClick={this.handlePlay.bind(this)}/>
-                            <img className="icon-on-video" src={PauseIcon} style={{display: this.state.showPause ? 'block' : 'none' }} alt="puse icon" onMouseEnter={this.showPauseBtn.bind(this)} onClick={this.handlePlay.bind(this)}/>
+                            {/* <img className="icon-on-video" src={PauseIcon} style={{display: this.state.showPause ? 'block' : 'none' }} alt="puse icon" onMouseEnter={this.showPauseBtn.bind(this)} onClick={this.handlePlay.bind(this)}/> */}
                             </div> :
                             <div className="video-holder">No images</div>
                             }
@@ -207,19 +225,29 @@ class ViewEachTestResult extends Component{
                             <div className="spacer-vertical-s"></div>
                             {/* <p style={{color: this.state.isRedFlag ? 'red' : '#ccc'}}>Video {this.state.isRedFlag ? <span className="red-text">red flags</span> : ''} {this.state.timeLeft}</p> */}
                             
-                            <p style={{color: this.state.isRedFlag ? 'red' : '#ccc'}}>Video {this.state.isRedFlag ? <span className="red-text">red flags</span> : ''} Frame&nbsp;{this.state.imgNum +1}&nbsp;of&nbsp;{this.state.numberOfImgs+1}</p>
+                            <p style={{color: this.state.isRedFlag ? 'red' : '#ccc'}}>Video {this.state.isRedFlag ? <span className="red-text">red flags</span> : ''} Frame&nbsp;{this.state.imgNum +1}&nbsp;of&nbsp;{this.state.numberOfImgs}</p>
 
-                            {this.state.showBtns ? 
-                            <div className="playbutton-wrapper text-plain">
+                            
+                            <div className="playbutton-wrapper text-plain" style={this.state.playVideo ? showPauseIcon : showSlide}>
+                            {!this.state.playVideo &&
                                 <div className="btn-slide test" onClick={this.previousSlide.bind(this)}>
                                     <img className="icon-xxs" src={chevronLeft} alt="chevron left icon" />
                                     &nbsp;Previous
                                 </div>
+                            }
+                            {this.state.playVideo && 
+                                <img className="icon-m hover-pointer" src={PauseIconBk} alt="pause icon" onClick={this.handlePlay} />
+                            }
+                            {!this.state.playVideo &&
                                 <div className="btn-slide" onClick={this.nextSlide.bind(this)}> 
-                                    Next&nbsp;
-                                    <img className="icon-xxs" src={chevronRight} alt="chevron right icon" />
+                                Next&nbsp;
+                                <img className="icon-xxs" src={chevronRight} alt="chevron right icon" />
                                 </div>
-                            </div> : ''}
+                            }
+                    
+                            </div>
+                            <div className="spacer-vertical-s"></div>
+                            <p className="hover-pointer" onClick={this.toggleModal}>Full screen</p>
                            
                         </div>
                         <div className="col-md-6 col-lg-3 border-right-gray-lg">
@@ -257,6 +285,7 @@ class ViewEachTestResult extends Component{
                         </div>
                     </div>
                 </div>
+                }
             </Fragment>
         )
     }

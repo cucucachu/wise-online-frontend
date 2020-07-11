@@ -334,7 +334,6 @@ input[type="file"] {
   }
 .playbutton-wrapper{
     display: flex;
-    justify-content: space-between;
 }
 .shadow{
     box-shadow: 0 0 8px #ccc;
@@ -392,6 +391,19 @@ input[type="file"] {
 .icon-on-video:hover{
     cursor: pointer;
 }
+.prev-btn{
+    width: 15%;
+    &:hover{
+        cursor: pointer;
+    }
+}
+.next-btn{
+    width: 15%;
+    text-align: right;
+    &:hover{
+        cursor: pointer;
+    }
+}
 .col-md-4 > .shadow {
     margin: 10px 0;
 }
@@ -405,10 +417,35 @@ input[type="file"] {
     height: auto;
     margin-right: 6px;
 }
+.icon-ss{
+    width: 10px;
+    height: auto;
+}
 .icon-xxs{
     width: 8px;
     height: auto;
     opacity: 0.8;
+    &:hover{
+        cursor: pointer;
+    }
+}
+.icon-l{
+    width: 4rem;
+    height: auto;
+    &:hover{
+        cursor: pointer;
+    }
+}
+.icon-m{
+    width: 2rem;
+}
+.close-icon{
+    width: 50px;
+    float: right;
+    padding: 10px;
+    &:hover{
+        cursor: pointer;
+    }
 }
 .just-margin{
     margin: 0 2rem;
@@ -599,6 +636,50 @@ input[type="file"] {
     justify-content: center;
 }
 
+.video-modal{
+    width: 100vw;
+    height: 100vh;
+    max-height: 100vh;
+    background-color: rgba($color: #111111, $alpha: 1);
+    z-index: 100;
+    overflow-y: hidden;
+    position: absolute;
+    top: 0;
+}
+.video-modal-container{
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    width: 100%;
+    max-width: 800px;
+}
+.video-modal-btn-wrapper{
+    margin-top: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 1.5rem;
+    color: white;
+}
+.video-modal-img{
+    width: 100%;
+}
+.hide-header{
+    position: fixed;
+    top: 0;
+    height: 100px;
+    background-color: rgba($color: #111111, $alpha: 1);
+    z-index: 100;
+    width: 100vw;
+}
+.hover-pointer{
+    &:hover{
+        cursor: pointer;
+    }
+}
 
 @media only screen and (max-width: 2800px){
 .page-icon{
