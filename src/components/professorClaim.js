@@ -115,7 +115,7 @@ class ProfessorClaim extends Component {
                         <div className="row content-center">
                             <div className="col">
                                 <button style={this.state.hasAgreedToTerms ? {paddingTop: 0, paddingBottom: 0} : {padding: '13px'}} className="mimic-radio" onClick={this.handleRadio.bind(this)} >{this.state.hasAgreedToTerms ? <strong>&#10003;</strong> : ''}</button>
-                                <strong>&nbsp;I agree to the <Link to="https://www.wiseattend.com/privacy">terms of use</Link>.</strong></div>
+                                <strong style={{color: '#444'}}>&nbsp;I agree to the <a href="https://www.wiseattend.com/privacy" target="_blank">terms of use</a>.</strong></div>
                                 
                             </div>
                         <div className="spacer-vertical"></div>

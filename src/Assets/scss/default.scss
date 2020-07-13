@@ -34,7 +34,10 @@ button:focus { outline: none; }
     z-index: -10;
     border-bottom: 0;
 }
-
+.height-lower{
+    position: relative;
+    top: 7px;
+}
 .page-icon{
     z-index: 10;
     width: 18rem;

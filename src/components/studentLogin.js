@@ -148,7 +148,7 @@ class StudentLogin extends Component {
                         <div className="row content-center">
                             <div className="col">
                                 <button  className="mimic-radio" onClick={this.handleRadio.bind(this)} >{this.state.hasAgreedToTerms ? <strong>&#10003;</strong> : ''}</button>
-                                <strong className="font-terms">&nbsp;I agree to the <Link to="https://www.wiseattend.com/privacy">terms of use</Link>.</strong>
+                                <strong style={{color: '#444'}} className="font-terms">&nbsp;I agree to the <a href="https://www.wiseattend.com/privacy" target="_blank">terms of use</a>.</strong>
                                 
                             </div>
                             
