@@ -167,6 +167,12 @@ async function submitConfidenceScore(testAttendanceId, confidenceScore, image) {
     return response;
 }
 
+// testAttendanceId will be returned as part of the response from takeTest()
+async function submitScreenshot(testAttendanceId, screenshot) {
+    const response = await backend.post('student/submitScreenshot', {testAttendanceId, screenshot});
+    return response;
+}
+
 async function submitTabs(testAttendanceId, tabs) {
     const response = await backend.post('student/submitTabs', {testAttendanceId, tabs});
     return response;
@@ -236,6 +242,7 @@ export {
     markAttendance,
     takeTest,
     submitConfidenceScore,
+    submitScreenshot,
     submitTabs,
     getCourses,
     getStudents,

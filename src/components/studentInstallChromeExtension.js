@@ -37,7 +37,7 @@ const StudentInstallChromeExtension = (props) => {
 
                 <div className="spacer-vertical"></div>
                 {showHide ? <p style={input}>{errMsg}</p> :''}
-                <div classNamΩe="input-wrapper">
+                <div className="input-wrapper">
                 {/* style={ isLoggedIn ? { display:'block'} : {display : 'none'} }  */}
                                     <span style={hasAgreed? {paddingRight: '5px', paddingLeft: '5px'} : {paddingLeft: '12px', paddingRight: '12px'}} className="mimic-radio" onClick={handleRadio} >{hasAgreed ? <strong>&#10003;</strong> : ''}</span>
                                 <strong className="font-terms">&nbsp;I have downloaded the chrome extension.</strong>

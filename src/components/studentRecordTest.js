@@ -7,7 +7,7 @@ import editIcon from '../Assets/images/edit-icon.png'
 import recordingIcon from '../Assets/images/recording-icon.png'
 
 import { uploadReferenceImage, checkForStudent } from '../store/faces';
-import { submitTabs } from '../store/axios';
+import { submitTabs, submitScreenshot } from '../store/axios';
 
 const videoConstraints = {
     width: 1280,
@@ -21,12 +21,15 @@ class StudentRecordTest extends Component {
 
 		this.state = {
 			referenceImage: null,
-			interval: null,
+			webCamInterval: null,
+			screenshotInterval: null,
 		}
 
 		this.webcamRef = React.createRef();
 
 		this.capture = this.capture.bind(this);
+
+		this.takeScreenshot = this.takeScreenshot.bind(this);
 	}
 
 	static contextType = AuthContext;
@@ -35,16 +38,58 @@ class StudentRecordTest extends Component {
 	componentDidMount() {
 		const minTime = 10 * 1000;
 		const offsetTime = Math.floor(Math.random() * 2) * 1000;
-		const interval = setInterval(this.capture, minTime + offsetTime);
+
+		const webCamInterval = setInterval(this.capture, minTime + offsetTime);
+		const screenshotInterval = setInterval(this.takeScreenshot, minTime + offsetTime);
+
 		const state = Object.assign({}, this.state);
-		state.interval = interval;
+		state.webCamInterval = webCamInterval;
+		state.screenshotInterval = screenshotInterval;
 		this.setState(state);
 
 		this.tabsHandler();
+		this.startScreenVideo();
+	}
+
+	async startScreenVideo() {
+		const screenVideo = document.getElementById('screen-video');
+		screenVideo.srcObject = await navigator.mediaDevices.getDisplayMedia({
+			video: { mediaSource: 'screen' },
+		});
+
+		const displaySurface = screenVideo.srcObject.getVideoTracks()[0].getSettings().displaySurface;
+		screenVideo.play();
+
+		if (displaySurface !== 'monitor') {
+			this.stopScreenVideo();
+			await this.startScreenVideo();
+		}
+	}
+
+	stopScreenVideo() {
+		const screenVideo = document.getElementById('screen-video');
+		const screenStream = screenVideo.srcObject;
+		const tracks = screenStream.getTracks();
+
+		tracks.forEach(track => track.stop());
 	}
 
 	componentWillUnmount() {
-		clearInterval(this.state.interval);
+		clearInterval(this.state.webCamInterval);
+		clearInterval(this.state.screenshotInterval);
+		this.stopScreenVideo();
+	}
+
+	async takeScreenshot() {
+		const screenVideo = document.getElementById('screen-video');
+		const screenshotCanvas = document.getElementById('screenshot-canvas');
+
+		screenshotCanvas.width = screenVideo.videoWidth;
+		screenshotCanvas.height = screenVideo.videoHeight;
+		screenshotCanvas.getContext('2d').drawImage(screenVideo, 0, 0, screenVideo.videoWidth, screenVideo.videoHeight);
+		const screenshot = screenshotCanvas.toDataURL('image/jpeg');
+
+		await submitScreenshot(this.context.testAttendanceId, screenshot);
 	}
 
 	convertImage(image) {
@@ -63,10 +108,10 @@ class StudentRecordTest extends Component {
 
 	async capture() { 
 		this.getTabs();
-		const imageSrc = this.webcamRef.current.getScreenshot();   
+		const imageSrc = this.webcamRef.current.getScreenshot();
 
 		if(imageSrc == null){
-			this.props.history.push("recording-error");
+			// this.props.history.push("recording-error");
 		}
 		else {
 			const image = this.convertImage(imageSrc);
@@ -115,6 +160,8 @@ class StudentRecordTest extends Component {
 						width={600}
 						videoConstraints={videoConstraints}
 					/><br/>
+					<canvas id="screenshot-canvas" style={{display: 'none'}}></canvas>
+					<video id='screen-video' style={{display: 'none'}}></video>
 					<p className="text-plain"><img className="icon-xs" src={recordingIcon} alt="recording icon"></img>Recording in progress</p>
 					<div className="spacer-vertical"></div>
 					<Link to="/student/dashboard">
