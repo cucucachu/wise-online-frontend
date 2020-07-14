@@ -111,7 +111,7 @@ class StudentRecordTest extends Component {
 		const imageSrc = this.webcamRef.current.getScreenshot();
 
 		if(imageSrc == null){
-			// this.props.history.push("recording-error");
+			this.props.history.push("recording-error");
 		}
 		else {
 			const image = this.convertImage(imageSrc);

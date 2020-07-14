@@ -147,6 +147,12 @@ async function getImage(testAttendanceId, imageNumber) {
     return image;
 }
 
+async function getScreenshot(testAttendanceId, screenshotNumber) {
+    const response = await backend.get(`professor/testResults/${testAttendanceId}/screenshots/${screenshotNumber}`);
+    const image = response.data;
+    return image;
+}
+
 /* ----------------------------------------
     Student Routes
 ------------------------------------------*/
@@ -255,6 +261,7 @@ export {
     resetProfessorPW,
     studentAgreeToTerms,
     getImage,
+    getScreenshot,
     getTestsByCourse,
     getTestResults,
     getTestImage,
