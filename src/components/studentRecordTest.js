@@ -7,7 +7,7 @@ import editIcon from '../Assets/images/edit-icon.png'
 import recordingIcon from '../Assets/images/recording-icon.png'
 
 import { uploadReferenceImage, checkForStudent } from '../store/faces';
-import { submitTabs, submitScreenshot } from '../store/axios';
+import { submitTabs, submitScreenshot, submitProctoringError } from '../store/axios';
 
 const videoConstraints = {
     width: 1280,
@@ -106,25 +106,32 @@ class StudentRecordTest extends Component {
 		return byteArr;
 	}
 
-	async capture() { 
+	async capture() {
 		this.getTabs();
-		const imageSrc = this.webcamRef.current.getScreenshot();
 
-		if(imageSrc == null){
-			this.props.history.push("recording-error");
-		}
-		else {
-			const image = this.convertImage(imageSrc);
-			if (!this.state.referenceImage) {
-				const faceId = await uploadReferenceImage(image);
+		try {
+			const imageSrc = this.webcamRef.current.getScreenshot();
 	
-				const state = Object.assign({}, this.state);
-				state.referenceImage = faceId;
-				this.setState(state);
+			if(imageSrc == null){
+				this.props.history.push("recording-error");
 			}
 			else {
-				await checkForStudent(this.context.testAttendanceId, this.state.referenceImage, image, imageSrc);
+				const image = this.convertImage(imageSrc);
+	
+				if (!this.state.referenceImage) {
+					const faceId = await uploadReferenceImage(image);
+		
+					const state = Object.assign({}, this.state);
+					state.referenceImage = faceId;
+					this.setState(state);
+				}
+				else {
+					await checkForStudent(this.context.testAttendanceId, this.state.referenceImage, image, imageSrc);
+				}
 			}
+		}
+		catch (error) {
+			await submitProctoringError(this.context.testAttendanceId, error.message);
 		}
 	}
 

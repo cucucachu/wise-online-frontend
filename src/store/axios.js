@@ -184,6 +184,11 @@ async function submitTabs(testAttendanceId, tabs) {
     return response;
 }
 
+async function submitProctoringError(testAttendanceId, errorMessage) {
+    const response = await backend.post('student/submitProctoringError', {testAttendanceId, errorMessage});
+    return response;
+}
+
 async function submitFeeWaive(data) {
     const response = await backend.post('student/waiveFee', data);
     return response;
@@ -250,6 +255,7 @@ export {
     submitConfidenceScore,
     submitScreenshot,
     submitTabs,
+    submitProctoringError,
     getCourses,
     getStudents,
     postFiles,

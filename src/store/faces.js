@@ -41,7 +41,13 @@ async function verifyFace(faceId1, faceId2) {
 }
 
 async function uploadReferenceImage(image) {
-    return uploadFace(image);
+    const result = uploadFace(image);
+
+    if (!result) {
+        throw new Error('Could not find a face in the given image.');
+    }
+    
+    return result;
 }
 
 async function checkForStudent(testAttendanceId, referenceImageId, imageForFacesAPI, imageForStorage) {
