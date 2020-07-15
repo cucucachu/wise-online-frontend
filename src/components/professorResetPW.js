@@ -34,7 +34,7 @@ const ProfessorResetPW = (props) => {
                     setShowHide({display: 'block'})
                 }
             }catch(error){
-                setMessage('Opps, something went wrong. Please try again.')
+                setMessage('Oops, something went wrong. Please try again.')
                 setShowHide({display: 'block'})
             }
 

@@ -35,16 +35,16 @@ const StudentRecordAgreeToTerms = (props) => {
                     <h4 className="" style={{color: '#222'}}>PLEASE CAREFULLY READ THE FOLLWING:</h4>
                     <div className="spacer-vertical-s"></div>
                     <p style={{color: '#444'}}>
-                    By clicking “begin” you acknowledge that you are aware that you will be recorded by Wise through your device webcam, and the content of your web-browsing tabs will be recorded and displayed to professors, in effort to offer a secure exam proctoring experience at educational institutions. You hereby re-affirm that you have read, understand, and agree to our <Link to="https://www.wiseattend.com/privacy">privacy policy</Link> and <Link to="https://www.wiseattend.com/privacy">terms of service</Link>. Please know that all your information which is generated as part of using Wise is considered to be in the public domain. Your information may be stored and transmitted at the discretion of Wise to provide a secure exam proctoring experience.
+                    By clicking “begin” you acknowledge that you are aware that you will be recorded by Wise through your device webcam, and the content of your web-browsing tabs will be recorded and displayed to professors, in effort to offer a secure exam proctoring experience at educational institutions. You hereby re-affirm that you have read, understand, and agree to our <a href="https://www.wiseattend.com/privacy" target="_blank">privacy policy</a> and <a href="https://www.wiseattend.com/privacy" target="_blank">terms of service</a>. Please know that all your information which is generated as part of using Wise is considered to be in the public domain. Your information may be stored and transmitted at the discretion of Wise to provide a secure exam proctoring experience.
                     </p>
                 </div>
                 <div className="spacer-vertical"></div>
                 {showHide ? <p style={input}>{errMsg}</p> :''}
                 <div className="input-wrapper">
                 {/* style={ isLoggedIn ? { display:'block'} : {display : 'none'} }  */}
-                                    <span style={hasAgreed? {paddingRight: '5px', paddingLeft: '5px'} : {paddingLeft: '12px', paddingRight: '12px'}} className="mimic-radio" onClick={handleRadio} >{hasAgreed ? <strong>&#10003;</strong> : ''}</span>
+                                    <span style={hasAgreed? {paddingRight: '5px', paddingLeft: '5px', } : {paddingLeft: '12px', paddingRight: '12px'}} className="mimic-radio height-lower" onClick={handleRadio} >{hasAgreed ? <strong>&#10003;</strong> : ''}</span>
                                 
-                                <strong className="font-terms">&nbsp;I agree to the <Link to="https://www.wiseattend.com/privacy">terms of use</Link>.</strong>
+                                <strong style={{color: '#444'}} className="font-terms">&nbsp;I agree to the <a href="https://www.wiseattend.com/privacy" target="_blank">terms of use</a>.</strong>
            
                         <div className="spacer-vertical"></div>
                     </div>

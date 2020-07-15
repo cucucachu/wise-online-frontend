@@ -107,6 +107,7 @@ class StudentRecordTest extends Component {
 	}
 
 	async capture() {
+		
 		this.getTabs();
 
 		try {

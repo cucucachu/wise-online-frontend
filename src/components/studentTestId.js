@@ -50,7 +50,7 @@ const StudentTestId = (props) => {
         }
         catch (error) {
             console.log(error.message);
-            setMessage('Opps, something went wrong. Please try again.')
+            setMessage('Oops, something went wrong. Please try again.')
             showError()
         }
 
