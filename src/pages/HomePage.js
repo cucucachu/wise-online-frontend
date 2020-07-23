@@ -71,7 +71,7 @@ static contextType = AuthContext
             <HeaderNew />
             <div className="wrap">
                 <div className="page-header">
-                  <img src={headerBackground} className="bg-img" alt="background image"/>
+                  <img src={headerBackground} className="bg-img" alt="background"/>
                 </div>
 
                 <Switch>

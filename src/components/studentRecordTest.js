@@ -66,11 +66,19 @@ class StudentRecordTest extends Component {
 		}
 	}
 
+	// stopScreenVideo() {
+	// 	const screenVideo = document.getElementById('screen-video');
+	// 	const screenStream = screenVideo.srcObject;
+	// 	const tracks = screenStream.getTracks();
+
+	// 	tracks.forEach(track => track.stop());
+	// }
 	stopScreenVideo() {
 		const screenVideo = document.getElementById('screen-video');
 		const screenStream = screenVideo.srcObject;
+        if (!screenStream) 
+            return;
 		const tracks = screenStream.getTracks();
-
 		tracks.forEach(track => track.stop());
 	}
 

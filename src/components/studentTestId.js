@@ -55,17 +55,7 @@ const StudentTestId = (props) => {
         }
 
     }
-    // const checkCookie = ()=>{
-    //     if(cookies === undefined){
-    //         props.history.push('/student-login')
-    //     }else{return}
-    // }
-    // useEffect(() => {
-    //     const interval = setInterval(() => {
-    //         checkCookie()
-    //     }, 300000);
-    //     return () => clearInterval(interval)
-    // })
+  
 
     return ( 
         <React.Fragment>

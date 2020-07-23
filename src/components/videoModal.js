@@ -18,7 +18,6 @@ class VideoModal extends Component{
         return(
             <div className="video-modal">
                 
-                <div className="hide-header"></div>
                 <div className="video-modal-container">
                 <img className="close-icon" src={closeIcon} alt="close icon" onClick={this.props.toggleModal} />
                     <img className="video-modal-img" src={this.props.retrivedImg} />

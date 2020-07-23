@@ -380,15 +380,14 @@ input[type="file"] {
 .custom-video-frame{
     width: 100%;
     background-color: lightgray;
-    // min-height: ;
 }
 .custom-video-frame:hover{
     cursor: pointer;
 }
 .icon-on-video{
-    position: absolute;
-    left: 34%;
-    top: 12%;
+    position: relative;
+    left: 0;
+    top: -13vh;
     width: 32%;
 }
 .icon-on-video:hover{
@@ -406,6 +405,10 @@ input[type="file"] {
     &:hover{
         cursor: pointer;
     }
+}
+.pos-adjust{
+    position: relative;
+    top: -8vh;
 }
 .col-md-4 > .shadow {
     margin: 10px 0;
@@ -546,7 +549,9 @@ input[type="file"] {
     font-weight: lighter;
     font-size: medium;
 }
-
+.text-black{
+    color: #333;
+}
 .list-text{
     font-size: x-large;
     font-weight: lighter;
@@ -646,8 +651,9 @@ input[type="file"] {
     background-color: rgba($color: #111111, $alpha: 1);
     z-index: 100;
     overflow-y: hidden;
-    position: absolute;
+    position: fixed;
     top: 0;
+    left: 0;
 }
 .video-modal-container{
     margin: 0;
@@ -669,14 +675,6 @@ input[type="file"] {
 }
 .video-modal-img{
     width: 100%;
-}
-.hide-header{
-    position: fixed;
-    top: 0;
-    height: 100px;
-    background-color: rgba($color: #111111, $alpha: 1);
-    z-index: 100;
-    width: 100vw;
 }
 .hover-pointer{
     &:hover{
