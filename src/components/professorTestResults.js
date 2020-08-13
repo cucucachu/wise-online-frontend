@@ -31,7 +31,7 @@ class ViewTestResults extends Component{
         const { examDate } = this.props.location.state
         const { exam } = this.props.location.state
         this.setState({exams: exam.results})
-        console.log('exam: ', exam.results)
+        // console.log('exam: ', exam.results)
         
         this.setState({examDate: examDate})
         // await this.loadTestResults()
@@ -48,7 +48,7 @@ class ViewTestResults extends Component{
                     <ul>{
                         this.state.exams.map((result,i) => 
                         <li className="underbar" key={i}>{result.student} 
-                        {result.confidenceScore < 0.4 || result.tabs.red.length > 0 ? <Link to={{
+                        {result.confidenceScore <= 0.4 && result.confidenceScore !== 0 || result.tabs.red.length > 0 ? <Link to={{
                                 pathname: `/professor/view-detail`,
                                 state: {
                                     testResult: result,

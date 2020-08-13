@@ -85,16 +85,26 @@ async function resetAdminPW(data){
     return response
 }
 
-function adminDownloadDataByCourseURL() {
-    return baseURL + 'admin/courses/attendanceData';
+async function adminDownloadDataByCourseURL(termId) {
+    // return baseURL + 'admin/courses/attendanceData/:id' + termId;
+    const response = await backend.get('/admin/courses/attendanceData/', termId);
+    return response;
 }
 
-function adminDownloadDataByProfessorURL() {
-    return baseURL + 'admin/professors/attendanceData';
+async function adminDownloadDataByProfessorURL(termId) {
+    // return baseURL + 'admin/professors/attendanceData/:id' + termId;
+    const response = await backend.get('/admin/professors/attendanceData/', termId);
+    return response;
 }
 
-function adminDownloadDataByStudentURL() {
-    return baseURL + 'admin/students/attendanceData';
+async function adminDownloadDataByStudentURL(termId) {
+    const response = await backend.get('admin/students/attendanceData/', termId);
+    return response;
+}
+
+async function adminEditTerm(termId, name){
+    const response = await backend.post('/admin/terms/edit', {termId, name})
+    return response;
 }
 
 function getStudentTemplateURL() {
@@ -103,6 +113,11 @@ function getStudentTemplateURL() {
 
 function getProfessorTemplateURL() {
     return baseURL + 'admin/professorTemplate';
+}
+
+async function getTerms(admin) {
+    const response = await backend.get('admin/terms', admin);
+    return response;
 }
 
 /* ----------------------------------------
@@ -271,4 +286,6 @@ export {
     getTestsByCourse,
     getTestResults,
     getTestImage,
+    getTerms,
+    adminEditTerm,
 }

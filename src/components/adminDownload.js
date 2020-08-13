@@ -1,4 +1,4 @@
-import React　from 'react';
+import React, { useState }　from 'react';
 import { Link } from 'react-router-dom'
 
 import attendanceIcon from '../Assets/images/attendance-icon.png'
@@ -20,33 +20,30 @@ function downloadDataByStudent() {
 }
 
 const AdminDownload = (props) => {
-    // const schoolName = sessionStorage.getItem('schoolName')
-    // const { cookies } = useContext(AuthContext)
 
-    // const checkCookie = ()=>{
-    //     if(cookies === undefined){
-    //         props.history.push('/student-login')
-    //     }else{return}
-    // }
-    // useEffect(() => {
-
-    //     const interval = setInterval(() => {
-    //         checkCookie()
-    //     }, 300000);
-    //     return () => clearInterval(interval)
-    // })
     return ( 
         <div className="container">
                 <img src={ attendanceIcon } className="page-icon" alt="login icon"/>
-                <div className="spacer-vertical"></div>
+                <div className="spacer-vertical-s"></div>
                 <h1>Attendance Data</h1>
                 <div className="spacer-vertical"></div>
-                <button className="btn-l" onClick={downloadDataByCourse}><img src={downloadIcon} className="icon-xs" alt="download icon" />Download data by course</button>
-                <div className="spacer-vertical"></div>
+                {/* <button className="btn-l" onClick={downloadDataByCourse}><img src={downloadIcon} className="icon-xs" alt="download icon" />Download data by course</button>
+                <div className="spacer-vertical-s"></div>
                 <button className="btn-l" onClick={downloadDataByProfessor}><img src={downloadIcon} className="icon-xs" alt="download icon" />Download data by professor</button>
-                <div className="spacer-vertical"></div>
-                <button className="btn-l" onClick={downloadDataByStudent}><img src={downloadIcon} className="icon-xs" alt="download icon" />Download data by student</button>
-                <div className="spacer-vertical"></div>
+                <div className="spacer-vertical-s"></div>
+                <button className="btn-l" onClick={downloadDataByStudent}><img src={downloadIcon} className="icon-xs" alt="download icon" />Download data by student</button> */}
+
+                <div className="spacer-vertical-s"></div>
+
+                <Link to="terms">
+                       
+                    <button className="btn-l">
+                    <img src={downloadIcon} className="icon-xs" alt="download icon" />
+                    Download data by term
+                    </button>
+                </Link>
+                
+                <div className="spacer-vertical-s"></div>
                 <Link to="/set-up-school">
                     <button className="btn-l">Set up your school</button>
                 </Link>

@@ -43,7 +43,7 @@ class ProfessorLogin extends Component {
                 
                 if(response.status === 200){
                     const userProfessor = response.data
-                    console.log('user: ', userProfessor)
+                    // console.log('user: ', userProfessor)
                     sessionStorage.setItem('userID', userProfessor.id)
                     sessionStorage.setItem('username', userProfessor.name)
                     sessionStorage.setItem('schoolName', userProfessor.name)

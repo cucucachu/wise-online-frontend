@@ -28,9 +28,6 @@ class ExamCard extends Component {
 
     componentDidMount(){
         this.setState({formattedDate: moment.utc(this.props.examDate).format('MMM DD, YYYY'), isRedTab: this.props.isRedTab})
-        console.log('redTab: ', this.props.isRedTab);
-        
-        
     }
 
     render() {

@@ -74,7 +74,6 @@ class ProfessorCourse extends Component {
                 state: { message: 'Sorry, your login has expired, please log in again.', showHide: {display: 'block'} }
               })
         }else{
-            console.log('res: ', response);
         
             const courses = response.data
             sessionStorage.setItem('courses', courses)
@@ -92,19 +91,7 @@ class ProfessorCourse extends Component {
         await this.loadCourses();
 
     }
-    // componentWillUnmount() {
-    //     clearInterval(this.timer);
-    //   }
-    // checkCookie(){
-    // const { cookies } = this.context
-    // console.log('cookies: ', cookies);
-    
-    // if(cookies === undefined){
-    //     console.log('cookies expired: ', cookies);
-        
-    //     this.props.history.push('/professor-login')
-    // }else{return}
-    // }
+
     render() {
         return(
             <Fragment>

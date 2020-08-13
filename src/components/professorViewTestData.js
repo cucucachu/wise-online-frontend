@@ -5,6 +5,7 @@ import VideoModal from './videoModal'
 
 import redFlag from '../Assets/images/red-flag.png'
 import PlayIcon from '../Assets/images/play_circle_white.svg'
+import emptyImg from '../Assets/images/empty-img.png'
 // import PauseIcon from '../Assets/images/pause_circle_white.svg'
 import PauseIconBk from '../Assets/images/pause_circle_black.svg'
 import chevronLeft from '../Assets/images/chevron-left-black.svg'
@@ -31,7 +32,7 @@ class ViewEachTestResult extends Component{
         this.state = {
             testResult: {},
             formattedDate: '',
-            red: 1,
+            red: 0,
             redArr: [],
             greenArr: [],
             yellowArr: [],
@@ -57,6 +58,7 @@ class ViewEachTestResult extends Component{
             totalScreenshots: null,
             isPlayed: false,
             playScreenshot: false,
+            screenshotViolation: false,
         }
     }
     
@@ -92,7 +94,12 @@ class ViewEachTestResult extends Component{
         }else{
             const screenshot = await getScreenshot(this.state.testResultId, this.state.screenshotNum-1)
             if(screenshot){
-                this.setState({retrivedShot: screenshot, screenshotNum: this.state.screenshotNum-1})
+                if(screenshot.length > 50){
+                    this.setState({retrivedShot: screenshot, screenshotNum: this.state.screenshotNum-1})
+                }else{
+                    this.setState({retrivedShot: emptyImg, screenshotNum: this.state.screenshotNum-1})
+                }
+                
             }else{console.log('error')}
         }
     }
@@ -103,7 +110,10 @@ class ViewEachTestResult extends Component{
         }else{
             const screenshot = await getScreenshot(this.state.testResultId, this.state.screenshotNum+1)
             if(screenshot){
-                this.setState({retrivedShot: screenshot, screenshotNum: this.state.screenshotNum+1})
+                if(screenshot.length > 50){
+                    this.setState({retrivedShot: screenshot, screenshotNum: this.state.screenshotNum+1})
+                }else{this.setState({retrivedShot: emptyImg, screenshotNum: this.state.screenshotNum+1})}
+                
             }else{console.log('error')}
         }
         
@@ -118,8 +128,7 @@ class ViewEachTestResult extends Component{
     }
     playStop(){
         if(this.state.playVideo === true){
-            // this.setState({showBtns: false, })
-            console.log('paly video: ', );
+            //play video
             this.timerID = setInterval(
                 () => this.tick(),
                 1000
@@ -188,7 +197,6 @@ class ViewEachTestResult extends Component{
         
         const { testResult } = this.props.location.state
         this.setState({testResultId: testResult.id})
-        
         this.setState({formattedDate: moment.utc(testResult.startTime).format('MMM DD, YYYY'), testResult: testResult, red: testResult.tabs.red.length, redArr: testResult.tabs.red, yellowArr: testResult.tabs.yellow, testId: testResult.id, numberOfImgs: testResult.numberOfImages})
         if(testResult.confidenceScore <= 0.4 || testResult.tabs.red.length > 0){
             this.setState({isRedFlag: true})
@@ -203,18 +211,34 @@ class ViewEachTestResult extends Component{
             if(retrivedImg !== null){
                 this.setState({retrivedImg: retrivedImg, timeLeft: this.hhmmss(testResult.numberOfImages), hasImg: true})
             }else{console.log('no data')}
-        }else{console.log('error', response)}
+        }else{
+            console.log('error', response)
+            this.setState({showHideStyle: false})
+        }
 
         if(testResult.numberOfScreenshots !== null){
-            this.setState({hasScreenshot: true, totalScreenshots: testResult.numberOfScreenshots})
+     
+            this.setState({totalScreenshots: testResult.numberOfScreenshots})
+            if(testResult.screenshotViolations.length > 0){
+                this.setState({screenshotViolation: true})
+            }
             try{
                 const resScreenshot = await getScreenshot(testResult.id, this.state.screenshotNum)
-                if(testResult.numberOfScreenshots > 0){
-                    this.setState({retrivedShot: resScreenshot})
-                }else{console.log('screenshot num', testResult.numberOfScreenshots)}
+          
+                if(testResult.numberOfScreenshots > 0 && resScreenshot.message === ''){
+                    if(resScreenshot.length < 50){
+                        this.setState({hasScreenshot: true, retrivedShot: emptyImg})
+                    }else{
+                        this.setState({hasScreenshot: true, retrivedShot: resScreenshot})
+                    }
+                    
+                }else{
+                    this.setState({hasScreenshot: false})
+                }
        
             }catch(error){
                 console.log('error: ', error)
+                this.setState({hasScreenshot: false})
             }
         }else{
             console.log('no screenshots')
@@ -265,7 +289,12 @@ class ViewEachTestResult extends Component{
             try{
                 const screenshot = await getScreenshot(this.state.testId, this.state.screenshotNum)
                 if(screenshot){
-                    this.setState({retrivedShot: screenshot})
+                    if(screenshot.length > 50){
+                        this.setState({retrivedShot: screenshot})
+                    }else{
+                        this.setState({retrivedShot: emptyImg})
+                    }
+                    
                 }else{
                     console.log('server error')
                 }
@@ -277,7 +306,12 @@ class ViewEachTestResult extends Component{
             this.setState({screenshotNum: 1})
             try{
                 const screenshot = await getScreenshot(this.state.testId, 1)
-                this.setState({retrivedShot: screenshot})
+                if(screenshot.length > 50){
+                    this.setState({retrivedShot: screenshot})
+                }else{
+                    this.setState({retrivedShot: emptyImg})
+                }
+                
             }catch(error){
                 console.log('Oops, something went wrong. Please try again.')
             }
@@ -296,15 +330,14 @@ class ViewEachTestResult extends Component{
                     <img src={viewIcon} className="page-icon" alt="view icon"/>
                     <div className="spacer-vertical-s"></div>
                     <h1>{this.state.testResult.student}, {this.state.formattedDate}</h1>
-                    {this.state.testResult.confidenceScore <= 0.4  || this.state.red > 0 ? <h2 className="red-text"><img className="red-flag-l" src={redFlag} alt="red flag icon" />&nbsp;Red Flags Detected</h2> : '' }
+                    {this.state.testResult.confidenceScore !== 0 && this.state.testResult.confidenceScore <= 0.4  || this.state.red > 0 ? <h2 className="red-text"><img className="red-flag-l" src={redFlag} alt="red flag icon" />&nbsp;Red Flags Detected</h2> : '' }
                     <div className="spacer-vertical-s"></div>
                     <div className="row">
                         <div className="col-md-6 col-lg-3 view-details ">
                             {this.state.hasImg ? 
                             <div className="video-holder">
-                            <img src={this.state.retrivedImg} className="custom-video-frame" onClick={this.handlePlay.bind(this)} onMouseEnter={this.showPauseBtn.bind(this)} onMouseLeave={this.hidePauseBtn.bind(this)}/>
-                           
-                            <img className="icon-on-video" src={PlayIcon} alt="play icon" style={{visibility: this.state.showHideStyle ? 'visible' : 'hidden' }} onClick={this.handlePlay.bind(this)}/>
+                            <img src={this.state.retrivedImg} className="custom-video-frame" onClick={this.handlePlay.bind(this)} onMouseEnter={this.showPauseBtn.bind(this)} onMouseLeave={this.hidePauseBtn.bind(this)} alt="photos of the students"/>
+                            <img className="icon-on-video" src={PlayIcon} alt="play icon"  onClick={this.handlePlay.bind(this)}/>
                             {/* <img className="icon-on-video" src={PauseIcon} style={{display: this.state.showPause ? 'block' : 'none' }} alt="puse icon" onMouseEnter={this.showPauseBtn.bind(this)} onClick={this.handlePlay.bind(this)}/> */}
                             </div> :
                             <div className="video-holder">No images</div>
@@ -315,7 +348,10 @@ class ViewEachTestResult extends Component{
                             {this.state.hasImg && 
                             <React.Fragment>
                             <p className="hover-pointer pos-adjust" onClick={this.toggleModal}>Full screen</p>
-                            <p className="pos-adjust" style={{color: this.state.isRedFlag ? 'red' : '#333'}}>Video {this.state.isRedFlag ? <span className="red-text pos-adjust">red flags</span> : ''} Frame&nbsp;{this.state.imgNum +1}&nbsp;of&nbsp;{this.state.numberOfImgs}</p>
+                            <p className="pos-adjust" style={{color: this.state.isRedFlag ? 'red' : '#333'}}>
+                            Video &nbsp;
+                            {/* {this.state.isRedFlag ? <span className="red-text">red flags</span> : ''}  */}
+                            Frame&nbsp;{this.state.imgNum +1}&nbsp;of&nbsp;{this.state.numberOfImgs}</p>
                             
                             <div className="playbutton-wrapper text-black pos-adjust" style={this.state.playVideo ? showPauseIcon : showSlide}>
                             {!this.state.playVideo &&
@@ -345,10 +381,10 @@ class ViewEachTestResult extends Component{
                             playStop={this.screenshotPlayer} 
                             handlePlay={this.handlePlayScreenshot} 
                             retrivedImg={this.state.retrivedShot} 
-                            imgNum={this.state.screenshotNum} 
-                            numberOfImgs={this.state.totalScreenshots} 
+                            imgNum={this.state.screenshotNum-1} 
+                            numberOfImgs={this.state.totalScreenshots-1} 
                             nextSlide={this.nextScreenshot} 
-                            previousSlide={this.previousScreenshot} 
+                            prevSlide={this.previousScreenshot} 
                             toggleModal={this.toggleModalScreenshot}/> }
 
                             <div className="video-holder">
@@ -357,9 +393,9 @@ class ViewEachTestResult extends Component{
                                 </div>
                                 
                             </div>
-                            <img className="icon-on-video" src={PlayIcon} alt="play icon" style={{visibility: this.state.showHideStyle2 ? 'visible' : 'hidden' }} onClick={this.handlePlayScreenshot}/>
+                            <img className="icon-on-video" src={PlayIcon} alt="play icon"  onClick={this.handlePlayScreenshot}/>
                             <p className="hover-pointer pos-adjust" onClick={this.toggleModalScreenshot}>Full screen</p>
-                            <p className="text-black pos-adjust">Video Frame&nbsp;{this.state.screenshotNum}&nbsp;of&nbsp;{this.state.totalScreenshots-1}</p>
+                            <p className="text-black pos-adjust" style={{color: this.state.screenshotViolation ? 'red' : '#333'}}>Video Frame&nbsp;{this.state.screenshotNum}&nbsp;of&nbsp;{this.state.totalScreenshots-1}</p>
 
                             <div className="playbutton-wrapper text-black pos-adjust" style={this.state.playScreenshot ? showPauseIcon : showSlide}>
                             {!this.state.playScreenshot &&
