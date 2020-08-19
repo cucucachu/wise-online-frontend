@@ -1,22 +1,18 @@
 import React, { useState, useEffect }　from 'react'
 import { Link } from 'react-router-dom'
-import { logout, getTerms } from '../store/axios'
+import { logout, getTerms, createTerm, editTerm } from '../store/axios'
 import viewIcon from '../Assets/images/view-icon.png'
 import TermCard from './adminTermCard'
+import AdminNewTermCard from './adminNewTermCard'
 
 
 const AdminTerms = (props) => {
-//   const [professorId, setProfessorId] = useState('')
-  const schoolId = sessionStorage.getItem('schoolID')
   const userId = sessionStorage.getItem('userID')
-  const [message, setMessage] = useState('')
-  const [showHide, setShowHide] = useState({display: 'none'})
-  const [editing, setEditing] = useState(false)
   const [terms, setTerms] = useState([])
-//   const handleChange = e => {
-//       console.log(e.target.value)
-//       setProfessorId(e.target.value)
-//   }
+  const [lastRow, setLastRow] = useState(true)
+  const [term, setTerm] = useState({name: '', id: ''})
+  const [openForm, setOpenForm] = useState(false)
+
   const cookiesExpired = () =>{
     sessionStorage.clear()
     logout()
@@ -25,23 +21,40 @@ const AdminTerms = (props) => {
         state: { message: 'Sorry, your login has expired, please log in again.', showHide: {display: 'block'} }
         })
     }
-  
+  const handleChange = (e) =>{
+    setTerm({
+      ...term, 
+      [e.target.name]: e.target.value
+    })
+  }
+  const handleSubmit = async e =>{
+    e.preventDefault()
+    try{
+      const response = await createTerm(term.id, term.name)
+      console.log('res', response)
+      console.log('check if this running')
+      setOpenForm(false)
+      loadTerms()
+    }catch(error){
+      console.log(error)
+    }
+  }
+  const handleOpenForm = () =>{
+    setOpenForm(!openForm)
+  }
+
   const loadTerms = async () =>{
     try{
           const response = await getTerms(userId)
-          console.log('res', response)
-          setTerms(response.data)
-          // if(response.status === 200){
-          //     props.history.push({
-          //         pathname: 'view-courses',
-          //         state: { terms: response.data }
-          //       })
-          // }else if(response.status === 401){
-          //     cookiesExpired()
-          // }else{
-          //     setMessage('Invalid professor ID. Please try again.')
-          //     setShowHide({display: 'block'})
-          // }
+          // console.log('res', response.data)
+          if(response.status === 200){
+            setTerms(response.data)
+          }else if(response.status === 401){
+            cookiesExpired()
+          }else{
+            console.log('something wrong, try again')
+          }
+          
     }catch(error){
         console.log(error)
     }
@@ -73,6 +86,22 @@ const AdminTerms = (props) => {
                         }
                         return termCards;
                     })()
+                }
+                {
+                    (() => {
+                    if (lastRow) {
+                      console.log(openForm)
+                        return (
+                            <AdminNewTermCard
+                                inputStype={props.inputStype}
+                                handleChange={handleChange}
+                                handleSubmit={handleSubmit}
+                                handleOpenForm={handleOpenForm}
+                                openForm={openForm}
+                            />
+                        )
+                    }
+                })()
                 }
             </div>
             

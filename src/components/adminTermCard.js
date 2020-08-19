@@ -1,15 +1,9 @@
 import React, { Component } from 'react';
-import {
-    Link,
-   } from "react-router-dom"
 
 import downloadIcon from '../Assets/images/download-icon-white.svg'
-import tickIcon from '../Assets/images/tick-icon-white.svg'
 import settingIcon from '../Assets/images/settings.svg'
-import editIcon from '../Assets/images/edit-icon-white.svg'
-import viewIcon from '../Assets/images/eye-icon-white.svg'
 
-import { adminDownloadDataByCourseURL, adminDownloadDataByProfessorURL, adminDownloadDataByStudentURL, adminEditTerm } from '../store/axios'
+import { adminDownloadDataByCourseURL, adminDownloadDataByProfessorURL, adminDownloadDataByStudentURL, adminEditTerm, logout } from '../store/axios'
 
 class AdminTermCard extends Component {
     
@@ -61,7 +55,14 @@ class AdminTermCard extends Component {
             }
         }
     }
-
+    cookiesExpired(){
+        sessionStorage.clear()
+        logout()
+        this.props.history.push({
+            pathname: '/admin-login',
+            state: { message: 'Sorry, your login has expired, please log in again.', showHide: {display: 'block'} }
+            })
+    }
     async downloadDataByCourse() {
         let exportedFilenmae = this.state.name + '-data-by-course'
         // window.location = await adminDownloadDataByCourseURL(this.state.termId);
@@ -90,9 +91,19 @@ class AdminTermCard extends Component {
     }
     async handleSubmitEditTerm(e) {
         e.preventDefault()
-        const res = await adminEditTerm(this.state.termId, this.state.name);
-        await this.props.loadTerms()
-        this.setState({editing: false})
+        try{
+            const response = await adminEditTerm(this.state.termId, this.state.name);
+            if(response.status === 200){
+                await this.props.loadTerms()
+                this.setState({editing: false})
+            }else if(response.status === 401){
+                this.cookiesExpired()
+            }
+        }catch(error){
+            console.log('Oops, something wrong', error)
+        }
+        
+        
     }
 
     renderView() {

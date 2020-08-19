@@ -1,17 +1,8 @@
 import React, { useState, useEffect, Fragment }　from 'react'
 import viewIcon from '../Assets/images/view-icon.png'
-import moment from 'moment'
-// import CourseCard from './adminTermCard';
+import AdminNewTermCard from './adminNewTermCard'
 
 const AdminViewCourses = (props) => {
-
-    const colNum = 2
-    let content = ''
-    const [isLoaded, setIsloaded] = useState(false)
-    const courses = props.location.state.courses
-    const [contentStr, setContentStr] = useState('')
-
-   
     
     return(
         <div className="container">
@@ -35,6 +26,20 @@ const AdminViewCourses = (props) => {
                         }
                         return courseCards;
                     })()
+                }
+                {
+                    (() => {
+                    if (props.lastRow) {
+                        return (
+                            <AdminNewTermCard
+                                inputStype={props.inputStype}
+                                handleChangeID={props.handleChangeID}
+                                handleChangeName={props.handleChangeName}
+                                handleSubmit={props.handleSubmitNewCourse}
+                            />
+                        )
+                    }
+                })()
                 }
             </div>
             

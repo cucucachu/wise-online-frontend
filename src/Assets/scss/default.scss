@@ -157,7 +157,15 @@ input[type=number] {
     max-width: 800px;
     margin: 0 auto;
 }
-
+.input-settings{
+    padding: 10px 15px;
+    border-radius: .5rem;
+    box-shadow: 0 0 5px #ccc;
+    width: 100%;
+    margin-bottom: 5px;
+    line-height: 1.5;
+    border: 1px solid #ccc;
+}
 .spacer-vertical{
     margin-top: 5rem;
 }

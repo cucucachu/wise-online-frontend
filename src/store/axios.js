@@ -120,6 +120,11 @@ async function getTerms(admin) {
     return response;
 }
 
+async function createTerm(termId, name) {
+    const response = await backend.post('/admin/terms/create', {termId, name});
+    return response;
+}
+
 /* ----------------------------------------
     Professor Routes
 ------------------------------------------*/
@@ -288,4 +293,5 @@ export {
     getTestImage,
     getTerms,
     adminEditTerm,
+    createTerm,
 }
