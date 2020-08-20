@@ -214,6 +214,23 @@ footer {
     background-color: white;
     color: #1376cc; }
 
+.btn-upload {
+  background-color: #AA2222;
+  border: 1px solid #AA2222;
+  color: white;
+  font-size: large;
+  padding: 5px 15px;
+  border-radius: 0.5rem;
+  text-align: left;
+  width: 100%;
+  box-shadow: 0 0 10px #999; }
+  .btn-upload:hover {
+    box-shadow: 0 0 5px #999;
+    border: 1px solid #1376cc;
+    background-color: white;
+    color: #1376cc; 
+}
+
 .btn-download {
   background-color: white;
   color: gray;

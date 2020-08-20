@@ -14,6 +14,7 @@ function CourseCardRow (props) {
                         const component = <CourseCard 
                             course={course} 
                             handleSubmit={props.handleSubmitEditCourse}
+                            handleDelete={props.handleDeleteCourse}
                             key={course._id}
                         />
                         courseCards.push(component);

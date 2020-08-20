@@ -18,10 +18,13 @@ class CourseCard extends Component {
         this.state = {
             classId: props.course.classId,
             name: props.course.name,
-            editing: false
+            editing: false,
+            deleting: false,
         }
 
         this.handleClickEdit = this.handleClickEdit.bind(this);
+        this.handleClickDelete = this.handleClickDelete.bind(this);
+        this.handleClickCancel = this.handleClickCancel.bind(this);
         this.handleChangeId = this.handleChangeId.bind(this);
         this.handleChangeName = this.handleChangeName.bind(this);
     }
@@ -35,6 +38,22 @@ class CourseCard extends Component {
     handleClickEdit() {
         const state = Object.assign({}, this.state);
         state.editing = true;
+        this.setState(state);
+    }
+
+    handleClickDelete() {
+        const state = Object.assign({}, this.state);
+        state.editing = false;
+        state.deleting = true;
+        this.setState(state);
+    }
+
+    handleClickCancel() {
+        const state = Object.assign({}, this.state);
+        state.editing = false;
+        state.deleting = false;
+        state.name = this.props.course.name;
+        state.classId = this.props.course.classId;
         this.setState(state);
     }
 
@@ -118,18 +137,84 @@ class CourseCard extends Component {
             <div className="col-sm-6">
                 <div className="shadow" >
                     <div className="row">
+                        <div className="col-sm-10">
+                            <h2 className="course-title">{this.props.course.name}</h2>
+                        </div>
+                        <div className="col-sm-2">
+                            <button className="btn-neutral" onClick={this.handleClickCancel}><div style={{textAlign: 'center'}}>&#128473;</div></button>
+                        </div>
+                    </div>
+                    <div className="row">
                         <div className="col-sm-6">
-                            <form onSubmit={(e) => { this.props.handleSubmit(e, this.props.course._id, this.state.name, this.state.classId) }}>
+                            <form onSubmit={(e) => { e.preventDefault() }}>
                                 <input type="text" placeholder="Enter a new class name" style={CourseCard.inputStype} onChange={this.handleChangeName} value={this.state.name}/>
                                 <input type="text" placeholder="Enter a new class ID" style={CourseCard.inputStype} onChange={this.handleChangeId} value={this.state.classId}/>
-                                <input type="submit" style={{textAlign: 'center'}} className="btn-upload" value="Submit"/>
                             </form>
                         </div>
                         <div className="col-sm-6 text-plain-s">
                             Enter a new class name<br/>
                             e.g. ECON 101<br/>
                             Enter a new class ID<br/>
-                            e.g. My ECON 101
+                            e.g. My ECON 101<br/>
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="col-sm-6">
+                            <button 
+                                className="btn-upload" 
+                                style={ { textAlign: 'center' } }
+                                
+                                onClick={(e) => { this.props.handleSubmit(e, this.props.course._id, this.state.name, this.state.classId) }}
+                                >
+                                Submit
+                            </button>
+                        </div>
+                        <div className="col-sm-2">
+                        </div>
+                        <div className="col-sm-4">
+                            <button 
+                                className="btn-danger"
+                                style={ { textAlign: 'center' } }
+                                onClick={this.handleClickDelete}
+                            >
+                                Delete
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    renderDelete() {
+        return (
+            <div className="col-sm-6">
+                <div className="shadow" >
+                    <div className="row">
+                        <div className="col-sm-10">
+                            <h2 className="course-title">{this.props.course.name}</h2>
+                        </div>
+                        <div className="col-sm-2">
+                            <button className="btn-neutral" onClick={this.handleClickCancel}><div style={{textAlign: 'center'}}>&#128473;</div></button>
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="col-sm">
+                            <p>Warning: Deleting a course perminantly deletes the course as well as all it's attendance and proctoring data.</p>
+                            <p>Are you sure you want to delete this course?</p>
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="col-sm-4">
+                            <button 
+                                className="btn-danger"
+                                style={ { textAlign: 'center' } }
+                                onClick={(e) => { this.props.handleDelete(e, this.props.course._id) }}
+                            >
+                                Delete
+                            </button>
+                        </div>
+                        <div className="col-sm 6">
                         </div>
                     </div>
                 </div>
@@ -141,6 +226,11 @@ class CourseCard extends Component {
         if (this.state.editing) {
             return this.renederEdit();
         }
+
+        if (this.state.deleting) {
+            return this.renderDelete();
+        }
+
         return this.renderView();
     }
 }

@@ -147,6 +147,10 @@ async function editCourse(courseId, name, classId) {
     return response;
 }
 
+async function deleteCourse(courseId) {
+    const response = await backend.post('professor/deleteCourse', { courseId })
+}
+
 async function startAttendance(courseId) {
     const response = await backend.post('professor/startAttendance', {courseId});
     return response;
@@ -267,6 +271,7 @@ export {
     getProfessorTemplateURL,
     createCourse,
     editCourse,
+    deleteCourse,
     startAttendance,
     startTest,
     downloadDataForCourseURL,
