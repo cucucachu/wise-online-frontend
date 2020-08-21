@@ -76,6 +76,19 @@ async function postFiles(professorFile, studentFile) {
     return response;
 }
 
+async function addUsersPrecheck(professorFile, studentFile) {
+    var formData = new FormData();
+    formData.append('professorFile', professorFile)
+    formData.append('studentFile', studentFile)
+    const response = await backend.post('admin/setupSchool/preCheck', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        },
+        timeout: 60000,
+    });
+    return response;
+}
+
 async function adminRequestResetPW(email) {
     const response = await backend.post('/admin/requestPasswordReset', email);
     return response;
@@ -284,6 +297,7 @@ export {
     getCourses,
     getStudents,
     postFiles,
+    addUsersPrecheck,
     adminRequestResetPW,
     professorRequestResetPW,
     getSchoolNames,
