@@ -4,7 +4,8 @@ import { logout, getTerms, createTerm, editTerm } from '../store/axios'
 import viewIcon from '../Assets/images/view-icon.png'
 import TermCard from './adminTermCard'
 import AdminNewTermCard from './adminNewTermCard'
-
+import '../Assets/css/spinner.css'
+import '../Assets/css/radiobtn.css'
 
 const AdminTerms = (props) => {
   const userId = sessionStorage.getItem('userID')
@@ -12,6 +13,7 @@ const AdminTerms = (props) => {
   const [lastRow, setLastRow] = useState(true)
   const [term, setTerm] = useState({name: '', id: ''})
   const [openForm, setOpenForm] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
 
   const cookiesExpired = () =>{
     sessionStorage.clear()
@@ -31,7 +33,6 @@ const AdminTerms = (props) => {
     e.preventDefault()
     try{
       const response = await createTerm(term.id, term.name)
-      console.log('res', response)
       console.log('check if this running')
       setOpenForm(false)
       loadTerms()
@@ -44,11 +45,12 @@ const AdminTerms = (props) => {
   }
 
   const loadTerms = async () =>{
-    try{
+    try{ 
+          setIsLoading(true)
           const response = await getTerms(userId)
-          // console.log('res', response.data)
           if(response.status === 200){
             setTerms(response.data)
+            setIsLoading(false)
           }else if(response.status === 401){
             cookiesExpired()
           }else{
@@ -70,6 +72,15 @@ const AdminTerms = (props) => {
             <div className="spacer-vertical"></div>
             <h1>Download data</h1>
             <div className="spacer-vertical"></div>
+            {isLoading ? 
+              <div >
+                        <div className="spacer-vertical"></div>
+                        <h2>Loading
+                            <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
+                        </h2>
+                    </div>
+                    :
+            
             <div className="row">
                 {
                     (() => {
@@ -90,7 +101,6 @@ const AdminTerms = (props) => {
                 {
                     (() => {
                     if (lastRow) {
-                      console.log(openForm)
                         return (
                             <AdminNewTermCard
                                 inputStype={props.inputStype}
@@ -104,7 +114,7 @@ const AdminTerms = (props) => {
                 })()
                 }
             </div>
-            
+          }
             
         </div>
   );

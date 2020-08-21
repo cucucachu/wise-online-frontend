@@ -21,15 +21,14 @@ class AdminNewTermCard extends Component {
                             <div className="col-sm-6">
                                 <form onSubmit={this.props.handleSubmit}>
                                     <input type="text" placeholder="Enter term name" className="input-settings" name="name" onChange={this.props.handleChange}/>
-                                    <input type="text" placeholder="Enter term ID" className="input-settings" onChange={this.props.handleChange} name="id"/>
+                                    {/* <input type="text" placeholder="Enter term ID" className="input-settings" onChange={this.props.handleChange} name="id"/> */}
+                                    
                                     <input type="submit" style={{textAlign: 'center'}} className="btn-upload" value="Create"/>
                                 </form>
                             </div>
                             <div className="col-sm-6 text-plain-s">
                                 Create a term name<br/>
-                                e.g. Wise Term 1<br/>
-                                Create a unique term ID<br/>
-                                e.g. wegwa7ewd
+                                e.g. Wise Term 1
                             </div>
                         </div>
                     </div>

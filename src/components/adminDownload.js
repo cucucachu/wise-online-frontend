@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom'
 
 import attendanceIcon from '../Assets/images/attendance-icon.png'
 import downloadIcon from '../Assets/images/download-icon-white.svg'
-// import { AuthContext } from '../contexts/AuthContext'
 
 import { adminDownloadDataByCourseURL, adminDownloadDataByProfessorURL, adminDownloadDataByStudentURL } from '../store/axios';
 
@@ -39,7 +38,7 @@ const AdminDownload = (props) => {
                        
                     <button className="btn-l">
                     <img src={downloadIcon} className="icon-xs" alt="download icon" />
-                    Download data by term
+                    Download terms
                     </button>
                 </Link>
                 

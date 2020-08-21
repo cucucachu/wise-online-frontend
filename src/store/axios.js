@@ -125,6 +125,11 @@ async function createTerm(termId, name) {
     return response;
 }
 
+async function  setCurrentTerm(termId) {
+    const response = await backend.post('/admin/terms/setAsCurrent', {termId})
+    return response;
+}
+
 /* ----------------------------------------
     Professor Routes
 ------------------------------------------*/
@@ -294,4 +299,5 @@ export {
     getTerms,
     adminEditTerm,
     createTerm,
+    setCurrentTerm,
 }

@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import downloadIcon from '../Assets/images/download-icon-white.svg'
 import settingIcon from '../Assets/images/settings.svg'
 
-import { adminDownloadDataByCourseURL, adminDownloadDataByProfessorURL, adminDownloadDataByStudentURL, adminEditTerm, logout } from '../store/axios'
+import { adminDownloadDataByCourseURL, adminDownloadDataByProfessorURL, adminDownloadDataByStudentURL, adminEditTerm, logout, setCurrentTerm } from '../store/axios'
 
 class AdminTermCard extends Component {
     
@@ -12,7 +12,8 @@ class AdminTermCard extends Component {
         this.state = {
             termId: props.term._id,
             name: props.term.name,
-            editing: false
+            editing: false,
+            errorCurrentTerm: false,
         }
 
         this.handleClickEdit = this.handleClickEdit.bind(this);
@@ -89,6 +90,23 @@ class AdminTermCard extends Component {
         state.editing = true;
         this.setState(state);
     }
+    async handleSetCurrent(e){
+        
+        try{
+            const response = await setCurrentTerm(e.target.id)
+            if(response.status === 200){
+                await this.props.loadTerms()
+            }else if(response.status === 401){
+                this.cookiesExpired()
+            }else{
+                this.setState({errorCurrentTerm: false})
+            }
+        }catch(error){
+            this.setState({errorCurrentTerm: false})
+            console.log('server error', error)
+        }
+        
+    }
     async handleSubmitEditTerm(e) {
         e.preventDefault()
         try{
@@ -114,11 +132,15 @@ class AdminTermCard extends Component {
                         
                         <div className="col-sm-6">
                             <h2 className="course-title">{this.props.term.name}</h2>
-                            <p>Term ID: {this.state.termId}</p>
-                            {/* <ul className="text-plain custom-list">
-                                <li>{this.props.course.attendances ? this.props.course.attendances.length : 0} class{this.props.course.attendances && this.props.course.attendances.length === 1 ? '' : 'es'} recorded</li>
-                                <li>{this.props.course.tests ? this.props.course.tests.length : 0} test{this.props.course.tests && this.props.course.tests.length === 1 ? '' : 's'} recorded</li>
-                            </ul> */}
+                            {/* <p>Term ID: {this.state.termId}</p> */}
+                            <label className="radio-container"  onClick={this.handleSetCurrent.bind(this)}><h2 id={this.state.termId} style={{paddingTop: "5px"}} className="text-plain" >Current term</h2>
+                            {this.props.term.current ? 
+                            <input type="checkbox" disabled="disabled" key={this.state.termId}  onClick={this.handleSetCurrent.bind(this)} checked/> : 
+                            <input type="checkbox" name={this.props.term.name}  disabled="disabled"  /> }
+                            <span className="checkmark"></span>
+                            </label>
+                            {this.state.errorCurrentTerm && <p>Oops, something wrong, try again.</p>}
+                            <div className="spacer-vertical-s"></div>
                             <button className="btn-setting" onClick={this.handleClickEdit}>
                                 <img src={settingIcon} className="icon-sm" alt="setting icon"/>
                                 &nbsp;Settings
@@ -147,15 +169,13 @@ class AdminTermCard extends Component {
                             {/* <form onSubmit={(e) => { this.props.handleSubmit(e, this.state.termId, this.state.name, this.state.term) }}> */}
                             <form onSubmit={this.handleSubmitEditTerm.bind(this)}>
                                 <input type="text" placeholder="Enter a new class name" style={AdminTermCard.inputStype} onChange={this.handleChangeName} value={this.state.name}/>
-                                <input type="text" placeholder="Enter a new class ID" style={AdminTermCard.inputStype} onChange={this.handleChangeId} value={this.state.termId}/>
+                                {/* <input type="text" placeholder="Enter a new class ID" style={AdminTermCard.inputStype} onChange={this.handleChangeId} value={this.state.termId}/> */}
                                 <input type="submit" style={{textAlign: 'center'}} className="btn-upload" value="Submit"/>
                             </form>
                         </div>
                         <div className="col-sm-6 text-plain-s">
                             Enter a new term name<br/>
                             e.g. Wise New Term<br/>
-                            Enter a new term ID<br/>
-                            e.g. Wise New term
                         </div>
                     </div>
                 </div>

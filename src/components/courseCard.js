@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import {
-    Link,
-   } from "react-router-dom"
+import { Link } from "react-router-dom"
 
 import downloadIcon from '../Assets/images/download-icon-white.svg'
 import tickIcon from '../Assets/images/tick-icon-white.svg'

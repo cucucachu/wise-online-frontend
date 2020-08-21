@@ -2,7 +2,6 @@ import React, { Component, Fragment } from 'react'
 import viewIcon from '../Assets/images/view-icon.png'
 import ExamCardRow from './examCardRow'
 
-//axios
 import { getTestsByCourse, getTestResults, logout } from '../store/axios'
 import '../Assets/css/spinner.css'
 
