@@ -1,26 +1,25 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
-import editIcon from '../Assets/images/edit-icon.png'
+import React, { useState } from 'react';
+import editIcon from '../Assets/images/edit-icon.png';
 
 const StudentInstallChromeExtension = (props) => {
 
-    const [hasAgreed, setHasAgreed] = useState(false)
-    const [showHide, setShowHide] = useState(false)
-    const errMsg = 'Please agree to terms and conditions.'
-    const input = {fontSize: '1.5rem'}
+    const [hasAgreed, setHasAgreed] = useState(false);
+    const [showHide, setShowHide] = useState(false);
+    const errMsg = 'Please agree to terms and conditions.';
+    const input = {fontSize: '1.5rem'};
 
-    const handleRadio = e =>{
+    const handleRadio = e => {
         e.preventDefault()
         setHasAgreed(!hasAgreed);
-
     }
 
-    const handleConfirm = (e) =>{
-        e.preventDefault()
-        if(hasAgreed){
-            props.history.push('test/record')
-        }else{
-            setShowHide(true)
+    const handleConfirm = (e) => {
+        e.preventDefault();
+        if (hasAgreed) {
+            props.history.push('test/record');
+        }
+        else {
+            setShowHide(true);
         }
     }
 
@@ -48,7 +47,7 @@ const StudentInstallChromeExtension = (props) => {
                 
             </div>
         </React.Fragment>
-     );
+    );
 }
  
 export default StudentInstallChromeExtension;

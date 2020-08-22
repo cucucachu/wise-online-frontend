@@ -8,7 +8,9 @@ import {
 //components
 import ProfessorLogin from '../components/professorLogin'
 import ProfessorCourse from '../components/professorCourse'
-import ProfessorAttendanace from '../components/professorAttendance'
+import ProfessorAttendanaceStart from '../components/professorAttendanceStart'
+import ProfessorAttendanacesView from '../components/professorAttendancesView'
+import AttendanaceView from '../components/AttendanceView'
 import ProfessorClaim from '../components/professorClaim'
 import ProfessorExam from '../components/professorExam';
 import ProfessorClaimSuccess from '../components/professorClaimSuccess';
@@ -100,7 +102,9 @@ static contextType = AuthContext
                         <Route path="/professor/claim-account" component={ProfessorClaim} />
                         {/* <PrivateRouteProfessor path="/professor/claim-account-success" component={ProfessorClaimSuccess} /> */}
                         <Route path="/professor/claim-account-success" component={ProfessorClaimSuccess} />
-                        <PrivateRouteProfessor path="/professor/attendance" component={ProfessorAttendanace} />
+                        <PrivateRouteProfessor path="/professor/attendancesView" component={ProfessorAttendanacesView} />
+                        <PrivateRouteProfessor path="/professor/attendanceView" component={AttendanaceView} />
+                        <PrivateRouteProfessor path="/professor/attendance/start" component={ProfessorAttendanaceStart} />
                         <PrivateRouteProfessor path="/professor/exam" component={ProfessorExam} />
                         <PrivateRouteProfessor path="/professor/proctoring/:courseId" component={ViewProctoring} />
                         <PrivateRouteProfessor path="/professor/view-report/:testId" component={ViewTestResults} />

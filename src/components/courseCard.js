@@ -73,12 +73,21 @@ class CourseCard extends Component {
                         
                         <div className="col-sm-6">
                             <Link to={{
-                                pathname: '/professor/attendance',
+                                pathname: '/professor/attendance/start',
                                 state: {
                                     course: this.props.course,
                                 }
                             }}>
                             <button className="btn-upload" style={{marginBottom: '5px', fontSize: 'medium'}}><img src={tickIcon} className="icon-xs" alt="tick icon" />Take attendance</button>
+                            </Link>
+
+                            <Link to={{
+                                pathname: '/professor/attendancesView',
+                                state: {
+                                    course: this.props.course,
+                                }
+                            }}>
+                            <button className="btn-upload" style={{marginBottom: '5px', fontSize: 'medium'}}><img src={tickIcon} className="icon-xs" alt="tick icon" />Attendance</button>
                             </Link>
     
                             <Link to={{

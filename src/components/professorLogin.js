@@ -27,23 +27,14 @@ class ProfessorLogin extends Component {
     showError = () =>{
         this.setState({showHide: {display: 'block'}})
     }
-    // handleRadio = e =>{
-    //     e.preventDefault()
-    //     this.setState(prevState => ({
-    //         isAgreed: !prevState.isAgreed
-    //       }));
 
-    // }
     handleSubmit = async e =>{
         e.preventDefault()
-        // const { loggedinUser, authToggle } = this.context
-        // if(this.state.hasAgreedToTerms === true){
             try{
                 const response = await professorLogin(this.state.email, this.state.key)
                 
                 if(response.status === 200){
                     const userProfessor = response.data
-                    // console.log('user: ', userProfessor)
                     sessionStorage.setItem('userID', userProfessor.id)
                     sessionStorage.setItem('username', userProfessor.name)
                     sessionStorage.setItem('schoolName', userProfessor.name)
@@ -53,7 +44,7 @@ class ProfessorLogin extends Component {
                     
                     this.props.history.push('/professor/course')
                 }else{
-                    this.setState({message: 'Invalid email or student id. Please try again.'})
+                    this.setState({message: 'Invalid email or password. Please try again.'})
                     this.showError()
                 }
                 
@@ -61,44 +52,6 @@ class ProfessorLogin extends Component {
                 this.setState({message: 'Oops, something went wrong. Please try again.'})
                 this.showError()
             }
-        // }else{
-        //     try {
-            
-        //         const response = await professorLogin(this.state.email, this.state.key)
-        //         const userProfessor = response.data
-    
-        //         if (response.status === 200) {
-        //             // argument (name, id, schoolID)
-        //             //check is the student ever checked terms and conditions
-        //             if(userProfessor.hasAgreedToTerms === false){
-        //                 //show checkbox
-        //                 this.setState({message: 'Please agree to terms and conditions'})
-        //                 this.showError()
-        //                 this.setState({isFirstTime: true})
-        //                 return
-        //             }else{
-                    
-        //             sessionStorage.setItem('userID', userProfessor.id)
-        //             sessionStorage.setItem('username', userProfessor.name)
-        //             sessionStorage.setItem('schoolName', userProfessor.name)
-        //             sessionStorage.setItem('schoolID', userProfessor.school.id)
-        //             sessionStorage.setItem('isLoggedIn', true)                
-                    
-        //             this.props.history.push('/professor/course')
-        //             }
-                    
-        //         }
-        //         else {
-        //             this.setState({message: 'Invalid email or student id. Please try again.'})
-        //             this.showError()
-        //         }
-    
-        //     }
-        //     catch (error) {
-        //         this.setState({message: 'Oops, something went wrong. Please try again.'})
-        //         this.showError()
-        //     }
-        // }
 
         return
         
@@ -106,7 +59,6 @@ class ProfessorLogin extends Component {
     componentDidMount(){
         if(this.props.location.state){
             const historyStates = this.props.location.state
-            const { message, showHide } =this.props.location.state
             this.setState({message: historyStates.message, showHide: historyStates.showHide})
         }else{return}
     }

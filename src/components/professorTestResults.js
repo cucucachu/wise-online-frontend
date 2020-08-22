@@ -1,10 +1,8 @@
-import React, { Component, Fragment} from 'react'
-import viewIcon from '../Assets/images/view-icon.png'
-import redFlag from '../Assets/images/red-flag.png'
-import { Link } from 'react-router-dom'
-import chevronRight from '../Assets/images/chevron_right.svg'
-
-// import { getTestResults } from '../store/axios'
+import React, { Component, Fragment} from 'react';
+import viewIcon from '../Assets/images/view-icon.png';
+import redFlag from '../Assets/images/red-flag.png';
+import { Link } from 'react-router-dom';
+import chevronRight from '../Assets/images/chevron_right.svg';
 
 class ViewTestResults extends Component{
     constructor(props){
@@ -16,28 +14,17 @@ class ViewTestResults extends Component{
             exams: []
         }
     }
-    // async loadTestResults(){
-    //     const professor = {id: sessionStorage.getItem('userID')}        
-    //     const response = await getTestResults(professor, this.props.match.params.testId)
-    //     console.log('response: ', response)
-    //     const testResults = response.data.proctoringResults
-    //     this.setState({testResults: testResults})
-    //     console.log('state: ', this.state.testResults);
 
-    // }
-
-    async componentDidMount(){
+    async componentDidMount() {
+        const { examDate } = this.props.location.state;
+        const { exam } = this.props.location.state;
+        this.setState({exams: exam.results});
         
-        const { examDate } = this.props.location.state
-        const { exam } = this.props.location.state
-        this.setState({exams: exam.results})
-        // console.log('exam: ', exam.results)
-        
-        this.setState({examDate: examDate})
-        // await this.loadTestResults()
+        this.setState({examDate: examDate});
     }
-    render(){
-        return(
+
+    render() {
+        return (
             <Fragment>
                 <div className="container">
                     <img src={viewIcon} className="page-icon" alt="view icon"/>
@@ -47,13 +34,20 @@ class ViewTestResults extends Component{
          
                     <ul>{
                         this.state.exams.map((result,i) => 
-                        <li className="underbar" key={i}>{result.student} 
-                        {result.confidenceScore <= 0.4 && result.confidenceScore !== 0 || result.tabs.red.length > 0 ? <Link to={{
-                                pathname: `/professor/view-detail`,
-                                state: {
-                                    testResult: result,
+                        <li 
+                            className="underbar" 
+                            key={i}
+                        >
+                            {result.student} 
+                            {
+                                (result.confidenceScore <= 0.4 && result.confidenceScore) !== 0 || result.tabs.red.length > 0 ? <Link to={{
+                                    pathname: `/professor/view-detail`,
+                                    state: {
+                                        testResult: result,
+                                    }
                                 }
-                            }}>
+                            }
+                        >
                             <img className="red-flag" src={redFlag} alt="red flag icon"/><span className="red-text">Red Flags Detected</span>
                             <img src={chevronRight} alt="chevron right icon" />
 

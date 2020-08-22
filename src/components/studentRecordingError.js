@@ -1,11 +1,8 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-import { AuthContext } from '../contexts/AuthContext'
-import editIcon from '../Assets/images/edit-icon.png'
+import React from 'react';
+import { Link } from 'react-router-dom';
+import editIcon from '../Assets/images/edit-icon.png';
 
 const StudentRecError = (props) => {
-
-    
     return ( 
         <React.Fragment>
             <div className="container">

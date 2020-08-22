@@ -20,7 +20,7 @@ class VideoModal extends Component{
                 
                 <div className="video-modal-container">
                 <img className="close-icon" src={closeIcon} alt="close icon" onClick={this.props.toggleModal} />
-                    <img className="video-modal-img" src={this.props.retrivedImg} />
+                    <img className="video-modal-img" src={this.props.retrivedImg} alt="student webcam"/>
                     <div className="video-modal-btn-wrapper">
                         <div className="prev-btn" onClick={this.props.prevSlide}>
                             {!this.props.playVideo && 

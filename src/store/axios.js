@@ -1,6 +1,6 @@
 const axios = require('axios');
-// const baseURL = 'http://localhost:8080/';
-const baseURL = 'https://internal-wiseattendonline.appspot.com/' // URL for hosted backend for test
+const baseURL = 'http://localhost:8080/';
+// const baseURL = 'https://internal-wiseattendonline.appspot.com/' // URL for hosted backend for test
 
 /* !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
 /* const baseURL = 'https://wiseonlineattend.appspot.com/' // DO NOT USE! URL for hosted production.*/ 
@@ -147,6 +147,18 @@ async function resetProfessorPW(data){
     return response
 }
 
+async function getAttendancesForCourse(courseId) {
+    return backend.get(`/professor/courses/${courseId}/attendances`);
+}
+
+async function getAttendance(courseId, attendanceId) {
+    return backend.get(`/professor/courses/${courseId}/attendances/${attendanceId}`);
+}
+
+async function editAttendance(courseId, attendanceId, studentsPresent) {
+    return backend.post(`/professor/courses/${courseId}/attendances/${attendanceId}`, {students: studentsPresent});
+}
+
 async function editCourse(courseId, name, classId) {
     const response = await backend.post('professor/editCourse', {id: courseId, name, classId});
     return response;
@@ -276,6 +288,9 @@ export {
     startTest,
     downloadDataForCourseURL,
     markAttendance,
+    getAttendancesForCourse,
+    getAttendance,
+    editAttendance,
     takeTest,
     submitConfidenceScore,
     submitScreenshot,

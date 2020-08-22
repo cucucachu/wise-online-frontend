@@ -1,33 +1,32 @@
-import React, { Component, Fragment} from 'react'
-import viewIcon from '../Assets/images/view-icon.png'
-import moment from 'moment'
-import VideoModal from './videoModal'
+import React, { Component, Fragment} from 'react';
+import viewIcon from '../Assets/images/view-icon.png';
+import moment from 'moment';
+import VideoModal from './videoModal';
 
-import redFlag from '../Assets/images/red-flag.png'
-import PlayIcon from '../Assets/images/play_circle_white.svg'
-import emptyImg from '../Assets/images/empty-img.png'
-// import PauseIcon from '../Assets/images/pause_circle_white.svg'
-import PauseIconBk from '../Assets/images/pause_circle_black.svg'
-import chevronLeft from '../Assets/images/chevron-left-black.svg'
-import chevronRight from '../Assets/images/chevron_right-black.svg'
-import { getTestImage, logout, getScreenshot } from '../store/axios'
+import redFlag from '../Assets/images/red-flag.png';
+import PlayIcon from '../Assets/images/play_circle_white.svg';
+import emptyImg from '../Assets/images/empty-img.png';
+import PauseIconBk from '../Assets/images/pause_circle_black.svg';
+import chevronLeft from '../Assets/images/chevron-left-black.svg';
+import chevronRight from '../Assets/images/chevron_right-black.svg';
+import { getTestImage, logout, getScreenshot } from '../store/axios';
 
-class ViewEachTestResult extends Component{
-    constructor(props){
-        super(props)
+class ViewEachTestResult extends Component {
+    constructor(props) {
+        super(props);
 
-        this.playStop = this.playStop.bind(this)
-        this.handlePlay = this.handlePlay.bind(this)
-        this.nextSlide = this.nextSlide.bind(this)
-        this.previousSlide = this.previousSlide.bind(this)
-        this.toggleModal = this.toggleModal.bind(this)
+        this.playStop = this.playStop.bind(this);
+        this.handlePlay = this.handlePlay.bind(this);
+        this.nextSlide = this.nextSlide.bind(this);
+        this.previousSlide = this.previousSlide.bind(this);
+        this.toggleModal = this.toggleModal.bind(this);
 
         //screenshot
-        this.handlePlayScreenshot = this.handlePlayScreenshot.bind(this)
-        this.screenshotPlayer = this.screenshotPlayer.bind(this)
-        this.nextScreenshot = this.nextScreenshot.bind(this)
-        this.previousScreenshot = this.previousScreenshot.bind(this)
-        this.toggleModalScreenshot = this.toggleModalScreenshot.bind(this)
+        this.handlePlayScreenshot = this.handlePlayScreenshot.bind(this);
+        this.screenshotPlayer = this.screenshotPlayer.bind(this);
+        this.nextScreenshot = this.nextScreenshot.bind(this);
+        this.previousScreenshot = this.previousScreenshot.bind(this);
+        this.toggleModalScreenshot = this.toggleModalScreenshot.bind(this);
 
         this.state = {
             testResult: {},
@@ -62,78 +61,100 @@ class ViewEachTestResult extends Component{
         }
     }
     
-    async previousSlide(){
-        if(this.state.imgNum <= 0){
-            console.log('first image')
-        }else{
-            const response = await getTestImage(this.state.testResultId, this.state.imgNum-1)
-            if(response.status === 200){
-                this.setState({retrivedImg: response.data, imgNum: this.state.imgNum-1})
-            }else if(response.status === 401){
-                this.cookiesExpired()
-            }else{console.log('error')}
+    async previousSlide() {
+        if (this.state.imgNum <= 0) {
+            console.log('first image');
         }
-        
-    }
-    async nextSlide(){
-        if(this.state.imgNum >= this.state.numberOfImgs-1){
-            console.log('last image')
-        }else{
-            const response = await getTestImage(this.state.testResultId, this.state.imgNum+1)
-            if(response.status === 200){
-                this.setState({retrivedImg: response.data, imgNum: this.state.imgNum+1})
-            }else if(response.status === 401){
-                this.cookiesExpired()
-            }else{console.log('error')}
+        else {
+            const response = await getTestImage(this.state.testResultId, this.state.imgNum-1);
+            if (response.status === 200) {
+                this.setState({retrivedImg: response.data, imgNum: this.state.imgNum-1});
+            }
+            else if (response.status === 401) {
+                this.cookiesExpired();
+            }
+            else {
+                console.log('error');
+            }
         }
-        
     }
-    async previousScreenshot(){
-        if(this.state.screenshotNum === 1){
-            console.log('first image')
-        }else{
-            const screenshot = await getScreenshot(this.state.testResultId, this.state.screenshotNum-1)
-            if(screenshot){
-                if(screenshot.length > 50){
-                    this.setState({retrivedShot: screenshot, screenshotNum: this.state.screenshotNum-1})
-                }else{
-                    this.setState({retrivedShot: emptyImg, screenshotNum: this.state.screenshotNum-1})
+
+    async nextSlide() {
+        if (this.state.imgNum >= this.state.numberOfImgs-1) {
+            console.log('last image');
+        }
+        else {
+            const response = await getTestImage(this.state.testResultId, this.state.imgNum+1);
+            if (response.status === 200) {
+                this.setState({retrivedImg: response.data, imgNum: this.state.imgNum+1});
+            }
+            else if (response.status === 401) {
+                this.cookiesExpired();
+            }
+            else {
+                console.log('error');
+            }
+        }
+    }
+
+    async previousScreenshot() {
+        if (this.state.screenshotNum === 1) {
+            console.log('first image');
+        }
+        else {
+            const screenshot = await getScreenshot(this.state.testResultId, this.state.screenshotNum-1);
+            if (screenshot) {
+                if (screenshot.length > 50) {
+                    this.setState({retrivedShot: screenshot, screenshotNum: this.state.screenshotNum-1});
                 }
-                
-            }else{console.log('error')}
+                else {
+                    this.setState({retrivedShot: emptyImg, screenshotNum: this.state.screenshotNum-1});
+                }
+            }
+            else {
+                console.log('error');
+            }
         }
     }
 
-    async nextScreenshot(){
-        if(this.state.screenshotNum >= this.state.totalScreenshots-1){
-            console.log('last image')
-        }else{
-            const screenshot = await getScreenshot(this.state.testResultId, this.state.screenshotNum+1)
-            if(screenshot){
-                if(screenshot.length > 50){
-                    this.setState({retrivedShot: screenshot, screenshotNum: this.state.screenshotNum+1})
-                }else{this.setState({retrivedShot: emptyImg, screenshotNum: this.state.screenshotNum+1})}
-                
-            }else{console.log('error')}
+    async nextScreenshot() {
+        if (this.state.screenshotNum >= this.state.totalScreenshots-1) {
+            console.log('last image');
         }
-        
+        else {
+            const screenshot = await getScreenshot(this.state.testResultId, this.state.screenshotNum+1);
+            if (screenshot) {
+                if (screenshot.length > 50) {
+                    this.setState({retrivedShot: screenshot, screenshotNum: this.state.screenshotNum+1});
+                }
+                else {
+                    this.setState({retrivedShot: emptyImg, screenshotNum: this.state.screenshotNum+1});
+                }
+            }
+            else {
+                console.log('error');
+            }
+        }
     }
 
-    handlePlay(){
+    handlePlay() {
         this.setState({
             playVideo: !this.state.playVideo, showHideStyle: false
-          },()=>{
+          },
+          () => {
             this.playStop()
-          })
+          });
     }
+
     playStop(){
-        if(this.state.playVideo === true){
+        if (this.state.playVideo === true) {
             //play video
             this.timerID = setInterval(
                 () => this.tick(),
                 1000
               );
-        }else{
+        }
+        else {
             //stop video
             clearInterval(this.timerID);
             this.setState({playVideo: false, showHideStyle: true, showPause: false})
@@ -143,164 +164,191 @@ class ViewEachTestResult extends Component{
     handlePlayScreenshot(){
         this.setState({
             playScreenshot: !this.state.playScreenshot, showHideStyle2: false
-        }, ()=>{this.screenshotPlayer()})
+        }, 
+        () => {
+            this.screenshotPlayer()
+        });
     }
-    screenshotPlayer(){
-        if(this.state.playScreenshot === true){
+
+    screenshotPlayer() {
+        if (this.state.playScreenshot === true) {
             this.timerID2 = setInterval(
                 () => this.tickScreenshot(),
                 1000
-            )
-        }else{
-            clearInterval(this.timerID2)
-            this.setState({playScreenshot: false, showHideStyle2: true, showPause2: false})
+            );
+        }
+        else {
+            clearInterval(this.timerID2);
+            this.setState({playScreenshot: false, showHideStyle2: true, showPause2: false});
         }
     }
 
-    showPauseBtn(){
-        if(this.state.playVideo === true){
-            this.setState({showPause: true})
-        }else{return}
+    showPauseBtn() {
+        if (this.state.playVideo === true) {
+            this.setState({showPause: true});
+        }
+        else {
+            return;
+        }
     }
 
     hidePauseBtn(){
-        this.setState({showPause: false})
+        this.setState({showPause: false});
     }
-    toggleModal(){
+
+    toggleModal() {
         this.setState(prevState => ({
             openModal: !prevState.openModal
           }));
     }
-    toggleModalScreenshot(){
-        this.setState({openModalScreenshot: !this.state.openModalScreenshot})
+
+    toggleModalScreenshot() {
+        this.setState({openModalScreenshot: !this.state.openModalScreenshot});
     }
+
     pad(num) {
         return ("0"+num).slice(-2);
     }
+
     hhmmss(secs) {
       var minutes = Math.floor(secs / 60);
       secs = secs%60;
-      var hours = Math.floor(minutes/60)
+      var hours = Math.floor(minutes/60);
       minutes = minutes%60;
       return `${this.pad(hours)}:${this.pad(minutes)}:${this.pad(secs)}`;
-      // return pad(hours)+":"+pad(minutes)+":"+pad(secs); for old browsers
     }
-    cookiesExpired(){
-        sessionStorage.clear()
-        logout()
+
+    cookiesExpired() {
+        sessionStorage.clear();
+        logout();
         this.props.history.push({
             pathname: '/professor-login',
             state: { message: 'Sorry, your login has expired, please log in again.', showHide: {display: 'block'} }
-            })
+            });
     }
-    async componentDidMount(){
+
+    async componentDidMount() {
+        const { testResult } = this.props.location.state;
+        this.setState({testResultId: testResult.id});
+        this.setState({formattedDate: moment.utc(testResult.startTime).format('MMM DD, YYYY'), testResult: testResult, red: testResult.tabs.red.length, redArr: testResult.tabs.red, yellowArr: testResult.tabs.yellow, testId: testResult.id, numberOfImgs: testResult.numberOfImages});
         
-        const { testResult } = this.props.location.state
-        this.setState({testResultId: testResult.id})
-        this.setState({formattedDate: moment.utc(testResult.startTime).format('MMM DD, YYYY'), testResult: testResult, red: testResult.tabs.red.length, redArr: testResult.tabs.red, yellowArr: testResult.tabs.yellow, testId: testResult.id, numberOfImgs: testResult.numberOfImages})
-        if(testResult.confidenceScore <= 0.4 || testResult.tabs.red.length > 0){
-            this.setState({isRedFlag: true})
-        }else{
-            this.setState({isRedFlag: false})
+        if(testResult.confidenceScore <= 0.4 || testResult.tabs.red.length > 0) {
+            this.setState({isRedFlag: true});
         }
-        const response = await getTestImage(testResult.id, this.state.imgNum)
-        if(response.status === 401){
-            this.cookiesExpired()
-        }else if(response.status === 200){
-            const retrivedImg = response.data
-            if(retrivedImg !== null){
-                this.setState({retrivedImg: retrivedImg, timeLeft: this.hhmmss(testResult.numberOfImages), hasImg: true})
-            }else{console.log('no data')}
-        }else{
-            console.log('error', response)
-            this.setState({showHideStyle: false})
+        else {
+            this.setState({isRedFlag: false});
         }
 
-        if(testResult.numberOfScreenshots !== null){
-     
-            this.setState({totalScreenshots: testResult.numberOfScreenshots})
-            if(testResult.screenshotViolations.length > 0){
-                this.setState({screenshotViolation: true})
+        const response = await getTestImage(testResult.id, this.state.imgNum);
+
+        if (response.status === 401) {
+            this.cookiesExpired()
+        }else if (response.status === 200) {
+            const retrivedImg = response.data;
+
+            if (retrivedImg !== null) {
+                this.setState({retrivedImg: retrivedImg, timeLeft: this.hhmmss(testResult.numberOfImages), hasImg: true});
             }
-            try{
-                const resScreenshot = await getScreenshot(testResult.id, this.state.screenshotNum)
-          
-                if(testResult.numberOfScreenshots > 0 && resScreenshot.message === ''){
-                    if(resScreenshot.length < 50){
-                        this.setState({hasScreenshot: true, retrivedShot: emptyImg})
-                    }else{
-                        this.setState({hasScreenshot: true, retrivedShot: resScreenshot})
-                    }
-                    
-                }else{
-                    this.setState({hasScreenshot: false})
-                }
-       
-            }catch(error){
-                console.log('error: ', error)
-                this.setState({hasScreenshot: false})
+            else {
+                console.log('no data');
             }
-        }else{
-            console.log('no screenshots')
-            this.setState({hasScreenshot: false})
         }
-        
-        
+        else {
+            console.log('error', response);
+            this.setState({showHideStyle: false});
+        }
+
+        if(testResult.numberOfScreenshots !== null) {     
+            this.setState({totalScreenshots: testResult.numberOfScreenshots});
+
+            if (testResult.screenshotViolations.length > 0) {
+                this.setState({screenshotViolation: true});
+            }
+            try {
+                const resScreenshot = await getScreenshot(testResult.id, this.state.screenshotNum);
+          
+                if (testResult.numberOfScreenshots > 0 && resScreenshot.message === '') {
+
+                    if (resScreenshot.length < 50) {
+                        this.setState({hasScreenshot: true, retrivedShot: emptyImg});
+                    }
+                    else {
+                        this.setState({hasScreenshot: true, retrivedShot: resScreenshot});
+                    }                    
+                }
+                else {
+                    this.setState({hasScreenshot: false});
+                }       
+            }
+            catch(error) {
+                console.log('error: ', error);
+                this.setState({hasScreenshot: false});
+            }
+        }
+        else {
+            console.log('no screenshots');
+            this.setState({hasScreenshot: false});
+        }
     }
+
     componentWillUnmount() {
         clearInterval(this.timerID);
         clearInterval(this.timerID2);
-      }
+    }
+    
     async tick() {
         //imgNum is a counter 
-        if(this.state.imgNum < this.state.numberOfImgs-1){
-            
+        if (this.state.imgNum < this.state.numberOfImgs-1) {
             this.setState({
                 imgNum: this.state.imgNum +1 
               });
-            try{
-                const response = await getTestImage(this.state.testId, this.state.imgNum)
-                if(response.status === 200){
-                    const retrivedImg = response.data
-                    this.setState({retrivedImg: retrivedImg})
-                    const differences = this.state.numberOfImgs-1 - this.state.imgNum
-                    this.setState({timeLeft: this.hhmmss(differences)})
-                }else{
-                    console.log('server error')
+
+            try {
+                const response = await getTestImage(this.state.testId, this.state.imgNum);
+                if (response.status === 200) {
+                    const retrivedImg = response.data;
+                    this.setState({retrivedImg: retrivedImg});
+                    const differences = this.state.numberOfImgs-1 - this.state.imgNum;
+                    this.setState({timeLeft: this.hhmmss(differences)});
+                }
+                else {
+                    console.log('server error');
                 }
             }
             catch (error){
-                console.log('Oops, something went wrong. Please try again.')
+                console.log('Oops, something went wrong. Please try again.');
             }
-            
-        }else{
-            this.setState({imgNum: 0})
-            const response = await getTestImage(this.state.testId, this.state.imgNum)
-            const retrivedImg = response.data
-            this.setState({retrivedImg: retrivedImg, timeLeft: this.hhmmss(this.state.numberOfImgs)})
         }
-        
+        else {
+            this.setState({imgNum: 0});
+            const response = await getTestImage(this.state.testId, this.state.imgNum);
+            const retrivedImg = response.data;
+            this.setState({retrivedImg: retrivedImg, timeLeft: this.hhmmss(this.state.numberOfImgs)});
+        }
       }
+
       async tickScreenshot() {
-        if(this.state.screenshotNum < this.state.totalScreenshots-1){
+        if (this.state.screenshotNum < this.state.totalScreenshots - 1) {
             this.setState({
                 screenshotNum: this.state.screenshotNum +1 
-              });
-            try{
-                const screenshot = await getScreenshot(this.state.testId, this.state.screenshotNum)
-                if(screenshot){
-                    if(screenshot.length > 50){
-                        this.setState({retrivedShot: screenshot})
-                    }else{
-                        this.setState({retrivedShot: emptyImg})
+            });
+
+            try {
+                const screenshot = await getScreenshot(this.state.testId, this.state.screenshotNum);
+                if (screenshot) {
+                    if (screenshot.length > 50) {
+                        this.setState({retrivedShot: screenshot});
                     }
-                    
-                }else{
-                    console.log('server error')
+                    else {
+                        this.setState({retrivedShot: emptyImg});
+                    }                    
+                }
+                else {
+                    console.log('server error');
                 }
             }
-            catch (error){
-                console.log('Oops, something went wrong. Please try again.')
+            catch (error) {
+                console.log('Oops, something went wrong. Please try again.');
             }
         }else{
             this.setState({screenshotNum: 1})
@@ -308,21 +356,22 @@ class ViewEachTestResult extends Component{
                 const screenshot = await getScreenshot(this.state.testId, 1)
                 if(screenshot.length > 50){
                     this.setState({retrivedShot: screenshot})
-                }else{
-                    this.setState({retrivedShot: emptyImg})
                 }
-                
-            }catch(error){
-                console.log('Oops, something went wrong. Please try again.')
+                else {
+                    this.setState({retrivedShot: emptyImg})
+                } 
             }
-        }
-        
-      }
-    render(){
-        const showSlide = {justifyContent: 'space-between'}
-        const showPauseIcon = {justifyContent: 'center'}
+            catch(error) {
+                console.log('Oops, something went wrong. Please try again.');
+            }
+        }   
+    }
 
-        return(
+    render() {
+        const showSlide = {justifyContent: 'space-between'};
+        const showPauseIcon = {justifyContent: 'center'};
+
+        return (
             <Fragment>
                 {this.state.openModal ?  <VideoModal playVideo={this.state.playVideo} playStop={this.playStop} handlePlay={this.handlePlay} retrivedImg={this.state.retrivedImg} imgNum={this.state.imgNum} numberOfImgs={this.state.numberOfImgs} nextSlide={this.nextSlide} previousSlide={this.previousSlide} toggleModal={this.toggleModal}/> 
                 :
@@ -330,7 +379,15 @@ class ViewEachTestResult extends Component{
                     <img src={viewIcon} className="page-icon" alt="view icon"/>
                     <div className="spacer-vertical-s"></div>
                     <h1>{this.state.testResult.student}, {this.state.formattedDate}</h1>
-                    {this.state.testResult.confidenceScore !== 0 && this.state.testResult.confidenceScore <= 0.4  || this.state.red > 0 ? <h2 className="red-text"><img className="red-flag-l" src={redFlag} alt="red flag icon" />&nbsp;Red Flags Detected</h2> : '' }
+                    {
+                        (this.state.testResult.confidenceScore !== 0 && this.state.testResult.confidenceScore <= 0.4)  || this.state.red > 0 
+                        ? 
+                            <h2 className="red-text">
+                                <img className="red-flag-l" src={redFlag} alt="red flag icon" />
+                                &nbsp;Red Flags Detected
+                            </h2> 
+                        : '' 
+                    }
                     <div className="spacer-vertical-s"></div>
                     <div className="row">
                         <div className="col-md-6 col-lg-3 view-details ">
@@ -456,8 +513,8 @@ class ViewEachTestResult extends Component{
                 </div>
                 }
             </Fragment>
-        )
+        );
     }
 }
 
-export default ViewEachTestResult
+export default ViewEachTestResult;
