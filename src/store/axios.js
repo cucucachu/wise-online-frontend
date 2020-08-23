@@ -76,6 +76,19 @@ async function postFiles(professorFile, studentFile) {
     return response;
 }
 
+async function addUsersPrecheck(professorFile, studentFile) {
+    var formData = new FormData();
+    formData.append('professorFile', professorFile)
+    formData.append('studentFile', studentFile)
+    const response = await backend.post('admin/setupSchool/preCheck', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        },
+        timeout: 60000,
+    });
+    return response;
+}
+
 async function adminRequestResetPW(email) {
     const response = await backend.post('/admin/requestPasswordReset', email);
     return response;
@@ -162,6 +175,10 @@ async function editAttendance(courseId, attendanceId, studentsPresent) {
 async function editCourse(courseId, name, classId) {
     const response = await backend.post('professor/editCourse', {id: courseId, name, classId});
     return response;
+}
+
+async function deleteCourse(courseId) {
+    const response = await backend.post('professor/deleteCourse', { courseId })
 }
 
 async function startAttendance(courseId) {
@@ -284,6 +301,7 @@ export {
     getProfessorTemplateURL,
     createCourse,
     editCourse,
+    deleteCourse,
     startAttendance,
     startTest,
     downloadDataForCourseURL,
@@ -299,6 +317,7 @@ export {
     getCourses,
     getStudents,
     postFiles,
+    addUsersPrecheck,
     adminRequestResetPW,
     professorRequestResetPW,
     getSchoolNames,
