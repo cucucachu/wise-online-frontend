@@ -1,13 +1,13 @@
 import React, {Component} from 'react';
 import { Link } from "react-router-dom";
 
-import { professorLogin } from '../store/axios'
-import { AuthContext } from '../contexts/AuthContext'
+import { professorLogin } from '../store/axios';
+import { AuthContext } from '../contexts/AuthContext';
 
 import loginIcon from '../Assets/images/login-icon.png';
 
 class ProfessorLogin extends Component {
-    static contextType = AuthContext
+    static contextType = AuthContext;
 
     state={
         email: '',
@@ -18,90 +18,100 @@ class ProfessorLogin extends Component {
         hasAgreedToTerms: false
     };
 
-    handleChangeName = e =>{
-        this.setState({email: e.target.value})
+    handleChangeName = e => {
+        this.setState({email: e.target.value});
     }
-    handleChangeKey = e =>{        
-        this.setState({key: e.target.value})
+    handleChangeKey = e => {        
+        this.setState({key: e.target.value});
     }
-    showError = () =>{
-        this.setState({showHide: {display: 'block'}})
+    showError = () => {
+        this.setState({showHide: {display: 'block'}});
     }
 
-    handleSubmit = async e =>{
-        e.preventDefault()
-            try{
-                const response = await professorLogin(this.state.email, this.state.key)
+    handleSubmit = async e => {
+        e.preventDefault();
+            try {
+                const response = await professorLogin(this.state.email, this.state.key);
                 
-                if(response.status === 200){
-                    const userProfessor = response.data
-                    sessionStorage.setItem('userID', userProfessor.id)
-                    sessionStorage.setItem('username', userProfessor.name)
-                    sessionStorage.setItem('schoolName', userProfessor.name)
-                    sessionStorage.setItem('schoolID', userProfessor.school.id)
-                    sessionStorage.setItem('isLoggedIn', true)       
-                    sessionStorage.setItem('professor', userProfessor)         
+                if (response.status === 200) {
+                    const userProfessor = response.data;
+                    sessionStorage.setItem('userID', userProfessor.id);
+                    sessionStorage.setItem('username', userProfessor.name);
+                    sessionStorage.setItem('schoolName', userProfessor.name);
+                    sessionStorage.setItem('schoolID', userProfessor.school.id);
+                    sessionStorage.setItem('isLoggedIn', true);
+                    sessionStorage.setItem('professor', userProfessor);
+
+                    if (userProfessor.school.integrationName) {
+                        sessionStorage.setItem('integrationName', userProfessor.school.integrationName);
+                    }
                     
-                    this.props.history.push('/professor/course')
-                }else{
-                    this.setState({message: 'Invalid email or password. Please try again.'})
-                    this.showError()
+                    this.props.history.push('/professor/course');
+                }
+                else {
+                    this.setState({message: 'Invalid email or password. Please try again.'});
+                    this.showError();
                 }
                 
-            }catch(error){
-                this.setState({message: 'Oops, something went wrong. Please try again.'})
-                this.showError()
+            }
+            catch (error) {
+                this.setState({message: 'Oops, something went wrong. Please try again.'});
+                this.showError();
             }
 
-        return
+        return;
         
     }
-    componentDidMount(){
-        if(this.props.location.state){
-            const historyStates = this.props.location.state
-            this.setState({message: historyStates.message, showHide: historyStates.showHide})
-        }else{return}
+
+    componentDidMount() {
+        if (this.props.location.state) {
+            const historyStates = this.props.location.state;
+            this.setState({message: historyStates.message, showHide: historyStates.showHide});
+        }
+        else {
+            return;
+        }
     }
     
-  render(){
-      return(
-        <div className="container">
-            <img src={loginIcon} className="page-icon" alt="login icon"/>
-            <div className="spacer-vertical"></div>
-            <h1>Professor login</h1>
-            <form onSubmit={this.handleSubmit.bind(this)}>
-            <div className="spacer-vertical"></div>
-                <div className="input-wrapper">
-                    <div style={this.state.showHide}>{this.state.message}</div>
-                    <span className="input-label" >Email</span>
-                    <input type="email" className="" value={this.state.email} placeholder="Email" onChange={this.handleChangeName.bind(this)} required/>
-                </div>
-                
+    render() {
+        return(
+            <div className="container">
+                <img src={loginIcon} className="page-icon" alt="login icon"/>
                 <div className="spacer-vertical"></div>
-                <div className="input-wrapper">
-                    <span className="input-label">Password</span>
-                    <input type="password" placeholder="Password" className="" name="key" onChange={this.handleChangeKey.bind(this)} value={this.state.key} required/>
-                </div>
-
-                <div className="input-wrapper">
-                    <div className="input-wrapper-bottom width-md">
-                        <div className="student-login-wrapper">
-                            <Link  to="/professor/claim-account" >Claim your account</Link>
-                            <Link  to="professor/forgot-pw" >Forgot Password</Link>
-                        </div>
-                        
+                <h1>Professor login</h1>
+                <form onSubmit={this.handleSubmit.bind(this)}>
+                <div className="spacer-vertical"></div>
+                    <div className="input-wrapper">
+                        <div style={this.state.showHide}>{this.state.message}</div>
+                        <span className="input-label" >Email</span>
+                        <input type="email" className="" value={this.state.email} placeholder="Email" onChange={this.handleChangeName.bind(this)} required/>
                     </div>
-                </div>
-  
-                <div className="spacer-vertical"></div>
-            
-                <div className="">
-                        <input type="submit" className="btn" value="Next" />
-                </div>
-            </form>
-    </div>
-      )
-  }
+                    
+                    <div className="spacer-vertical"></div>
+                    <div className="input-wrapper">
+                        <span className="input-label">Password</span>
+                        <input type="password" placeholder="Password" className="" name="key" onChange={this.handleChangeKey.bind(this)} value={this.state.key} required/>
+                    </div>
+
+                    <div className="input-wrapper">
+                        <div className="input-wrapper-bottom width-md">
+                            <div className="student-login-wrapper">
+                                <Link  to="/professor/claim-account" >Claim your account</Link>
+                                <Link  to="professor/forgot-pw" >Forgot Password</Link>
+                            </div>
+                            
+                        </div>
+                    </div>
+
+                    <div className="spacer-vertical"></div>
+                
+                    <div className="">
+                            <input type="submit" className="btn" value="Next" />
+                    </div>
+                </form>
+            </div>
+        );
+    }
 }
 
 export default ProfessorLogin;
