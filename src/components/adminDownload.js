@@ -44,7 +44,7 @@ const AdminDownload = (props) => {
                 
                 <div className="spacer-vertical-s"></div>
                 <Link to="/set-up-school">
-                    <button className="btn-l">Set up your school</button>
+                    <button className="btn-l">Add Students and Professors</button>
                 </Link>
         </div>
   );

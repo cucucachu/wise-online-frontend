@@ -4,7 +4,7 @@ import editIcon from '../Assets/images/edit-icon.png'
 import CourseCardRow from './courseCardRow';
 
 //axios
-import { createCourse, editCourse, getCourses, logout } from '../store/axios'
+import { createCourse, editCourse, deleteCourse, getCourses, logout } from '../store/axios'
 import { AuthContext } from '../contexts/AuthContext'
 
 class ProfessorCourse extends Component {
@@ -20,12 +20,15 @@ class ProfessorCourse extends Component {
             courseName: '',
             courseId: '',
             courses: [],
+            error: null,
         }
 
         this.handleChangeID = this.handleChangeID.bind(this);
         this.handleChangeName = this.handleChangeName.bind(this);
         this.handleSubmitNewCourse = this.handleSubmitNewCourse.bind(this);
         this.handleSubmitEditCourse = this.handleSubmitEditCourse.bind(this);
+        this.handleDeleteCourse = this.handleDeleteCourse.bind(this);
+        this.setError = this.setError.bind(this);
     }
     
     static contextType = AuthContext;
@@ -44,15 +47,43 @@ class ProfessorCourse extends Component {
         this.setState(state);
     }
 
+    setError(error) {
+        const state = Object.assign({}, this.state);
+        state.error = error;
+        this.setState(state);
+    }
+
     async handleSubmitEditCourse(e, courseId, name, classId) {
         e.preventDefault()
-        await editCourse(courseId, name, classId);
+        const response = await editCourse(courseId, name, classId);
+
+        if (response.status !== 200) {
+            this.setError(`The Class Id ${classId} is already in use by another course. Please choose a different Class ID.`);
+        }
+        else {
+            this.setError(null);
+        }
+
+        await this.loadCourses();
+    }
+
+    async handleDeleteCourse(e, courseId) {
+        e.preventDefault();
+        const response = await deleteCourse(courseId);
         await this.loadCourses();
     }
 
     handleSubmitNewCourse = async e =>{
         e.preventDefault()
-        await createCourse(this.state.courseName, this.state.courseId);
+        const response = await createCourse(this.state.courseName, this.state.courseId);
+
+        if (response.status !== 200) {
+            this.setError(`That Class Id is already in use by another course. Please choose a different Class ID.`);
+        }
+        else {
+            this.setError(null);
+        }
+
         await this.loadCourses();
     }
 
@@ -99,6 +130,19 @@ class ProfessorCourse extends Component {
                         <img src={editIcon} className="page-icon" alt="login icon"/>
                         <div className="spacer-vertical"></div>
                     <h1>My Courses</h1>
+                    <div className="row">
+                        <div className="col-sm">
+                            {
+                                (() => {
+                                    if (this.state.error !== null) {
+                                        return (
+                                            <div className="error-message">{this.state.error}</div>
+                                        )
+                                    }
+                                })()
+                            }
+                        </div>
+                    </div>
                     {
                         (() => {
                             const rows = [];
@@ -125,6 +169,7 @@ class ProfessorCourse extends Component {
                                         handleChangeID={this.handleChangeID}
                                         handleChangeName={this.handleChangeName}
                                         handleSubmitEditCourse={this.handleSubmitEditCourse}
+                                        handleDeleteCourse={this.handleDeleteCourse}
                                     />
                                 );
                             }

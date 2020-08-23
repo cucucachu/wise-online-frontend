@@ -8,6 +8,7 @@ class NewCourseCard extends Component {
         }
 
         this.handleClick = this.handleClick.bind(this);
+        this.handleClickCancel = this.handleClickCancel.bind(this);
     }
 
     handleClick() {
@@ -16,11 +17,25 @@ class NewCourseCard extends Component {
         this.setState(state);
     }
 
+    handleClickCancel() {
+        const state = Object.assign({}, this.state);
+        state.clicked = false;
+        this.setState(state);
+    }
+
     render() {
         if (this.state.clicked) {
             return (
                 <div className="col-sm-6">
                     <div className="shadow" >
+                        <div className="row">
+                            <div className="col-sm-10">
+                                <h2 className="course-title">New Course</h2>
+                            </div>
+                            <div className="col-sm-2">
+                                <button className="btn-neutral" onClick={this.handleClickCancel}><div style={{textAlign: 'center'}}>&#128473;</div></button>
+                            </div>
+                        </div>
                         <div className="row">
                             <div className="col-sm-6">
                                 <form onSubmit={this.props.handleSubmit}>
