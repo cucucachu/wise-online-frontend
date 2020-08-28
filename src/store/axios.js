@@ -168,17 +168,26 @@ async function getAttendance(courseId, attendanceId) {
     return backend.get(`/professor/courses/${courseId}/attendances/${attendanceId}`);
 }
 
-async function editAttendance(courseId, attendanceId, studentsPresent) {
-    return backend.post(`/professor/courses/${courseId}/attendances/${attendanceId}`, {students: studentsPresent});
+async function editAttendance(courseId, attendanceId, studentsPresent, scheduledTime) {
+    return backend.post(`/professor/courses/${courseId}/attendances/${attendanceId}`, {students: studentsPresent, scheduledTime});
 }
 
-async function editCourse(courseId, name, classId) {
-    const response = await backend.post('professor/editCourse', {id: courseId, name, classId});
+async function setAttendanceReadyForIntegration(courseId, attendanceId) {
+    return backend.post(`/professor/courses/${courseId}/attendances/${attendanceId}/readyForIntegration`);
+}
+
+async function editCourse(courseId, name, classId, integrationId) {
+    if (integrationId === '') {
+        integrationId = undefined;
+    }
+
+    const response = await backend.post('professor/editCourse', {id: courseId, name, classId, integrationId});
     return response;
 }
 
 async function deleteCourse(courseId) {
-    const response = await backend.post('professor/deleteCourse', { courseId })
+    const response = await backend.post('professor/deleteCourse', { courseId });
+    return response;
 }
 
 async function startAttendance(courseId) {
@@ -267,8 +276,6 @@ async function getTestsByCourse(professor, data) {
     return response;
 }
 
-// const tests = await testController.testsForCourse(professor, {courseId: ctx.params.courseId});
-
 async function getTestResults(professor, data){
     const response = await backend.get(`/professor/tests/${data}/results`, {professor, data});
     return response;
@@ -309,6 +316,7 @@ export {
     getAttendancesForCourse,
     getAttendance,
     editAttendance,
+    setAttendanceReadyForIntegration,
     takeTest,
     submitConfidenceScore,
     submitScreenshot,

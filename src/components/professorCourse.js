@@ -53,9 +53,9 @@ class ProfessorCourse extends Component {
         this.setState(state);
     }
 
-    async handleSubmitEditCourse(e, courseId, name, classId) {
-        e.preventDefault()
-        const response = await editCourse(courseId, name, classId);
+    async handleSubmitEditCourse(e, courseId, name, classId, integrationId) {
+        e.preventDefault();
+        const response = await editCourse(courseId, name, classId, integrationId);
 
         if (response.status !== 200) {
             this.setError(`The Class Id ${classId} is already in use by another course. Please choose a different Class ID.`);
@@ -69,12 +69,12 @@ class ProfessorCourse extends Component {
 
     async handleDeleteCourse(e, courseId) {
         e.preventDefault();
-        const response = await deleteCourse(courseId);
+        await deleteCourse(courseId);
         await this.loadCourses();
     }
 
-    handleSubmitNewCourse = async e =>{
-        e.preventDefault()
+    handleSubmitNewCourse = async e => {
+        e.preventDefault();
         const response = await createCourse(this.state.courseName, this.state.courseId);
 
         if (response.status !== 200) {
@@ -88,7 +88,6 @@ class ProfessorCourse extends Component {
     }
 
     async loadCourses() {
-        // const { userID, schoolID } = this.context;
         const userID = sessionStorage.getItem('userID')
         const schoolID = sessionStorage.getItem('schoolID')
         
@@ -97,30 +96,27 @@ class ProfessorCourse extends Component {
         this.setState(state);
 
         const response = await getCourses(schoolID, userID);
-        if(response.status === 401){
+        if (response.status === 401) {
             sessionStorage.clear();
-            logout()
+            logout();
             this.props.history.push({
                 pathname: '/professor-login',
                 state: { message: 'Sorry, your login has expired, please log in again.', showHide: {display: 'block'} }
-              })
-        }else{
-        
-            const courses = response.data
-            sessionStorage.setItem('courses', courses)
+              });
+        }
+        else {
+            const courses = response.data;
+            sessionStorage.setItem('courses', courses);
             state = Object.assign({}, this.state);
     
             state.courses = courses;
     
             this.setState(state);
         }
-        
     }
 
     async componentDidMount() {
-  
         await this.loadCourses();
-
     }
 
     render() {

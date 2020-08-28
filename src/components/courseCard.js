@@ -16,6 +16,7 @@ class CourseCard extends Component {
         this.state = {
             classId: props.course.classId,
             name: props.course.name,
+            integrationId: props.course.integrationId,
             editing: false,
             deleting: false,
         }
@@ -25,6 +26,7 @@ class CourseCard extends Component {
         this.handleClickCancel = this.handleClickCancel.bind(this);
         this.handleChangeId = this.handleChangeId.bind(this);
         this.handleChangeName = this.handleChangeName.bind(this);
+        this.handleChangeIntegrationId = this.handleChangeIntegrationId.bind(this);
     }
 
     static inputStype = {
@@ -67,6 +69,12 @@ class CourseCard extends Component {
         this.setState(state);
     }
 
+    handleChangeIntegrationId(e) {
+        const state = Object.assign({}, this.state);
+        state.integrationId = e.target.value;
+        this.setState(state);
+    }
+
     downloadCourseData() {
         window.location = downloadDataForCourseURL(this.props.course._id);
     } 
@@ -80,6 +88,14 @@ class CourseCard extends Component {
                         <div className="col-sm-6">
                             <h2 className="course-title">{this.props.course.name}</h2>
                             <p>Class ID: {this.props.course.classId}</p>
+                            {(() => {
+                                    const integrationName = sessionStorage.getItem('integrationName');
+                                    if (integrationName) {
+                                        return (
+                                        <p>{`${integrationName} ID:`} {this.props.course.integrationId ? this.props.course.integrationId : 'Not Set'}</p>
+                                        );
+                                    }
+                                })()}
                             <ul className="text-plain custom-list">
                                 <li>{this.props.course.attendances ? this.props.course.attendances.length : 0} class{this.props.course.attendances && this.props.course.attendances.length === 1 ? '' : 'es'} recorded</li>
                                 <li>{this.props.course.tests ? this.props.course.tests.length : 0} test{this.props.course.tests && this.props.course.tests.length === 1 ? '' : 's'} recorded</li>
@@ -91,14 +107,14 @@ class CourseCard extends Component {
                         </div>
                         
                         <div className="col-sm-6">
-                            <Link to={{
+                            {/* <Link to={{
                                 pathname: '/professor/attendance/start',
                                 state: {
                                     course: this.props.course,
                                 }
                             }}>
                             <button className="btn-upload" style={{marginBottom: '5px', fontSize: 'medium'}}><img src={tickIcon} className="icon-xs" alt="tick icon" />Take attendance</button>
-                            </Link>
+                            </Link> */}
 
                             <Link to={{
                                 pathname: '/professor/attendancesView',
@@ -154,15 +170,29 @@ class CourseCard extends Component {
                     <div className="row">
                         <div className="col-sm-6">
                             <form onSubmit={(e) => { e.preventDefault() }}>
-                                <input type="text" placeholder="Enter a new class name" style={CourseCard.inputStype} onChange={this.handleChangeName} value={this.state.name}/>
-                                <input type="text" placeholder="Enter a new class ID" style={CourseCard.inputStype} onChange={this.handleChangeId} value={this.state.classId}/>
+                                <input type="text" placeholder="Enter a class name" style={CourseCard.inputStype} onChange={this.handleChangeName} value={this.state.name}/>
+                                <input type="text" placeholder="Enter a unique class ID" style={CourseCard.inputStype} onChange={this.handleChangeId} value={this.state.classId}/>
+                                {(() => {
+                                    const integrationName = sessionStorage.getItem('integrationName');
+                                    if (integrationName) {
+                                        return (
+                                            <input type="text" placeholder={`ID in ${integrationName}`} style={CourseCard.inputStype} onChange={this.handleChangeIntegrationId} value={this.state.integrationId}/>
+                                        );
+                                    }
+                                })()}
                             </form>
                         </div>
                         <div className="col-sm-6 text-plain-s">
-                            Enter a new class name<br/>
+                            Enter a class name<br/>
                             e.g. ECON 101<br/>
-                            Enter a new class ID<br/>
-                            e.g. My ECON 101<br/>
+                            Enter a unique class ID<br/>
+                            e.g. ECON 101 Section 2<br/>
+                            {(() => {
+                                    const integrationName = sessionStorage.getItem('integrationName');
+                                    if (integrationName) {
+                                        return `Enter the Id of this course in ${integrationName}`;
+                                    }
+                            })()}
                         </div>
                     </div>
                     <div className="row">
@@ -171,7 +201,7 @@ class CourseCard extends Component {
                                 className="btn-upload" 
                                 style={ { textAlign: 'center' } }
                                 
-                                onClick={(e) => { this.props.handleSubmit(e, this.props.course._id, this.state.name, this.state.classId) }}
+                                onClick={(e) => { this.props.handleSubmit(e, this.props.course._id, this.state.name, this.state.classId, this.state.integrationId) }}
                                 >
                                 Submit
                             </button>

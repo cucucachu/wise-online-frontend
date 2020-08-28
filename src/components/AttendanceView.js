@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 
 //axios
-import { getAttendance, editAttendance, logout } from '../store/axios';
+import { getAttendance, editAttendance, setAttendanceReadyForIntegration, logout } from '../store/axios';
 import attendanceIcon from '../Assets/images/attendance-icon.png';
 
 import AttendanceStudentsTableView from './AttendanceView/AttendanceStudentsTableView';
@@ -21,7 +21,9 @@ class AttendanceView extends Component {
 
         this.handleClickEdit = this.handleClickEdit.bind(this);
         this.handleClickPresent = this.handleClickPresent.bind(this);
+        this.handleChangeScheduledTime = this.handleChangeScheduledTime.bind(this);
         this.handleClickSave = this.handleClickSave.bind(this);
+        this.handleClickApproveForIntegration = this.handleClickApproveForIntegration.bind(this);
     }
 
     handleClickEdit() {
@@ -32,9 +34,34 @@ class AttendanceView extends Component {
 
     async handleClickSave() {
         const studentsPresent = this.state.attendance.students.filter(s => s.attended).map(s => s.id);
-        await editAttendance(this.state.course._id, this.state.attendance.id, studentsPresent);
+        let scheduledTime = this.state.attendance.scheduledTime;
+
+        if (this.state.attendance.scheduledTime === '') {
+            console.log('here')
+            scheduledTime = null;
+        }
+        else {
+            scheduledTime = new Date(`${scheduledTime}:00.000Z`);
+        }
+
+        console.log(scheduledTime);
+
+        await editAttendance(this.state.course._id, this.state.attendance.id, studentsPresent, scheduledTime);
 
         return this.loadAttendance();
+    }
+
+    async handleClickApproveForIntegration() {
+        await setAttendanceReadyForIntegration(this.state.course._id, this.state.attendance.id);
+
+        return this.loadAttendance();
+    }
+
+    handleChangeScheduledTime(e) {
+        e.preventDefault();
+        const state = Object.assign({}, this.state);
+        state.attendance.scheduledTime = e.target.value;
+        this.setState(state);
     }
 
     handleClickPresent(studentId) {
@@ -59,6 +86,14 @@ class AttendanceView extends Component {
         else {
             const state = Object.assign({}, this.state);
             state.attendance = response.data;
+
+            if (state.attendance.scheduledTime) {
+                state.attendance.scheduledTime = state.attendance.scheduledTime.slice(0, state.attendance.scheduledTime.length - 1);
+            }
+            else {
+                state.attendance.scheduledTime = '';
+            }
+
             state.editing = false;
             this.setState(state);
         }
@@ -81,6 +116,7 @@ class AttendanceView extends Component {
                         course={this.state.course}
                         attendance={this.state.attendance}
                         onClickEdit={this.handleClickEdit}
+                        onClickApproveForIntegration={this.handleClickApproveForIntegration}
                         editing={false}
                     />
                     <div className="row">
@@ -110,6 +146,7 @@ class AttendanceView extends Component {
                         attendance={this.state.attendance}
                         onClickSave={this.handleClickSave}
                         editing={true}
+                        onChangeScheduledTime={this.handleChangeScheduledTime}
                     />
                     <div className="row">
                         <div className="col-sm">
