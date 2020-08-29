@@ -158,7 +158,7 @@ class SetUpSchoolPage extends Component {
                             <h4>Instructions:</h4>
                             <p className="text-plain">
                                 Download the Student and Professor Roster templates below. Fill them out with the appropriate data
-                                for each student or professor. When you're ready, select each file and hit the upload button.
+                                for each student or professor. When you're ready, select each file and hit the Continue button.
                             </p>
                             <p className="text-plain">The column headings of the files you upload must match those in the template exactly.</p>
                             <p className="text-plain">
@@ -215,7 +215,7 @@ class SetUpSchoolPage extends Component {
                             </div>                            
                         </div>
                         <div className="spacer-vertical"></div>
-                        <button onClick={this.handleSubmitForPreCheck.bind(this)} className="btn">Upload</button>
+                        <button onClick={this.handleSubmitForPreCheck.bind(this)} className="btn">Continue</button>
                     </div>
                 </div>
             </div>
@@ -231,20 +231,21 @@ class SetUpSchoolPage extends Component {
                     <div className="spacer-vertical"></div>
                     <h1>Add Students and Professors</h1>
                     <div className="row">
+                        <div className="col-sm-3"></div>
                         <div className="col-sm-6">
-                                <div className="shadow">
-                                    <p>{this.state.newStudents.length} new students.</p>
-                                </div>
+                            <div className="shadow">
+                                <h2>Upload Preview</h2>
+                                <br/>
+                                <p>School: {sessionStorage.getItem('schoolName')}</p>
+                                <p>You are adding {this.state.newStudents.length} new students and {this.state.newProfessors.length} new professors.</p>
+                                <p>Click "Confirm" below to begin upload.</p>
+                            </div>
                         </div>
-                        <div className="col-sm-6">
-                                <div className="shadow">
-                                    <p>{this.state.newProfessors.length} new professors.</p>
-                                </div>
-                        </div>
+                        <div className="col-sm-3"></div>
                     </div>
                     <div className="spacer-vertical-s"></div>
                     <div className="spacer-vertical"></div>
-                    <button onClick={this.handleSubmit.bind(this)} className="btn">Upload</button>
+                    <button onClick={this.handleSubmit.bind(this)} className="btn">Confirm</button>
                 </div>
             </div>
         )

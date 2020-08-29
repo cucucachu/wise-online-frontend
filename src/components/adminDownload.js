@@ -10,7 +10,7 @@ const AdminDownload = (props) => {
         <div className="container">
                 <img src={ attendanceIcon } className="page-icon" alt="login icon"/>
                 <div className="spacer-vertical-s"></div>
-                <h1>Attendance Data</h1>
+                <h1>{sessionStorage.getItem('schoolName')}</h1>
                 <div className="spacer-vertical"></div>
 
                 <div className="spacer-vertical-s"></div>
