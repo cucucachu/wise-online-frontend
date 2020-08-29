@@ -98,21 +98,16 @@ async function resetAdminPW(data){
     return response
 }
 
-async function adminDownloadDataByCourseURL(termId) {
-    // return baseURL + 'admin/courses/attendanceData/:id' + termId;
-    const response = await backend.get('/admin/courses/attendanceData/', termId);
-    return response;
+function adminDownloadDataByCourseURL(termId) {
+    return baseURL + 'admin/courses/attendanceData/' + termId;
 }
 
-async function adminDownloadDataByProfessorURL(termId) {
-    // return baseURL + 'admin/professors/attendanceData/:id' + termId;
-    const response = await backend.get('/admin/professors/attendanceData/', termId);
-    return response;
+function adminDownloadDataByProfessorURL(termId) {
+    return baseURL + 'admin/professors/attendanceData/' + termId;
 }
 
-async function adminDownloadDataByStudentURL(termId) {
-    const response = await backend.get('admin/students/attendanceData/', termId);
-    return response;
+function adminDownloadDataByStudentURL(termId) {
+    return baseURL + 'admin/students/attendanceData/' + termId;
 }
 
 async function adminEditTerm(termId, name){
@@ -133,8 +128,8 @@ async function getTerms(admin) {
     return response;
 }
 
-async function createTerm(termId, name) {
-    const response = await backend.post('/admin/terms/create', {termId, name});
+async function createTerm(name) {
+    const response = await backend.post('/admin/terms/create', {name});
     return response;
 }
 

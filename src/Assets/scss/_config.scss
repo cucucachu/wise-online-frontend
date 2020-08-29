@@ -9,3 +9,19 @@ $table-fill-color: #f0f6fb;
 $lighter-gray: #aaaaaa;
 $danger-color: #ff9811;
 
+
+$border-width:                1px !default;
+$black:    #000 !default;
+$border-radius:               .25rem !default;
+$font-size-base:              1rem !default; // Assumes the browser default, typically `16px`
+$zindex-dropdown:                   1000 !default;
+$dropdown-min-width:                10rem !default;
+$dropdown-padding-y:                .5rem !default;
+$dropdown-spacer:                   .125rem !default;
+$dropdown-font-size:                $font-size-base !default;
+$dropdown-color:                    $primary-color !default;
+$dropdown-bg:                       rgba(255,255,255,0) !default;
+$dropdown-border-color:             rgba(255,255,255,0) !default;
+$dropdown-border-radius:            0 !default;
+$dropdown-border-width:             0 !default;
+$dropdown-box-shadow:               0 .5rem 1rem rgba($black, .175) !default;

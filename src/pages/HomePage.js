@@ -64,7 +64,7 @@ import ViewTestResults from '../components/professorTestResults';
 import ViewEachTestResult from '../components/professorViewTestData';
 import StudentRecordAgreeToTerms from '../components/studentRecordAgreeToTerms';
 import StudentInstallChromeExtension from '../components/studentInstallChromeExtension';
-import AdminTerms from '../components/adminTerms';
+import AdminTerms from '../components/AdminTerms/AdminTermsPage';
 // import AdminViewCourses from '../components/adminViewCourses';
 
 class HomePage extends Component {

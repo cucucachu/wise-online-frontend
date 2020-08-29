@@ -1,8 +1,7 @@
 import React　from 'react';
 import { Link } from 'react-router-dom'
 
-import attendanceIcon from '../Assets/images/attendance-icon.png'
-import downloadIcon from '../Assets/images/download-icon-white.svg'
+import attendanceIcon from '../Assets/images/attendance-icon.png';
 
 
 const AdminDownload = (props) => {
@@ -19,8 +18,7 @@ const AdminDownload = (props) => {
                 <Link to="terms">
                        
                     <button className="btn-l">
-                    <img src={downloadIcon} className="icon-xs" alt="download icon" />
-                    Download terms
+                    Academic Terms
                     </button>
                 </Link>
                 
