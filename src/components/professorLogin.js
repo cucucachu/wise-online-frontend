@@ -9,7 +9,7 @@ import loginIcon from '../Assets/images/login-icon.png';
 class ProfessorLogin extends Component {
     static contextType = AuthContext;
 
-    state={
+    state = {
         email: '',
         key: '',
         display: 'none',
@@ -34,18 +34,11 @@ class ProfessorLogin extends Component {
                 const response = await professorLogin(this.state.email, this.state.key);
                 
                 if (response.status === 200) {
-                    const userProfessor = response.data;
-                    sessionStorage.setItem('userID', userProfessor.id);
-                    sessionStorage.setItem('username', userProfessor.name);
-                    sessionStorage.setItem('schoolName', userProfessor.name);
-                    sessionStorage.setItem('schoolID', userProfessor.school.id);
-                    sessionStorage.setItem('isLoggedIn', true);
-                    sessionStorage.setItem('professor', userProfessor);
-
-                    if (userProfessor.school.integrationName) {
-                        sessionStorage.setItem('integrationName', userProfessor.school.integrationName);
+                    if (response.data.school.integrationName) {
+                        sessionStorage.setItem('integrationName', response.data.school.integrationName);
                     }
                     
+                    this.props.onSuccessfulLogin(response.data);
                     this.props.history.push('/professor/course');
                 }
                 else {

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import loginIcon from '../Assets/images/login-icon.png';
 
-import { studentLogin } from '../store/axios';
+import { studentLogin, logout, studentAgreeToTerms } from '../store/axios';
 import { AuthContext } from '../contexts/AuthContext';
 
 class StudentLogin extends Component {
@@ -40,68 +40,99 @@ class StudentLogin extends Component {
     handleSubmit = async e => {
         e.preventDefault();
 
-        if (this.state.hasAgreedToTerms === true) {
-            try {
-                const response = await studentLogin(this.state.email, this.state.key);     
-                
-                if (response.status === 200) {
-                    const userStudent = response.data;
-                    sessionStorage.setItem('userID', userStudent.id);
-                    sessionStorage.setItem('username', userStudent.name);
-                    sessionStorage.setItem('schoolName', userStudent.name);
-                    sessionStorage.setItem('schoolID', userStudent.school.id);
-                    sessionStorage.setItem('isLoggedIn', true);         
-                    
+
+        try {
+            const response = await studentLogin(this.state.email, this.state.key);     
+
+            console.dir(response);
+            
+            if (response.status === 200 && response.data.hasAgreedToTerms !== true) {
+                if (this.state.isFirstTime && this.state.hasAgreedToTerms) {
+                    await studentAgreeToTerms();
+                    this.props.onSuccessfulLogin(response.data);
                     this.props.history.push('/student/dashboard');
                 }
                 else {
-                    this.setState({message: 'Invalid email or student id. Please try again.'});
+                    await logout();
+                    this.setState({message: 'Please agree to terms and conditions'});
                     this.showError();
+                    this.setState({...this.state, isFirstTime: true});
                 }
+
+                return;
+            }
+            if (response.status === 200) {
+                this.props.onSuccessfulLogin(response.data);
+                this.props.history.push('/student/dashboard');
+            }
+            else {
+                this.setState({message: 'Invalid email or student id. Please try again.'});
+                this.showError();
+            }
+            
+        }
+        catch (error) {
+            this.setState({message: 'Oops, something went wrong. Please try again.'});
+            this.showError();
+        }
+
+        // if (this.state.hasAgreedToTerms === true) {
+        //     try {
+        //         const response = await studentLogin(this.state.email, this.state.key);     
                 
-            }
-            catch (error) {
-                this.setState({message: 'Oops, something went wrong. Please try again.'});
-                this.showError();
-            }
-        }
-        else {
-            try {
-                const response = await studentLogin(this.state.email, this.state.key);
-                const userStudent = response.data;
+        //         if (response.status === 200) {  
+        //             this.props.onSuccessfulLogin(response.data);
+        //             this.props.history.push('/student/dashboard');
+
+        //         }
+        //         else {
+        //             this.setState({message: 'Invalid email or student id. Please try again.'});
+        //             this.showError();
+        //         }
+                
+        //     }
+        //     catch (error) {
+        //         this.setState({message: 'Oops, something went wrong. Please try again.'});
+        //         this.showError();
+        //     }
+        // }
+        // else {
+        //     try {
+        //         const response = await studentLogin(this.state.email, this.state.key);
+        //         const userStudent = response.data;
     
-                if (response.status === 200) {
+        //         if (response.status === 200) {
 
-                    //check is the student ever checked terms and conditions
-                    if (userStudent.hasAgreedToTerms === false) {
+        //             //check is the student ever checked terms and conditions
+        //             if (userStudent.hasAgreedToTerms === false) {
 
-                        //show checkbox
-                        this.setState({message: 'Please agree to terms and conditions'});
-                        this.showError();
-                        this.setState({isFirstTime: true});
+        //                 //show checkbox
+        //                 this.setState({message: 'Please agree to terms and conditions'});
+        //                 this.showError();
+        //                 this.setState({isFirstTime: true});
 
-                        return;
-                    }
-                    else {
-                        sessionStorage.setItem('userID', userStudent.id);
-                        sessionStorage.setItem('username', userStudent.name);
-                        sessionStorage.setItem('schoolName', userStudent.name);
-                        sessionStorage.setItem('schoolID', userStudent.school.id);
-                        sessionStorage.setItem('isLoggedIn', true);
+        //                 return;
+        //             }
+        //             else {
+        //                 sessionStorage.setItem('userID', userStudent.id);
+        //                 sessionStorage.setItem('username', userStudent.name);
+        //                 sessionStorage.setItem('schoolName', userStudent.name);
+        //                 sessionStorage.setItem('schoolID', userStudent.school.id);
+        //                 sessionStorage.setItem('isLoggedIn', true);
                         
-                        this.props.history.push('/student/dashboard');
-                    }
-                }
-                else {
-                    this.setState({message: 'Invalid email or student id. Please try again.'});
-                    this.showError();
-                }
-            }
-            catch (error) {
-                this.setState({message: 'Oops, something went wrong. Please try again.'});
-                this.showError();
-            }
-        }
+        //                 this.props.history.push('/student/dashboard');
+        //             }
+        //         }
+        //         else {
+        //             this.setState({message: 'Invalid email or student id. Please try again.'});
+        //             this.showError();
+        //         }
+        //     }
+        //     catch (error) {
+        //         this.setState({message: 'Oops, something went wrong. Please try again.'});
+        //         this.showError();
+        //     }
+        // }
         return;        
     }
 
@@ -127,13 +158,28 @@ class StudentLogin extends Component {
                         <div className="input-wrapper">
                             <div style={this.state.showHide}>{this.state.message}</div>
                             <span className="input-label">Email</span>
-                            <input type="email" className="" value={this.state.email} onChange={this.handleChangeName.bind(this)} placeholder="Email" required/>
+                            <input 
+                                type="email" 
+                                className="" 
+                                value={this.state.email} 
+                                onChange={this.handleChangeName.bind(this)} 
+                                placeholder="Email" 
+                                required
+                                autoComplete="email"
+                            />
                         </div>
                         
                         <div className="spacer-vertical"></div>
                         <div className="input-wrapper">
                             <span className="input-label">Student ID</span>
-                            <input type="password" className="" onChange={this.handleChangeKey.bind(this)} value={this.state.key} placeholder="Student ID" required/>
+                            <input 
+                                type="password" 
+                                className="" 
+                                onChange={this.handleChangeKey.bind(this)} value={this.state.key} 
+                                placeholder="Student ID" 
+                                required
+                                autoComplete="current-password"
+                            />
                         </div>
                         <div className="input-wrapper">
                             <div className="width-md">
@@ -152,7 +198,7 @@ class StudentLogin extends Component {
                         <div className="spacer-vertical"></div>
                         {this.state.isFirstTime ? 
                         <React.Fragment>
-                            <div classNamΩe="input-wrapper">
+                            <div className="input-wrapper">
                                 <div className="row content-center">
                                     <div className="col">
                                         <button  
@@ -167,7 +213,7 @@ class StudentLogin extends Component {
                                                 href="https://www.wiseattend.com/privacy" 
                                                 target="_blank"
                                                 rel="noopener noreferrer"
-                                            >
+                                            > 
                                                 terms of use
                                             </a>.
                                         </strong>

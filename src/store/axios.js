@@ -41,7 +41,7 @@ async function studentLogin(email, studentId) {
 }
 
 async function logout() {
-    const response = await backend.post('student/login', {});
+    const response = await backend.post('logout', {});
     return response;
 }
 
@@ -251,8 +251,8 @@ async function submitFeeWaive(data) {
     const response = await backend.post('student/waiveFee', data);
     return response;
 }
-async function studentAgreeToTerms(student){
-    const response = await backend.post('/student/agreeToTerms', student)
+async function studentAgreeToTerms(){
+    const response = await backend.post('/student/agreeToTerms')
     return response;
 }
 
@@ -260,8 +260,8 @@ async function studentAgreeToTerms(student){
     Get Routes
 ------------------------------------------*/
 
-async function getCourses(school, professor) {
-    const response = await backend.post('get/courses', {school, professor});
+async function getCourses() {
+    const response = await backend.get('courses');
     return response;
     
 }

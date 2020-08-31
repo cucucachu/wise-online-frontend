@@ -30,6 +30,7 @@ function AttendancesTableView(props) {
                                     course={props.course}
                                     attendance={attendance}
                                     onClickView={props.onClickView}
+                                    key={attendance.id}
                                 />);
                             }
 

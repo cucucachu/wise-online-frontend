@@ -22,7 +22,7 @@ class ProfessorAttendanceStart extends Component {
 
     async loadAttendance(course) {
         const response = await startAttendance(course._id);
-        console.dir(response.data);
+
         if(response.status === 401){
             sessionStorage.clear();
             logout()
@@ -41,10 +41,7 @@ class ProfessorAttendanceStart extends Component {
     }
     
     componentDidMount() {
-        console.log('mounted');
         const { course } = this.props.location.state;
-        console.log('course:');
-        console.dir(course);
 
         const state = Object.assign({}, this.state);
         state.course = course;
@@ -61,12 +58,11 @@ class ProfessorAttendanceStart extends Component {
         clearInterval(this.timer);
       }
     checkCookie(){
-    const { cookies } = this.context
-    console.log('cookies: ', cookies);
-    
-    if(cookies === undefined){
-        this.props.history.push('/professor-login')
-    }else{return}
+        const { cookies } = this.context;
+        
+        if(cookies === undefined){
+            this.props.history.push('/professor-login')
+        }else{return}
     }
     render(){
         const { attendanceCode } = this.context

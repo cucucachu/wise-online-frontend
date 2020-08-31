@@ -50,7 +50,7 @@ class SchoolStep1 extends Component {
                 
                 loggedinUser(newSchool.id, newSchool.school.name, newSchool.school.id)
                 authToggle() 
-                this.props.history.push('/set-up-school')
+                this.props.history.push('/admin-login')
             }else if(response.status === 401){
                 sessionStorage.clear();
                 logout()

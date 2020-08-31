@@ -144,16 +144,16 @@ handleSubmit = async e =>{
                   <div className="space-adjust-1">
                 <div className="row space-adjust">
                   <div className="col">
-                    <input type="number" className="keycode-input" value={this.state.keyCode1} onChange={this.handleChangeKeyCode1.bind(this)} maxlength="1" ref={this.state.textInput} name="code1" required/>
+                    <input type="number" className="keycode-input" value={this.state.keyCode1} onChange={this.handleChangeKeyCode1.bind(this)} maxLength="1" ref={this.state.textInput} name="code1" required/>
                   </div>
                   <div className="col">
-                    <input type="number" className="keycode-input" value={this.state.keyCode2} onChange={this.handleChangeKeyCode2.bind(this)} maxlength="1" name="code2" required/>
+                    <input type="number" className="keycode-input" value={this.state.keyCode2} onChange={this.handleChangeKeyCode2.bind(this)} maxLength="1" name="code2" required/>
                   </div>
                   <div className="col">
-                    <input type="number" className="keycode-input" value={this.state.keyCode3} onChange={this.handleChangeKeyCode3.bind(this)} maxlength="1" name="code3" required/>
+                    <input type="number" className="keycode-input" value={this.state.keyCode3} onChange={this.handleChangeKeyCode3.bind(this)} maxLength="1" name="code3" required/>
                   </div>
                   <div className="col">
-                    <input type="number" className="keycode-input" value={this.state.keyCode4} onChange={this.handleChangeKeyCode4.bind(this)} maxlength="1" name="code4" required/>
+                    <input type="number" className="keycode-input" value={this.state.keyCode4} onChange={this.handleChangeKeyCode4.bind(this)} maxLength="1" name="code4" required/>
                   </div>
                 </div>
                 </div>

@@ -1,50 +1,57 @@
-import React, { useState, useEffect } from 'react';
+import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import { logout } from '../store/axios';
 
 import chevronIcon from '../Assets/images/chevron-left.svg';
 
-const HeaderNew = (props) => {
-    const [schoolName, setSchoolName] = useState('');
-    const [username, setUsername] = useState('');
-    const [isLoggedIn, setIsLoggedIn] = useState('');
+class HeaderNew extends Component {
+    constructor(props) {
+        super(props);
 
-    const handleLogout = () =>{
-        sessionStorage.clear();
-        logout();
-        props.history.push("/");
+        this.handleGoBack = this.handleGoBack.bind(this);
+        this.handleLogout = this.handleLogout.bind(this);
     }
-
-    const handleGoBack = (e) =>{
+    
+    handleGoBack(e) {
         e.preventDefault();
-        props.history.goBack();
+        this.props.history.goBack();
     }
 
-    const historyPath = props.history.location.pathname;
+    async handleLogout() {
+        this.props.history.push("/");
+        return this.props.handleLogout();
+    }
 
-    useEffect(() => {
-        setSchoolName(sessionStorage.getItem('schoolName'));
-        setUsername(sessionStorage.getItem('username'));
-        setIsLoggedIn(sessionStorage.getItem('isLoggedIn'));
-    }, []);
+    render() {
 
-    return ( 
-        <header>
-              <div className="logo"></div>
-              { historyPath === '/' || 
-                historyPath === '/admin/download' ||
-                historyPath === '/professor/course' ||
-                historyPath === '/student/dashboard'
-               ? '' : (<button onClick={handleGoBack} className="btn-backlink"><img src={chevronIcon} className="icon-xs" alt="chevron icon"/>&nbsp;Go back </button>)}
-      
-              <nav className="">
-                { isLoggedIn ? 
-                (<p className="nav-pos"><span className="hide-mobile">{ username === 'undefined' ?  'Logged in as ' + schoolName  : 'Logged in as ' + username} </span><button className="btn-s" onClick={handleLogout} >Log out</button></p> ):
-                ''}
-              </nav>
-                
-          </header>
-     );
+        return ( 
+            <header>
+                  <div className="logo"></div>
+                  { this.props.history.location.pathname === '/' || 
+                    this.props.history.location.pathname === '/admin/download' ||
+                    this.props.history.location.pathname === '/professor/course' ||
+                    this.props.history.location.pathname === '/student/dashboard'
+                   ? '' : (<button onClick={this.handleGoBack} className="btn-backlink"><img src={chevronIcon} className="icon-xs" alt="chevron icon"/>&nbsp;Go back </button>)}
+          
+    
+                  {
+                    (() => {
+                        if (this.props.isLoggedIn) {
+                            return (
+                                <p className="nav-pos">
+                                    <span className="hide-mobile">
+                                        { this.props.username === undefined ?  'Logged in as ' + this.props.schoolName  : 'Logged in as ' + this.props.username} 
+                                    </span>
+                                    <button className="btn-s" onClick={this.handleLogout} >Log out</button>
+                                </p> 
+                            )
+                        }
+                    })()
+                  }
+                    
+              </header>
+         );
+
+    }
 }
  
 export default withRouter(HeaderNew);

@@ -36,15 +36,10 @@ class AdminLogin extends Component {
             const emailLowerCase = this.state.email.toLowerCase();
             
             const response = await adminLogin(emailLowerCase, this.state.key);
-            const userAdmin = response.data;
-            sessionStorage.setItem('userID', userAdmin.id);
-            sessionStorage.setItem('username', userAdmin.name);
-            sessionStorage.setItem('schoolName', userAdmin.school.name);
-            sessionStorage.setItem('schoolID', userAdmin.school.id);
             
             if (response.status === 200) {
-                sessionStorage.setItem('isLoggedIn', true);
-                this.props.history.push('/admin/download');
+                this.props.onSuccessfulLogin(response.data);
+                this.props.history.push('/admin');
             }
             else {
                 this.setState({message: 'Invalid email or password. Please try again.'});
@@ -81,14 +76,31 @@ class AdminLogin extends Component {
                     <div className="input-wrapper">
                         <div style={this.state.showHide}>{this.state.message}</div>
                         <span className="input-label">Email</span>
-                        <input type="email" placeholder="Email" className=""  name="email" value={this.state.email} onChange={this.handleChangeName.bind(this)} required/>
+                        <input 
+                            type="email" 
+                            placeholder="Email" 
+                            className=""  
+                            name="email" 
+                            value={this.state.email} 
+                            onChange={this.handleChangeName.bind(this)} 
+                            required
+                            autoComplete="email"
+                        />
                     </div>
                     
                     <div className="spacer-vertical"></div>
                     <div className="input-wrapper">
                         <span className="input-label">Password</span>
-                        <input type="password" placeholder="Password"
-                        className="" name="key" onChange={this.handleChangeKey.bind(this)} value={this.state.key} required/>
+                        <input 
+                            type="password" 
+                            placeholder="Password"
+                            className="" 
+                            name="key" 
+                            onChange={this.handleChangeKey.bind(this)} 
+                            value={this.state.key} 
+                            required
+                            autoComplete="current-password"
+                        />
                     </div>
                     <div className="input-wrapper">
                         <div className="input-wrapper-bottom width-md">
