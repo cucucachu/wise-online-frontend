@@ -37,7 +37,7 @@ class ViewEachTestResult extends Component {
             yellowArr: [],
             testId: '',
             retrivedImg: '',
-            imgNum: 0,
+            imgNum: 1,
             numberOfImgs: 0,
             playVideo: false,
             toggleIcon: true,
@@ -258,7 +258,7 @@ class ViewEachTestResult extends Component {
             this.setState({showHideStyle: false});
         }
 
-        if(testResult.numberOfScreenshots !== null) {     
+        if(testResult.numberOfScreenshots !== null) {
             this.setState({totalScreenshots: testResult.numberOfScreenshots});
 
             if (testResult.screenshotViolations.length > 0) {
@@ -267,7 +267,7 @@ class ViewEachTestResult extends Component {
             try {
                 const resScreenshot = await getScreenshot(testResult.id, this.state.screenshotNum);
           
-                if (testResult.numberOfScreenshots > 0 && resScreenshot.message === '') {
+                if (testResult.numberOfScreenshots > 0) {
 
                     if (resScreenshot.length < 50) {
                         this.setState({hasScreenshot: true, retrivedShot: emptyImg});
