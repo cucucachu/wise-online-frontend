@@ -9,7 +9,7 @@ const StudentTestId = (props) => {
     const [classId, setClassId] = useState('')
     const [message, setMessage] = useState('')
     const [showHide, setShowHide] = useState({display: 'none'})
-    const { storeTestID, storeClassId, storeTestAttendanceId } = useContext(AuthContext)
+    const { storeClassId, storeTestAttendanceId } = useContext(AuthContext)
 
     const handleChangeKey = e =>{
         console.log('onchange: ', e.target.value);
@@ -24,7 +24,7 @@ const StudentTestId = (props) => {
     const handleSubmit = async e =>{
         e.preventDefault()
         
-        storeTestID(testId)
+        // storeTestID(testId)
         storeClassId(classId)
 
         try {
