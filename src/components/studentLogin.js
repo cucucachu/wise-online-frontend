@@ -3,20 +3,22 @@ import React, { Component } from 'react';
 import loginIcon from '../Assets/images/login-icon.png';
 
 import { studentLogin, logout, studentAgreeToTerms } from '../store/axios';
-import { AuthContext } from '../contexts/AuthContext';
 
 class StudentLogin extends Component {
-    static contextType = AuthContext;
 
-    state = {
-        email: '',
-        key: '',
-        display: 'none',
-        message:'',
-        showHide: {display: 'none'},
-        isFirstTime: false,
-        hasAgreedToTerms: false
-    };
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            email: '',
+            key: '',
+            display: 'none',
+            message:'',
+            showHide: {display: 'none'},
+            isFirstTime: false,
+            hasAgreedToTerms: false
+        };
+    }
 
     handleChangeName = e => {
         this.setState({email: e.target.value});
@@ -30,11 +32,8 @@ class StudentLogin extends Component {
         this.setState({showHide: {display: 'block'}});
     }
 
-    handleRadio = e => {
-        e.preventDefault();
-        this.setState(prevState => ({
-            hasAgreedToTerms: !prevState.hasAgreedToTerms
-          }));
+    handleChangeIAgree(e) {
+        this.setState({...this.state, hasAgreedToTerms: !this.state.hasAgreedToTerms});
     }
 
     handleSubmit = async e => {
@@ -42,9 +41,7 @@ class StudentLogin extends Component {
 
 
         try {
-            const response = await studentLogin(this.state.email, this.state.key);     
-
-            console.dir(response);
+            const response = await studentLogin(this.state.email, this.state.key);
             
             if (response.status === 200 && response.data.hasAgreedToTerms !== true) {
                 if (this.state.isFirstTime && this.state.hasAgreedToTerms) {
@@ -61,78 +58,21 @@ class StudentLogin extends Component {
 
                 return;
             }
-            if (response.status === 200) {
-                this.props.onSuccessfulLogin(response.data);
-                this.props.history.push('/student/dashboard');
-            }
             else {
-                this.setState({message: 'Invalid email or student id. Please try again.'});
-                this.showError();
+                if (response.status === 200) {
+                    this.props.onSuccessfulLogin(response.data);
+                    this.props.history.push('/student/dashboard');
+                }
+                else {
+                    this.setState({message: 'Invalid email or student id. Please try again.'});
+                    this.showError();
+                }
             }
-            
         }
         catch (error) {
             this.setState({message: 'Oops, something went wrong. Please try again.'});
             this.showError();
         }
-
-        // if (this.state.hasAgreedToTerms === true) {
-        //     try {
-        //         const response = await studentLogin(this.state.email, this.state.key);     
-                
-        //         if (response.status === 200) {  
-        //             this.props.onSuccessfulLogin(response.data);
-        //             this.props.history.push('/student/dashboard');
-
-        //         }
-        //         else {
-        //             this.setState({message: 'Invalid email or student id. Please try again.'});
-        //             this.showError();
-        //         }
-                
-        //     }
-        //     catch (error) {
-        //         this.setState({message: 'Oops, something went wrong. Please try again.'});
-        //         this.showError();
-        //     }
-        // }
-        // else {
-        //     try {
-        //         const response = await studentLogin(this.state.email, this.state.key);
-        //         const userStudent = response.data;
-    
-        //         if (response.status === 200) {
-
-        //             //check is the student ever checked terms and conditions
-        //             if (userStudent.hasAgreedToTerms === false) {
-
-        //                 //show checkbox
-        //                 this.setState({message: 'Please agree to terms and conditions'});
-        //                 this.showError();
-        //                 this.setState({isFirstTime: true});
-
-        //                 return;
-        //             }
-        //             else {
-        //                 sessionStorage.setItem('userID', userStudent.id);
-        //                 sessionStorage.setItem('username', userStudent.name);
-        //                 sessionStorage.setItem('schoolName', userStudent.name);
-        //                 sessionStorage.setItem('schoolID', userStudent.school.id);
-        //                 sessionStorage.setItem('isLoggedIn', true);
-                        
-        //                 this.props.history.push('/student/dashboard');
-        //             }
-        //         }
-        //         else {
-        //             this.setState({message: 'Invalid email or student id. Please try again.'});
-        //             this.showError();
-        //         }
-        //     }
-        //     catch (error) {
-        //         this.setState({message: 'Oops, something went wrong. Please try again.'});
-        //         this.showError();
-        //     }
-        // }
         return;        
     }
 
@@ -201,14 +141,14 @@ class StudentLogin extends Component {
                             <div className="input-wrapper">
                                 <div className="row content-center">
                                     <div className="col">
-                                        <button  
-                                            className="mimic-radio" 
-                                            onClick={this.handleRadio.bind(this)} 
+                                        <input 
+                                            type='checkbox' 
+                                            onChange={e => this.handleChangeIAgree(e)}
+                                            checked={this.state.hasAgreedToTerms}
                                         >
-                                            {this.state.hasAgreedToTerms ? <strong>&#10003;</strong> : ''}
-                                        </button>
+                                        </input>
                                         <strong style={{color: '#444'}} className="font-terms">
-                                            &nbsp;I agree to the 
+                                            &nbsp;I agree to the&nbsp;
                                             <a 
                                                 href="https://www.wiseattend.com/privacy" 
                                                 target="_blank"
