@@ -3,6 +3,7 @@ import { Link } from "react-router-dom"
 
 import editIcon from '../Assets/images/edit-icon.png'
 
+import ClipboardLink from './ClipboardLink';
 //axios
 import { startAttendance, logout } from '../store/axios'
 import { AuthContext } from '../contexts/AuthContext'
@@ -15,6 +16,7 @@ class ProfessorAttendanceStart extends Component {
             course: {
                 classId: '...',
             },
+            link: '',
         }
     }
 
@@ -30,14 +32,24 @@ class ProfessorAttendanceStart extends Component {
                 pathname: '/professor-login',
                 state: { message: 'Sorry, your login has expired, please log in again.', showHide: {display: 'block'} }
               })
-        }else{
+        }
+        else {
             const attendanceData = response.data;
             const state = Object.assign({}, this.state);
-    
+            state.link = this.createLink(state.course.classId, attendanceData.keyCode);
             state.attendanceCode = attendanceData.keyCode;
             this.setState(state);
         }
         
+    }
+
+    createLink(classId, keyCode) {
+        if (window.location.hostname === 'localhost') {
+            return `http://localhost:3000/student/attendanceLink?c=${classId.replace(' ', '%20')}&k=${keyCode}`;
+        }
+        else {
+            return `https://${window.location.hostname}/student/attendanceLink?c=${classId.replace(' ', '%20')}&k=${keyCode}`;
+        }
     }
     
     componentDidMount() {
@@ -54,16 +66,27 @@ class ProfessorAttendanceStart extends Component {
             300000
           );
     }
+
     componentWillUnmount() {
         clearInterval(this.timer);
-      }
-    checkCookie(){
+    }
+
+    checkCookie() {
         const { cookies } = this.context;
         
         if(cookies === undefined){
             this.props.history.push('/professor-login')
-        }else{return}
+        }
+        else {
+            return
+        }
     }
+
+    copyLink() {
+        const link = document.getElementById('attendance-link');
+        link.select();
+    }
+
     render(){
         const { attendanceCode } = this.context
         return(
@@ -83,6 +106,11 @@ class ProfessorAttendanceStart extends Component {
                     {attendanceCode}
                     Write this code down, and provide it to your students during class.
                     </p>
+                    <div className="spacer-vertical"></div>
+                    <p className="text-plain xlarge-text width-50">Or share this link with your students:</p>
+                    <ClipboardLink 
+                        link={this.state.link}
+                    />
                     <div className="spacer-vertical"></div>
                     <Link 
                         to={

@@ -5,7 +5,7 @@ import {
     Route,
    } from "react-router-dom";
 
-import { logout } from '../store/axios';
+import { logout, checkLogin } from '../store/axios';
 
 //components
 import ProfessorLogin from '../components/professorLogin'
@@ -50,6 +50,7 @@ import StudentFeeWaiveSelect from '../components/studentFeeWaiveSelect'
 import StudentFeeWaiveForm from '../components/studentFeeWaiveForm'
 import StudentFeeWaiveNote from '../components/studentFeeWaiveNote';
 import StudentFeeWaiveConfirm from '../components/studentFeeWaiveConfirm';
+import StudentAttendanceFromLink from '../components/StudentAttendanceFromLink';
 
 import headerBackground from '../Assets/images/header-img-mobile.png'
 import ForgotPWAdmin from '../components/forgotPWAdmin';
@@ -80,10 +81,19 @@ class HomePage extends Component {
             username: sessionStorage.getItem('username') === 'undefined' ? undefined : sessionStorage.getItem('username'),
             schoolName: sessionStorage.getItem('schoolName') === 'undefined' ? undefined : sessionStorage.getItem('schoolName'),
             isLoggedIn: sessionStorage.getItem('isLoggedIn') === 'true' ? true : false,
+            role: sessionStorage.getItem('role') === 'undefined' ? undefined : sessionStorage.getItem('role'),
         }
 
         this.handleLogout = this.handleLogout.bind(this);
         this.handleSuccessfulLogin = this.handleSuccessfulLogin.bind(this);
+    }
+
+    async componentDidMount() {
+        const response = await checkLogin();
+
+        if (response.status === 200) {
+            await this.handleSuccessfulLogin(response.data);
+        }
     }
 
     async handleSuccessfulLogin(userData) {
@@ -92,11 +102,13 @@ class HomePage extends Component {
         sessionStorage.setItem('schoolName', userData.school.name);
         sessionStorage.setItem('schoolID', userData.school.id);
         sessionStorage.setItem('isLoggedIn', true);
+        sessionStorage.setItem('role', userData.role);
 
         const state = Object.assign({}, this.state);
         state.username = userData.name;
         state.schoolName = userData.school.name;
         state.isLoggedIn = true;
+        state.role = userData.role;
         this.setState(state);
     }
 
@@ -201,12 +213,35 @@ class HomePage extends Component {
                             <Route path="/admin/reset-pw-sent" component={ForgotPWSentAdmin} />
                             <Route path="/professor/reset-pw-sent" component={ForgotPWSentProfessor} />
 
+                            <Route path="/student/attendanceLink" render={
+                                props => <StudentAttendanceFromLink 
+                                    {...props}
+                                    onSuccessfulLogin={this.handleSuccessfulLogin}
+                                 />
+                            }/>
+
                             {/* <Route path="/test" component={StudentRecordTest} />
                             <Route path="/test-error" component={StudentRecError} /> */}
 
                             {/* landingpage */}
-
                             <Route exact path='/' component={SelectRole} />
+                            {/* <Route exact path='/' >
+                                {(() => {
+                                    if (this.state.isLoggedIn) {
+                                        switch (this.state.role) {
+                                            case 'Student':
+                                                return <Redirect to="/student/dashboard" />;
+                                            case 'Professor':
+                                                return <Redirect to="/professor/course" />;
+                                            case 'Admin':
+                                                return <Redirect to="/admin" />;
+                                            default:
+                                                return <SelectRole />;
+                                        }
+                                    }
+                                    else return <SelectRole />;
+                                })()}
+                            </Route> */}
                     </Switch>   
                 </div>
             </Router>

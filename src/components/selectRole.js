@@ -3,8 +3,7 @@ import { Link } from "react-router-dom";
 
 import loginIcon from '../Assets/images/login-icon.png';
 
-
-const SelectRole = () => {
+function SelectRole(props) {
     return (
         <div className="container">
             <img src={loginIcon} className="page-icon" alt="login icon"/>
@@ -28,6 +27,6 @@ const SelectRole = () => {
 
         </div>
     );
-  }
+}
 
-  export default SelectRole;
+export default SelectRole;

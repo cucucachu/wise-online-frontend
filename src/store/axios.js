@@ -45,6 +45,10 @@ async function logout() {
     return response;
 }
 
+async function checkLogin() {
+    return backend.get('checkLogin');
+}
+
 /* ----------------------------------------
     Unprotected Routes
 ------------------------------------------*/
@@ -294,6 +298,7 @@ export {
     professorLogin,
     studentLogin,
     logout,
+    checkLogin,
     createSchool,
     claimProfessorAccount,
     adminDownloadDataByCourseURL,
