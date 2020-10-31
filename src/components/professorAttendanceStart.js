@@ -94,23 +94,14 @@ class ProfessorAttendanceStart extends Component {
                 <div className="container">
                     <img src={editIcon} className="page-icon" alt="login icon"/>
                     <div className="spacer-vertical"></div>
-                    <h1>Attendance Started for {this.state.course.classId}</h1>
-                    <div className="spacer-vertical"></div>
-                    
-                    <div className='jumbo-text text-plain'>
-                        {this.state.attendanceCode}
-                    </div>
-
+                    <h1>Share this URL Link with Students</h1>
                     <div className="spacer-vertical-s"></div>
-                    <p className="text-plain xlarge-text width-50">
-                    {attendanceCode}
-                    Write this code down, and provide it to your students during class.
-                    </p>
-                    <div className="spacer-vertical"></div>
-                    <p className="text-plain xlarge-text width-50">Or share this link with your students:</p>
                     <ClipboardLink 
                         link={this.state.link}
                     />
+                    <div className="spacer-vertical"></div>
+                    <h2 className="bold">Or share this attendance code with your students</h2>
+                    <h2 className="bold">{this.state.attendanceCode}</h2>
                     <div className="spacer-vertical"></div>
                     <Link 
                         to={

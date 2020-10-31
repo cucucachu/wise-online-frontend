@@ -1,13 +1,15 @@
-import React, { Component, Fragment } from 'react'
-import { Link } from "react-router-dom"
+import React, { Component, Fragment } from 'react';
+import { Link } from "react-router-dom";
 
-import editIcon from '../Assets/images/edit-icon.png'
+import editIcon from '../Assets/images/edit-icon.png';
 
 
-import { startTest } from '../store/axios'
+import { startTest } from '../store/axios';
 // startTest(courseId)
 
-import { AuthContext } from '../contexts/AuthContext'
+import { AuthContext } from '../contexts/AuthContext';
+
+import ClipboardLink from './ClipboardLink';
 
 class ProfessorExam extends Component {
     constructor(props) {
@@ -17,6 +19,7 @@ class ProfessorExam extends Component {
             course: {
                 classId: '...',
             },
+            link: '',
         }
     }
 
@@ -24,14 +27,22 @@ class ProfessorExam extends Component {
 
     async loadAttendance(course) {
         const response = await startTest(course._id);
-        console.log('response: ')
-        console.dir(response.data);
 
-        const attendanceData = response.data;
+        const testData = response.data;
         const state = Object.assign({}, this.state);
-
-        state.attendanceCode = attendanceData.keyCode;
+        
+        state.link = this.createLink(testData.classId, testData.keyCode);
+        state.attendanceCode = testData.keyCode;
         this.setState(state);
+    }
+    
+    createLink(classId, keyCode) {
+        if (window.location.hostname === 'localhost') {
+            return `http://localhost:3000/student/testLink?c=${classId.replace(' ', '%20')}&k=${keyCode}`;
+        }
+        else {
+            return `https://${window.location.hostname}/student/testLink?c=${classId.replace(' ', '%20')}&k=${keyCode}`;
+        }
     }
     
     componentDidMount() {
@@ -50,9 +61,10 @@ class ProfessorExam extends Component {
         //     30000
         //   );
     }
+
     componentWillUnmount() {
         clearInterval(this.timer);
-      }
+    }
 
     render(){
         return(
@@ -60,17 +72,16 @@ class ProfessorExam extends Component {
                 <div className="container">
                     <img src={editIcon} className="page-icon" alt="login icon"/>
                     <div className="spacer-vertical"></div>
-                    <h1>{this.state.course.classId} Test code</h1>
+                    <h1>Share this URL Link with Students</h1>
                     <div className="spacer-vertical"></div>
-                    
-                    <div className='jumbo-text text-plain'>
-                        {this.state.attendanceCode}
-                    </div>
-
-                    <div className="spacer-vertical-s"></div>
-                    <p className="text-plain xlarge-text width-50">
-                    Provide this code to your students, to enter before taking their test online.
-                    </p>
+                    <h2 className="width-slim bold">Copy and paste this link into the description of the test on your LMS</h2>
+                    <div className="spacer-vertical"></div>
+                    <ClipboardLink 
+                        link={this.state.link}
+                    />                    
+                    <div className="spacer-vertical"></div>
+                    <h2 className="bold">Or share this test code with your students</h2>
+                    <h2 className="bold">{this.state.attendanceCode}</h2>
                     <div className="spacer-vertical"></div>
                     <Link to="/professor/course">
                         <button className="btn">Done</button>

@@ -26,6 +26,8 @@ import StudentAttSuccess from '../components/studentAttSuccess'
 import StudentRecordTest from '../components/studentRecordTest'
 import StudentTestId from '../components/studentTestId';
 import StudentRecError from '../components/studentRecordingError';
+import StudentAttendanceFromLink from '../components/StudentAttendanceFromLink';
+import StudentTestFromLink from '../components/StudentTestFromLink';
 
 import AdminLogin from '../components/adminLogin'
 import SetUpSchoolPage from '../components/SetUpSchoolPage'
@@ -50,7 +52,6 @@ import StudentFeeWaiveSelect from '../components/studentFeeWaiveSelect'
 import StudentFeeWaiveForm from '../components/studentFeeWaiveForm'
 import StudentFeeWaiveNote from '../components/studentFeeWaiveNote';
 import StudentFeeWaiveConfirm from '../components/studentFeeWaiveConfirm';
-import StudentAttendanceFromLink from '../components/StudentAttendanceFromLink';
 
 import headerBackground from '../Assets/images/header-img-mobile.png'
 import ForgotPWAdmin from '../components/forgotPWAdmin';
@@ -219,6 +220,13 @@ class HomePage extends Component {
                                     onSuccessfulLogin={this.handleSuccessfulLogin}
                                  />
                             }/>
+                            <Route path="/student/testLink" render={
+                                props => <StudentTestFromLink 
+                                    {...props}
+                                    onSuccessfulLogin={this.handleSuccessfulLogin}
+                                 />
+                            }/>
+
 
                             {/* <Route path="/test" component={StudentRecordTest} />
                             <Route path="/test-error" component={StudentRecError} /> */}

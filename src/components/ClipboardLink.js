@@ -10,7 +10,7 @@ function ClipboardLink(props) {
     return (
         <div className="clipboard-link">
             <input id="clipboard-link-input" type="text" value={props.link} readOnly></input>
-            <button onClick={onClickClipboardLink} className="btn">Copy Attendance Link</button>
+            <button onClick={onClickClipboardLink} className="btn">&#10697;</button>
         </div>
     )
 }

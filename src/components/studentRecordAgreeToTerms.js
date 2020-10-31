@@ -16,7 +16,7 @@ const StudentRecordAgreeToTerms = (props) => {
     const handleConfirm = (e) => {
         e.preventDefault();
         if(hasAgreed){
-            props.history.push('chrome-extension');
+            props.history.push('test/record');
         }else{
             setShowHide(true);
         }
@@ -37,14 +37,14 @@ const StudentRecordAgreeToTerms = (props) => {
                     By clicking “begin” you acknowledge that you are aware that you will be recorded by Wise through 
                     your device webcam, and the content of your web-browsing tabs will be recorded and displayed to 
                     professors, in effort to offer a secure exam proctoring experience at educational institutions. 
-                    You hereby re-affirm that you have read, understand, and agree to our 
+                    You hereby re-affirm that you have read, understand, and agree to our&nbsp; 
                     <a 
                         href="https://www.wiseattend.com/privacy" 
                         target="_blank"
                         rel="noopener noreferrer"
                     >
                         privacy policy
-                    </a> and 
+                    </a> and &nbsp; 
                     <a 
                         href="https://www.wiseattend.com/privacy" 
                         target="_blank"
@@ -63,7 +63,7 @@ const StudentRecordAgreeToTerms = (props) => {
                     <span style={hasAgreed? {paddingRight: '5px', paddingLeft: '5px', } : {paddingLeft: '12px', paddingRight: '12px'}} className="mimic-radio height-lower" onClick={handleRadio} >{hasAgreed ? <strong>&#10003;</strong> : ''}</span>
                             
                         <strong style={{color: '#444'}} className="font-terms">
-                            &nbsp;I agree to the 
+                            &nbsp;I agree to the &nbsp;
                             <a 
                                 href="https://www.wiseattend.com/privacy" 
                                 target="_blank"
