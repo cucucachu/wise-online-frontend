@@ -1,15 +1,16 @@
 import React, { Component, Fragment} from 'react';
-import viewIcon from '../Assets/images/view-icon.png';
+import viewIcon from '../../Assets/images/view-icon.png';
 import moment from 'moment';
 import VideoModal from './videoModal';
+import WebsitesList from './WebsitesList';
 
-import redFlag from '../Assets/images/red-flag.png';
-import PlayIcon from '../Assets/images/play_circle_white.svg';
-import emptyImg from '../Assets/images/empty-img.png';
-import PauseIconBk from '../Assets/images/pause_circle_black.svg';
-import chevronLeft from '../Assets/images/chevron-left-black.svg';
-import chevronRight from '../Assets/images/chevron_right-black.svg';
-import { getTestImage, logout, getScreenshot } from '../store/axios';
+import redFlag from '../../Assets/images/red-flag.png';
+import PlayIcon from '../../Assets/images/play_circle_white.svg';
+import emptyImg from '../../Assets/images/empty-img.png';
+import PauseIconBk from '../../Assets/images/pause_circle_black.svg';
+import chevronLeft from '../../Assets/images/chevron-left-black.svg';
+import chevronRight from '../../Assets/images/chevron_right-black.svg';
+import { getTestImage, logout, getScreenshot } from '../../store/axios';
 
 class ViewEachTestResult extends Component {
     constructor(props) {
@@ -29,7 +30,9 @@ class ViewEachTestResult extends Component {
         this.toggleModalScreenshot = this.toggleModalScreenshot.bind(this);
 
         this.state = {
-            testResult: {},
+            testResult: {
+                screenshotViolations: [],
+            },
             formattedDate: '',
             red: 0,
             redArr: [],
@@ -380,7 +383,7 @@ class ViewEachTestResult extends Component {
                     <div className="spacer-vertical-s"></div>
                     <h1>{this.state.testResult.student}, {this.state.formattedDate}</h1>
                     {
-                        (this.state.testResult.confidenceScore !== 0 && this.state.testResult.confidenceScore <= 0.4)  || this.state.red > 0 
+                        (this.state.testResult.confidenceScore !== 0 && this.state.testResult.confidenceScore <= 0.4)  || this.state.testResult.screenshotViolations.length > 0 
                         ? 
                             <h2 className="red-text">
                                 <img className="red-flag-l" src={redFlag} alt="red flag icon" />
@@ -389,19 +392,24 @@ class ViewEachTestResult extends Component {
                         : '' 
                     }
                     <div className="spacer-vertical-s"></div>
+                    <div className="spacer-vertical-s"></div>
                     <div className="row">
-                        <div className="col-md-6 col-lg-3 view-details ">
+                        <div className="col-md-6 col-lg-6 test-view">
+                            <h3>Web Cam</h3>
+                            {(()=>{
+                                if (this.state.testResult.confidenceScore < 0.4) {
+                                    return <p className="red">Unusual Activity Found In Web Cam Images</p>
+                                }
+                                else return <p>No Unusual Activity Found In Web Cam Images</p>;
+                            })()}
                             {this.state.hasImg ? 
                             <div className="video-holder">
-                            <img src={this.state.retrivedImg} className="custom-video-frame" onClick={this.handlePlay.bind(this)} onMouseEnter={this.showPauseBtn.bind(this)} onMouseLeave={this.hidePauseBtn.bind(this)} alt="photos of the students"/>
-                            <img className="icon-on-video" src={PlayIcon} alt="play icon"  onClick={this.handlePlay.bind(this)}/>
-                            {/* <img className="icon-on-video" src={PauseIcon} style={{display: this.state.showPause ? 'block' : 'none' }} alt="puse icon" onMouseEnter={this.showPauseBtn.bind(this)} onClick={this.handlePlay.bind(this)}/> */}
+                                <img src={this.state.retrivedImg} className="custom-video-frame" onClick={this.handlePlay.bind(this)} onMouseEnter={this.showPauseBtn.bind(this)} onMouseLeave={this.hidePauseBtn.bind(this)} alt="photos of the students"/>
+                                <img className="icon-on-video" src={PlayIcon} alt="play icon"  onClick={this.handlePlay.bind(this)}/>
                             </div> :
                             <div className="video-holder">No images</div>
                             }
                             
-                            {/* <div className="spacer-vertical-s"></div> */}
-                            {/* <p style={{color: this.state.isRedFlag ? 'red' : '#ccc'}}>Video {this.state.isRedFlag ? <span className="red-text">red flags</span> : ''} {this.state.timeLeft}</p> */}
                             {this.state.hasImg && 
                             <React.Fragment>
                             <p className="hover-pointer pos-adjust" onClick={this.toggleModal}>Full screen</p>
@@ -430,85 +438,57 @@ class ViewEachTestResult extends Component {
                       
                             </React.Fragment>
                         }
-                        <hr />
-                        {this.state.hasScreenshot ? 
-                        <React.Fragment>
-                            {this.state.openModalScreenshot && <VideoModal 
-                            playVideo={this.state.playScreenshot} 
-                            playStop={this.screenshotPlayer} 
-                            handlePlay={this.handlePlayScreenshot} 
-                            retrivedImg={this.state.retrivedShot} 
-                            imgNum={this.state.screenshotNum-1} 
-                            numberOfImgs={this.state.totalScreenshots-1} 
-                            nextSlide={this.nextScreenshot} 
-                            prevSlide={this.previousScreenshot} 
-                            toggleModal={this.toggleModalScreenshot}/> }
+                        </div>
+                        <div className="col-md-6 col-lg-6">
+                            <h3>Screenshots</h3>
+                            <WebsitesList 
+                                violations={this.state.testResult.screenshotViolations}
+                            />
+                            {this.state.hasScreenshot ? 
+                                <React.Fragment>
+                                    {this.state.openModalScreenshot && <VideoModal 
+                                    playVideo={this.state.playScreenshot} 
+                                    playStop={this.screenshotPlayer} 
+                                    handlePlay={this.handlePlayScreenshot} 
+                                    retrivedImg={this.state.retrivedShot} 
+                                    imgNum={this.state.screenshotNum-1} 
+                                    numberOfImgs={this.state.totalScreenshots-1} 
+                                    nextSlide={this.nextScreenshot} 
+                                    prevSlide={this.previousScreenshot} 
+                                    toggleModal={this.toggleModalScreenshot}/> }
 
-                            <div className="video-holder">
-                                <div className="custom-video-frame">
-                                    <img src={this.state.retrivedShot} className="custom-video-frame" onClick={this.handlePlayScreenshot.bind(this)} onMouseEnter={this.showPauseBtn.bind(this)} onMouseLeave={this.hidePauseBtn.bind(this)} style={this.state.isPlayed ? '' : {filter: 'brightness(0.7)'}} alt="screenshots"/>                                    
-                                </div>
-                                
-                            </div>
-                            <img className="icon-on-video" src={PlayIcon} alt="play icon"  onClick={this.handlePlayScreenshot}/>
-                            <p className="hover-pointer pos-adjust" onClick={this.toggleModalScreenshot}>Full screen</p>
-                            <p className="text-black pos-adjust" style={{color: this.state.screenshotViolation ? 'red' : '#333'}}>Video Frame&nbsp;{this.state.screenshotNum}&nbsp;of&nbsp;{this.state.totalScreenshots-1}</p>
+                                    <div className="video-holder">
+                                        <div className="custom-video-frame">
+                                            <img src={this.state.retrivedShot} className="custom-video-frame" onClick={this.handlePlayScreenshot.bind(this)} onMouseEnter={this.showPauseBtn.bind(this)} onMouseLeave={this.hidePauseBtn.bind(this)} style={this.state.isPlayed ? '' : {filter: 'brightness(0.7)'}} alt="screenshots"/>                                    
+                                        </div>
+                                        
+                                    </div>
+                                    <img className="icon-on-video" src={PlayIcon} alt="play icon"  onClick={this.handlePlayScreenshot}/>
+                                    <p className="hover-pointer pos-adjust" onClick={this.toggleModalScreenshot}>Full screen</p>
+                                    <p className="text-black pos-adjust" style={{color: this.state.screenshotViolation ? 'red' : '#333'}}>Video Frame&nbsp;{this.state.screenshotNum}&nbsp;of&nbsp;{this.state.totalScreenshots-1}</p>
 
-                            <div className="playbutton-wrapper text-black pos-adjust" style={this.state.playScreenshot ? showPauseIcon : showSlide}>
-                            {!this.state.playScreenshot &&
-                                <div className="btn-slide test" onClick={this.previousScreenshot.bind(this)}>
-                                    <img className="icon-xxs" src={chevronLeft} alt="chevron left icon" />
-                                    &nbsp;Previous
-                                </div>
-                            }
-                            {this.state.playScreenshot && 
-                                <img className="icon-m hover-pointer" src={PauseIconBk} alt="pause icon" onClick={this.handlePlayScreenshot} />
-                            }
-                            {!this.state.playScreenshot &&
-                                <div className="btn-slide" onClick={this.nextScreenshot.bind(this)}> 
-                                Next&nbsp;
-                                <img className="icon-xxs" src={chevronRight} alt="chevron right icon" />
-                                </div>
-                            }
+                                    <div className="playbutton-wrapper text-black pos-adjust" style={this.state.playScreenshot ? showPauseIcon : showSlide}>
+                                    {!this.state.playScreenshot &&
+                                        <div className="btn-slide test" onClick={this.previousScreenshot.bind(this)}>
+                                            <img className="icon-xxs" src={chevronLeft} alt="chevron left icon" />
+                                            &nbsp;Previous
+                                        </div>
+                                    }
+                                    {this.state.playScreenshot && 
+                                        <img className="icon-m hover-pointer" src={PauseIconBk} alt="pause icon" onClick={this.handlePlayScreenshot} />
+                                    }
+                                    {!this.state.playScreenshot &&
+                                        <div className="btn-slide" onClick={this.nextScreenshot.bind(this)}> 
+                                        Next&nbsp;
+                                        <img className="icon-xxs" src={chevronRight} alt="chevron right icon" />
+                                        </div>
+                                    }
+                                    </div>
+                                </React.Fragment>
+                                :
+                                <div className="video-holder" style={{height: '50px', background: '#ccc', padding: '12px'}}>No Screenshots</div>
+                                }
                             </div>
-                        </React.Fragment>
-                        :
-                        <div className="video-holder" style={{height: '50px', background: '#ccc', padding: '12px'}}>No Screenshots</div>
-                        }
-                        </div>
-                        <div className="col-md-6 col-lg-3 border-right-gray-lg">
-                            <h3 className="text-plain">Red Flag tabs</h3>
-                            <ul className="result-li">
-                                {
-                                this.state.red > 0 ?
-                                this.state.redArr.map((result, i) =>
-                                <li className="" key={i}>{result}</li>
-                                ) : 'none'
-                                }
-                            </ul>
-                        </div>
-                        <div className="col-md-6 col-lg-3 border-right-gray">
-                        <h3 className="text-plain">Unknown tabs</h3>
-                            <ul className="result-li">
-                                {
-                                this.state.greenArr.length > 0 ?
-                                this.state.greenArr.map((result, i) =>
-                                <li key={i}>{result}</li>
-                                ) : 'none'
-                                }
-                            </ul>
-                        </div>
-                        <div className="col-md-6 col-lg-3">
-                        <h3 className="text-plain"> Whitelisted tabs</h3>
-                            <ul className="result-li">
-                                {
-                                this.state.yellowArr.length > 0 ?
-                                this.state.yellowArr.map((result, i) =>
-                                <li key={i}>{result}</li>
-                                ) : 'none'
-                                }
-                            </ul>
-                        </div>
                     </div>
                 </div>
                 }

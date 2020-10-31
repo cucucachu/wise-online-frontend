@@ -1,9 +1,9 @@
 import React, { Component, Fragment } from 'react'
-import chevronLeft from '../Assets/images/chevron-left-sized.svg'
-import chevronRight from '../Assets/images/chevron_right-white.svg'
-import pauseIcon from '../Assets/images/pause_circle_white.svg'
-import playIcon from '../Assets/images/play_circle_white.svg'
-import closeIcon from '../Assets/images/close-24px.svg'
+import chevronLeft from '../../Assets/images/chevron-left-sized.svg'
+import chevronRight from '../../Assets/images/chevron_right-white.svg'
+import pauseIcon from '../../Assets/images/pause_circle_white.svg'
+import playIcon from '../../Assets/images/play_circle_white.svg'
+import closeIcon from '../../Assets/images/close-24px.svg'
 
 class VideoModal extends Component{
     constructor(props){

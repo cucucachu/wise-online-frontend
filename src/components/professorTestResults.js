@@ -40,7 +40,7 @@ class ViewTestResults extends Component{
                         >
                             {result.student} 
                             {
-                                (result.confidenceScore <= 0.4 && result.confidenceScore) !== 0 || result.tabs.red.length > 0 ? <Link to={{
+                                (result.confidenceScore <= 0.4 && result.confidenceScore) !== 0 || result.screenshotViolations.length > 0 ? <Link to={{
                                     pathname: `/professor/view-detail`,
                                     state: {
                                         testResult: result,
@@ -51,7 +51,8 @@ class ViewTestResults extends Component{
                             <img className="red-flag" src={redFlag} alt="red flag icon"/><span className="red-text">Red Flags Detected</span>
                             <img src={chevronRight} alt="chevron right icon" />
 
-                        </Link> : 
+                        </Link> 
+                        : 
                         <Link 
                             to={{
                             pathname: `/professor/view-detail`,
@@ -62,7 +63,7 @@ class ViewTestResults extends Component{
                         
                         <img src={chevronRight} alt="chevron right icon" />
 
-                    </Link>
+                        </Link>
                         }
                         </li>
                         )

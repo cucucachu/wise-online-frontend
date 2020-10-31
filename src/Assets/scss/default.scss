@@ -961,6 +961,16 @@ input[type="file"] {
     height: 100%;
 }
 
+.websites-list {
+    display: block;
+    margin: auto;
+    max-width: 80vw;
+}
+
+.red {
+    color: red;
+}
+
 @media only screen and (max-width: 2800px){
     .page-icon {
         margin-top: 14rem;

@@ -65,7 +65,7 @@ import ProfessorResetPWSuccess from '../components/professorResetPWSuccess';
 import SetupSchoolSuccess from '../components/setUpSchoolSuccess';
 import ViewProctoring from '../components/professorViewProctoring';
 import ViewTestResults from '../components/professorTestResults';
-import ViewEachTestResult from '../components/professorViewTestData';
+import ViewEachTestResult from '../components/ProfessorViewTestData';
 import StudentRecordAgreeToTerms from '../components/studentRecordAgreeToTerms';
 import StudentInstallChromeExtension from '../components/studentInstallChromeExtension';
 import AdminTermsPage from '../components/AdminTerms/AdminTermsPage';
