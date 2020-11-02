@@ -88,7 +88,6 @@ class ProfessorAttendanceStart extends Component {
     }
 
     render(){
-        const { attendanceCode } = this.context
         return(
             <Fragment>
                 <div className="container">

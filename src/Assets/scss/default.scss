@@ -927,24 +927,25 @@ input[type="file"] {
     margin: auto;
     margin-bottom: 20px;
     vertical-align: middle;
+    border-style: none;
+    border-radius: 10px;
+    box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
+    width: 100%;
+    height: 4em;
 }
 
 .clipboard-link input {
     display: inline;
     color: $primary-color;
     font-size: 1.5rem;
-    width: 100ch;
-    max-width: 80vw;
-    border-style: solid;
+    width: 80%;
+    height: 100%;
     border-radius: 10px 0 0 10px;
-    border-width: 1px;
-    border-color: $lighter-gray;
     font-weight: bold;
     text-align: center;
     text-decoration: underline;
     padding: 10px 5px;
-    box-shadow: 5px 5px 5px $lighter-gray;
-    margin: auto;
+    border-style: none;
     &:focus {
         outline: none;
     }
@@ -955,11 +956,33 @@ input[type="file"] {
     font-size: 1.5rem;
     vertical-align: top;
     border-radius: 0 10px 10px 0;
-    box-shadow: 5px 5px 5px $lighter-gray;
+    border-style: none;
     display: inline;
-    width: auto;
+    width: 20%;
     height: 100%;
 }
+
+.clipboard-link-confirm {
+    opacity: 0;
+    position: relative;
+    bottom: 0;
+    left: 0;
+    background-color: green;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10px;
+    border-radius: 10px;
+    max-width: 10rem;
+}
+
+.clipboard-link-confirm p {
+    font-size: 1.5rem;
+    color: white;
+    width: auto;
+    margin: auto;
+}
+
+
 
 .websites-list {
     display: block;
@@ -1077,6 +1100,9 @@ input[type="file"] {
     }
     .hide-mobile {
         display: none;
+    }
+    .clipboard-link button {
+        font-size: 1rem;
     }
 }
 
