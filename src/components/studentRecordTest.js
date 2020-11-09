@@ -128,7 +128,7 @@ class StudentRecordTest extends Component {
 				const image = this.convertImage(imageSrc);
 	
 				if (!this.state.referenceImage) {
-					const faceId = await uploadReferenceImage(image);
+					const { faceId } = await uploadReferenceImage(image);
 		
 					const state = Object.assign({}, this.state);
 					state.referenceImage = faceId;
