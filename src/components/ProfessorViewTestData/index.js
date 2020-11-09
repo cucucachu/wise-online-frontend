@@ -2,7 +2,8 @@ import React, { Component, Fragment} from 'react';
 import viewIcon from '../../Assets/images/view-icon.png';
 import moment from 'moment';
 import VideoModal from './videoModal';
-import WebsitesList from './WebsitesList';
+import ScreenshotDetails from './ScreenshotDetails';
+import WebcamDetails from './WebcamDetails';
 
 import redFlag from '../../Assets/images/red-flag.png';
 import PlayIcon from '../../Assets/images/play_circle_white.svg';
@@ -16,19 +17,6 @@ class ViewEachTestResult extends Component {
     constructor(props) {
         super(props);
 
-        this.playStop = this.playStop.bind(this);
-        this.handlePlay = this.handlePlay.bind(this);
-        this.nextSlide = this.nextSlide.bind(this);
-        this.previousSlide = this.previousSlide.bind(this);
-        this.toggleModal = this.toggleModal.bind(this);
-
-        //screenshot
-        this.handlePlayScreenshot = this.handlePlayScreenshot.bind(this);
-        this.screenshotPlayer = this.screenshotPlayer.bind(this);
-        this.nextScreenshot = this.nextScreenshot.bind(this);
-        this.previousScreenshot = this.previousScreenshot.bind(this);
-        this.toggleModalScreenshot = this.toggleModalScreenshot.bind(this);
-
         this.state = {
             testResult: {
                 screenshotViolations: [],
@@ -41,8 +29,9 @@ class ViewEachTestResult extends Component {
             redArr: [],
             greenArr: [],
             yellowArr: [],
+            webcamViolations: [],
             testId: '',
-            retrivedImg: '',
+            retrievedImg: '',
             imgNum: 1,
             numberOfImgs: 0,
             playVideo: false,
@@ -65,6 +54,146 @@ class ViewEachTestResult extends Component {
             playScreenshot: false,
             screenshotViolation: false,
         }
+
+        this.playStop = this.playStop.bind(this);
+        this.handlePlay = this.handlePlay.bind(this);
+        this.nextSlide = this.nextSlide.bind(this);
+        this.previousSlide = this.previousSlide.bind(this);
+        this.toggleModal = this.toggleModal.bind(this);
+        this.goToWebcamFrame = this.goToWebcamFrame.bind(this);
+
+        //screenshot
+        this.handlePlayScreenshot = this.handlePlayScreenshot.bind(this);
+        this.screenshotPlayer = this.screenshotPlayer.bind(this);
+        this.nextScreenshot = this.nextScreenshot.bind(this);
+        this.previousScreenshot = this.previousScreenshot.bind(this);
+        this.toggleModalScreenshot = this.toggleModalScreenshot.bind(this);
+        this.goToScreenshotFrame = this.goToScreenshotFrame.bind(this);
+    }
+
+    async componentDidMount() {
+        const { testResult, proctorConfiguration } = this.props.location.state;
+        // this.setState({testResultId: testResult.id});
+        // this.setState({formattedDate: moment.utc(testResult.startTime).format('MMM DD, YYYY'), testResult: testResult, red: testResult.tabs.red.length, redArr: testResult.tabs.red, yellowArr: testResult.tabs.yellow, testId: testResult.id, numberOfImgs: testResult.numberOfImages});
+        
+
+        let isRedFlag = false;
+
+        if (testResult.confidenceScore <= this.state.proctorConfiguration.facialRecognitionThreshold) {
+            isRedFlag = true;
+        }
+        if (testResult.screenshotViolations.length > 0) {
+            isRedFlag = true;
+        }
+
+        const webcamViolations = [];
+        if (testResult.confidenceScores) {
+            for (const confidenceScoreIndex in testResult.confidenceScores) {
+                const confidenceScore = testResult.confidenceScores[confidenceScoreIndex];
+
+                if (confidenceScore < proctorConfiguration.facialRecognitionThreshold) {
+                    webcamViolations.push({
+                        frame: confidenceScoreIndex,
+                        confidenceScore,
+                    });
+                }
+            }
+        }
+
+
+        const screenshotViolations = [];
+        if (testResult.screenshotDetails) {
+            for (const screenshotIndex in testResult.screenshotDetails) {
+                const screenshotDetail = testResult.screenshotDetails[screenshotIndex];
+
+                if ((screenshotDetail.restrictedDomains && screenshotDetail.restrictedDomains.length)
+                    || (screenshotDetail.unknownDomains && screenshotDetail.unknownDomains.length)) {
+                    
+                    let websites = [];
+                    
+                    if (screenshotDetail.restrictedDomains && screenshotDetail.restrictedDomains.length) {
+                        websites = websites.concat(screenshotDetail.restrictedDomains);
+                    }
+                    
+                    if (screenshotDetail.unknownDomains && screenshotDetail.unknownDomains.length) {
+                        websites = websites.concat(screenshotDetail.unknownDomains);
+                    }
+
+                    screenshotViolations.push({
+                        frame: Number(screenshotIndex) + 1,
+                        websites,
+                    });
+                }
+            }
+        }
+        
+        this.setState({
+            ...this.state,
+            testResultId: testResult.id,
+            proctorConfiguration,
+            formattedDate: moment.utc(testResult.startTime).format('MMM DD, YYYY'),
+            testResult: testResult, 
+            red: testResult.tabs.red.length, 
+            redArr: testResult.tabs.red, 
+            yellowArr: testResult.tabs.yellow, 
+            testId: testResult.id, 
+            numberOfImgs: testResult.numberOfImages,
+            isRedFlag,
+            webcamViolations,
+            screenshotViolations,
+        });
+
+        const response = await getTestImage(testResult.id, this.state.imgNum);
+
+        if (response.status === 401) {
+            this.cookiesExpired()
+        }
+        else if (response.status === 200) {
+            const retrievedImg = response.data;
+
+            if (retrievedImg !== null) {
+                this.setState({retrievedImg: retrievedImg, timeLeft: this.hhmmss(testResult.numberOfImages), hasImg: true});
+            }
+            else {
+                console.log('no data');
+            }
+        }
+        else {
+            console.log('error', response);
+            this.setState({showHideStyle: false});
+        }
+
+        if(testResult.numberOfScreenshots !== null) {
+            this.setState({totalScreenshots: testResult.numberOfScreenshots});
+
+            if (testResult.screenshotViolations.length > 0) {
+                this.setState({screenshotViolation: true});
+            }
+            try {
+                const resScreenshot = await getScreenshot(testResult.id, this.state.screenshotNum);
+          
+                if (testResult.numberOfScreenshots > 0) {
+
+                    if (resScreenshot.length < 50) {
+                        this.setState({hasScreenshot: true, retrivedShot: emptyImg});
+                    }
+                    else {
+                        this.setState({hasScreenshot: true, retrivedShot: resScreenshot});
+                    }                    
+                }
+                else {
+                    this.setState({hasScreenshot: false});
+                }       
+            }
+            catch(error) {
+                console.log('error: ', error);
+                this.setState({hasScreenshot: false});
+            }
+        }
+        else {
+            console.log('no screenshots');
+            this.setState({hasScreenshot: false});
+        }
     }
     
     async previousSlide() {
@@ -74,7 +203,7 @@ class ViewEachTestResult extends Component {
         else {
             const response = await getTestImage(this.state.testResultId, this.state.imgNum-1);
             if (response.status === 200) {
-                this.setState({retrivedImg: response.data, imgNum: this.state.imgNum-1});
+                this.setState({retrievedImg: response.data, imgNum: this.state.imgNum-1});
             }
             else if (response.status === 401) {
                 this.cookiesExpired();
@@ -92,7 +221,7 @@ class ViewEachTestResult extends Component {
         else {
             const response = await getTestImage(this.state.testResultId, this.state.imgNum+1);
             if (response.status === 200) {
-                this.setState({retrivedImg: response.data, imgNum: this.state.imgNum+1});
+                this.setState({retrievedImg: response.data, imgNum: this.state.imgNum+1});
             }
             else if (response.status === 401) {
                 this.cookiesExpired();
@@ -145,11 +274,13 @@ class ViewEachTestResult extends Component {
 
     handlePlay() {
         this.setState({
-            playVideo: !this.state.playVideo, showHideStyle: false
-          },
-          () => {
+            ...this.state,
+            playVideo: !this.state.playVideo, 
+            showHideStyle: false
+        },
+        () => {
             this.playStop()
-          });
+        });
     }
 
     playStop(){
@@ -186,6 +317,30 @@ class ViewEachTestResult extends Component {
         else {
             clearInterval(this.timerID2);
             this.setState({playScreenshot: false, showHideStyle2: true, showPause2: false});
+        }
+    }
+
+    async goToWebcamFrame(frame) {
+        if (frame) {
+            const response = await getTestImage(this.state.testId, Number(frame));
+            if (response.status === 200) {
+                this.setState({
+                    ...this.state,
+                    imgNum: Number(frame),
+                    retrievedImg: response.data,
+                });
+            }
+        }
+    }
+
+    async goToScreenshotFrame(frame) {
+        if (frame) {
+            const screenshot = await getScreenshot(this.state.testId, Number(frame));
+            this.setState({
+                ...this.state,
+                screenshotNum: Number(frame),
+                retrivedShot: screenshot,
+            });
         }
     }
 
@@ -233,88 +388,6 @@ class ViewEachTestResult extends Component {
             });
     }
 
-    async componentDidMount() {
-        const { testResult, proctorConfiguration } = this.props.location.state;
-        // this.setState({testResultId: testResult.id});
-        // this.setState({formattedDate: moment.utc(testResult.startTime).format('MMM DD, YYYY'), testResult: testResult, red: testResult.tabs.red.length, redArr: testResult.tabs.red, yellowArr: testResult.tabs.yellow, testId: testResult.id, numberOfImgs: testResult.numberOfImages});
-        
-
-        let isRedFlag = false;
-
-        if (testResult.confidenceScore <= this.state.proctorConfiguration.facialRecognitionThreshold) {
-            isRedFlag = true;
-        }
-        if (testResult.screenshotViolations.length > 0) {
-            isRedFlag = true;
-        }
-        
-        this.setState({
-            ...this.state,
-            testResultId: testResult.id,
-            proctorConfiguration,
-            formattedDate: moment.utc(testResult.startTime).format('MMM DD, YYYY'),
-            testResult: testResult, 
-            red: testResult.tabs.red.length, 
-            redArr: testResult.tabs.red, 
-            yellowArr: testResult.tabs.yellow, 
-            testId: testResult.id, 
-            numberOfImgs: testResult.numberOfImages,
-            isRedFlag,
-        });
-
-        const response = await getTestImage(testResult.id, this.state.imgNum);
-
-        if (response.status === 401) {
-            this.cookiesExpired()
-        }
-        else if (response.status === 200) {
-            const retrivedImg = response.data;
-
-            if (retrivedImg !== null) {
-                this.setState({retrivedImg: retrivedImg, timeLeft: this.hhmmss(testResult.numberOfImages), hasImg: true});
-            }
-            else {
-                console.log('no data');
-            }
-        }
-        else {
-            console.log('error', response);
-            this.setState({showHideStyle: false});
-        }
-
-        if(testResult.numberOfScreenshots !== null) {
-            this.setState({totalScreenshots: testResult.numberOfScreenshots});
-
-            if (testResult.screenshotViolations.length > 0) {
-                this.setState({screenshotViolation: true});
-            }
-            try {
-                const resScreenshot = await getScreenshot(testResult.id, this.state.screenshotNum);
-          
-                if (testResult.numberOfScreenshots > 0) {
-
-                    if (resScreenshot.length < 50) {
-                        this.setState({hasScreenshot: true, retrivedShot: emptyImg});
-                    }
-                    else {
-                        this.setState({hasScreenshot: true, retrivedShot: resScreenshot});
-                    }                    
-                }
-                else {
-                    this.setState({hasScreenshot: false});
-                }       
-            }
-            catch(error) {
-                console.log('error: ', error);
-                this.setState({hasScreenshot: false});
-            }
-        }
-        else {
-            console.log('no screenshots');
-            this.setState({hasScreenshot: false});
-        }
-    }
-
     componentWillUnmount() {
         clearInterval(this.timerID);
         clearInterval(this.timerID2);
@@ -330,8 +403,8 @@ class ViewEachTestResult extends Component {
             try {
                 const response = await getTestImage(this.state.testId, this.state.imgNum);
                 if (response.status === 200) {
-                    const retrivedImg = response.data;
-                    this.setState({retrivedImg: retrivedImg});
+                    const retrievedImg = response.data;
+                    this.setState({retrievedImg: retrievedImg});
                     const differences = this.state.numberOfImgs-1 - this.state.imgNum;
                     this.setState({timeLeft: this.hhmmss(differences)});
                 }
@@ -346,12 +419,12 @@ class ViewEachTestResult extends Component {
         else {
             this.setState({imgNum: 0});
             const response = await getTestImage(this.state.testId, this.state.imgNum);
-            const retrivedImg = response.data;
-            this.setState({retrivedImg: retrivedImg, timeLeft: this.hhmmss(this.state.numberOfImgs)});
+            const retrievedImg = response.data;
+            this.setState({retrievedImg: retrievedImg, timeLeft: this.hhmmss(this.state.numberOfImgs)});
         }
-      }
+    }
 
-      async tickScreenshot() {
+    async tickScreenshot() {
         if (this.state.screenshotNum < this.state.totalScreenshots - 1) {
             this.setState({
                 screenshotNum: this.state.screenshotNum +1 
@@ -391,14 +464,46 @@ class ViewEachTestResult extends Component {
         }   
     }
 
+    renderWebCamSection() {
+    }
+
     render() {
         const showSlide = {justifyContent: 'space-between'};
         const showPauseIcon = {justifyContent: 'center'};
 
-        return (
-            <Fragment>
-                {this.state.openModal ?  <VideoModal playVideo={this.state.playVideo} playStop={this.playStop} handlePlay={this.handlePlay} retrivedImg={this.state.retrivedImg} imgNum={this.state.imgNum} numberOfImgs={this.state.numberOfImgs} nextSlide={this.nextSlide} previousSlide={this.previousSlide} toggleModal={this.toggleModal}/> 
-                :
+        
+        if (this.state.openModal) {
+            return (
+                <VideoModal 
+                    playVideo={this.state.playVideo} 
+                    playStop={this.playStop} 
+                    handlePlay={this.handlePlay} 
+                    retrievedImg={this.state.retrievedImg} 
+                    imgNum={this.state.imgNum} 
+                    numberOfImgs={this.state.numberOfImgs} 
+                    nextSlide={this.nextSlide} 
+                    previousSlide={this.previousSlide} 
+                    toggleModal={this.toggleModal}
+                />
+            );
+        }
+        else if (this.state.openModalScreenshot && this.state.hasScreenshot) {
+            return (
+                <VideoModal 
+                    playVideo={this.state.playScreenshot} 
+                    playStop={this.screenshotPlayer} 
+                    handlePlay={this.handlePlayScreenshot} 
+                    retrievedImg={this.state.retrivedShot} 
+                    imgNum={this.state.screenshotNum-1} 
+                    numberOfImgs={this.state.totalScreenshots-1} 
+                    nextSlide={this.nextScreenshot} 
+                    prevSlide={this.previousScreenshot} 
+                    toggleModal={this.toggleModalScreenshot}
+                />
+            )
+        }
+        else {
+            return (
                 <div className="container">
                     <img src={viewIcon} className="page-icon" alt="view icon"/>
                     <div className="spacer-vertical-s"></div>
@@ -423,98 +528,145 @@ class ViewEachTestResult extends Component {
                                 }
                                 else return <p>No Unusual Activity Found In Web Cam Images</p>;
                             })()}
-                            {this.state.hasImg ? 
-                            <div className="video-holder">
-                                <img src={this.state.retrivedImg} className="custom-video-frame" onClick={this.handlePlay.bind(this)} onMouseEnter={this.showPauseBtn.bind(this)} onMouseLeave={this.hidePauseBtn.bind(this)} alt="photos of the students"/>
-                                <img className="icon-on-video" src={PlayIcon} alt="play icon"  onClick={this.handlePlay.bind(this)}/>
-                            </div> :
-                            <div className="video-holder">No images</div>
-                            }
-                            
-                            {this.state.hasImg && 
-                            <React.Fragment>
-                            <p className="hover-pointer pos-adjust" onClick={this.toggleModal}>Full screen</p>
-                            <p className="pos-adjust" style={{color: this.state.isRedFlag ? 'red' : '#333'}}>
-                            Video &nbsp;
-                            {/* {this.state.isRedFlag ? <span className="red-text">red flags</span> : ''}  */}
-                            Frame&nbsp;{this.state.imgNum +1}&nbsp;of&nbsp;{this.state.numberOfImgs}</p>
-                            
-                            <div className="playbutton-wrapper text-black pos-adjust" style={this.state.playVideo ? showPauseIcon : showSlide}>
-                            {!this.state.playVideo &&
-                                <div className="btn-slide test" onClick={this.previousSlide.bind(this)}>
-                                    <img className="icon-xxs" src={chevronLeft} alt="chevron left icon" />
-                                    &nbsp;Previous
-                                </div>
-                            }
-                            {this.state.playVideo && 
-                                <img className="icon-m hover-pointer" src={PauseIconBk} alt="pause icon" onClick={this.handlePlay} />
-                            }
-                            {!this.state.playVideo &&
-                                <div className="btn-slide" onClick={this.nextSlide.bind(this)}> 
-                                Next&nbsp;
-                                <img className="icon-xxs" src={chevronRight} alt="chevron right icon" />
-                                </div>
-                            }
-                            </div>
-                      
-                            </React.Fragment>
-                        }
+                            {(() => {
+                                if (this.state.hasImg) {
+                                    return (
+                                        <Fragment>
+                                            <div className="video-holder">
+                                                <img 
+                                                    src={this.state.retrievedImg} 
+                                                    className="custom-video-frame" 
+                                                    onClick={this.handlePlay.bind(this)} 
+                                                    onMouseEnter={this.showPauseBtn.bind(this)} 
+                                                    onMouseLeave={this.hidePauseBtn.bind(this)} 
+                                                    alt="photos of the students"
+                                                />
+                                                <img 
+                                                    className={`icon-on-video${this.state.playVideo ? ' hidden' : ''}`} 
+                                                    src={PlayIcon} alt="play icon"  
+                                                    onClick={this.handlePlay.bind(this)}
+                                                />
+                                            </div>
+                                            <p className="hover-pointer pos-adjust" onClick={this.toggleModal}>Full screen</p>
+                                            <p className="pos-adjust" style={{color: this.state.isRedFlag ? 'red' : '#333'}}>
+                                                Video Frame {this.state.imgNum} of {this.state.numberOfImgs}
+                                            </p>
+                                            
+                                            <div className="playbutton-wrapper text-black pos-adjust" style={this.state.playVideo ? showPauseIcon : showSlide}>
+                                            {!this.state.playVideo &&
+                                                <div className="btn-slide test" onClick={this.previousSlide.bind(this)}>
+                                                    <img className="icon-xxs" src={chevronLeft} alt="chevron left icon" />
+                                                    &nbsp;Previous
+                                                </div>
+                                            }
+                                            {this.state.playVideo && 
+                                                <img className="icon-m hover-pointer" src={PauseIconBk} alt="pause icon" onClick={this.handlePlay} />
+                                            }
+                                            {!this.state.playVideo &&
+                                                <div className="btn-slide" onClick={this.nextSlide.bind(this)}> 
+                                                Next&nbsp;
+                                                <img className="icon-xxs" src={chevronRight} alt="chevron right icon" />
+                                                </div>
+                                            }
+                                            </div>
+                                            <WebcamDetails 
+                                                violations={this.state.webcamViolations}
+                                                handleFrameClick={this.goToWebcamFrame}
+                                            />
+                                        </Fragment>
+                                    );
+                                }
+                                else {
+                                    return <div></div>;
+                                } 
+                            })()}
                         </div>
                         <div className="col-md-6 col-lg-6">
                             <h3>Screenshots</h3>
-                            <WebsitesList 
-                                violations={this.state.testResult.screenshotViolations}
-                            />
-                            {this.state.hasScreenshot ? 
-                                <React.Fragment>
-                                    {this.state.openModalScreenshot && <VideoModal 
-                                    playVideo={this.state.playScreenshot} 
-                                    playStop={this.screenshotPlayer} 
-                                    handlePlay={this.handlePlayScreenshot} 
-                                    retrivedImg={this.state.retrivedShot} 
-                                    imgNum={this.state.screenshotNum-1} 
-                                    numberOfImgs={this.state.totalScreenshots-1} 
-                                    nextSlide={this.nextScreenshot} 
-                                    prevSlide={this.previousScreenshot} 
-                                    toggleModal={this.toggleModalScreenshot}/> }
-
-                                    <div className="video-holder">
-                                        <div className="custom-video-frame">
-                                            <img src={this.state.retrivedShot} className="custom-video-frame" onClick={this.handlePlayScreenshot.bind(this)} onMouseEnter={this.showPauseBtn.bind(this)} onMouseLeave={this.hidePauseBtn.bind(this)} style={this.state.isPlayed ? '' : {filter: 'brightness(0.7)'}} alt="screenshots"/>                                    
-                                        </div>
-                                        
-                                    </div>
-                                    <img className="icon-on-video" src={PlayIcon} alt="play icon"  onClick={this.handlePlayScreenshot}/>
-                                    <p className="hover-pointer pos-adjust" onClick={this.toggleModalScreenshot}>Full screen</p>
-                                    <p className="text-black pos-adjust" style={{color: this.state.screenshotViolation ? 'red' : '#333'}}>Video Frame&nbsp;{this.state.screenshotNum}&nbsp;of&nbsp;{this.state.totalScreenshots-1}</p>
-
-                                    <div className="playbutton-wrapper text-black pos-adjust" style={this.state.playScreenshot ? showPauseIcon : showSlide}>
-                                    {!this.state.playScreenshot &&
-                                        <div className="btn-slide test" onClick={this.previousScreenshot.bind(this)}>
-                                            <img className="icon-xxs" src={chevronLeft} alt="chevron left icon" />
-                                            &nbsp;Previous
-                                        </div>
-                                    }
-                                    {this.state.playScreenshot && 
-                                        <img className="icon-m hover-pointer" src={PauseIconBk} alt="pause icon" onClick={this.handlePlayScreenshot} />
-                                    }
-                                    {!this.state.playScreenshot &&
-                                        <div className="btn-slide" onClick={this.nextScreenshot.bind(this)}> 
-                                        Next&nbsp;
-                                        <img className="icon-xxs" src={chevronRight} alt="chevron right icon" />
-                                        </div>
-                                    }
-                                    </div>
-                                </React.Fragment>
-                                :
-                                <div className="video-holder" style={{height: '50px', background: '#ccc', padding: '12px'}}>No Screenshots</div>
+                            {(() => {
+                                if (this.state.testResult.screenshotViolations.length) {
+                                    return <p className="red">Forbidden Websites Detected</p>;
                                 }
-                            </div>
+                                else {
+                                    return <p>No Forbidden Websites Detected</p>
+                                }
+                            })()}
+                            {(() => {
+                                if (this.state.hasScreenshot) {
+                                    return (
+                                        <Fragment>        
+                                            <div className="video-holder">
+                                                <div className="custom-video-frame">
+                                                    <img 
+                                                        src={this.state.retrivedShot} 
+                                                        className="custom-video-frame" 
+                                                        onClick={this.handlePlayScreenshot.bind(this)} 
+                                                        onMouseEnter={this.showPauseBtn.bind(this)} 
+                                                        onMouseLeave={this.hidePauseBtn.bind(this)} 
+                                                        style={this.state.isPlayed ? '' : {filter: 'brightness(0.7)'}} alt="screenshots"
+                                                    />                                    
+                                                </div> 
+                                            </div>
+                                            <img 
+                                                className={`icon-on-video${this.state.playScreenshot ? ' hidden' : ''}`} 
+                                                src={PlayIcon} 
+                                                alt="play icon"  
+                                                onClick={this.handlePlayScreenshot}
+                                            />
+                                            <p className="hover-pointer pos-adjust" onClick={this.toggleModalScreenshot}>Full screen</p>
+                                            <p 
+                                                className="text-black pos-adjust" 
+                                                style={{color: this.state.screenshotViolation ? 'red' : '#333'}}
+                                            >
+                                                Video Frame&nbsp;{this.state.screenshotNum}&nbsp;of&nbsp;{this.state.totalScreenshots-1}
+                                            </p>
+        
+                                            <div className="playbutton-wrapper text-black pos-adjust" style={this.state.playScreenshot ? showPauseIcon : showSlide}>
+                                                {(() => {
+                                                    if (this.state.playScreenshot) {
+                                                        return (
+                                                            <img 
+                                                                className="icon-m hover-pointer" 
+                                                                src={PauseIconBk} 
+                                                                alt="pause icon" 
+                                                                onClick={this.handlePlayScreenshot} 
+                                                            />
+                                                        );
+                                                    }
+                                                    else {
+                                                        return (
+                                                            <Fragment>
+                                                            <div className="btn-slide test" onClick={this.previousScreenshot.bind(this)}>
+                                                                <img className="icon-xxs" src={chevronLeft} alt="chevron left icon" />
+                                                                &nbsp;Previous
+                                                            </div>
+                                                            <div className="btn-slide" onClick={this.nextScreenshot.bind(this)}> 
+                                                            Next&nbsp;
+                                                            <img className="icon-xxs" src={chevronRight} alt="chevron right icon" />
+                                                            </div>
+                                                            </Fragment>
+                                                        );
+                                                    }
+                                                })()}
+                                            </div>
+                                            <ScreenshotDetails
+                                                violations={this.state.screenshotViolations}
+                                                handleFrameClick={this.goToScreenshotFrame}
+                                            />
+                                        </Fragment>
+                                    )
+                                }
+                                else {
+                                    return (
+                                        <div className="video-holder" style={{height: '50px', background: '#ccc', padding: '12px'}}>No Screenshots</div>
+                                    )
+                                }
+                            })()}
+                        </div>
                     </div>
                 </div>
-                }
-            </Fragment>
-        );
+            );
+        }
     }
 }
 

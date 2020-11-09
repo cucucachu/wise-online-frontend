@@ -25,7 +25,7 @@ button:focus { outline: none; }
 }
 
 .hidden {
-    display: none;
+    visibility: hidden;
 }
 
 .page-header {
@@ -1050,6 +1050,20 @@ input[type="file"] {
 
 .professor-settings {
     margin-left: 80%;
+}
+
+
+
+.frame-link {
+    background-color: white;
+    color: $primary-color;
+    text-decoration: underline;
+    font-size: 1rem;
+    border: none;
+}
+
+.text-align-left {
+    text-align: left;
 }
 
 @media only screen and (max-width: 2800px){
