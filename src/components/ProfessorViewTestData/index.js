@@ -86,7 +86,7 @@ class ViewEachTestResult extends Component {
             isRedFlag = true;
         }
 
-        const webcamViolations = [];
+        let webcamViolations = [];
         if (testResult.confidenceScores) {
             for (const confidenceScoreIndex in testResult.confidenceScores) {
                 const confidenceScore = testResult.confidenceScores[confidenceScoreIndex];
@@ -100,6 +100,21 @@ class ViewEachTestResult extends Component {
             }
         }
 
+        if (testResult.numberOfPeople && Array.isArray(testResult.numberOfPeople)) {
+            for (const index in testResult.numberOfPeople) {
+                const numberOfPeople = testResult.numberOfPeople[index];
+
+                if (numberOfPeople > 1) {
+                    isRedFlag = true;
+                    webcamViolations.push({
+                        frame: index,
+                        numberOfPeople,
+                    });
+                }
+            }
+        }
+
+        webcamViolations = webcamViolations.sort((a, b) => a.frame - b.frame);
 
         const screenshotViolations = [];
         if (testResult.screenshotDetails) {
@@ -523,7 +538,9 @@ class ViewEachTestResult extends Component {
                         <div className="col-md-6 col-lg-6 test-view">
                             <h3>Web Cam</h3>
                             {(()=>{
-                                if (this.state.testResult.confidenceScore < this.state.proctorConfiguration.facialRecognitionThreshold) {
+                                const multiplePeople = this.state.testResult.numberOfPeople && Array.isArray(this.state.testResult.numberOfPeople) && this.state.testResult.numberOfPeople.filter(x => x > 1).length;
+
+                                if (this.state.testResult.confidenceScore < this.state.proctorConfiguration.facialRecognitionThreshold || multiplePeople) {
                                     return <p className="red">Unusual Activity Found In Web Cam Images</p>
                                 }
                                 else return <p>No Unusual Activity Found In Web Cam Images</p>;

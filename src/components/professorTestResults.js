@@ -45,34 +45,33 @@ class ViewTestResults extends Component{
                                     key={i}
                                 >
                             {result.student} 
-                            {
-                                result.confidenceScore <= this.state.exam.proctorConfiguration.facialRecognitionThreshold || result.screenshotViolations.length > 0 ? <Link to={{
+                            <Link 
+                                to={{
                                     pathname: `/professor/view-detail`,
                                     state: {
                                         testResult: result,
                                         proctorConfiguration: this.state.exam.proctorConfiguration,
                                     }
-                                }
-                            }
-                        >
-                            <img className="red-flag" src={redFlag} alt="red flag icon"/><span className="red-text">Red Flags Detected</span>
-                            <img src={chevronRight} alt="chevron right icon" />
+                            }}>
+                                {(() => {
+                                    const lowConfidenceScore = result.confidenceScore <= this.state.exam.proctorConfiguration.facialRecognitionThreshold;
+                                    const screenshotViolations = Array.isArray(result.screenshotViolations) && result.screenshotViolations.length > 0;
+                                    const multiplePeople = result.numberOfPeople && Array.isArray(result.numberOfPeople) && result.numberOfPeople.filter(n => n > 1).length;
 
-                        </Link> 
-                        : 
-                        <Link 
-                            to={{
-                            pathname: `/professor/view-detail`,
-                            state: {
-                                testResult: result,
-                                proctorConfiguration: this.state.exam.proctorConfiguration,
-                            }
-                        }}>
-                        
-                        <img src={chevronRight} alt="chevron right icon" />
-
-                        </Link>
-                        }
+                                    if (lowConfidenceScore || screenshotViolations || multiplePeople) {
+                                        return (
+                                            <span>
+                                                <img className="red-flag" src={redFlag} alt="red flag icon"/>
+                                                <span className="red-text">Red Flags Detected</span>
+                                            </span>
+                                        );
+                                    }
+                                    else {
+                                        return '';
+                                    }
+                                })()}
+                                <img src={chevronRight} alt="chevron right icon" />
+                            </Link> 
                         </li>
                         )
                     }</ul>

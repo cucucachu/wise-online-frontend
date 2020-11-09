@@ -16,7 +16,8 @@ class ExamCard extends Component {
             name: props.exam,
             editing: false,
             formattedDate: '',
-            isRedTab: 0
+            isRedTab: 0,
+            multiplePeople: false,
         }
     }
 
@@ -27,7 +28,24 @@ class ExamCard extends Component {
     }
 
     componentDidMount(){
-        this.setState({formattedDate: moment.utc(this.props.examDate).format('MMM DD, YYYY'), isRedTab: this.props.isRedTab})
+        let multiplePeople = false;
+
+        if (this.props.exam.results && Array.isArray(this.props.exam.results)) {
+            for (const result of this.props.exam.results) {
+                if (Array.isArray(result.numberOfPeople)) {
+                    if (result.numberOfPeople.filter(n => n > 1).length) {
+                        multiplePeople = true;
+                        break;
+                    }
+                }
+            }
+        }
+
+        this.setState({
+            formattedDate: moment.utc(this.props.examDate).format('MMM DD, YYYY'), 
+            isRedTab: this.props.isRedTab,
+            multiplePeople,
+        });
     }
 
     render() {
@@ -37,7 +55,7 @@ class ExamCard extends Component {
             <div className="col-12 col-md-4">
                 <div className="shadow">
                         
-                            <h3 className="course-title">{formattedDate} {this.props.isRedFlag.length >= 1 || this.props.isRedTab > 0 ? <img className="red-flag" src={redFlag} alt="red flag icon"/> : ' '}</h3>
+                            <h3 className="course-title">{formattedDate} {this.props.isRedFlag.length >= 1 || this.props.isRedTab > 0 || this.state.multiplePeople ? <img className="red-flag" src={redFlag} alt="red flag icon"/> : ' '}</h3>
                         
                             <Link to={{
                                 pathname: `/professor/view-report/${this.props.examId}`,
