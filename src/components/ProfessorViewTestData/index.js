@@ -33,6 +33,9 @@ class ViewEachTestResult extends Component {
             testResult: {
                 screenshotViolations: [],
             },
+            proctorConfiguration: {
+                facialRecognitionThreshold: 0,
+            },
             formattedDate: '',
             red: 0,
             redArr: [],
@@ -231,22 +234,40 @@ class ViewEachTestResult extends Component {
     }
 
     async componentDidMount() {
-        const { testResult } = this.props.location.state;
-        this.setState({testResultId: testResult.id});
-        this.setState({formattedDate: moment.utc(testResult.startTime).format('MMM DD, YYYY'), testResult: testResult, red: testResult.tabs.red.length, redArr: testResult.tabs.red, yellowArr: testResult.tabs.yellow, testId: testResult.id, numberOfImgs: testResult.numberOfImages});
+        const { testResult, proctorConfiguration } = this.props.location.state;
+        // this.setState({testResultId: testResult.id});
+        // this.setState({formattedDate: moment.utc(testResult.startTime).format('MMM DD, YYYY'), testResult: testResult, red: testResult.tabs.red.length, redArr: testResult.tabs.red, yellowArr: testResult.tabs.yellow, testId: testResult.id, numberOfImgs: testResult.numberOfImages});
         
-        if(testResult.confidenceScore <= 0.4 || testResult.tabs.red.length > 0) {
-            this.setState({isRedFlag: true});
+
+        let isRedFlag = false;
+
+        if (testResult.confidenceScore <= this.state.proctorConfiguration.facialRecognitionThreshold) {
+            isRedFlag = true;
         }
-        else {
-            this.setState({isRedFlag: false});
+        if (testResult.screenshotViolations.length > 0) {
+            isRedFlag = true;
         }
+        
+        this.setState({
+            ...this.state,
+            testResultId: testResult.id,
+            proctorConfiguration,
+            formattedDate: moment.utc(testResult.startTime).format('MMM DD, YYYY'),
+            testResult: testResult, 
+            red: testResult.tabs.red.length, 
+            redArr: testResult.tabs.red, 
+            yellowArr: testResult.tabs.yellow, 
+            testId: testResult.id, 
+            numberOfImgs: testResult.numberOfImages,
+            isRedFlag,
+        });
 
         const response = await getTestImage(testResult.id, this.state.imgNum);
 
         if (response.status === 401) {
             this.cookiesExpired()
-        }else if (response.status === 200) {
+        }
+        else if (response.status === 200) {
             const retrivedImg = response.data;
 
             if (retrivedImg !== null) {
@@ -383,7 +404,7 @@ class ViewEachTestResult extends Component {
                     <div className="spacer-vertical-s"></div>
                     <h1>{this.state.testResult.student}, {this.state.formattedDate}</h1>
                     {
-                        (this.state.testResult.confidenceScore !== 0 && this.state.testResult.confidenceScore <= 0.4)  || this.state.testResult.screenshotViolations.length > 0 
+                        this.state.isRedFlag
                         ? 
                             <h2 className="red-text">
                                 <img className="red-flag-l" src={redFlag} alt="red flag icon" />
@@ -397,7 +418,7 @@ class ViewEachTestResult extends Component {
                         <div className="col-md-6 col-lg-6 test-view">
                             <h3>Web Cam</h3>
                             {(()=>{
-                                if (this.state.testResult.confidenceScore < 0.4) {
+                                if (this.state.testResult.confidenceScore < this.state.proctorConfiguration.facialRecognitionThreshold) {
                                     return <p className="red">Unusual Activity Found In Web Cam Images</p>
                                 }
                                 else return <p>No Unusual Activity Found In Web Cam Images</p>;

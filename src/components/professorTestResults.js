@@ -11,17 +11,22 @@ class ViewTestResults extends Component{
             examDate: '',
             testResults: [],
             studentList: [],
-            exams: []
+            exam: {
+                results: [],
+                proctorConfiguration: {
+                    facialRecognitionThreshold: 0,
+                },
+            },
         }
     }
 
     async componentDidMount() {
-        const { examDate } = this.props.location.state;
-        const { exam } = this.props.location.state;
-        this.setState({exams: exam.results});
-        
-        this.setState({examDate: examDate});
+        this.setState({
+            ...this.state,
+            ...this.props.location.state,
+        });
     }
+
 
     render() {
         return (
@@ -32,18 +37,20 @@ class ViewTestResults extends Component{
                     <h1>{this.state.examDate}</h1>
                     <div className="shadow">
          
-                    <ul>{
-                        this.state.exams.map((result,i) => 
-                        <li 
-                            className="underbar" 
-                            key={i}
-                        >
+                    <ul>
+                        {
+                            this.state.exam.results.map((result,i) => 
+                                <li 
+                                    className="underbar" 
+                                    key={i}
+                                >
                             {result.student} 
                             {
-                                (result.confidenceScore <= 0.4 && result.confidenceScore) !== 0 || result.screenshotViolations.length > 0 ? <Link to={{
+                                result.confidenceScore <= this.state.exam.proctorConfiguration.facialRecognitionThreshold || result.screenshotViolations.length > 0 ? <Link to={{
                                     pathname: `/professor/view-detail`,
                                     state: {
                                         testResult: result,
+                                        proctorConfiguration: this.state.exam.proctorConfiguration,
                                     }
                                 }
                             }
@@ -58,6 +65,7 @@ class ViewTestResults extends Component{
                             pathname: `/professor/view-detail`,
                             state: {
                                 testResult: result,
+                                proctorConfiguration: this.state.exam.proctorConfiguration,
                             }
                         }}>
                         

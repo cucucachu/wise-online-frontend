@@ -37,42 +37,52 @@ class ViewProctoring extends Component {
 
         const response = await getTestsByCourse(professor, this.props.match.params.courseId);
         
-        const exams = response.data
-        for(const exam of exams){
-             
-            try{
+        const exams = response.data;
+
+        for (const exam of exams) {
+            try {
                 const responseResult = await getTestResults(professor, exam.id)
-                if(responseResult.status === 200){
-                    const resultsArr = responseResult.data.proctoringResults
-             
-                    this.state.examData.push({id: exam.id, date: exam.date, results: resultsArr})
-                }else if(response.status === 401){
+                if (responseResult.status === 200) {
+                    // const resultsArr = responseResult.data.proctoringResults;
+                    exam.results = responseResult.data.proctoringResults;
+                    exam.proctorConfiguration = responseResult.data.proctorConfiguration;
+                    // this.state.examData.push({id: exam.id, date: exam.date, results: resultsArr})
+                }
+                else if (response.status === 401) {
                     sessionStorage.clear();
                     logout()
                     this.props.history.push({
                         pathname: '/professor-login',
                         state: { message: 'Sorry, your login has expired, please log in again.', showHide: {display: 'block'} }
                       })
-                }else{
+                }
+                else {
                     console.log(responseResult.data.error)
                 }
-            }catch(error){
-                this.setState({isLoading: false})
-                console.log('error happened: ', error);
-                
             }
-             
-             
+            catch (error) {
+                this.setState({
+                    ...state,
+                    isLoading: false
+                });
+                console.log('error happened: ', error);
+            }
         }
         
-        state = Object.assign({}, this.state);
-        state.exams = exams;
-        // state.exams = manualData
 
-        this.setState(state);
-        const { course } = this.props.location.state
+        this.setState({
+            ...this.state,
+            exams,
+            selectedCourse: this.props.location.state.course.name,
+        });
+        // state = Object.assign({}, this.state);
+        // state.exams = exams;
+        // // state.exams = manualData
+
+        // this.setState(state);
+        // const { course } = this.props.location.state
         
-        this.setState({selectedCourse: course.name})
+        // this.setState({selectedCourse: course.name})
     }
 
     async componentDidMount() {
@@ -98,7 +108,6 @@ class ViewProctoring extends Component {
                      : 
                     <ExamCardRow 
                         exams={this.state.exams}
-                        examData={this.state.examData}
                         selectedCourse={this.state.selectedCourse}
                         inputStype={this.state.inputStype}
                         key={`CoursesRowLast`} 

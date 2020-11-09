@@ -31,7 +31,7 @@ class ExamCard extends Component {
     }
 
     render() {
-        const formattedDate = moment.utc(this.props.examDate).format('MMM DD, YYYY')
+        const formattedDate = moment.utc(this.props.examDate).format('MMM DD, YYYY');
 
         return (
             <div className="col-12 col-md-4">
