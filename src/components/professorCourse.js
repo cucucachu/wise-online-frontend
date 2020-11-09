@@ -9,6 +9,8 @@ import settingIcon from '../Assets/images/settings.svg'
 import { createCourse, editCourse, deleteCourse, getCourses, logout } from '../store/axios'
 import { AuthContext } from '../contexts/AuthContext'
 
+import { professorProctorConfigurationAllowed } from '../store/axios';
+
 class ProfessorCourse extends Component {
     
     constructor(props) {
@@ -23,6 +25,7 @@ class ProfessorCourse extends Component {
             courseId: '',
             courses: [],
             error: null,
+            proctorConfigurationAllowed: false,
         }
 
         this.handleChangeID = this.handleChangeID.bind(this);
@@ -31,6 +34,8 @@ class ProfessorCourse extends Component {
         this.handleSubmitEditCourse = this.handleSubmitEditCourse.bind(this);
         this.handleDeleteCourse = this.handleDeleteCourse.bind(this);
         this.setError = this.setError.bind(this);
+        this.proctorConfigurationAllowed = this.proctorConfigurationAllowed.bind(this);
+        this.renderProctorSettingsButton = this.renderProctorSettingsButton.bind(this);
     }
     
     static contextType = AuthContext;
@@ -117,8 +122,36 @@ class ProfessorCourse extends Component {
         }
     }
 
+    async proctorConfigurationAllowed() {
+        const response = await professorProctorConfigurationAllowed();
+        this.setState({
+            ...this.state,
+            proctorConfigurationAllowed: response.data.overrideAllowed,
+        });
+    }
+
     async componentDidMount() {
         await this.loadCourses();
+        await this.proctorConfigurationAllowed();
+    }
+
+    renderProctorSettingsButton() {
+        if (this.state.proctorConfigurationAllowed) {
+            return (
+
+                <div className='professor-settings'>
+                    <Link to="/professor/proctor-settings">
+                        <button className="btn-setting" onClick={this.handleClickEdit}>
+                            <img src={settingIcon} className="icon-sm" alt="setting icon"/>
+                            &nbsp;Proctor Settings
+                        </button>
+                    </Link>
+                </div>
+            );
+        }
+        else {
+            return <div></div>;
+        }
     }
 
     render() {
@@ -127,14 +160,7 @@ class ProfessorCourse extends Component {
                 <div className="container">
                     <img src={editIcon} className="page-icon" alt="login icon"/>
                     <div className="spacer-vertical"></div>
-                    <div className='professor-settings'>
-                        <Link to="/professor/proctor-settings">
-                            <button className="btn-setting" onClick={this.handleClickEdit}>
-                                <img src={settingIcon} className="icon-sm" alt="setting icon"/>
-                                &nbsp;Proctor Settings
-                            </button>
-                        </Link>
-                    </div>
+                    {this.renderProctorSettingsButton()}
                     <h1>My Courses</h1>
                     <div className="row">
                         <div className="col-sm">
