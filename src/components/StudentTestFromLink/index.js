@@ -38,6 +38,12 @@ class StudentTestFromLink extends Component {
             if (response.status === 200) {
                 this.context.storeClassId(this.state.classId);
                 this.context.storeTestAttendanceId(response.data.id);
+
+                if (response.data.proctorConfiguration) {
+                    this.context.setScreenshotInterval(response.data.proctorConfiguration.screenshotInterval);
+                    this.context.setWebcamInterval(response.data.proctorConfiguration.webcamInterval);
+                }
+
                 sessionStorage.setItem('classId', this.state.classId);
                 this.props.history.push('record-agree-to-terms');
             }

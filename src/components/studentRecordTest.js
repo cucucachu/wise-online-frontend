@@ -36,8 +36,8 @@ class StudentRecordTest extends Component {
 
 
 	componentDidMount() {
-		const minTime = 5 * 1000;
-		const offsetTime = Math.floor(Math.random() * 5) * 1000;
+		const minTime = this.context.screenshotInterval ? this.context.screenshotInterval * 1000 : 10 * 1000;
+		const offsetTime = 0;
 
 		const webCamInterval = setInterval(this.capture, minTime + offsetTime);
 		const screenshotInterval = setInterval(this.takeScreenshot, minTime + offsetTime);

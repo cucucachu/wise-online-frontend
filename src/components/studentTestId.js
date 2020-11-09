@@ -9,7 +9,7 @@ const StudentTestId = (props) => {
     const [classId, setClassId] = useState('')
     const [message, setMessage] = useState('')
     const [showHide, setShowHide] = useState({display: 'none'})
-    const { storeClassId, storeTestAttendanceId } = useContext(AuthContext)
+    const { storeClassId, storeTestAttendanceId, setScreenshotInterval, setWebcamInterval } = useContext(AuthContext)
 
     const handleChangeKey = e =>{
         console.log('onchange: ', e.target.value);
@@ -32,6 +32,12 @@ const StudentTestId = (props) => {
 
             if (response.status === 200) {
                 storeTestAttendanceId(response.data.id);
+
+                if (response.data.proctorConfiguration) {
+                    setScreenshotInterval(response.data.proctorConfiguration.screenshotInterval);
+                    setWebcamInterval(response.data.proctorConfiguration.webcamInterval);
+                }
+
                 props.history.push('record-agree-to-terms');
             }else if(response.status === 401){
                 sessionStorage.clear();
