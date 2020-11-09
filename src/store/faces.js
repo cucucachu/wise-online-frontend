@@ -32,7 +32,10 @@ const verifyFacesEndpoint = axios.create({
 async function uploadFace(image) {
     const response = await detectFacesEndpoint.post('/detect', image);
 
-    return response.data.length ? response.data[0].faceId : false;
+    return {
+        numberOfPeople: response.data.length,
+        faceId: response.data.length ? response.data[0].faceId : false
+    };
 }
 
 async function verifyFace(faceId1, faceId2) {
@@ -51,10 +54,10 @@ async function uploadReferenceImage(image) {
 }
 
 async function checkForStudent(testAttendanceId, referenceImageId, imageForFacesAPI, imageForStorage) {
-    const faceId2 = await uploadFace(imageForFacesAPI);
-    const confidenceScore = faceId2 ? await verifyFace(referenceImageId, faceId2) : 0;
+    const { faceId, numberOfPeople } = await uploadFace(imageForFacesAPI);
+    const confidenceScore = faceId ? await verifyFace(referenceImageId, faceId) : 0;
 
-    return submitConfidenceScore(testAttendanceId, confidenceScore, imageForStorage);
+    return submitConfidenceScore(testAttendanceId, confidenceScore, numberOfPeople, imageForStorage);
 }
 
 export { uploadReferenceImage, checkForStudent };
