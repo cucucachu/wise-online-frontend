@@ -1,8 +1,10 @@
 import React, { Component, Fragment } from 'react'
+import { Link } from "react-router-dom";
 
 import editIcon from '../Assets/images/edit-icon.png'
 import CourseCardRow from './courseCardRow';
 
+import settingIcon from '../Assets/images/settings.svg'
 //axios
 import { createCourse, editCourse, deleteCourse, getCourses, logout } from '../store/axios'
 import { AuthContext } from '../contexts/AuthContext'
@@ -123,8 +125,16 @@ class ProfessorCourse extends Component {
         return(
             <Fragment>
                 <div className="container">
-                        <img src={editIcon} className="page-icon" alt="login icon"/>
-                        <div className="spacer-vertical"></div>
+                    <img src={editIcon} className="page-icon" alt="login icon"/>
+                    <div className="spacer-vertical"></div>
+                    <div className='professor-settings'>
+                        <Link to="/professor/proctor-settings">
+                            <button className="btn-setting" onClick={this.handleClickEdit}>
+                                <img src={settingIcon} className="icon-sm" alt="setting icon"/>
+                                &nbsp;Proctor Settings
+                            </button>
+                        </Link>
+                    </div>
                     <h1>My Courses</h1>
                     <div className="row">
                         <div className="col-sm">

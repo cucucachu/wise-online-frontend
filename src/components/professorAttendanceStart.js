@@ -105,7 +105,7 @@ class ProfessorAttendanceStart extends Component {
                     <Link 
                         to={
                             {
-                                pathname: "/professor/attendancesView",
+                                pathname: "/professor/course",
                                 state: {
                                     course: this.state.course,
                                 }

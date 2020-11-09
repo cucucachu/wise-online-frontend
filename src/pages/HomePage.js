@@ -16,6 +16,7 @@ import AttendanaceView from '../components/AttendanceView'
 import ProfessorClaim from '../components/professorClaim'
 import ProfessorExam from '../components/professorExam';
 import ProfessorClaimSuccess from '../components/professorClaimSuccess';
+import ProctorSettings from '../components/ProctorSettings';
 
 import StudentDashboard from '../components/studentDashboard'
 import StudentClass from '../components/studentClass'
@@ -105,6 +106,8 @@ class HomePage extends Component {
         sessionStorage.setItem('isLoggedIn', true);
         sessionStorage.setItem('role', userData.role);
 
+        this.context.setRole(userData.role);
+
         const state = Object.assign({}, this.state);
         state.username = userData.name;
         state.schoolName = userData.school.name;
@@ -151,6 +154,7 @@ class HomePage extends Component {
                             <Route path="/admin/reset-success" component={AdminResetPWSuccess} />
                             <PrivateRouteAdmin path="/admin/set-up-success" component={SetupSchoolSuccess} />
                             <PrivateRouteAdmin path="/admin-terms" component={AdminTermsPage} />
+                            <PrivateRouteAdmin path="/admin-proctor-settings" component={ProctorSettings} />
                             <Route path="/admin-login" render={
                                 props => <AdminLogin
                                             {...props}
@@ -178,6 +182,7 @@ class HomePage extends Component {
                             <PrivateRouteProfessor path="/professor/proctoring/:courseId" component={ViewProctoring} />
                             <PrivateRouteProfessor path="/professor/view-report/:testId" component={ViewTestResults} />
                             <PrivateRouteProfessor path="/professor/view-detail" component={ViewEachTestResult} />
+                            <PrivateRouteProfessor path="/professor/proctor-settings" component={ProctorSettings} />
                             {/* <PrivateRouteProfessor 
                             path="/professor/proctoring/:courseId" 
                             render={(props) => <ViewProctoring {...props} />} /> */}

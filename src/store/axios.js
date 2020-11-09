@@ -1,6 +1,6 @@
 const axios = require('axios');
-// const baseURL = 'http://localhost:8080/';
-const baseURL = 'https://internal-wiseattendonline.appspot.com/' // URL for hosted backend for test
+const baseURL = 'http://localhost:8080/';
+// const baseURL = 'https://internal-wiseattendonline.appspot.com/' // URL for hosted backend for test
 
 /* !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
 // const baseURL = 'https://wiseonlineattend.appspot.com/' // DO NOT USE! URL for hosted production.
@@ -15,7 +15,7 @@ const backend = axios.create({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         withCredentials: true,
         validateStatus: () => true,
-})
+});
 
 
   // Alter defaults after instance has been created
@@ -119,6 +119,28 @@ async function adminEditTerm(termId, name){
     return response;
 }
 
+async function adminGetProctorConfiguration() {
+    return backend.get('/admin/proctorConfiguration');
+}
+
+async function adminSetProctorConfiguration(
+    {
+        screenshotInterval,
+        webcamInterval, 
+        facialRecognitionThreshold, 
+        restrictedDomains, 
+        allowOverride
+    }
+    ) {
+        return backend.post('/admin/proctorConfiguration', {
+            screenshotInterval,
+            webcamInterval, 
+            facialRecognitionThreshold, 
+            restrictedDomains, 
+            allowOverride
+        });
+}
+
 function getStudentTemplateURL() {
     return baseURL + 'admin/studentTemplate';
 }
@@ -197,6 +219,30 @@ async function startAttendance(courseId) {
 async function startTest(courseId) {
     const response = await backend.post('professor/startTest', {courseId});
     return response;
+}
+
+async function professorGetProctorConfiguration() {
+    return backend.get('/professor/proctorConfiguration');
+}
+
+async function professorSetProctorConfiguration(
+    {
+        screenshotInterval,
+        webcamInterval, 
+        facialRecognitionThreshold, 
+        restrictedDomains, 
+    }
+    ) {
+        return backend.post('/professor/proctorConfiguration', {
+            screenshotInterval,
+            webcamInterval, 
+            facialRecognitionThreshold, 
+            restrictedDomains, 
+        });
+}
+
+async function professorProctorConfigurationAllowed() {
+    return backend.get('/professor/proctorConfigurationAllowed');
 }
 
 function downloadDataForCourseURL(courseId) {
@@ -304,6 +350,11 @@ export {
     adminDownloadDataByCourseURL,
     adminDownloadDataByProfessorURL,
     adminDownloadDataByStudentURL,
+    professorGetProctorConfiguration,
+    professorSetProctorConfiguration,
+    professorProctorConfigurationAllowed,
+    adminGetProctorConfiguration,
+    adminSetProctorConfiguration,
     getStudentTemplateURL,
     getProfessorTemplateURL,
     createCourse,

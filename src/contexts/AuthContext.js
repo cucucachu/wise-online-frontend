@@ -16,6 +16,7 @@ const AuthContextProvider = (props) => {
     var [isAuthenticated, setIsAuthenticated] = useState(false);
     var [isCreated, setIsCreated] = useState(false);
     const [classID, setClassID] = useState('');
+    const [role, setRole] = useState('');
 
     const authToggle = ()=> {
         setIsAuthenticated(!isAuthenticated);
@@ -51,7 +52,7 @@ const AuthContextProvider = (props) => {
     }
 
     return ( 
-        <AuthContext.Provider value={{ email, lastName, firstName, cookies, classID, schoolName, schoolID, username, userID, isAuthenticated, storeTestAttendanceId, testAttendanceId, authToggle, loggedinUser, toggleCreated, storeClassId, storeSchoolName, studentForm}}>
+        <AuthContext.Provider value={{ email, lastName, firstName, cookies, classID, schoolName, schoolID, username, userID, isAuthenticated, storeTestAttendanceId, testAttendanceId, authToggle, loggedinUser, toggleCreated, storeClassId, storeSchoolName, studentForm, role, setRole}}>
             {props.children}
         </AuthContext.Provider>
      );
