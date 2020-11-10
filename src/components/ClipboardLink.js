@@ -9,16 +9,17 @@ function onClickClipboardLink() {
 }
 
 function showCopied() {
-    const clipboardConfirm = document.getElementById('clipboard-link-confirm')
+    const clipboardConfirm = document.getElementById('clipboard-link-confirm');
     clipboardConfirm.style.transition = 'none';
     clipboardConfirm.style.opacity = 1;
-
 }
 
 function hideCopied() {
-    const clipboardConfirm = document.getElementById('clipboard-link-confirm')
-    clipboardConfirm.style.transition = 'all 1s';
-    clipboardConfirm.style.opacity = 0;
+    const clipboardConfirm = document.getElementById('clipboard-link-confirm');
+    if (clipboardConfirm) {
+        clipboardConfirm.style.transition = 'all 1s';
+        clipboardConfirm.style.opacity = 0;
+    }
 }
 
 function ClipboardLink(props) {

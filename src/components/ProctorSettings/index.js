@@ -14,6 +14,59 @@ import {
     professorSetProctorConfiguration,
  } from '../../store/axios';
 
+// These are hardcoded but shouldn't be!
+const restrictedDomains = [
+    'wolframalpha.com',
+    'paulsonlinemathnotes.com',
+    'wikipedia.org',
+    'analyzemath.com',
+    'desmos.com',
+    'geteasysolution.com',
+    'facebook.com',
+    'instagram.com',
+    'mathway.com',
+    'mathportal.org',
+    'gmail.com',
+    'socratic.org',
+    'chegg.com',
+    'bartelby.com',
+    'youtube.com',
+    'study.com',
+    'symbolab.com',
+    'doubtnut.com',
+    'toppr.com',
+    'reddit.com',
+    'imathesis.com',
+    'philschatz.com',
+    'enotes.com',
+    'varsitytutors.com',
+    'kahnacademy.com',
+    'stackexchange.com',
+    'coursehero.com',
+    'quizlet.com',
+    'studyblue.com',
+    'kahoot.com',
+    'quizizz.com',
+    'shmoop.com',
+    'anki.com',
+    'slader.com',
+    'quora.com',
+    'onlinecourseschools.com',
+    'gradebees.com',
+    'yahoo.com',
+    'answers.com',
+    'slideshare.com',
+    'oppapers.com',
+    'scribd.com',
+    'medlibrary.org',
+];
+
+const allowedDomains = [
+    'wiseattend.com',
+    'canvas.com',
+    'blackboard.com',
+];
+
 class ProctorSettings extends Component {
 
     static contextType = AuthContext;
@@ -25,6 +78,7 @@ class ProctorSettings extends Component {
             imageFrequency: 'LOW',
             facialRecognitionThreshold: 'LOW',
             restrictedDomains: [],
+            allowedDomains: [],
             allowOverride: false,
             role: null,
         }
@@ -89,6 +143,7 @@ class ProctorSettings extends Component {
             imageFrequency,
             facialRecognitionThreshold,
             restrictedDomains: currentProctorConfiguration.restrictedDomains,
+            allowedDomains: currentProctorConfiguration.allowedDomains,
             allowOverride: currentProctorConfiguration.allowOverride,
             role: this.context.role,
         });
@@ -161,7 +216,8 @@ class ProctorSettings extends Component {
             screenshotInterval,
             webcamInterval, 
             facialRecognitionThreshold, 
-            restrictedDomains: this.state.restrictedDomains, 
+            restrictedDomains: restrictedDomains,
+            allowedDomains: allowedDomains,
             allowOverride: this.state.allowOverride,
         };
 
@@ -182,7 +238,12 @@ class ProctorSettings extends Component {
                 this.props.history.push('/admin');
             }
             else if (this.state.role === 'Professor') {
-                this.props.history.push('/professor/course');
+                this.props.history.push({
+                    pathname: '/professor/exam',
+                    state: {
+                        course: this.props.history.location.state.course,
+                    },
+                });
             }
         }
         else if (response) {
@@ -233,7 +294,7 @@ class ProctorSettings extends Component {
                 <div className="spacer-vertical-s"></div>
                 {this.renderAllowOverride()}
                 <div className="spacer-vertical-s"></div>
-                <button className="btn btn-primary" onClick={this.handleSubmit}>Submit</button>
+                <button className="btn btn-green" onClick={this.handleSubmit}>Start</button>
             </div>
         );
     }

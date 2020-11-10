@@ -160,7 +160,7 @@ class ProfessorCourse extends Component {
                 <div className="container">
                     <img src={editIcon} className="page-icon" alt="login icon"/>
                     <div className="spacer-vertical"></div>
-                    {this.renderProctorSettingsButton()}
+                    {/* {this.renderProctorSettingsButton()} */}
                     <h1>My Courses</h1>
                     <div className="row">
                         <div className="col-sm">

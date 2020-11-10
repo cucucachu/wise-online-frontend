@@ -17,7 +17,6 @@ const backend = axios.create({
         validateStatus: () => true,
 });
 
-
   // Alter defaults after instance has been created
 
 /* ----------------------------------------
@@ -129,6 +128,7 @@ async function adminSetProctorConfiguration(
         webcamInterval, 
         facialRecognitionThreshold, 
         restrictedDomains, 
+        allowedDomains,
         allowOverride
     }
     ) {
@@ -137,6 +137,7 @@ async function adminSetProctorConfiguration(
             webcamInterval, 
             facialRecognitionThreshold, 
             restrictedDomains, 
+            allowedDomains,
             allowOverride
         });
 }
@@ -230,7 +231,8 @@ async function professorSetProctorConfiguration(
         screenshotInterval,
         webcamInterval, 
         facialRecognitionThreshold, 
-        restrictedDomains, 
+        restrictedDomains,
+        allowedDomains,
     }
     ) {
         return backend.post('/professor/proctorConfiguration', {
@@ -238,6 +240,7 @@ async function professorSetProctorConfiguration(
             webcamInterval, 
             facialRecognitionThreshold, 
             restrictedDomains, 
+            allowedDomains,
         });
 }
 

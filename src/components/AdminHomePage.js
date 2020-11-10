@@ -26,11 +26,6 @@ const AdminHomePage = (props) => {
                 <Link to="/set-up-school">
                     <button className="btn-l">Add Students and Professors</button>
                 </Link>
-                
-                <div className="spacer-vertical-s"></div>
-                <Link to="/admin-proctor-settings">
-                    <button className="btn-l">Proctor Settings</button>
-                </Link>
         </div>
     );
   }

@@ -118,13 +118,22 @@ class CourseCard extends Component {
                             </Link>
     
                             <Link to={{
-                                pathname: '/professor/exam',
+                                pathname: '/professor/proctor-settings',
                                 state: {
                                     course: this.props.course,
                                 }
                             }}>
                             <button className="btn-upload" style={{marginBottom: '5px', fontSize: 'medium'}}><img src={editIcon} className="icon-xs" alt="edit icon" />Proctor exam</button>
                             </Link>
+    
+                            {/* <Link to={{
+                                pathname: '/professor/exam',
+                                state: {
+                                    course: this.props.course,
+                                }
+                            }}>
+                            <button className="btn-upload" style={{marginBottom: '5px', fontSize: 'medium'}}><img src={editIcon} className="icon-xs" alt="edit icon" />Proctor exam</button>
+                            </Link> */}
 
                             <button className="btn-upload" onClick={this.downloadCourseData.bind(this)} style={{marginBottom: '5px', fontSize: 'medium'}}><img src={downloadIcon} className="icon-xs" alt="download icon" />Download data</button>
 
