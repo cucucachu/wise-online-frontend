@@ -601,7 +601,10 @@ class ViewEachTestResult extends Component {
                         <div className="col-md-6 col-lg-6">
                             <h3>Screenshots</h3>
                             {(() => {
-                                if (this.state.testResult.screenshotViolations.length) {
+                                const forbiddenWebsites = this.state.testResult.screenshotViolations && this.state.testResult.screenshotViolations.length;
+                                const unknownWebsites = Array.isArray(this.state.testResult.screenshotDetails)
+                                    && this.state.testResult.screenshotDetails.filter(d => d.unknownDomains && d.unknownDomains.length).length;
+                                if (forbiddenWebsites || unknownWebsites) {
                                     return <p className="red">Forbidden Websites Detected</p>;
                                 }
                                 else {

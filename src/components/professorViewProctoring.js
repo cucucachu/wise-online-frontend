@@ -27,9 +27,7 @@ class ViewProctoring extends Component {
 
 
     async loadProctoring() {
-        // this.setState({isLoading: true})
-        const professor = {id: sessionStorage.getItem('userID'), courses: sessionStorage.getItem('courses')}
-        // const data = {courseId: this.props.match.params.courseId}
+        const professor = {id: sessionStorage.getItem('userID'), courses: sessionStorage.getItem('courses')};
         
         let state = Object.assign({}, this.state);
         state.exams = [];
@@ -43,10 +41,8 @@ class ViewProctoring extends Component {
             try {
                 const responseResult = await getTestResults(professor, exam.id)
                 if (responseResult.status === 200) {
-                    // const resultsArr = responseResult.data.proctoringResults;
                     exam.results = responseResult.data.proctoringResults;
                     exam.proctorConfiguration = responseResult.data.proctorConfiguration;
-                    // this.state.examData.push({id: exam.id, date: exam.date, results: resultsArr})
                 }
                 else if (response.status === 401) {
                     sessionStorage.clear();
@@ -75,14 +71,6 @@ class ViewProctoring extends Component {
             exams,
             selectedCourse: this.props.location.state.course.name,
         });
-        // state = Object.assign({}, this.state);
-        // state.exams = exams;
-        // // state.exams = manualData
-
-        // this.setState(state);
-        // const { course } = this.props.location.state
-        
-        // this.setState({selectedCourse: course.name})
     }
 
     async componentDidMount() {
