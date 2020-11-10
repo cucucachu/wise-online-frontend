@@ -65,6 +65,23 @@ const allowedDomains = [
     'wiseattend.com',
     'canvas.com',
     'blackboard.com',
+    'edgenuity.com',
+    'edgenuity.us', 
+    'speechstream.net',
+    'pglms.org',
+    'k12hsn.org',
+    'middil.com',
+    'ucopenaccess.org',
+    'learnosity.com',
+    'education2020.com',
+    'desmos.com',
+    'brightcove.com',
+    'education2020.us',
+    'explorelearning.com',
+    'onetonline.org',
+    'microsoft.com', 
+    'fueleducation.com',
+    'edynamiclearning.com',
 ];
 
 class ProctorSettings extends Component {
@@ -278,16 +295,22 @@ class ProctorSettings extends Component {
                 <img src={icon} className="page-icon" alt="login icon"/>
                 <h1>Proctor Settings</h1>
                 <div className="spacer-vertical-s"></div>
+                <p id='warning' className={
+                    `red${this.state.facialRecognitionThreshold !== 'LOW' || this.state.imageFrequency !== 'LOW' ? '' : ' hidden'}`
+                }>
+                    Warning - higher settings may bring more false positive red-flags.  
+                    Please only use this setting in high security exams.
+                </p>
                 <HorizontalSelector 
                     title="Image Capture Frequency"
-                    options={['Low', 'Medium', 'High']}
+                    options={['Normal', 'High', 'Extreme']}
                     onSelect={this.handleSelectFrequency}
                     selected={['LOW', 'MEDIUM', 'HIGH'].indexOf(this.state.imageFrequency)}
                 />
                 <div className="spacer-vertical-s"></div>
                 <HorizontalSelector 
                     title="Security Level"
-                    options={['Quiz', 'Test', 'Exam']}
+                    options={['Normal', 'High', 'Extreme']}
                     onSelect={this.handleSelectThreshold}
                     selected={['LOW', 'MEDIUM', 'HIGH'].indexOf(this.state.facialRecognitionThreshold)}
                 />
