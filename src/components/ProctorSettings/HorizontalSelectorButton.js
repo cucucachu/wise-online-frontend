@@ -9,7 +9,7 @@ function HorizontalSelectorButton(props) {
     }
     else if (props.position === 1) {
         cssClass += ' left-border-radius-0';
-        cssClass += ' red';
+        cssClass += ' red-bg';
     }
     else if (props.position === 0) {
         cssClass += ' orange';
