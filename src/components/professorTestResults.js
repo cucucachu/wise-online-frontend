@@ -54,7 +54,10 @@ class ViewTestResults extends Component{
                                     }
                             }}>
                                 {(() => {
-                                    const lowConfidenceScore = result.confidenceScore <= this.state.exam.proctorConfiguration.facialRecognitionThreshold;
+                                    const facialRecognitionThreshold = this.state.exam.proctorConfiguration ? this.state.exam.proctorConfiguration.facialRecognitionThreshold : 0.75;
+
+
+                                    const lowConfidenceScore = result.confidenceScore <= facialRecognitionThreshold;
                                     const screenshotViolations = Array.isArray(result.screenshotViolations) && result.screenshotViolations.length > 0;
                                     const multiplePeople = result.numberOfPeople && Array.isArray(result.numberOfPeople) && result.numberOfPeople.filter(n => n > 1).length;
 

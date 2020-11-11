@@ -11,7 +11,7 @@ function ExamCardRow (props) {
                     for (const exam of props.exams) {
                         const facialRecognitionThreshold = exam.proctorConfiguration ? exam.proctorConfiguration.facialRecognitionThreshold : .75;
 
-                        const isRedFlag = exam.results.filter(lower => lower.confidenceScore <= exam.proctorConfiguration.facialRecognitionThreshold);
+                        const isRedFlag = exam.results.filter(lower => lower.confidenceScore <= facialRecognitionThreshold);
                         const isRedTab = exam.results.filter(result => result.screenshotViolations.length > 0);    
                         const component = <ExamCard 
                             examId={exam.id} 
