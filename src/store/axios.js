@@ -142,6 +142,18 @@ async function adminSetProctorConfiguration(
         });
 }
 
+async function adminGetProfessors() {
+    return backend.get('/admin/school/professors');
+}
+
+async function adminGetProfessorCourses(professorId) {
+    return backend.get(`/admin/school/professors/${professorId}/courses`);
+}
+
+async function adminGetCourseDetails(courseId) {
+    return backend.get(`/admin/school/courses/${courseId}`)
+}
+
 function getStudentTemplateURL() {
     return baseURL + 'admin/studentTemplate';
 }
@@ -358,6 +370,9 @@ export {
     professorProctorConfigurationAllowed,
     adminGetProctorConfiguration,
     adminSetProctorConfiguration,
+    adminGetProfessors,
+    adminGetProfessorCourses,
+    adminGetCourseDetails,
     getStudentTemplateURL,
     getProfessorTemplateURL,
     createCourse,

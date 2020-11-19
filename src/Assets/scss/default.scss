@@ -20,6 +20,37 @@ header {
 
 button:focus { outline: none; }
 
+
+
+.data-pane {
+    color: black;
+
+    h2 {
+        font-size: 2rem;
+    }
+
+    .data-row {
+        width: 100%;
+    
+        label {
+            width: 50%;
+            padding-right: 10px;
+            font-size: 1rem;
+            font-weight: bold;
+            text-align: left;
+            margin-bottom: .5rem;
+            margin-right: auto;
+        }
+        span {
+            display: inline-block;
+            text-align: left;
+            width: 50%;
+            margin: 0 auto;
+        }
+    }
+}
+
+
 .bg-img {
     display: none;
 }
@@ -504,6 +535,28 @@ footer {
 .btn-slide {
     &:hover {
         cursor: pointer;
+    }
+}
+
+.x-button {
+    width: 100%;
+    text-align: right;
+
+    button {
+        background-color: white;
+        border: 0px solid $lighter-gray;
+        color: $primary-color;
+        font-size: large;
+        border-radius: 0.5rem;
+        text-align: center;
+        margin-left: auto;
+        // box-shadow: 0 0 10px #999;
+        &:hover {
+            box-shadow: 0 0 5px #999;
+            border: 0px solid $secondary-color;
+            background-color: white;
+            color: $primary-color;
+        }
     }
 }
 
@@ -1098,6 +1151,13 @@ input[type="file"] {
     background-color: $nice-green;
 }
 
+.btn-link {
+    border: none;
+    color: $primary-color;
+    background: none;
+    font-weight: bold;
+}
+
 @media only screen and (max-width: 2800px){
     .page-icon {
         margin-top: 14rem;
@@ -1325,9 +1385,7 @@ input[type="file"] {
         height: 5rem;
         font-size: 16px;
     }
-    .shadow {
-        padding: 5px;
-    }
+
     .col-md-6 > .shadow {
         padding: 8px;
     }

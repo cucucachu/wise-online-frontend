@@ -8,33 +8,36 @@ import {
 import { logout, checkLogin } from '../store/axios';
 
 //components
-import ProfessorLogin from '../components/professorLogin'
-import ProfessorCourse from '../components/professorCourse'
-import ProfessorAttendanaceStart from '../components/professorAttendanceStart'
-import ProfessorAttendanacesView from '../components/professorAttendancesView'
-import AttendanaceView from '../components/AttendanceView'
-import ProfessorClaim from '../components/professorClaim'
+import ProfessorLogin from '../components/professorLogin';
+import ProfessorCourse from '../components/professorCourse';
+import ProfessorAttendanaceStart from '../components/professorAttendanceStart';
+import ProfessorAttendanacesView from '../components/professorAttendancesView';
+import AttendanaceView from '../components/AttendanceView';
+import ProfessorClaim from '../components/professorClaim';
 import ProfessorExam from '../components/professorExam';
 import ProfessorClaimSuccess from '../components/professorClaimSuccess';
 import ProctorSettings from '../components/ProctorSettings';
 
-import StudentDashboard from '../components/studentDashboard'
-import StudentClass from '../components/studentClass'
-import StudentClassAtt from '../components/studentClassAtt'
-import StudentLogin from '../components/studentLogin'
-import StudentTest from '../components/studentTest'
-import StudentAttSuccess from '../components/studentAttSuccess'
-import StudentRecordTest from '../components/studentRecordTest'
+import StudentDashboard from '../components/studentDashboard';
+import StudentClass from '../components/studentClass';
+import StudentClassAtt from '../components/studentClassAtt';
+import StudentLogin from '../components/studentLogin';
+import StudentTest from '../components/studentTest';
+import StudentAttSuccess from '../components/studentAttSuccess';
+import StudentRecordTest from '../components/studentRecordTest';
 import StudentTestId from '../components/studentTestId';
 import StudentRecError from '../components/studentRecordingError';
 import StudentAttendanceFromLink from '../components/StudentAttendanceFromLink';
 import StudentTestFromLink from '../components/StudentTestFromLink';
 
-import AdminLogin from '../components/adminLogin'
-import SetUpSchoolPage from '../components/SetUpSchoolPage'
-import AdminHomePage from '../components/AdminHomePage'
-import SchoolStep1 from '../components/createSchoolStep1'
-import SchoolStep2 from '../components/createSchoolStep2'
+import AdminLogin from '../components/adminLogin';
+import SetUpSchoolPage from '../components/SetUpSchoolPage';
+import AdminHomePage from '../components/AdminHomePage';
+import SchoolStep1 from '../components/createSchoolStep1';
+import SchoolStep2 from '../components/createSchoolStep2';
+import AdminProfessors from '../components/AdminProfessors';
+import AdminProfessorCourses from '../components/AdminProfessorCourses';
+import AdminCourseDetail from '../components/AdminCourseDetail';
 
 import SelectRole from '../components/selectRole'
 
@@ -45,16 +48,16 @@ import { AuthContext } from '../contexts/AuthContext'
 // import Header from '../components/header'
 import HeaderNew from '../components/headerNew'
 
-import PrivateRouteAdmin from '../components/PrivateRouteAdmin'
-import PrivateRouteStudent from '../components/PrivateRouteStudent'
-import PrivateRouteProfessor from '../components/PrivateRouteProfessor'
-import StudentFeeWaive from '../components/studentFeeWaive'
-import StudentFeeWaiveSelect from '../components/studentFeeWaiveSelect'
-import StudentFeeWaiveForm from '../components/studentFeeWaiveForm'
+import PrivateRouteAdmin from '../components/PrivateRouteAdmin';
+import PrivateRouteStudent from '../components/PrivateRouteStudent';
+import PrivateRouteProfessor from '../components/PrivateRouteProfessor';
+import StudentFeeWaive from '../components/studentFeeWaive';
+import StudentFeeWaiveSelect from '../components/studentFeeWaiveSelect';
+import StudentFeeWaiveForm from '../components/studentFeeWaiveForm';
 import StudentFeeWaiveNote from '../components/studentFeeWaiveNote';
 import StudentFeeWaiveConfirm from '../components/studentFeeWaiveConfirm';
 
-import headerBackground from '../Assets/images/header-img-mobile.png'
+import headerBackground from '../Assets/images/header-img-mobile.png';
 import ForgotPWAdmin from '../components/forgotPWAdmin';
 import ForgotPWProfessor from '../components/forgotPWProfessor';
 import ForgotPWSentProfessor from '../components/forgotPWSentProfessor';
@@ -70,7 +73,6 @@ import ViewEachTestResult from '../components/ProfessorViewTestData';
 import StudentRecordAgreeToTerms from '../components/studentRecordAgreeToTerms';
 import StudentInstallChromeExtension from '../components/studentInstallChromeExtension';
 import AdminTermsPage from '../components/AdminTerms/AdminTermsPage';
-// import AdminViewCourses from '../components/adminViewCourses';
 
 class HomePage extends Component {
     
@@ -149,6 +151,9 @@ class HomePage extends Component {
                             <PrivateRouteAdmin path="/set-up-school" component={SetUpSchoolPage} />
                             <Route path="/create-school/step2" component={SchoolStep2} />
                             <Route path="/create-school" component={SchoolStep1} />
+                            <PrivateRouteAdmin path="/admin/professor/courses" component={AdminProfessorCourses} />
+                            <PrivateRouteAdmin path="/admin/professors" component={AdminProfessors} />
+                            <PrivateRouteAdmin path="/admin/course" component={AdminCourseDetail} />
                             <PrivateRouteAdmin path="/admin" component={AdminHomePage}/>
                             <Route path="/admin/reset-password" component={AdminResetPW} />
                             <Route path="/admin/reset-success" component={AdminResetPWSuccess} />
@@ -231,30 +236,7 @@ class HomePage extends Component {
                                     onSuccessfulLogin={this.handleSuccessfulLogin}
                                  />
                             }/>
-
-
-                            {/* <Route path="/test" component={StudentRecordTest} />
-                            <Route path="/test-error" component={StudentRecError} /> */}
-
-                            {/* landingpage */}
                             <Route exact path='/' component={SelectRole} />
-                            {/* <Route exact path='/' >
-                                {(() => {
-                                    if (this.state.isLoggedIn) {
-                                        switch (this.state.role) {
-                                            case 'Student':
-                                                return <Redirect to="/student/dashboard" />;
-                                            case 'Professor':
-                                                return <Redirect to="/professor/course" />;
-                                            case 'Admin':
-                                                return <Redirect to="/admin" />;
-                                            default:
-                                                return <SelectRole />;
-                                        }
-                                    }
-                                    else return <SelectRole />;
-                                })()}
-                            </Route> */}
                     </Switch>   
                 </div>
             </Router>
