@@ -7,6 +7,8 @@ import {
 
 import { logout, checkLogin } from '../store/axios';
 
+import SuperDashboard from '../components/SuperDashboard';
+
 //components
 import ProfessorLogin from '../components/professorLogin';
 import ProfessorCourse from '../components/professorCourse';
@@ -49,6 +51,7 @@ import { AuthContext } from '../contexts/AuthContext'
 // import Header from '../components/header'
 import HeaderNew from '../components/headerNew'
 
+import PrivateRouteSuper from '../components/privateRouteSuper';
 import PrivateRouteAdmin from '../components/PrivateRouteAdmin';
 import PrivateRouteStudent from '../components/PrivateRouteStudent';
 import PrivateRouteProfessor from '../components/PrivateRouteProfessor';
@@ -148,6 +151,15 @@ class HomePage extends Component {
                     </div>
 
                     <Switch>
+                            {/* super */}
+                            <Route path="/super"  render={
+                                props => <SuperDashboard
+                                            {...props}
+                                            onSuccessfulLogin={this.handleSuccessfulLogin}
+                                            logout={this.handleLogout}
+                                />
+                            }/>
+
                             {/* admin */}
                             <PrivateRouteAdmin path="/set-up-school" component={SetUpSchoolPage} />
                             <Route path="/create-school/step2" component={SchoolStep2} />

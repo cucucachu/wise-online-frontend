@@ -39,7 +39,12 @@ class AdminLogin extends Component {
             
             if (response.status === 200) {
                 this.props.onSuccessfulLogin(response.data);
-                this.props.history.push('/admin');
+                if (response.data.role === 'Admin') {
+                    this.props.history.push('/admin');
+                }
+                else if (response.data.role === 'Super') {
+                    this.props.history.push('/super');
+                }
             }
             else {
                 this.setState({message: 'Invalid email or password. Please try again.'});

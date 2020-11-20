@@ -63,8 +63,28 @@ async function claimProfessorAccount(setupKey, email, password) {
 }
 
 /* ----------------------------------------
+    Super Routes
+------------------------------------------*/
+
+async function superGetSchoolDetails() {
+    return backend.get('/super/schools');
+}
+
+async function superLoginAsAdmin(schoolId) {
+    return backend.post(`/super/schools/${schoolId}`)
+}
+
+async function superCreateSchool(setupKey) {
+    return backend.post('/super/school', { setupKey });
+}
+
+/* ----------------------------------------
     Admin Routes
 ------------------------------------------*/
+
+async function adminGetSchoolDetails() {
+    return backend.get('admin/school');
+}
 
 async function postFiles(professorFile, studentFile) {
     var formData = new FormData();
@@ -368,8 +388,12 @@ export {
     studentLogin,
     logout,
     checkLogin,
+    superLoginAsAdmin,
+    superGetSchoolDetails,
+    superCreateSchool,
     createSchool,
     claimProfessorAccount,
+    adminGetSchoolDetails,
     adminDownloadDataByCourseURL,
     adminDownloadDataByProfessorURL,
     adminDownloadDataByStudentURL,

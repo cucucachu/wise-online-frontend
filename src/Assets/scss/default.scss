@@ -777,6 +777,12 @@ input[type="file"] {
     align-items: center;
     min-height: 100px;
 }
+
+.center {
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+}
 //students
 
 .screen-adjust {
@@ -1221,6 +1227,81 @@ input[type="file"] {
         }
     }
 
+}
+
+.view-table {
+
+    .view-table-header {
+        width: 100%;
+        vertical-align: middle;
+    
+        h2 {
+            display: inline-block;
+            margin-right: auto;
+            min-width: 95%;
+        }
+        button {
+            display: inline-block;
+            margin-left: auto;
+            margin-right: 0;
+            background-color: white;
+            border: 0px solid $lighter-gray;
+            color: $primary-color;
+            font-size: 2rem;
+            border-radius: 0.5rem;
+            text-align: center;
+            // box-shadow: 0 0 10px #999;
+            &:hover {
+                box-shadow: 0 0 5px #999;
+                border: 0px solid $secondary-color;
+                background-color: white;
+                color: $primary-color;
+            }
+        }
+    }
+}
+
+.popup {
+    position: absolute;
+    top: 30vh;
+    left: 0;
+    width: 100%;
+    background-color: none;
+    z-index: 100;
+    text-align: left;
+
+    div {
+        max-width: 60vw;
+        margin: auto;
+        padding: 2rem;
+        background-color: white;
+        box-shadow: 0 0 8px #ccc;
+        border-radius: 1rem;
+    }
+    
+    label {
+        font-size: 1.2rem;
+        color: black;
+        padding-right: 2rem;
+    }
+
+    button {
+        display: block;
+        background-color: $primary-color;
+        border: 0px solid $lighter-gray;
+        color: white;
+        font-size: large;
+        border-radius: 0.5rem;
+        text-align: center;
+        margin-left: auto;
+        // box-shadow: 0 0 10px #999;
+        &:hover {
+            box-shadow: 0 0 5px #999;
+            border: 0px solid $secondary-color;
+            background-color: white;
+            color: $primary-color;
+        }
+    }
 }
 
 @media only screen and (max-width: 2800px){
