@@ -1,6 +1,6 @@
 const axios = require('axios');
-// const baseURL = 'http://localhost:8080/';
-const baseURL = 'https://internal-wiseattendonline.appspot.com/' // URL for hosted backend for test
+const baseURL = 'http://localhost:8080/';
+// const baseURL = 'https://internal-wiseattendonline.appspot.com/' // URL for hosted backend for test
 
 /* !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
 // const baseURL = 'https://wiseonlineattend.appspot.com/' // DO NOT USE! URL for hosted production.
@@ -175,6 +175,14 @@ async function createTerm(name) {
 async function  setCurrentTerm(termId) {
     const response = await backend.post('/admin/terms/setAsCurrent', {termId})
     return response;
+}
+
+async function adminAddStudents(students) {
+    return backend.post('/admin/students', {students});
+}
+
+async function adminAddProfessors(professors) {
+    return backend.post('/admin/professors', {professors});
 }
 
 /* ----------------------------------------
@@ -373,6 +381,8 @@ export {
     adminGetProfessors,
     adminGetProfessorCourses,
     adminGetCourseDetails,
+    adminAddStudents,
+    adminAddProfessors,
     getStudentTemplateURL,
     getProfessorTemplateURL,
     createCourse,

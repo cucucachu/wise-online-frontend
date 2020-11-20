@@ -23,8 +23,13 @@ const AdminHomePage = (props) => {
                 </Link>
                 
                 <div className="spacer-vertical-s"></div>
-                <Link to="/set-up-school">
+                <Link to="/admin/addUsers">
                     <button className="btn-l">Add Students and Professors</button>
+                </Link>
+                
+                <div className="spacer-vertical-s"></div>
+                <Link to="/set-up-school">
+                    <button className="btn-l">Bulk Upload</button>
                 </Link>
                 
                 <div className="spacer-vertical-s"></div>

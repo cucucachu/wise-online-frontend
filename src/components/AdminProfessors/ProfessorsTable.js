@@ -10,6 +10,7 @@ function ProfessorsTable(props) {
                 <thead>
                     <tr>
                         <th>Professor</th>
+                        <th>Email</th>
                         <th>Setup Key</th>
                         <th>Courses</th>
                     </tr>
