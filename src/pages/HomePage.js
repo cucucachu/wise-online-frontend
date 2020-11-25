@@ -72,6 +72,9 @@ import StudentInstallChromeExtension from '../components/studentInstallChromeExt
 import AdminTermsPage from '../components/AdminTerms/AdminTermsPage';
 // import AdminViewCourses from '../components/adminViewCourses';
 
+// Proctoring Components
+import ProfessorStartProctoring from '../components/ProfessorStartProctoring';
+
 class HomePage extends Component {
     
     static contextType = AuthContext;
@@ -183,6 +186,7 @@ class HomePage extends Component {
                             <PrivateRouteProfessor path="/professor/view-report/:testId" component={ViewTestResults} />
                             <PrivateRouteProfessor path="/professor/view-detail" component={ViewEachTestResult} />
                             <PrivateRouteProfessor path="/professor/proctor-settings" component={ProctorSettings} />
+                            <PrivateRouteProfessor path="/proctor/professor/start" component={ProfessorStartProctoring} />
                             {/* <PrivateRouteProfessor 
                             path="/professor/proctoring/:courseId" 
                             render={(props) => <ViewProctoring {...props} />} /> */}

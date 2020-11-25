@@ -1,6 +1,6 @@
 const axios = require('axios');
-// const baseURL = 'http://localhost:8080/';
-const baseURL = 'https://internal-wiseattendonline.appspot.com/' // URL for hosted backend for test
+const baseURL = 'http://localhost:8080/';
+// const baseURL = 'https://internal-wiseattendonline.appspot.com/' // URL for hosted backend for test
 
 /* !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
 // const baseURL = 'https://wiseonlineattend.appspot.com/' // DO NOT USE! URL for hosted production.
@@ -342,6 +342,67 @@ async function getSchoolNames() {
     return response;
 }
 
+/* ----------------------------------------
+    Proctoring V2.0 Routes
+------------------------------------------*/
+
+async function proctoringProfessorCreateTest(
+    {
+        courseId,
+        publicKey,
+        testName,
+        testLink,
+        screenshotInterval, 
+        webcamInterval, 
+        facialRecognitionThreshold
+    }) {
+        return backend.post('proctor/test', {
+            courseId,
+            publicKey,
+            testName,
+            testLink,
+            screenshotInterval, 
+            webcamInterval, 
+            facialRecognitionThreshold
+        });
+}
+
+async function proctoringStudentStartTest({classId, keyCode}) {
+    return backend.post('proctor/start', {classId, keyCode});
+}
+
+async function proctoringVerifyPrivileges({proctorSessionId, webcamPrivilege, screenshotPrivilege}) {
+    return backend.post('proctor/privileges', {proctorSessionId, webcamPrivilege, screenshotPrivilege})
+}
+
+async function proctoringSetReferenceImage({proctorSessionId, webcamImage}) {
+    return backend.post('proctor/reference', {proctorSessionId, webcamImage});
+}
+
+async function proctoringSubmitProctorData({proctorSessionId, webcamImage, screenshotImage}) {
+    return backend.post('proctor/submit', {proctorSessionId, webcamImage, screenshotImage});
+}
+
+async function proctoringEndProctorSession({proctorSessionId}) {
+    return backend.post('proctor/end', {proctorSessionId});
+}
+
+async function proctoringGetTestsForCourse(courseId) {
+    return backend.get(`proctor/courses/${courseId}/tests`);
+}
+
+async function proctoringGetTestDetails(testId) {
+    return backend.get(`proctor/tests/${testId}`);
+}
+
+async function proctoringGetStudentTestDetails(studentTestId) {
+    return backend.get(`proctor/studentTests/${studentTestId}`);
+}
+
+async function proctoringGetStudentTestDetailsAndImages({studentTestId, start, pageSize}) {
+    return backend.get(`/proctor/studentTest/${studentTestId}/details?start=${start}&pageSize=${pageSize}`);
+}
+
 export {
     adminLogin,
     professorLogin,
@@ -396,4 +457,14 @@ export {
     adminEditTerm,
     createTerm,
     setCurrentTerm,
+    proctoringProfessorCreateTest,
+    proctoringStudentStartTest,
+    proctoringVerifyPrivileges,
+    proctoringSetReferenceImage,
+    proctoringSubmitProctorData,
+    proctoringEndProctorSession,
+    proctoringGetTestsForCourse,
+    proctoringGetTestDetails,
+    proctoringGetStudentTestDetails,
+    proctoringGetStudentTestDetailsAndImages,
 }

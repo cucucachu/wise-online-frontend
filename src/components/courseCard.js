@@ -118,7 +118,7 @@ class CourseCard extends Component {
                             </Link>
     
                             <Link to={{
-                                pathname: '/professor/proctor-settings',
+                                pathname: '/proctor/professor/start',
                                 state: {
                                     course: this.props.course,
                                 }
