@@ -63,8 +63,28 @@ async function claimProfessorAccount(setupKey, email, password) {
 }
 
 /* ----------------------------------------
+    Super Routes
+------------------------------------------*/
+
+async function superGetSchoolDetails() {
+    return backend.get('/super/schools');
+}
+
+async function superLoginAsAdmin(schoolId) {
+    return backend.post(`/super/schools/${schoolId}`)
+}
+
+async function superCreateSchool(setupKey) {
+    return backend.post('/super/school', { setupKey });
+}
+
+/* ----------------------------------------
     Admin Routes
 ------------------------------------------*/
+
+async function adminGetSchoolDetails() {
+    return backend.get('admin/school');
+}
 
 async function postFiles(professorFile, studentFile) {
     var formData = new FormData();
@@ -142,6 +162,18 @@ async function adminSetProctorConfiguration(
         });
 }
 
+async function adminGetProfessors() {
+    return backend.get('/admin/school/professors');
+}
+
+async function adminGetProfessorCourses(professorId) {
+    return backend.get(`/admin/school/professors/${professorId}/courses`);
+}
+
+async function adminGetCourseDetails(courseId) {
+    return backend.get(`/admin/school/courses/${courseId}`)
+}
+
 function getStudentTemplateURL() {
     return baseURL + 'admin/studentTemplate';
 }
@@ -163,6 +195,14 @@ async function createTerm(name) {
 async function  setCurrentTerm(termId) {
     const response = await backend.post('/admin/terms/setAsCurrent', {termId})
     return response;
+}
+
+async function adminAddStudents(students) {
+    return backend.post('/admin/students', {students});
+}
+
+async function adminAddProfessors(professors) {
+    return backend.post('/admin/professors', {professors});
 }
 
 /* ----------------------------------------
@@ -409,8 +449,12 @@ export {
     studentLogin,
     logout,
     checkLogin,
+    superLoginAsAdmin,
+    superGetSchoolDetails,
+    superCreateSchool,
     createSchool,
     claimProfessorAccount,
+    adminGetSchoolDetails,
     adminDownloadDataByCourseURL,
     adminDownloadDataByProfessorURL,
     adminDownloadDataByStudentURL,
@@ -419,6 +463,11 @@ export {
     professorProctorConfigurationAllowed,
     adminGetProctorConfiguration,
     adminSetProctorConfiguration,
+    adminGetProfessors,
+    adminGetProfessorCourses,
+    adminGetCourseDetails,
+    adminAddStudents,
+    adminAddProfessors,
     getStudentTemplateURL,
     getProfessorTemplateURL,
     createCourse,
