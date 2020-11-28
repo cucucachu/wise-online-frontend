@@ -59,6 +59,10 @@ button:focus { outline: none; }
     visibility: hidden;
 }
 
+.display-none {
+    display: none;
+}
+
 .page-header {
     background-image: url('../images/header-background.svg');
     background-position: center top;
@@ -1065,6 +1069,22 @@ input[type="file"] {
     margin: auto;
 }
 
+.labeled-input {
+    margin-top: .2rem;
+    margin-bottom: .2rem;
+    margin-left: auto;
+    margin-right: auto;
+
+    label {
+        font-size: 1.2rem;
+        color: black;
+        padding-right: 1rem;
+    }
+
+    input {
+        border-radius: .5rem;
+    }
+}
 
 
 .websites-list {
@@ -1075,6 +1095,10 @@ input[type="file"] {
 
 .red {
     color: red;
+}
+
+.black {
+    color: black;
 }
 
 .horizontal-selector {
@@ -1124,6 +1148,11 @@ input[type="file"] {
 
 .width-80 {
     max-width: 80%;
+    margin: auto;
+}
+
+.width-60 {
+    max-width: 60%;
     margin: auto;
 }
 

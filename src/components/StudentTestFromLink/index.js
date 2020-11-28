@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 
 import attendClass from '../../Assets/images/attend-class.png';
-import { takeTest } from "../../store/axios";
+import { proctoringStudentStartTest } from "../../store/axios";
 
 import Spinner from '../Spinner';
 import LoginModal from '../LoginModal';
@@ -33,19 +33,29 @@ class StudentTestFromLink extends Component {
 
     async tryStartTest() {
         try {
-            const response = await takeTest(this.state.classId, this.state.keyCode);
+            const response = await proctoringStudentStartTest({
+                classId: this.state.classId,
+                keyCode: this.state.keyCode
+            });
 
             if (response.status === 200) {
-                this.context.storeClassId(this.state.classId);
-                this.context.storeTestAttendanceId(response.data.id);
-
-                if (response.data.proctorConfiguration) {
-                    this.context.setScreenshotInterval(response.data.proctorConfiguration.screenshotInterval);
-                    this.context.setWebcamInterval(response.data.proctorConfiguration.webcamInterval);
+                if (response.data.proctorSession) {
+                    this.props.history.push('/student/proctor', {
+                        ...response.data,
+                    });
                 }
-
-                sessionStorage.setItem('classId', this.state.classId);
-                this.props.history.push('record-agree-to-terms');
+                else {
+                    this.context.storeClassId(this.state.classId);
+                    this.context.storeTestAttendanceId(response.data.id);
+    
+                    if (response.data.proctorConfiguration) {
+                        this.context.setScreenshotInterval(response.data.proctorConfiguration.screenshotInterval);
+                        this.context.setWebcamInterval(response.data.proctorConfiguration.webcamInterval);
+                    }
+    
+                    sessionStorage.setItem('classId', this.state.classId);
+                    this.props.history.push('record-agree-to-terms');
+                }
             }
             else if (response.status === 401) {
                 this.setState({...this.state, showLogin: true});

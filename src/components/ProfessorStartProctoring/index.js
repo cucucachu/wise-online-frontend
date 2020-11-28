@@ -7,6 +7,7 @@ import icon from '../../Assets/images/attend-class.png';
 
 import ClipboardLink from '../ClipboardLink';
 import HorizontalSelector from '../ProctorSettings/HorizontalSelector';
+import LabeledTextInput from '../Resusable/LabeledTextInput';
 
 import { proctoringProfessorCreateTest } from '../../store/axios';
 
@@ -29,6 +30,7 @@ class ProfessorStartProctoring extends Component {
 
         this.handleSelectFrequency = this.handleSelectFrequency.bind(this);
         this.handleSelectThreshold = this.handleSelectThreshold.bind(this);
+        this.handleChangeTextInput = this.handleChangeTextInput.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
@@ -50,21 +52,12 @@ class ProfessorStartProctoring extends Component {
         });
     }
 
-    handleChangeTestLink(e) {
+    handleChangeTextInput(e) {
         e.preventDefault();
 
         this.setState({
             ...this.state,
-            testLink: e.target.value,
-        });
-    }
-
-    handleChangeTestName(e) {
-        e.preventDefault();
-
-        this.setState({
-            ...this.state,
-            testName: e.target.value,
+            [e.target.attributes.property.value]: e.target.value,
         });
     }
 
@@ -166,29 +159,30 @@ class ProfessorStartProctoring extends Component {
                     <img src={icon} className="page-icon" alt="login icon"/>
                     <h1>Start Test</h1>
                     <div className="spacer-vertical-s"></div>
-                    <div className="shadow full-width">
+                    <div className="shadow width-80 center">
                         <h2>Test Details</h2>
-                        <div className="labeled-input">
-                            <label>Test Name</label>
-                            <input 
-                                type="text" 
-                                property="testName" 
-                                onChange={e => this.handleChangeTestName(e)} 
-                                value={this.state.testName}>
-                            </input>
-                        </div>
-                        <div className="labeled-input">
-                            <label>Link to Test</label>
-                            <input type="text" onChange={e => this.handleChangeTestLink(e)} value={this.state.testLink}></input>
-                        </div>
+                        <hr></hr>
+                        <p id='warning' className={
+                            `red${this.state.facialRecognitionThreshold !== 'LOW' || this.state.imageFrequency !== 'LOW' ? '' : ' display-none'}`
+                        }>
+                            Warning - higher settings may bring more false positive red-flags.  
+                            Please only use this setting in high security exams.
+                        </p>
+                        <LabeledTextInput 
+                            label="Test Name:"
+                            property="testName"
+                            placeholder="Midterm 1 (optional)"
+                            onChange={this.handleChangeTextInput}
+                            value={this.state.testName}
+                        />
+                        <LabeledTextInput 
+                            label="Link to Test:"
+                            property="testLink"
+                            placeholder="https://myschool.com/test/1 (optional)"
+                            onChange={this.handleChangeTextInput}
+                            value={this.state.testLink}
+                        />
                     </div>
-                    <div className="spacer-vertical-s"></div>
-                    <p id='warning' className={
-                        `red${this.state.facialRecognitionThreshold !== 'LOW' || this.state.imageFrequency !== 'LOW' ? '' : ' hidden'}`
-                    }>
-                        Warning - higher settings may bring more false positive red-flags.  
-                        Please only use this setting in high security exams.
-                    </p>
                     <HorizontalSelector 
                         title="Image Capture Frequency"
                         options={['Normal', 'High', 'Extreme']}

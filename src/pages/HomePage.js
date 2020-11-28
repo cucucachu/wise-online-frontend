@@ -31,6 +31,7 @@ import StudentTestId from '../components/studentTestId';
 import StudentRecError from '../components/studentRecordingError';
 import StudentAttendanceFromLink from '../components/StudentAttendanceFromLink';
 import StudentTestFromLink from '../components/StudentTestFromLink';
+import StudentProctoring from '../components/StudentProctoring';
 
 import AdminLogin from '../components/adminLogin';
 import SetUpSchoolPage from '../components/SetUpSchoolPage';
@@ -51,7 +52,6 @@ import { AuthContext } from '../contexts/AuthContext'
 // import Header from '../components/header'
 import HeaderNew from '../components/headerNew'
 
-import PrivateRouteSuper from '../components/privateRouteSuper';
 import PrivateRouteAdmin from '../components/PrivateRouteAdmin';
 import PrivateRouteStudent from '../components/PrivateRouteStudent';
 import PrivateRouteProfessor from '../components/PrivateRouteProfessor';
@@ -218,6 +218,7 @@ class HomePage extends Component {
                                 />
                             } />
                             <PrivateRouteStudent path="/student/dashboard" component={StudentDashboard} />
+                            <PrivateRouteStudent path="/student/proctor" component={StudentProctoring} />
                             <PrivateRouteStudent path="/student/classes" component={StudentClass} />
                             <PrivateRouteStudent path="/student/tests" component={StudentTest} />
                             <PrivateRouteStudent path="/student/class/attend" component={StudentClassAtt} />

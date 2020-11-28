@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react'
 import editIcon from '../Assets/images/edit-icon.png'
 import { AuthContext } from '../contexts/AuthContext'
-import { takeTest } from '../store/axios'
+import { proctoringStudentStartTest } from '../store/axios'
 import { logout } from '../store/axios'
 
 const StudentTestId = (props) => {
@@ -28,17 +28,29 @@ const StudentTestId = (props) => {
         storeClassId(classId)
 
         try {
-            const response = await takeTest(classId, testId);
+            // const response = await takeTest(classId, testId);
+            const response = await proctoringStudentStartTest({
+                classId: classId,
+                keyCode: testId,
+            });
 
             if (response.status === 200) {
-                storeTestAttendanceId(response.data.id);
 
-                if (response.data.proctorConfiguration) {
-                    setScreenshotInterval(response.data.proctorConfiguration.screenshotInterval);
-                    setWebcamInterval(response.data.proctorConfiguration.webcamInterval);
+                if (response.data.proctorSession) {
+                    props.history.push('/student/proctor', {
+                        ...response.data,
+                    });
                 }
-
-                props.history.push('record-agree-to-terms');
+                else {
+                    storeTestAttendanceId(response.data.id);
+    
+                    if (response.data.proctorConfiguration) {
+                        setScreenshotInterval(response.data.proctorConfiguration.screenshotInterval);
+                        setWebcamInterval(response.data.proctorConfiguration.webcamInterval);
+                    }
+    
+                    props.history.push('record-agree-to-terms');
+                }
             }else if(response.status === 401){
                 sessionStorage.clear();
                 logout();
