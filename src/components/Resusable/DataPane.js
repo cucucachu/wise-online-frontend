@@ -5,14 +5,28 @@ function DataPane(props) {
     const dataPaneKey = Math.floor(Math.random() * 1000);
 
     for (const key of Object.keys(props.data)) {
-        dataRows.push(
-            <div className='data-row' key={`${dataPaneKey}-${key}`}>
-                <label>{key}:</label>
-                <span>
-                    {props.data[key]}
-                </span>
-            </div>
-        )
+        if (Array.isArray(props.data[key])) {
+            for (const index in props.data[key]) {
+                dataRows.push(
+                    <div className='data-row' key={`${dataPaneKey}-${key}-${index}`}>
+                        <label>{`${key} ${Number(index) + 1}`}:</label>
+                        <span>
+                            {props.data[key][index]}
+                        </span>
+                    </div>
+                )
+            }
+        }
+        else {
+            dataRows.push(
+                <div className='data-row' key={`${dataPaneKey}-${key}`}>
+                    <label>{key}:</label>
+                    <span>
+                        {props.data[key]}
+                    </span>
+                </div>
+            )
+        }
     }
 
     return (

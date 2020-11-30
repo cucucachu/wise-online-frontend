@@ -60,28 +60,58 @@ function ViewRow(props) {
     const cells = [];
 
     for (const column of props.columns) {
-        if (column.onClick) {
+        const value = props.row[column.propertyName];
+
+        if (Array.isArray(value)) {
             cells.push(
                 <td 
                     key={`${props.title}-${props.rowNumber}-${column.propertyName}`}
                 >
-                    <button 
-                        className='btn-link'
-                        onClick={() => column.onClick(props.rowNumber)}
-                    >
-                        {props.row[column.propertyName]}
-                    </button>
+                    <ul>
+                        {(() => {
+                            const listItems = [];
+
+                            for (const itemIndex in value) {
+                                const item = value[itemIndex];
+                                listItems.push(
+                                    <li 
+                                        key={`${props.title}-${props.rowNumber}-${column.propertyName}-${itemIndex}`}
+                                    >
+                                        {item}
+                                    </li>
+                                )
+                            }
+
+                            return listItems;
+                        })()}
+                    </ul>
                 </td>
             )
         }
         else {
-            cells.push(
-                <td 
-                    key={`${props.title}-${props.rowNumber}-${column.propertyName}`}
-                >
-                    {props.row[column.propertyName]}
-                </td>
-            )
+            if (column.onClick) {
+                cells.push(
+                    <td 
+                        key={`${props.title}-${props.rowNumber}-${column.propertyName}`}
+                    >
+                        <button 
+                            className='btn-link'
+                            onClick={() => column.onClick(props.rowNumber)}
+                        >
+                            {value}
+                        </button>
+                    </td>
+                )
+            }
+            else {
+                cells.push(
+                    <td 
+                        key={`${props.title}-${props.rowNumber}-${column.propertyName}`}
+                    >
+                        {value}
+                    </td>
+                )
+            }
         }
     }
 

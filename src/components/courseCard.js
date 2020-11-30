@@ -138,7 +138,7 @@ class CourseCard extends Component {
                             <button className="btn-upload" onClick={this.downloadCourseData.bind(this)} style={{marginBottom: '5px', fontSize: 'medium'}}><img src={downloadIcon} className="icon-xs" alt="download icon" />Download data</button>
 
                             <Link to={{
-                                pathname: `/professor/proctoring/${this.props.course._id}`,
+                                pathname: `/proctor/tests`,
                                 state: {
                                     course: this.props.course,
                                 }

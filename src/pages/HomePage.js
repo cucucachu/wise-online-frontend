@@ -19,6 +19,9 @@ import ProfessorClaim from '../components/professorClaim';
 import ProfessorExam from '../components/professorExam';
 import ProfessorClaimSuccess from '../components/professorClaimSuccess';
 import ProctorSettings from '../components/ProctorSettings';
+import ProfessorTestsForCourse from '../components/ProfessorTestsForCourse';
+import ProfessorTestView from '../components/ProfessorTestView';
+import ProfessorViewStudentTest from '../components/ProfessorViewStudentTest';
 
 import StudentDashboard from '../components/studentDashboard';
 import StudentClass from '../components/studentClass';
@@ -206,6 +209,9 @@ class HomePage extends Component {
                             <PrivateRouteProfessor path="/professor/view-detail" component={ViewEachTestResult} />
                             <PrivateRouteProfessor path="/professor/proctor-settings" component={ProctorSettings} />
                             <PrivateRouteProfessor path="/proctor/professor/start" component={ProfessorStartProctoring} />
+                            <PrivateRouteProfessor path='/proctor/tests' component={ProfessorTestsForCourse} />
+                            <PrivateRouteProfessor path='/proctor/test' component={ProfessorTestView} />
+                            <PrivateRouteProfessor path='/proctor/result' component={ProfessorViewStudentTest} />
                             {/* <PrivateRouteProfessor 
                             path="/professor/proctoring/:courseId" 
                             render={(props) => <ViewProctoring {...props} />} /> */}
