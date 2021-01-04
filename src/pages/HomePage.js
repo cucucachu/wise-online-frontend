@@ -167,6 +167,10 @@ class HomePage extends Component {
                             }/>
 
                             {/* admin */}
+                            <Route path="/admin/forgot-pw" component={ForgotPWAdmin} />
+                            <Route path="/admin/reset-pw-sent" component={ForgotPWSentAdmin} />
+                            <Route path="/admin/reset-password" component={AdminResetPW} />
+                            <Route path="/admin/reset-success" component={AdminResetPWSuccess} />
                             <PrivateRouteAdmin path="/set-up-school" component={SetUpSchoolPage} />
                             <Route path="/create-school/step2" component={SchoolStep2} />
                             <Route path="/create-school" component={SchoolStep1} />
@@ -174,12 +178,10 @@ class HomePage extends Component {
                             <PrivateRouteAdmin path="/admin/professor/courses" component={AdminProfessorCourses} />
                             <PrivateRouteAdmin path="/admin/professors" component={AdminProfessors} />
                             <PrivateRouteAdmin path="/admin/course" component={AdminCourseDetail} />
-                            <PrivateRouteAdmin path="/admin" component={AdminHomePage}/>
-                            <Route path="/admin/reset-password" component={AdminResetPW} />
-                            <Route path="/admin/reset-success" component={AdminResetPWSuccess} />
                             <PrivateRouteAdmin path="/admin/set-up-success" component={SetupSchoolSuccess} />
                             <PrivateRouteAdmin path="/admin-terms" component={AdminTermsPage} />
                             <PrivateRouteAdmin path="/admin-proctor-settings" component={ProctorSettings} />
+                            <PrivateRouteAdmin path="/admin" component={AdminHomePage}/>
                             <Route path="/admin-login" render={
                                 props => <AdminLogin
                                             {...props}
@@ -244,9 +246,7 @@ class HomePage extends Component {
                             <Route path="/student/fee-waiver-note" component={StudentFeeWaiveNote} />
                             <Route path="/student/fee-waiver-confirmation" component={StudentFeeWaiveConfirm} />
 
-                            <Route path="/admin/forgot-pw" component={ForgotPWAdmin} />
                             <Route path="/professor/forgot-pw" component={ForgotPWProfessor} />
-                            <Route path="/admin/reset-pw-sent" component={ForgotPWSentAdmin} />
                             <Route path="/professor/reset-pw-sent" component={ForgotPWSentProfessor} />
 
                             <Route path="/student/attendanceLink" render={
