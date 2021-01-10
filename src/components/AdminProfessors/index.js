@@ -1,10 +1,10 @@
-import React, { Component }　from 'react';
-import { logout, adminGetProfessors } from '../../store/axios';
-import viewIcon from '../../Assets/images/view-icon.png';
-import '../../Assets/css/spinner.css';
-import '../../Assets/css/radiobtn.css';
+import React, { Component } from 'react';
 
-import ProfessorsTable from './ProfessorsTable';
+import viewIcon from '../../Assets/images/view-icon.png';
+
+import PagedViewTable from '../Resusable/PagedViewTable';
+
+import { adminGetProfessors } from '../../store/axios';
 
 class AdminProfessors extends Component {
     constructor(props) {
@@ -12,106 +12,154 @@ class AdminProfessors extends Component {
 
         this.state = {
             professors: [],
-            isLoading: true,
+            filter: {
+                page: 0,
+                pageSize: 10,
+                firstName: '',
+                lastName: '',
+                email: '',
+                orderBy: '',
+                order: 1,
+            },
+            total: 0,
         }
 
-        this.cookiesExpired = this.cookiesExpired.bind(this);
-        this.handleClickViewCourse = this.handleClickViewCourse.bind(this);
+        this.onClickSort = this.onClickSort.bind(this);
+        this.onChangeFilter = this.onChangeFilter.bind(this);
+        this.onClickFilter = this.onClickFilter.bind(this);
+        this.onClickNextPage = this.onClickNextPage.bind(this);
+        this.onClickPreviousPage = this.onClickPreviousPage.bind(this);
+
+        this.onClickViewCourses = this.onClickViewCourses.bind(this);
     }
 
-    cookiesExpired() {
-        sessionStorage.clear();
-        logout();
-        this.props.history.push({
-            pathname: '/admin-login',
-            state: { message: 'Sorry, your login has expired, please log in again.', showHide: {display: 'block'} }
+    componentDidMount() {
+        this.getProfessors();
+    }
+
+    async getProfessors(filter) {
+        filter = filter ? filter : this.state.filter;
+
+        const response = await adminGetProfessors(filter);
+
+        for (const professor of response.data.professors) {
+            professor.numberOfCourses = professor.courses.length;
+            professor.name = `${professor.firstName} ${professor.lastName}`;
+        }
+
+        this.setState({
+            ...this.state,
+            filter,
+            professors: response.data.professors,
+            total: response.data.total,
         });
     }
 
-    setIsLoading(loading) {
-        const state = Object.assign({}, this.state);
-        state.isLoading = loading;
-        this.setState(state);
-    }
-
-    async loadProfessors() {
-        try {
-            this.setIsLoading(true);
-            const response = await adminGetProfessors();
-    
-            if (response.status === 200) {
-                this.setState({
-                    ...this.state,
-                    professors: response.data.professors,
-                    isLoading: false,
-
-                });
-            }
-            else if (response.status === 401) {
-                this.cookiesExpired();
-            }
-            else {
-                console.log('Something\'s wrong, try again.');
-            }
+    onClickSort(propertyName) {
+        if (this.state.filter.orderBy === propertyName) {
+            this.getProfessors({
+                ...this.state.filter,
+                order: this.state.filter.order === 1 ? -1 : 1,
+                page: 0,
+            });
         }
-        catch (error) {
-            console.log(error);
-        }  
+        else {
+            this.getProfessors({
+                ...this.state.filter,
+                orderBy: propertyName,
+                order: 1,
+                page: 0,
+            });
+        }
     }
 
-    async componentDidMount() {
-        await this.loadProfessors();
+    onChangeFilter(e, propertyName) {
+        this.setState({
+            ...this.state,
+            filter: {
+                ...this.state.filter,
+                [propertyName]: e.target.value,
+                page: 0,
+            }
+        })
     }
 
-    handleClickViewCourse(professor) {
+    onClickFilter() {
+        this.getProfessors();
+    }
 
+    onClickNextPage() {
+        this.getProfessors({
+            ...this.state.filter,
+            page: this.state.filter.page + 1,
+        });
+    }
+
+    onClickPreviousPage() {
+        this.getProfessors({
+            ...this.state.filter,
+            page: this.state.filter.page - 1,
+        });
+    }
+
+    onClickViewCourses(rowIndex) {
         this.props.history.push('/admin/professor/courses', {
-            professor,
+            professor: this.state.professors[rowIndex],
         });
-    }
-
-    renderProfessors() {
-        return (
-            <div className="row">
-                <ProfessorsTable 
-                    professors={this.state.professors}
-                    onClickViewCourses={this.handleClickViewCourse}
-                />
-
-            </div>
-        )
-    }
-
-    renderLoading() {
-        return (
-            <div>
-                <div className="spacer-vertical"></div>
-                <h2>Loading
-                    <div className="lds-ellipsis"></div>
-                </h2>
-            </div>
-        );
     }
 
     render() {
-        return ( 
+        return (
             <div className="container">
                 <img src={viewIcon} className="page-icon" alt="view icon"/>
                 <div className="spacer-vertical"></div>
                 <h1>Professors</h1>
-                <div className="spacer-vertical"></div>
-                { 
-                    (() => {
-                        if (this.state.isLoading) {
-                            return this.renderLoading();
-                        }
-                        else {
-                            return this.renderProfessors();
-                        }
-                    })()
-                }
+                <PagedViewTable
+                    title="Professors"
+                    rows={this.state.professors}
+                    filter={this.state.filter}
+                    total={this.state.total}
+                    columns={[
+                        {
+                            label: 'Professor',
+                            propertyName: 'name',
+                        },
+                        {
+                            label: 'First Name',
+                            propertyName: 'firstName',
+                            sortable: true,
+                            filterable: true,
+                        },
+                        {
+                            label: 'Last Name',
+                            propertyName: 'lastName',
+                            sortable: true,
+                            filterable: true,
+                        },
+                        {
+                            label: 'Email',
+                            propertyName: 'email',
+                            sortable: true,
+                            filterable: true,
+                        },
+                        {
+                            label: 'Setup Key',
+                            propertyName: 'setupKey',
+                        },
+                        {
+                            label: 'Courses',
+                            propertyName: 'numberOfCourses',
+                            onClick: this.onClickViewCourses,
+                        },
+                    ]}
+                    onClickSort={this.onClickSort}
+                    onChangeFilter={this.onChangeFilter}
+                    onClickFilter={this.onClickFilter}
+                    onClickNextPage={this.onClickNextPage}
+                    onClickPreviousPage={this.onClickPreviousPage}
+                />
             </div>
-        );
+            );
     }
 }
 

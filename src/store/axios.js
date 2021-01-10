@@ -162,14 +162,20 @@ async function adminSetProctorConfiguration(
         });
 }
 
-async function adminGetProfessors() {
-    return backend.get('/admin/school/professors');
-}
+// async function adminGetProfessors() {
+//     return backend.get('/admin/school/professors');
+// }
 
 async function adminGetStudents({
     page, pageSize, firstName, lastName, email, orderBy, order,
 }) {
     return backend.get(`/admin/students?page=${page}&pageSize=${pageSize}&firstName=${firstName}&lastName=${lastName}&email=${email}&orderBy=${orderBy}&order=${order}`);
+}
+
+async function adminGetProfessors({
+    page, pageSize, firstName, lastName, email, orderBy, order,
+}) {
+    return backend.get(`/admin/professors?page=${page}&pageSize=${pageSize}&firstName=${firstName}&lastName=${lastName}&email=${email}&orderBy=${orderBy}&order=${order}`);
 }
 
 async function adminGetProfessorCourses(professorId) {
