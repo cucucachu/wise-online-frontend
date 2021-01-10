@@ -1,9 +1,9 @@
 const axios = require('axios');
-// const baseURL = 'http://localhost:8080/';
+const baseURL = 'http://localhost:8080/';
 // const baseURL = 'https://internal-wiseattendonline.appspot.com/' // URL for hosted backend for test
 
 /* !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
-const baseURL = 'https://wiseonlineattend.appspot.com/' // DO NOT USE! URL for hosted production.
+// const baseURL = 'https://wiseonlineattend.appspot.com/' // DO NOT USE! URL for hosted production.
 /* !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
 
 
@@ -164,6 +164,12 @@ async function adminSetProctorConfiguration(
 
 async function adminGetProfessors() {
     return backend.get('/admin/school/professors');
+}
+
+async function adminGetStudents({
+    page, pageSize, firstName, lastName, email, orderBy, order,
+}) {
+    return backend.get(`/admin/students?page=${page}&pageSize=${pageSize}&firstName=${firstName}&lastName=${lastName}&email=${email}&orderBy=${orderBy}&order=${order}`);
 }
 
 async function adminGetProfessorCourses(professorId) {
@@ -466,6 +472,7 @@ export {
     adminGetProctorConfiguration,
     adminSetProctorConfiguration,
     adminGetProfessors,
+    adminGetStudents,
     adminGetProfessorCourses,
     adminGetCourseDetails,
     adminAddStudents,

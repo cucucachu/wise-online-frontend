@@ -70,6 +70,11 @@ class AdminHomePage extends Component {
                         <Link to="admin/professors">
                             <button className="btn-l">View Professors</button>
                         </Link>
+                        
+                        <div className="spacer-vertical-s"></div>
+                        <Link to="admin/students">
+                            <button className="btn-l">View Students</button>
+                        </Link>
                         </div>
                     </div>
 

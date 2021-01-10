@@ -42,6 +42,7 @@ import AdminHomePage from '../components/AdminHomePage';
 import SchoolStep1 from '../components/createSchoolStep1';
 import SchoolStep2 from '../components/createSchoolStep2';
 import AdminProfessors from '../components/AdminProfessors';
+import AdminStudents from '../components/AdminStudents';
 import AdminProfessorCourses from '../components/AdminProfessorCourses';
 import AdminCourseDetail from '../components/AdminCourseDetail';
 import AdminAddUsers from '../components/AdminAddUsers';
@@ -177,6 +178,7 @@ class HomePage extends Component {
                             <PrivateRouteAdmin path="/admin/addUsers" component={AdminAddUsers} />
                             <PrivateRouteAdmin path="/admin/professor/courses" component={AdminProfessorCourses} />
                             <PrivateRouteAdmin path="/admin/professors" component={AdminProfessors} />
+                            <PrivateRouteAdmin path="/admin/students" component={AdminStudents} />
                             <PrivateRouteAdmin path="/admin/course" component={AdminCourseDetail} />
                             <PrivateRouteAdmin path="/admin/set-up-success" component={SetupSchoolSuccess} />
                             <PrivateRouteAdmin path="/admin-terms" component={AdminTermsPage} />
