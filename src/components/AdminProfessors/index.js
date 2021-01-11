@@ -4,7 +4,7 @@ import viewIcon from '../../Assets/images/view-icon.png';
 
 import PagedViewTable from '../Resusable/PagedViewTable';
 
-import { adminGetProfessors } from '../../store/axios';
+import { adminGetProfessors, getProfessorsCSVURL } from '../../store/axios';
 
 class AdminProfessors extends Component {
     constructor(props) {
@@ -114,6 +114,7 @@ class AdminProfessors extends Component {
                 <img src={viewIcon} className="page-icon" alt="view icon"/>
                 <div className="spacer-vertical"></div>
                 <h1>Professors</h1>
+                <a href={getProfessorsCSVURL()}>Download as CSV</a>
                 <PagedViewTable
                     title="Professors"
                     rows={this.state.professors}

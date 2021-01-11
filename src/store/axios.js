@@ -194,6 +194,14 @@ function getProfessorTemplateURL() {
     return baseURL + 'admin/professorTemplate';
 }
 
+function getStudentsCSVURL() {
+    return baseURL + 'admin/csv/students';
+}
+
+function getProfessorsCSVURL() {
+    return baseURL + 'admin/csv/professors';
+}
+
 async function getTerms(admin) {
     const response = await backend.get('admin/terms', admin);
     return response;
@@ -485,6 +493,8 @@ export {
     adminAddProfessors,
     getStudentTemplateURL,
     getProfessorTemplateURL,
+    getStudentsCSVURL,
+    getProfessorsCSVURL,
     createCourse,
     editCourse,
     deleteCourse,
