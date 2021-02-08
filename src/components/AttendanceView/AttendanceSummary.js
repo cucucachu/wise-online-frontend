@@ -2,7 +2,6 @@ import React from 'react';
 
 
 function AttendanceSummary(props) {
-    console.log(props.attendance.scheduledTime);
     return (
         <div className="row">
             <div className="col-sm">
@@ -13,10 +12,27 @@ function AttendanceSummary(props) {
                             <br></br>
                             <p><strong>Class Name</strong>: {props.course.name}</p>
                             <p><strong>Class ID</strong>: {props.course.classId}</p>
-                            <p><strong>Attendance Date</strong>: {new Date(props.attendance.startTime).toLocaleDateString()}</p>
-                            <p><strong>Attendance Start Time</strong>: {new Date(props.attendance.startTime).toLocaleTimeString()}</p>
+                            <p><strong>Key Code ID</strong>: {props.attendance.keyCode}</p>
+                            {(() => {
+                                if (props.editing) {
+                                    console.dir(props);
+
+                                    return (
+                                        <p><strong>Attendance Date</strong>:
+                                        <input 
+                                            type="datetime-local"
+                                            value={props.attendance.startTime}
+                                            onChange={props.onChangeStartTime}
+                                        /></p>
+                                    )
+                                }
+                                else {
+                                    return <p><strong>Attendance Date</strong>: {new Date(props.attendance.startTime).toLocaleString()}</p>
+                                }
+                            })()}
                             <p><strong>Students Present</strong>: {props.attendance.studentsPresent}</p>
                             <p><strong>Students Absent</strong>: {props.attendance.studentsAbsent}</p>
+                            <p><strong>Attendance Link for Students</strong>: {attendanceLink(props.course.classId, props.attendance.keyCode)}</p>
                         </div>
                         <div className="col-sm-2">
                             {(() => {
@@ -107,6 +123,15 @@ function AttendanceSummary(props) {
         </div>
     )
 
+}
+
+function attendanceLink(classId, keyCode) {
+    if (window.location.hostname === 'localhost') {
+        return `http://localhost:3000/student/attendanceLink?c=${classId.replace(' ', '%20')}&k=${keyCode}`;
+    }
+    else {
+        return `https://${window.location.hostname}/student/attendanceLink?c=${classId.replace(' ', '%20')}&k=${keyCode}`;
+    }
 }
 
 export default AttendanceSummary;

@@ -250,8 +250,8 @@ async function getAttendance(courseId, attendanceId) {
     return backend.get(`/professor/courses/${courseId}/attendances/${attendanceId}`);
 }
 
-async function editAttendance(courseId, attendanceId, studentsPresent, scheduledTime) {
-    return backend.post(`/professor/courses/${courseId}/attendances/${attendanceId}`, {students: studentsPresent, scheduledTime});
+async function editAttendance(courseId, attendanceId, studentsPresent, scheduledTime, startTime) {
+    return backend.post(`/professor/courses/${courseId}/attendances/${attendanceId}`, {students: studentsPresent, scheduledTime, startTime});
 }
 
 async function setAttendanceReadyForIntegration(courseId, attendanceId) {

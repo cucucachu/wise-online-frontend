@@ -22,6 +22,7 @@ class AttendanceView extends Component {
         this.handleClickEdit = this.handleClickEdit.bind(this);
         this.handleClickPresent = this.handleClickPresent.bind(this);
         this.handleChangeScheduledTime = this.handleChangeScheduledTime.bind(this);
+        this.handleChangeStartTime = this.handleChangeStartTime.bind(this);
         this.handleClickSave = this.handleClickSave.bind(this);
         this.handleClickApproveForIntegration = this.handleClickApproveForIntegration.bind(this);
     }
@@ -29,26 +30,29 @@ class AttendanceView extends Component {
     handleClickEdit() {
         const state = Object.assign({}, this.state);
         state.editing = true;
+        
+        state.attendance.startTime = state.attendance.startTime ? this.UTCStringToLocalDateString(state.attendance.startTime) : '';
+        state.attendance.scheduledTime = state.attendance.scheduledTime ? this.UTCStringToLocalDateString(state.attendance.scheduledTime) : '';
+        
         this.setState(state);
     }
 
     async handleClickSave() {
         const studentsPresent = this.state.attendance.students.filter(s => s.attended).map(s => s.id);
-        let scheduledTime = this.state.attendance.scheduledTime;
 
-        if (this.state.attendance.scheduledTime === '') {
-            console.log('here')
-            scheduledTime = null;
-        }
-        else {
-            scheduledTime = new Date(`${scheduledTime}:00.000Z`);
-        }
+        let scheduledTime = this.state.attendance.scheduledTime ? new Date(this.state.attendance.scheduledTime) : null;
+        let startTime = this.state.attendance.startTime ? new Date(this.state.attendance.startTime) : null;
 
-        console.log(scheduledTime);
-
-        await editAttendance(this.state.course._id, this.state.attendance.id, studentsPresent, scheduledTime);
+        await editAttendance(this.state.course._id, this.state.attendance.id, studentsPresent, scheduledTime, startTime);
 
         return this.loadAttendance();
+    }
+
+    UTCStringToLocalDateString(dateString) {
+        const date = new Date(dateString);
+        const localDate = new Date(date.getTime() - (60000 * date.getTimezoneOffset()));
+        const localDateString = localDate.toISOString();
+        return localDateString.slice(0, localDateString.length - 5);
     }
 
     async handleClickApproveForIntegration() {
@@ -61,6 +65,13 @@ class AttendanceView extends Component {
         e.preventDefault();
         const state = Object.assign({}, this.state);
         state.attendance.scheduledTime = e.target.value;
+        this.setState(state);
+    }
+
+    handleChangeStartTime(e) {
+        e.preventDefault();
+        const state = Object.assign({}, this.state);
+        state.attendance.startTime = e.target.value;
         this.setState(state);
     }
 
@@ -87,12 +98,10 @@ class AttendanceView extends Component {
             const state = Object.assign({}, this.state);
             state.attendance = response.data;
 
-            if (state.attendance.scheduledTime) {
-                state.attendance.scheduledTime = state.attendance.scheduledTime.slice(0, state.attendance.scheduledTime.length - 1);
-            }
-            else {
-                state.attendance.scheduledTime = '';
-            }
+
+
+            state.attendance.scheduledTime = state.attendance.scheduledTime ? state.attendance.scheduledTime : '';
+            state.attendance.startTime = state.attendance.startTime ? state.attendance.startTime : '';
 
             state.editing = false;
             this.setState(state);
@@ -147,6 +156,7 @@ class AttendanceView extends Component {
                         onClickSave={this.handleClickSave}
                         editing={true}
                         onChangeScheduledTime={this.handleChangeScheduledTime}
+                        onChangeStartTime={this.handleChangeStartTime}
                     />
                     <div className="row">
                         <div className="col-sm">

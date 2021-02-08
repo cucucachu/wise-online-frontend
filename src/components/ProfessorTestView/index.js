@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import ViewTable from '../Resusable/ViewTable';
+import DataPane from '../Resusable/DataPane';
 
 import { proctoringGetTestDetails } from '../../store/axios';
 
@@ -13,6 +14,7 @@ class ProfessorTestView extends Component {
 
         this.state = {
             ...this.props.location.state,
+            title: 'Loading...',
         }
 
         this.handleClickStudentTest = this.handleClickStudentTest.bind(this);
@@ -55,6 +57,7 @@ class ProfessorTestView extends Component {
         this.setState({
             ...this.state,
             test: response.data.test,
+            title: response.data.test.testName ? response.data.test.testName : `Test on ${new Date(response.data.test.startTime).toLocaleString()}`,
         });
     }
 
@@ -65,13 +68,43 @@ class ProfessorTestView extends Component {
         });
     }
 
+    urlForTest(test) {
+        let link;
+
+        if (!test || !test.course.classId || !test.keyCode) {
+            return "";
+        }
+
+        const classId = test.course.classId;
+        const keyCode = test.keyCode;
+
+        if (window.location.hostname === 'localhost') {
+            link = `http://localhost:3000/student/testLink?c=${classId.replace(' ', '%20')}&k=${keyCode}`;
+        }
+        else {
+            link = `https://${window.location.hostname}/student/testLink?c=${classId.replace(' ', '%20')}&k=${keyCode}`;
+        }
+
+        return link;
+    }
+
     render() {
         return (
             <div className="container">
                 <img src={editIcon} className="page-icon" alt="login icon"/>
                 <div className="spacer-vertical"></div>
 
-                <h1>Tests for {this.state.course.name}</h1>
+                <h1>{this.state.title}</h1>
+                <DataPane
+                    title="Test Info"
+                    data={{
+                        "Course": this.state.test.course.name,
+                        "Test Name": this.state.test.testName,
+                        "Start Time": new Date(this.state.test.startTime).toLocaleString(),
+                        "URL for Students": this.urlForTest(this.state.test),
+                        "Number of Results": this.state.test.studentTests.length,
+                    }}
+                />
                 <ViewTable
                     title="Test Results"
                     columns={[
