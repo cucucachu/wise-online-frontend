@@ -127,10 +127,10 @@ function AttendanceSummary(props) {
 
 function attendanceLink(classId, keyCode) {
     if (window.location.hostname === 'localhost') {
-        return `http://localhost:3000/student/attendanceLink?c=${classId.replace(' ', '%20')}&k=${keyCode}`;
+        return `http://localhost:3000/student/attendanceLink?c=${classId.replaceAll(/ /g, '%20')}&k=${keyCode}`;
     }
     else {
-        return `https://${window.location.hostname}/student/attendanceLink?c=${classId.replace(' ', '%20')}&k=${keyCode}`;
+        return `https://${window.location.hostname}/student/attendanceLink?c=${classId.replaceAll(/ /g, '%20')}&k=${keyCode}`;
     }
 }
 

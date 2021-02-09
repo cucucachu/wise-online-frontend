@@ -49,7 +49,9 @@ function columnHeaders(props) {
 
     for (const column of props.columns) {
         headerCells.push(
-            <th key={`${props.title}-${column.label}-header`}>{column.label}</th>
+            <th key={`${props.title}-${column.label}-header`}>
+                {column.label}
+            </th>
         )
     }
 
