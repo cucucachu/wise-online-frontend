@@ -100,14 +100,14 @@ function columnHeaders(props) {
                         {(() => {
                             if (props.filter.orderBy === column.propertyName) {
                                 if (props.filter.order === 1) {
-                                    return <span>&#9207;</span>
+                                    return <span>&#9660;</span>
                                 }
                                 else if (props.filter.order === -1) {
-                                    return <span>&#9206;</span>
+                                    return <span>&#9650;</span>
                                 }
                             }
                             else {
-                                return <span>&#9205;</span>
+                                return <span>&#9658;</span>
                             }
                         })()}
                     </button>
@@ -202,14 +202,14 @@ function pagination(props) {
             <div className="pagination-pages">
                 {(() => {
                     if (page !== 0) {
-                        return <button onClick={props.onClickPreviousPage}>&#9204;</button>
+                        return <button onClick={props.onClickPreviousPage}>&#9664;</button>
                     }
                     else return '';
                 })()}
                 <span>Page {page + 1}</span>
                 {(() => {
                     if ((page + 1) * pageSize < total) {
-                        return <button onClick={props.onClickNextPage}>&#9205;</button>
+                        return <button onClick={props.onClickNextPage}>&#9658;</button>
                     }
                     else return '';
                 })()}

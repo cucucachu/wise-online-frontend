@@ -114,10 +114,10 @@ class ProfessorStartProctoring extends Component {
             const classId = this.props.location.state.course.classId;
 
             if (window.location.hostname === 'localhost') {
-                link = `http://localhost:3000/student/testLink?c=${classId.replace(' ', '%20')}&k=${keyCode}`;
+                link = `http://localhost:3000/student/testLink?c=${classId.replaceAll(/ /g, '%20')}&k=${keyCode}`;
             }
             else {
-                link = `https://${window.location.hostname}/student/testLink?c=${classId.replace(' ', '%20')}&k=${keyCode}`;
+                link = `https://${window.location.hostname}/student/testLink?c=${classId.replaceAll(/ /g, '%20')}&k=${keyCode}`;
             }
 
             this.setState({

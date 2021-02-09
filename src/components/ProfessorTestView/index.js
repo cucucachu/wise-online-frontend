@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import moment from 'moment';
 
 import ViewTable from '../Resusable/ViewTable';
 import DataPane from '../Resusable/DataPane';
@@ -51,6 +52,9 @@ class ProfessorTestView extends Component {
             else {
                 studentTest.end = studentTest.latestSubmissionTime ? new Date(studentTest.latestSubmissionTime).toLocaleString() : '';
             }
+
+            studentTest.sessionCount = studentTest.proctorSessions.length;
+            studentTest.duration = (moment.duration(moment(studentTest.endTime).diff(moment(studentTest.startTime)))).asSeconds() + " seconds";
         }
         
 
@@ -79,10 +83,10 @@ class ProfessorTestView extends Component {
         const keyCode = test.keyCode;
 
         if (window.location.hostname === 'localhost') {
-            link = `http://localhost:3000/student/testLink?c=${classId.replace(' ', '%20')}&k=${keyCode}`;
+            link = `http://localhost:3000/student/testLink?c=${classId.replaceAll(/ /g, '%20')}&k=${keyCode}`;
         }
         else {
-            link = `https://${window.location.hostname}/student/testLink?c=${classId.replace(' ', '%20')}&k=${keyCode}`;
+            link = `https://${window.location.hostname}/student/testLink?c=${classId.replaceAll(/ /g, '%20')}&k=${keyCode}`;
         }
 
         return link;
@@ -122,8 +126,16 @@ class ProfessorTestView extends Component {
                             propertyName: 'end',
                         },
                         {
+                            label: 'Duration',
+                            propertyName: 'duration',
+                        },
+                        {
                             label: 'Issues',
                             propertyName: 'issues',
+                        },
+                        {
+                            label: 'Sessions',
+                            propertyName: 'sessionCount',
                         },
                     ]}
                     rows={this.state.test.studentTests}

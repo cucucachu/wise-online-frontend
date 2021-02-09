@@ -38,10 +38,10 @@ class ProfessorExam extends Component {
     
     createLink(classId, keyCode) {
         if (window.location.hostname === 'localhost') {
-            return `http://localhost:3000/student/testLink?c=${classId.replace(' ', '%20')}&k=${keyCode}`;
+            return `http://localhost:3000/student/testLink?c=${classId.replaceAll(/ /g, '%20')}&k=${keyCode}`;
         }
         else {
-            return `https://${window.location.hostname}/student/testLink?c=${classId.replace(' ', '%20')}&k=${keyCode}`;
+            return `https://${window.location.hostname}/student/testLink?c=${classId.replaceAll(/ /g, '%20')}&k=${keyCode}`;
         }
     }
     

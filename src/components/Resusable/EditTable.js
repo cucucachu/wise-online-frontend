@@ -109,7 +109,7 @@ function EditRow(props) {
             key={`${props.title}-${props.rowNumber}-remove`}
         >
             <div className='x-button'>
-                <button onClick={() => props.onClickRemoveRow(props.rowNumber)}><div>&#128473;</div></button>
+                <button onClick={() => props.onClickRemoveRow(props.rowNumber)}><div>&#10005;</div></button>
             </div>
         </td>
     )
