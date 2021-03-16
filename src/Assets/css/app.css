@@ -1,0 +1,72 @@
+
+/*
+ * style sheet for modifying
+ */
+@media screen and (max-width: 1440px) {
+    .test-detail-body {
+        max-width: 80% !important;
+    }
+}
+
+@media screen and (max-width: 1200px) {
+
+}
+
+@media screen and (max-width: 992px) {
+    .test-detail-body {
+        max-width: 90% !important;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .flex-justify {
+        display: block !important;
+    }
+    .detail-txt {
+        padding: 15px 0 5px;
+    }
+    .detail-input {
+        width: 100% !important;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .test-detail-body {
+        max-width: 100% !important;
+    }
+}
+
+@media screen and (max-width: 480px) {
+
+}
+
+.prevent-text {
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10 and IE 11 */
+    user-select: none; /* Standard syntax */
+}
+
+.test-detail-body {
+    margin: 0 auto;
+    width: 100%;
+    max-width: 70%;
+    text-align: left;
+}
+.flex-justify {
+    display: flex;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 100%;
+    align-items: center;
+    transition: all 0.3s ease-out;
+}
+.detail-txt {
+    width: 120px;
+}
+.detail-input {
+    width: calc(100% - 120px);
+}
+.detail-input > div > input {
+    width: 100%;
+    outline: none;
+}
