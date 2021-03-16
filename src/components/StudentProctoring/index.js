@@ -7,7 +7,7 @@ import TakeReferenceImage from './TakeReferenceImage';
 import Recording from './Recording';
 import EndOfTest from './EndOfTest';
 
-import { proctoringSubmitProctorData } from '../../store/axios';
+import {proctoringEndProctorSession, proctoringSubmitProctorData} from '../../store/axios';
 import editIcon from '../../Assets/images/edit-icon.png';
 
 class StudentProctoring extends Component {
@@ -37,6 +37,7 @@ class StudentProctoring extends Component {
 
         this.startRecording = this.startRecording.bind(this);
         this.capture = this.capture.bind(this);
+        this.endTest = this.endTest.bind(this);
     }
 
     componentWillUnmount() {
@@ -168,6 +169,12 @@ class StudentProctoring extends Component {
         }
     }
 
+    async endTest() {
+        await proctoringEndProctorSession({proctorSessionId: this.state.proctorSession._id});
+
+        this.handleEndRecording();
+    }
+
     renderTitle() {
         if (this.state.test && this.state.test.testName) {
             return <h1>{this.state.test.testName}</h1>
@@ -179,7 +186,7 @@ class StudentProctoring extends Component {
 
     render() {
         return (
-            <div className="container">
+            <div className="container prevent-text">
                 <img src={editIcon} className="page-icon" alt="edit icon"/>
                 <div className="spacer-vertical-s"></div>
                 {this.renderTitle()}
@@ -229,6 +236,10 @@ class StudentProctoring extends Component {
                         onPermissionGranted={this.handleScreenCapturePrivilegeGranted}
                     />
                 </div>
+                {
+                    this.state.state === 'RECORDING' &&
+                    <button className='btn' onClick={this.endTest}>I'm Done!</button>
+                }
             </div>
         )
     }

@@ -18,7 +18,7 @@ class ProfessorViewStudentTest extends Component {
             proctorDetails: [],
             issueFrames: [],
             playInterval: null,
-        }
+        };
 
         this.nextFrame = this.nextFrame.bind(this);
         this.play = this.play.bind(this);
@@ -105,7 +105,8 @@ class ProfessorViewStudentTest extends Component {
             });
 
             const proctorDetails = [...this.state.proctorDetails];
-            proctorDetails.splice(index, response.data.proctorDetails.length, ...response.data.proctorDetails);
+            if (response && response.data && response.data.proctorDetails)
+                proctorDetails.splice(index, response.data.proctorDetails.length, ...response.data.proctorDetails);
 
             this.setState({
                 ...this.state,

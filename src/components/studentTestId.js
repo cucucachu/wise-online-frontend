@@ -70,13 +70,18 @@ const StudentTestId = (props) => {
             setMessage('Oops, something went wrong. Please try again.');
             showError();
         }
+    };
 
-    }
-  
+    const onFocus = (id) => {
+        document.getElementById(id).onpaste = e => {
+            e.preventDefault();
+            return false;
+        };
+    };
 
     return ( 
         <React.Fragment>
-            <div className="container">
+            <div className="container prevent-text">
                 <img src={editIcon} className="page-icon" alt="edit icon"/>
                 <div className="spacer-vertical"></div>
                 <h1>Enter Test ID</h1>
@@ -85,20 +90,20 @@ const StudentTestId = (props) => {
                     <div className="input-wrapper">
                         <div style={showHide}>{message}</div>
                         <span className="input-label">Class ID</span>
-                        <input type="text" className="" name="key" onChange={handleChangeClass} value={classId} placeholder="Class ID" required/>
+                        <input id="student_test1" type="text" className="" name="key" onChange={handleChangeClass} value={classId} placeholder="Class ID" onFocus={() => onFocus("student_test1")} required/>
                     </div>
                     <div className="spacer-vertical"></div>
                     <div className="input-wrapper">
                         <span className="input-label">Test ID</span>
-                        <input type="text" className="" name="key" placeholder="Test ID" onChange={handleChangeKey} value={testId} required/>
+                        <input id="student_test2" type="text" className="" name="key" placeholder="Test ID" onChange={handleChangeKey} value={testId} onFocus={() => onFocus("student_test2")} required/>
                     </div>
                     <div className="spacer-vertical"></div><br/>
-                    <input type="submit" className="btn-m" value="Begin test" />
+                    <input id="student_test3" type="submit" className="btn-m" value="Begin test" onFocus={() => onFocus("student_test3")} />
                 </form>
         
             </div>
         </React.Fragment>
      );
-}
+};
  
 export default StudentTestId;

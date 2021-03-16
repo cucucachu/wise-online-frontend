@@ -106,6 +106,9 @@ button:focus { outline: none; }
     font-size: 2rem;
     font-weight: lighter;
 }
+.text-large.txt-thin {
+    font-weight: 300;
+}
 
 .text-black {
     color: $plain-color;

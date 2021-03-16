@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-
 import attendClass from '../Assets/images/attend-class.png';
 import { markAttendance, logout } from "../store/axios";
 
@@ -113,20 +112,26 @@ handleSubmit = async e =>{
   //       this.props.history.push('/student-login')
   //   }else{return}
   // }
+    onFocus = (id) => {
+        document.getElementById(id).onpaste = e => {
+            e.preventDefault();
+            return false;
+        };
+    };
+
   render(){
       return(
-        <div className="container">
+        <div className="container prevent-text">
             <img src={attendClass} className="page-icon" alt="login icon"/>
             <div className="spacer-vertical"></div>
             <h1>Mark your attendance</h1>
 
-            
             <div className="spacer-vertical"></div>
             <form onSubmit={this.handleSubmit.bind(this)}>
                 <div className="input-wrapper">
                   <div style={{display: this.state.show}}>{this.state.message}</div>
                     <span className="input-label">Class ID</span>
-                    <input type="text" placeholder="Class ID" className="" name="classID" value={this.state.classID} onChange={this.handleChangeID.bind(this)} required/>
+                    <input id="classID" type="text" placeholder="Class ID" className="" name="classID" value={this.state.classID} onFocus={() => this.onFocus("classID")} onChange={this.handleChangeID.bind(this)} required/>
                 </div>
                 <div className="container-note input-wrapper">
                   <div className="space-adjust-2">
@@ -144,16 +149,16 @@ handleSubmit = async e =>{
                   <div className="space-adjust-1">
                 <div className="row space-adjust">
                   <div className="col">
-                    <input type="number" className="keycode-input" value={this.state.keyCode1} onChange={this.handleChangeKeyCode1.bind(this)} maxLength="1" ref={this.state.textInput} name="code1" required/>
+                    <input id="code1" type="number" className="keycode-input" value={this.state.keyCode1} onFocus={() => this.onFocus("code1")} onChange={this.handleChangeKeyCode1.bind(this)} maxLength="1" ref={this.state.textInput} name="code1" required/>
                   </div>
                   <div className="col">
-                    <input type="number" className="keycode-input" value={this.state.keyCode2} onChange={this.handleChangeKeyCode2.bind(this)} maxLength="1" name="code2" required/>
+                    <input id="code2" type="number" className="keycode-input" value={this.state.keyCode2} onFocus={() => this.onFocus("code2")} onChange={this.handleChangeKeyCode2.bind(this)} maxLength="1" name="code2" required/>
                   </div>
                   <div className="col">
-                    <input type="number" className="keycode-input" value={this.state.keyCode3} onChange={this.handleChangeKeyCode3.bind(this)} maxLength="1" name="code3" required/>
+                    <input id="code3" type="number" className="keycode-input" value={this.state.keyCode3} onFocus={() => this.onFocus("code3")} onChange={this.handleChangeKeyCode3.bind(this)} maxLength="1" name="code3" required/>
                   </div>
                   <div className="col">
-                    <input type="number" className="keycode-input" value={this.state.keyCode4} onChange={this.handleChangeKeyCode4.bind(this)} maxLength="1" name="code4" required/>
+                    <input id="code4" type="number" className="keycode-input" value={this.state.keyCode4} onFocus={() => this.onFocus("code4")} onChange={this.handleChangeKeyCode4.bind(this)} maxLength="1" name="code4" required/>
                   </div>
                 </div>
                 </div>

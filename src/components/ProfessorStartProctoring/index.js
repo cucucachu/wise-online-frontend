@@ -24,9 +24,10 @@ class ProfessorStartProctoring extends Component {
             link: '',
             testName: '',
             testLink: '',
+            testPassword: '',
             imageFrequency: 'LOW',
             facialRecognitionThreshold: 'LOW',
-        }
+        };
 
         this.handleSelectFrequency = this.handleSelectFrequency.bind(this);
         this.handleSelectThreshold = this.handleSelectThreshold.bind(this);
@@ -101,6 +102,7 @@ class ProfessorStartProctoring extends Component {
             publicKey: this.state.publicKey ? this.state.publicKey : undefined,
             testName: this.state.testName ? this.state.testName : undefined,
             testLink: this.state.testLink ? this.state.testLink : undefined,
+            testPassword: this.state.testPassword ? this.state.testPassword : undefined,
             screenshotInterval,
             webcamInterval,
             facialRecognitionThreshold,
@@ -181,6 +183,13 @@ class ProfessorStartProctoring extends Component {
                             placeholder="https://myschool.com/test/1 (optional)"
                             onChange={this.handleChangeTextInput}
                             value={this.state.testLink}
+                        />
+                        <LabeledTextInput
+                            label="Test Password:"
+                            property="testPassword"
+                            placeholder="Password (optional)"
+                            onChange={this.handleChangeTextInput}
+                            value={this.state.testPassword}
                         />
                     </div>
                     <HorizontalSelector 

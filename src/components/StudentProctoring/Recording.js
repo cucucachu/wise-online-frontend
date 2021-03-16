@@ -1,49 +1,55 @@
 import React, { Component } from 'react';
 
-
-import { proctoringEndProctorSession } from '../../store/axios';
-
-
 class GetPrivileges extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-        }
-
-        this.endTest = this.endTest.bind(this);
+            link: ''
+        };
     }
 
-    async endTest() {
-        await proctoringEndProctorSession({proctorSessionId: this.props.proctorSession._id});
+    componentDidMount() {
+        if (this.props.test.testLink) {
+            let link = this.props.test.testLink;
+            if (!(link.match(/(http:\/\/|https:\/\/)/g))) {
+                link = "https://" + link;
+            }
 
-        this.props.onEndRecording();
+            this.setState({
+                link: link
+            })
+        }
     }
 
     render() {
         return (
             <div className={`shadow center${this.props.show ? '' : ' display-none'}`}>
-                <h1>Recording</h1>
+                <h1>YOU ARE NOW BEING PROCTORED</h1>
                 <div className="spacer-vertical-s"></div>
                 <div className="width-80 center">
-                    <h2>You can begin your test now</h2>
+                    <h2>Please open and complete your exam.</h2>
+                    <div className="text-large txt-thin">When you're done, click I'm done!</div>
                     {(() => {
                         if (this.props.test.testLink)
                             return (
-                                <p className="black">
-                                    Here is the link to your test:&nbsp;
-                                    <a
-                                        href={this.props.test.testLink}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                    >{this.props.test.testLink}</a>
-                                </p>
+                                <>
+                                    <div className="spacer-vertical-s"></div>
+                                    <h4 className="black">
+                                        Your test link is:&nbsp;
+                                        <a
+                                            href={this.state.link && this.state.link}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                        >{this.props.test.testLink}</a>
+                                    </h4>
+                                    <h4 className="black">
+                                        Your test password is:&nbsp; {this.props.test.keyCode}
+                                    </h4>
+                                </>
                             );
                         else return '';
                     })()}
-                    <p className="black">Good Luck! When you're done, click the "I'm Done" button.</p>
-                    <div className="spacer-vertical-s"></div>
-                    <button className='btn' onClick={this.endTest}>Im Done!</button>
                 </div>
             </div>
         )

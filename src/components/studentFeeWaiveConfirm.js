@@ -51,8 +51,14 @@ class StudentFeeWaiveConfirm extends Component {
    
         return
         
-    }
+    };
 
+    onFocus = (id) => {
+        document.getElementById(id).onpaste = e => {
+            e.preventDefault();
+            return false;
+        };
+    };
   render(){
     const { firstName, lastName, email, schoolName } = this.context
     console.log('school: ', schoolName);
@@ -63,7 +69,7 @@ class StudentFeeWaiveConfirm extends Component {
         // console.log('this state: ', this.firstName);
 
       return(
-        <div className="container">
+        <div className="container prevent-text">
             <img src={educationIcon} className="page-icon" alt="wise education icon"/>
             <div className="spacer-vertical"></div>
             <h1>Review and confirm</h1>
@@ -94,7 +100,7 @@ class StudentFeeWaiveConfirm extends Component {
                 
             </div>
             <form onSubmit={this.handleSubmit.bind(this)}>
-                <input type="submit" className="btn" value="Submit" />
+                <input id="student_fee_waive" type="submit" className="btn" value="Submit" onFocus={() => this.onFocus("student_fee_waive")}/>
             </form>
             
     </div>

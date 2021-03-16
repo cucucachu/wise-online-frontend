@@ -412,6 +412,7 @@ async function proctoringProfessorCreateTest(
         publicKey,
         testName,
         testLink,
+        testPassword,
         screenshotInterval, 
         webcamInterval, 
         facialRecognitionThreshold
@@ -421,6 +422,7 @@ async function proctoringProfessorCreateTest(
             publicKey,
             testName,
             testLink,
+            testPassword,
             screenshotInterval, 
             webcamInterval, 
             facialRecognitionThreshold

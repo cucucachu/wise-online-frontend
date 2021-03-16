@@ -9,6 +9,7 @@ import HomePage from './pages/HomePage'
 import './Assets/css/default.min.css'
 // import './Assets/css/default.css'
 // import './Assets/css/bootstrap-grid.min.css'
+import './Assets/css/app.css'
 import AuthContextProvider from './contexts/AuthContext';
 
 function App() {

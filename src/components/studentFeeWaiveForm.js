@@ -60,12 +60,17 @@ class StudentFeeWaiveForm extends Component {
    
         return
         
-    }
-    
+    };
+    onFocus = (id) => {
+        document.getElementById(id).onpaste = e => {
+            e.preventDefault();
+            return false;
+        };
+    };
   render(){
     
       return(
-        <div className="container">
+        <div className="container prevent-text">
             <img src={educationIcon} className="page-icon" alt="wise education icon"/>
             <div className="spacer-vertical"></div>
             <h1>Input your information</h1>
@@ -74,21 +79,21 @@ class StudentFeeWaiveForm extends Component {
                 <div className="input-wrapper">
                     <div style={this.state.showHide}>{this.state.message}</div>
                     <span className="input-label">First Name</span>
-                    <input type="text" placeholder="First Name" className="" value={this.state.firstName} onChange={this.handleFirstName.bind(this)} required/>
+                    <input id="student_first_name" type="text" placeholder="First Name" className="" value={this.state.firstName} onChange={this.handleFirstName.bind(this)} onFocus={() => this.onFocus("student_first_name")} required/>
                 </div>
                 <div className="spacer-vertical-s"></div>
                 <div className="input-wrapper">
                     <span className="input-label">Last Name</span>
-                    <input type="text" placeholder="Last Name" className="" value={this.state.lastName} onChange={this.handleLastName.bind(this)} required/>
+                    <input id="student_last_name" type="text" placeholder="Last Name" className="" value={this.state.lastName} onChange={this.handleLastName.bind(this)} onFocus={() => this.onFocus("student_last_name")} required/>
                 </div>
                 <div className="spacer-vertical-s"></div>
                 <div className="input-wrapper">
                     <span className="input-label">Email</span>
-                    <input type="email" placeholder="Email" className="" onChange={this.handleEmail.bind(this)} value={this.state.email} required/>
+                    <input id="student_email" type="email" placeholder="Email" className="" onChange={this.handleEmail.bind(this)} value={this.state.email} onFocus={() => this.onFocus("student_email")} required/>
                 </div>
                 <div className="spacer-vertical"></div>
                 <div className="">
-                        <input type="submit" className="btn" value="Next" />
+                    <input id="student_submit" type="submit" className="btn" value="Next" onFocus={() => this.onFocus("student_submit")} />
                 </div>
             </form>
     </div>

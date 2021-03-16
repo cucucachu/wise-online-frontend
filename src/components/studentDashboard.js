@@ -28,7 +28,7 @@ class StudentDashboard extends Component {
     // }
   render(){
       return(
-        <div className="container">
+        <div className="container prevent-text">
             <img src={studentDashIcon} className="page-icon" alt="login icon"/>
             <div className="spacer-vertical"></div>
             <h1>Are you going to a class, or taking a test?</h1>
