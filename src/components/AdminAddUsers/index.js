@@ -267,9 +267,9 @@ class AdminAddUsers extends Component {
                 <div className="page-header"></div>
                 <div className="container">
                     <img src={setUpIcon} className="page-icon" alt="login icon"/>
-                    <div className="spacer-vertical"></div>
+                    <div className="spacer-vertical" />
                     <h1>Add Students and Professors</h1>
-                    <div className="spacer-vertical"></div>
+                    <div className="spacer-vertical" />
                     <EditTable 
                         title="Professors"
                         columns={[

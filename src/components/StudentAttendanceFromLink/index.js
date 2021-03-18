@@ -56,9 +56,9 @@ class StudentAttendanceFromLink extends Component {
         return (
             <div className="container">
                 <img src={attendClass} className="page-icon" alt="login icon"/>
-                <div className="spacer-vertical"></div>
+                <div className="spacer-vertical" />
                 <h1>Marking Your Attendance for {this.state.classId}</h1>
-                <div className="spacer-vertical"></div>
+                <div className="spacer-vertical" />
                 {(() => {
                     if (this.state.showLogin) {
                         return (<LoginModal 
@@ -73,7 +73,7 @@ class StudentAttendanceFromLink extends Component {
                     }
                 })()}
                 
-                <div className="spacer-vertical"></div>
+                <div className="spacer-vertical" />
                     
             </div>
         )

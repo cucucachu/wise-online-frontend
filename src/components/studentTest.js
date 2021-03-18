@@ -8,9 +8,9 @@ const StudentTest = (props) => {
         <React.Fragment>
             <div className="container prevent-text">
                 <img src={editIcon} className="page-icon" alt="edit icon"/>
-                <div className="spacer-vertical"></div>
+                <div className="spacer-vertical" />
                 <h1>Instructions</h1>
-                <div className="spacer-vertical"></div>
+                <div className="spacer-vertical" />
                 <div className="width-adjust-1">
                     <ul className="omit-indent">
                         <li className="list-text">1. Allow camera permissions<br/>
@@ -27,7 +27,7 @@ const StudentTest = (props) => {
                         </li>
                     </ul>
                 </div>
-                <div className="spacer-vertical"></div>
+                <div className="spacer-vertical" />
                 <Link to="test-id">
                     <button className="btn">Begin</button>
                 </Link>

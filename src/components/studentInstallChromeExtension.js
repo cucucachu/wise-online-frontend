@@ -27,14 +27,14 @@ const StudentInstallChromeExtension = (props) => {
         <React.Fragment>
             <div className="container">
                 <img src={editIcon} className="page-icon" alt="edit icon"/>
-                <div className="spacer-vertical"></div>
+                <div className="spacer-vertical" />
                 <h1>Download the Chrome Extension</h1>
-                <div className="spacer-vertical"></div>
+                <div className="spacer-vertical" />
 
 
                     <h4 className="" style={{color: '#222'}}>Make sure you have the <a href="https://chrome.google.com/webstore/detail/wise-attend/ifbdkkmplemchhmcafjphahhmdgleolp" target="blank">chrome extension</a> downloaded.</h4>
 
-                <div className="spacer-vertical"></div>
+                <div className="spacer-vertical" />
                 {showHide ? <p style={input}>{errMsg}</p> :''}
                 <div className="input-wrapper">
                 {/* style={ isLoggedIn ? { display:'block'} : {display : 'none'} }  */}
@@ -42,7 +42,7 @@ const StudentInstallChromeExtension = (props) => {
                                 <strong className="font-terms">&nbsp;I have downloaded the chrome extension.</strong>
            
                     </div>
-                <div className="spacer-vertical"></div>
+                <div className="spacer-vertical" />
                     <button className="btn" onClick={handleConfirm}>Next</button>
                 
             </div>

@@ -12,14 +12,14 @@ class AdminResetPWSuccess extends Component {
       return(
         <div className="container">
             <img src={loginIcon} className="page-icon" alt="login icon"/>
-            <div className="spacer-vertical"></div>
+            <div className="spacer-vertical" />
                 <h1 style={{color: '#4ebd0f'}}>Success!</h1>
 
             <div className="spacer-vertical-s"></div>
             <img src={successIcon} className="page-icon" alt="success icon" style={{boxShadow: '0 0 0 transparent'}}/>
             <div className="spacer-vertical-s"></div>
             <p className="text-plain">Your password has been reset.</p>
-            <div className="spacer-vertical"></div>
+            <div className="spacer-vertical" />
             <Link to="/admin-login">
                 <button className="btn" >Log in</button>
             </Link>

@@ -112,7 +112,7 @@ class AdminProfessors extends Component {
         return (
             <div className="container">
                 <img src={viewIcon} className="page-icon" alt="view icon"/>
-                <div className="spacer-vertical"></div>
+                <div className="spacer-vertical" />
                 <h1>Professors</h1>
                 <a href={getProfessorsCSVURL()}>Download as CSV</a>
                 <PagedViewTable

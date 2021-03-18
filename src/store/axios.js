@@ -11,7 +11,7 @@ axios.defaults.withCredentials = true
 
 const backend = axios.create({
         baseURL,
-        timeout: 5000,
+        timeout: 30000,
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         withCredentials: true,
         validateStatus: () => true,

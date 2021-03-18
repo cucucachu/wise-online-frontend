@@ -7,9 +7,9 @@ const StudentRecError = (props) => {
         <React.Fragment>
             <div className="container">
                 <img src={editIcon} className="page-icon" alt="edit icon"/>
-                <div className="spacer-vertical"></div>
+                <div className="spacer-vertical" />
                 <h1>Recording error</h1>
-                <div className="spacer-vertical"></div>
+                <div className="spacer-vertical" />
                 <div className="width-adjust-1">
                     <h2>How to allow camera parmissions</h2>
                     <p className="text-plain">Wise uses confidential facial recognition to make sure you are really you.</p>
@@ -27,7 +27,7 @@ const StudentRecError = (props) => {
                     </div>
       
                 </div>
-                <div className="spacer-vertical"></div>
+                <div className="spacer-vertical" />
                 <Link to="/student/test/record">
                     <button className="btn">Refresh page</button>
                 </Link>

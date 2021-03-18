@@ -52,7 +52,7 @@ class ForgotPWProfessor extends Component {
       return(
         <div className="container">
             <img src={loginIcon} className="page-icon" alt="login icon"/>
-            <div className="spacer-vertical"></div>
+            <div className="spacer-vertical" />
             <h1>Forgot my Password</h1>
             <div className="spacer-vertical-s"></div>
             <div className="width-adjust-1">
@@ -61,14 +61,14 @@ class ForgotPWProfessor extends Component {
                 </p>
             </div>
             <form onSubmit={this.handleSubmit.bind(this)}>
-            <div className="spacer-vertical"></div>
+            <div className="spacer-vertical" />
                 <div className="input-wrapper">
                     <div style={this.state.showHide}>{this.state.message}</div>
                     <span className="input-label">School email</span>
                     <input type="email" placeholder="School email" className="" value={this.state.email} onChange={this.handleChangeEmail.bind(this)} required/>
                 </div>
                         
-                <div className="spacer-vertical"></div>
+                <div className="spacer-vertical" />
                 <div className="">
                     {/* <Link to="/student/dashboard"> */}
                         <input type="submit" className="btn" value="Reset password" />

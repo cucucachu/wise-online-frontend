@@ -71,21 +71,21 @@ class StudentFeeWaiveConfirm extends Component {
       return(
         <div className="container prevent-text">
             <img src={educationIcon} className="page-icon" alt="wise education icon"/>
-            <div className="spacer-vertical"></div>
+            <div className="spacer-vertical" />
             <h1>Review and confirm</h1>
-            <div className="spacer-vertical"></div>
+            <div className="spacer-vertical" />
             <div className="width-slim text-plain">
                 <p>
                 Please review and confirm that the following information is accurate, in your registration for waiving the Wise Education support fee.
                 </p>
-                <div className="spacer-vertical"></div>
+                <div className="spacer-vertical" />
                 <p>
                     School: {schoolName} <br/>
                     Student name: {firstName} {lastName} <br/>
                     Student email: {email}
                 </p>
                 
-                    <div className="spacer-vertical"></div>
+                    <div className="spacer-vertical" />
 
                     <div className="row">
                         <div className="col-sm-1">
@@ -96,7 +96,7 @@ class StudentFeeWaiveConfirm extends Component {
                             <strong>I register as having financial need.<br /> The above information is accurate.</strong></div>
                     </div>
                     
-                    <div className="spacer-vertical"></div>
+                    <div className="spacer-vertical" />
                 
             </div>
             <form onSubmit={this.handleSubmit.bind(this)}>

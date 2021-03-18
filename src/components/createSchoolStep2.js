@@ -12,11 +12,11 @@ class SchoolStep2 extends Component {
         <Fragment>
             <div className="container">
                     <img src={editIcon} className="page-icon" alt="login icon"/>
-                    <div className="spacer-vertical"></div>
+                    <div className="spacer-vertical" />
             <h1>Create Your School</h1>
 
             <form>
-                <div className="spacer-vertical"></div>
+                <div className="spacer-vertical" />
                 <div className="input-wrapper">
                     <span className="input-label">Email</span>
                     <input type="email" className="" />
@@ -37,7 +37,7 @@ class SchoolStep2 extends Component {
                     <span className="input-label">Confirm Password</span>
                     <input type="password" className="" />
                 </div>
-                <div className="spacer-vertical"></div>
+                <div className="spacer-vertical" />
                 <div className="">
                     <Link to="/set-up-school"><button className="btn">Next</button></Link>
                 </div>

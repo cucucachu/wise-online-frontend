@@ -7,7 +7,7 @@ class StudentClass extends Component {
       return(
         <div className="container">
             <img src={attendClassIcon} className="page-icon" alt="login icon"/>
-            <div className="spacer-vertical"></div>
+            <div className="spacer-vertical" />
             <div className="screen-adjust">
                 <h1>Have a great class!</h1>
             </div>

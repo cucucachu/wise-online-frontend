@@ -27,7 +27,7 @@ function DownloadDataForTerm(props) {
             <div className="row">
                 <div className="col-sm-2"></div>
                 <div className="col-sm-8">
-                    <div className="spacer-vertical"></div>
+                    <div className="spacer-vertical" />
                     <a 
                         href={adminDownloadDataByCourseURL(props.term._id)}
                         target="_blank"
@@ -38,7 +38,7 @@ function DownloadDataForTerm(props) {
                             Download Data by Course
                         </button>
                     </a>
-                    <div className="spacer-vertical"></div>
+                    <div className="spacer-vertical" />
                     <a 
                         href={adminDownloadDataByProfessorURL(props.term._id)}
                         target="_blank"
@@ -49,7 +49,7 @@ function DownloadDataForTerm(props) {
                             Download Data by Professor
                         </button>
                     </a>
-                    <div className="spacer-vertical"></div>
+                    <div className="spacer-vertical" />
                     <a 
                         href={adminDownloadDataByStudentURL(props.term._id)}
                         target="_blank"
@@ -60,7 +60,7 @@ function DownloadDataForTerm(props) {
                             Download Data by Student
                         </button>
                     </a>
-                    <div className="spacer-vertical"></div>
+                    <div className="spacer-vertical" />
                 </div>
                 <div className="col-sm-2"></div>
             </div>

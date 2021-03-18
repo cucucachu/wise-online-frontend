@@ -12,7 +12,7 @@ class SetupSchoolSuccess extends Component {
       return(
         <div className="container">
             <img src={setUpIcon} className="page-icon" alt="login icon"/>
-            <div className="spacer-vertical"></div>
+            <div className="spacer-vertical" />
                 <h1 style={{color: '#4ebd0f'}}>Success!</h1>
 
             <div className="spacer-vertical-s"></div>
@@ -20,7 +20,7 @@ class SetupSchoolSuccess extends Component {
             <div className="spacer-vertical-s"></div>
             <p className="text-plain">Your school has been set up.</p>
             {/* <h2>{this.state.classID}</h2> */}
-            <div className="spacer-vertical"></div>
+            <div className="spacer-vertical" />
             <Link to="/admin/download">
                 <button className="btn" >Finish</button>
             </Link>

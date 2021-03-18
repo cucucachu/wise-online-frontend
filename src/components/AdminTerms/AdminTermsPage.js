@@ -196,9 +196,9 @@ class AdminTermsPage extends Component {
     renderLoading() {
         return (
             <div>
-                <div className="spacer-vertical"></div>
+                <div className="spacer-vertical" />
                 <h2>Loading
-                    <div className="lds-ellipsis"></div>
+                    <div className="lds-ellipsis" />
                 </h2>
             </div>
         );
@@ -207,9 +207,9 @@ class AdminTermsPage extends Component {
     renderNewTerm() {
         return (
             <div className="row">
-                <div className="col-sm-4"></div>
+                <div className="col-sm-4" />
                 <div className="col-sm-4">
-                    <div className="spacer-vertical"></div>
+                    <div className="spacer-vertical" />
                     <div className="shadow">
                         <div className="row">
                             <div className="col-sm">
@@ -232,18 +232,18 @@ class AdminTermsPage extends Component {
                                     className="input-settings"
                                     value={this.state.newTermName} 
                                     onChange={this.handleChangeNewTermName}
-                                ></input>
+                                />
                             </div>
                         </div>
                         <div className="row">
-                            <div className="col-sm-8"></div>
+                            <div className="col-sm-8" />
                             <div className="col-sm-4">
                                 <button className="btn-primary" onClick={this.handleSubmitNewTerm}>Submit</button>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div className="col-sm-4"></div>
+                <div className="col-sm-4" />
             </div>
         )
     }
@@ -259,9 +259,9 @@ class AdminTermsPage extends Component {
         return ( 
             <div className="container">
                 <img src={viewIcon} className="page-icon" alt="view icon"/>
-                <div className="spacer-vertical"></div>
+                <div className="spacer-vertical" />
                 <h1>Academic Terms</h1>
-                <div className="spacer-vertical"></div>
+                <div className="spacer-vertical" />
                 { 
                     (() => {
                         if (this.state.isLoading) {

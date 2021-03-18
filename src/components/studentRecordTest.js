@@ -165,9 +165,9 @@ class StudentRecordTest extends Component {
 			<React.Fragment>
 				<div className="container">
 					<img src={editIcon} className="page-icon" alt="edit icon"/>
-					<div className="spacer-vertical"></div>
+					<div className="spacer-vertical" />
 					<h1>Now Proctoring</h1>
-					<div className="spacer-vertical"></div>
+					<div className="spacer-vertical" />
 					<Webcam
 						audio={false}
 						height={315}
@@ -176,10 +176,10 @@ class StudentRecordTest extends Component {
 						width={600}
 						videoConstraints={videoConstraints}
 					/><br/>
-					<canvas id="screenshot-canvas" style={{display: 'none'}}></canvas>
-					<video id='screen-video' style={{display: 'none'}}></video>
-					<p className="text-plain"><img className="icon-xs" src={recordingIcon} alt="recording icon"></img>Recording in progress</p>
-					<div className="spacer-vertical"></div>
+					<canvas id="screenshot-canvas" style={{display: 'none'}} />
+					<video id='screen-video' style={{display: 'none'}} />
+					<p className="text-plain"><img className="icon-xs" src={recordingIcon} alt="recording icon" />Recording in progress</p>
+					<div className="spacer-vertical" />
 					<Link to="/student/dashboard">
 					<button className="btn">End recording</button>
 					</Link>

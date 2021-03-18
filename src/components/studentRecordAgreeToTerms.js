@@ -26,7 +26,7 @@ const StudentRecordAgreeToTerms = (props) => {
         <React.Fragment>
             <div className="container">
                 <img src={editIcon} className="page-icon" alt="edit icon"/>
-                <div className="spacer-vertical"></div>
+                <div className="spacer-vertical" />
                 <h1>ATTENTION: YOU WILL BE RECORDED</h1>
                 <div className="spacer-vertical-s"></div>
                 
@@ -57,7 +57,7 @@ const StudentRecordAgreeToTerms = (props) => {
                     of Wise to provide a secure exam proctoring experience.
                     </p>
                 </div>
-                <div className="spacer-vertical"></div>
+                <div className="spacer-vertical" />
                 {showHide ? <p style={input}>{errMsg}</p> :''}
                 <div className="input-wrapper">
                     <span style={hasAgreed? {paddingRight: '5px', paddingLeft: '5px', } : {paddingLeft: '12px', paddingRight: '12px'}} className="mimic-radio height-lower" onClick={handleRadio} >{hasAgreed ? <strong>&#10003;</strong> : ''}</span>
@@ -71,7 +71,7 @@ const StudentRecordAgreeToTerms = (props) => {
                             >terms of use</a>.
                         </strong>
         
-                    <div className="spacer-vertical"></div>
+                    <div className="spacer-vertical" />
                 </div>
                 <button onClick={handleConfirm} className="btn">Next</button>
                 

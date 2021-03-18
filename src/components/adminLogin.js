@@ -74,10 +74,10 @@ class AdminLogin extends Component {
         return(
             <div className="container">
                 <img src={loginIcon} className="page-icon" alt="login icon"/>
-                <div className="spacer-vertical"></div>
+                <div className="spacer-vertical" />
                 <h1>Administration login</h1>
                 <form onSubmit={this.handleSubmit.bind(this)}>
-                    <div className="spacer-vertical"></div>
+                    <div className="spacer-vertical" />
                     <div className="input-wrapper">
                         <div style={this.state.showHide}>{this.state.message}</div>
                         <span className="input-label">Email</span>
@@ -93,7 +93,7 @@ class AdminLogin extends Component {
                         />
                     </div>
                     
-                    <div className="spacer-vertical"></div>
+                    <div className="spacer-vertical" />
                     <div className="input-wrapper">
                         <span className="input-label">Password</span>
                         <input 
@@ -115,9 +115,15 @@ class AdminLogin extends Component {
                             </div>
                         </div>
                     </div>
-                    <div className="spacer-vertical"></div>
+                    <div className="spacer-vertical" />
                     <div className="">
-                            <input type="submit" className="btn" value="Next" />
+                        <input type="submit" className="btn" value="Next" />
+                    </div>
+                    <div
+                        className="btn-common-radius get-support"
+                        // onClick={this.onShowModal}
+                    >
+                        Get Support
                     </div>
                 </form>
         </div>

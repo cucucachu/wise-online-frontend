@@ -60,7 +60,7 @@ class ProfessorTestsForCourse extends Component {
         return (
             <div className="container">
                 <img src={editIcon} className="page-icon" alt="login icon"/>
-                <div className="spacer-vertical"></div>
+                <div className="spacer-vertical" />
                 <h1>Tests for {this.state.course.name}</h1>
                 <ViewTable
                     title="Tests"

@@ -133,7 +133,7 @@ class SuperDashboard extends Component {
                 <img src={ attendanceIcon } className="page-icon" alt="login icon"/>
                 <div className="spacer-vertical-s"></div>
                 <h1>Super Dashboard</h1>
-                <div className="spacer-vertical"></div>
+                <div className="spacer-vertical" />
                 {this.renderNewSchoolPopup()}
                 <ViewTable
                     title="Schools"

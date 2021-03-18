@@ -99,7 +99,7 @@ class AdminStudents extends Component {
         return (
             <div className="container">
                 <img src={viewIcon} className="page-icon" alt="view icon"/>
-                <div className="spacer-vertical"></div>
+                <div className="spacer-vertical" />
                 <h1>Students</h1>
                 <a href={getStudentsCSVURL()}>Download as CSV</a>
                 <PagedViewTable

@@ -7,9 +7,9 @@ function SelectRole(props) {
     return (
         <div className="container">
             <img src={loginIcon} className="page-icon" alt="login icon"/>
-            <div className="spacer-vertical"></div>
+            <div className="spacer-vertical" />
             <h1 style={{color: '#444'}}>I am a ...</h1>
-            <div className="spacer-vertical"></div>
+            <div className="spacer-vertical" />
 
             <Link to="student-login">
                 <button className="btn-m">Student</button>

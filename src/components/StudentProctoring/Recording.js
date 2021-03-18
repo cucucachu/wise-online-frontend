@@ -26,15 +26,15 @@ class GetPrivileges extends Component {
         return (
             <div className={`shadow center${this.props.show ? '' : ' display-none'}`}>
                 <h1>YOU ARE NOW BEING PROCTORED</h1>
-                <div className="spacer-vertical-s"></div>
+                <div className="spacer-vertical-s" />
                 <div className="width-80 center">
                     <h2>Please open and complete your exam.</h2>
                     <div className="text-large txt-thin">When you're done, click I'm done!</div>
                     {(() => {
-                        if (this.props.test.testLink)
+                        if (this.props.test)
                             return (
                                 <>
-                                    <div className="spacer-vertical-s"></div>
+                                    <div className="spacer-vertical-s" />
                                     <h4 className="black">
                                         Your test link is:&nbsp;
                                         <a

@@ -77,9 +77,9 @@ class LoginModal extends Component {
     render() {
             return(
                 <form onSubmit={this.handleSubmit.bind(this)}>
-                    <div className="spacer-vertical"></div>
+                    <div className="spacer-vertical" />
                     <h2>Please Login to Continue</h2>
-                    <div className="spacer-vertical"></div>
+                    <div className="spacer-vertical" />
                     <div className="input-wrapper">
                         <div style={this.state.showHide}>{this.state.message}</div>
                         <span className="input-label">Email</span>
@@ -94,7 +94,7 @@ class LoginModal extends Component {
                         />
                     </div>
                     
-                    <div className="spacer-vertical"></div>
+                    <div className="spacer-vertical" />
                     <div className="input-wrapper">
                         <span className="input-label">Student ID</span>
                         <input 
@@ -120,7 +120,7 @@ class LoginModal extends Component {
                             
                         </div>
                     </div>
-                    <div className="spacer-vertical"></div>
+                    <div className="spacer-vertical" />
                     {this.state.isFirstTime ? 
                     <React.Fragment>
                         <div className="input-wrapper">
@@ -146,7 +146,7 @@ class LoginModal extends Component {
                                 </div>
                                 
                             </div>
-                            <div className="spacer-vertical"></div>
+                            <div className="spacer-vertical" />
                         </div>
                     </React.Fragment>
                     : ''}

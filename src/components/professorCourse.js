@@ -92,11 +92,11 @@ class ProfessorCourse extends Component {
         }
 
         await this.loadCourses();
-    }
+    };
 
     async loadCourses() {
-        const userID = sessionStorage.getItem('userID')
-        const schoolID = sessionStorage.getItem('schoolID')
+        const userID = sessionStorage.getItem('userID');
+        const schoolID = sessionStorage.getItem('schoolID');
         
         let state = Object.assign({}, this.state);
         state.courses = [];
@@ -109,15 +109,15 @@ class ProfessorCourse extends Component {
             this.props.history.push({
                 pathname: '/professor-login',
                 state: { message: 'Sorry, your login has expired, please log in again.', showHide: {display: 'block'} }
-              });
+            });
         }
         else {
             const courses = response.data;
             sessionStorage.setItem('courses', courses);
             state = Object.assign({}, this.state);
-    
+
             state.courses = courses;
-    
+
             this.setState(state);
         }
     }
@@ -150,7 +150,7 @@ class ProfessorCourse extends Component {
             );
         }
         else {
-            return <div></div>;
+            return <div />;
         }
     }
 
@@ -159,7 +159,7 @@ class ProfessorCourse extends Component {
             <Fragment>
                 <div className="container">
                     <img src={editIcon} className="page-icon" alt="login icon"/>
-                    <div className="spacer-vertical"></div>
+                    <div className="spacer-vertical" />
                     {/* {this.renderProctorSettingsButton()} */}
                     <h1>My Courses</h1>
                     <div className="row">

@@ -33,7 +33,7 @@ class ViewTestResults extends Component{
             <Fragment>
                 <div className="container">
                     <img src={viewIcon} className="page-icon" alt="view icon"/>
-                    <div className="spacer-vertical"></div>
+                    <div className="spacer-vertical" />
                     <h1>{this.state.examDate}</h1>
                     <div className="shadow">
          

@@ -149,7 +149,7 @@ class SetUpSchoolPage extends Component {
                 <div className="page-header"></div>
                 <div className="container">
                     <img src={setUpIcon} className="page-icon" alt="login icon"/>
-                    <div className="spacer-vertical"></div>
+                    <div className="spacer-vertical" />
                     <h1>Add Students and Professors</h1>
                     <div className="spacer-vertical-s"></div>
                     <div className="row">
@@ -214,7 +214,7 @@ class SetUpSchoolPage extends Component {
                                 </div>
                             </div>                            
                         </div>
-                        <div className="spacer-vertical"></div>
+                        <div className="spacer-vertical" />
                         <button onClick={this.handleSubmitForPreCheck.bind(this)} className="btn">Continue</button>
                     </div>
                 </div>
@@ -228,7 +228,7 @@ class SetUpSchoolPage extends Component {
                 <div className="page-header"></div>
                 <div className="container">
                     <img src={setUpIcon} className="page-icon" alt="login icon"/>
-                    <div className="spacer-vertical"></div>
+                    <div className="spacer-vertical" />
                     <h1>Add Students and Professors</h1>
                     <div className="row">
                         <div className="col-sm-3"></div>
@@ -244,7 +244,7 @@ class SetUpSchoolPage extends Component {
                         <div className="col-sm-3"></div>
                     </div>
                     <div className="spacer-vertical-s"></div>
-                    <div className="spacer-vertical"></div>
+                    <div className="spacer-vertical" />
                     <button onClick={this.handleSubmit.bind(this)} className="btn">Confirm</button>
                 </div>
             </div>
@@ -257,10 +257,10 @@ class SetUpSchoolPage extends Component {
                     <div className="page-header"></div>
                     <div className="container">
                         <img src={setUpIcon} className="page-icon" alt="login icon"/>
-                        <div className="spacer-vertical"></div>
+                        <div className="spacer-vertical" />
                         <h1>Add Students and Professors</h1>
                         <div >
-                            <div className="spacer-vertical"></div>
+                            <div className="spacer-vertical" />
                             <h2>Loading
                                 <div className="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
                             </h2>

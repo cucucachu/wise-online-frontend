@@ -68,7 +68,7 @@ class ProctoringTerms extends Component {
                     of Wise to provide a secure exam proctoring experience.
                     </p>
                 </div>
-                <div className="spacer-vertical"></div>
+                <div className="spacer-vertical" />
                 {this.state.showMessage ? <p className="red center">"Please agree to the terms and conditions.</p> :''}
                 
                 <TextWithCheckbox

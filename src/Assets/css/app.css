@@ -36,8 +36,28 @@
     }
 }
 
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 414px) {
+    .get-support {
+        width: 100% !important;
+        max-width: 80% !important;
+        min-width: 170px;
+    }
+}
 
+.justify-center {
+    display: flex;
+    text-align: center;
+    vertical-align: middle;
+    align-items: center;
+}
+
+.justify-left,
+.flex-between {
+    display: flex;
+}
+
+.flex-between {
+    justify-content: space-between;
 }
 
 .prevent-text {
@@ -46,12 +66,17 @@
     user-select: none; /* Standard syntax */
 }
 
+.mouse-cursor {
+    cursor: pointer;
+}
+
 .test-detail-body {
     margin: 0 auto;
     width: 100%;
     max-width: 70%;
     text-align: left;
 }
+
 .flex-justify {
     display: flex;
     margin: 0 auto;
@@ -70,3 +95,82 @@
     width: 100%;
     outline: none;
 }
+
+.btn-common-radius {
+    padding: 5px 20px;
+    border-radius: 20px;
+    background-repeat: no-repeat;
+    background-size: 20px;
+    background-position: left 15px center;
+
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.get-support {
+    margin: 30px auto 0;
+    border: 2px solid gray;
+    max-width: 190px;
+    background-image: url("../images/get-support.svg");
+    color: gray;
+}
+.get-support:hover {
+    border: 2px solid #1376cc;
+    color: #fff;
+    background-color: #1376cc;
+    background-image: url("../images/get-support-hover.svg");
+}
+
+/**
+ * Modal
+ */
+.modal-body {
+    position: fixed;
+    border-top-right-radius: 8px;
+    border-top-left-radius: 8px;
+    width: 100%;
+    max-width: 400px;
+    height: auto;
+    min-height: 200px;
+    top: 50%;
+    left: 50%;
+    color: #000;
+    transform: translate(-50%, -50%);
+    transition: all 0.3s ease-out;
+    z-index: 4000;
+}
+
+.modal-headers {
+    padding: 20px 20px 0;
+}
+.modal-contents {
+    padding: 0 20px;
+}
+
+.display-modal-block {
+    display: block;
+}
+
+.display-modal-none {
+    display: none;
+}
+
+.animate-modal-zoom {
+    border-top-right-radius: 8px;
+    border-top-left-radius: 8px;
+    background-color: #fff;
+    animation:animatezoom 0.7s;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.65);
+}
+
+@keyframes animatezoom {
+    from {
+        transform: scale(0)
+    }
+    to {
+        transform: scale(1)
+    }
+}
+
+

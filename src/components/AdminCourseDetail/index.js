@@ -114,7 +114,7 @@ class AdminCourseDetail extends Component {
     renderLoading() {
         return (
             <div>
-                <div className="spacer-vertical"></div>
+                <div className="spacer-vertical" />
                 <h2>Loading
                     <div className="lds-ellipsis"></div>
                 </h2>
@@ -126,8 +126,8 @@ class AdminCourseDetail extends Component {
         return ( 
             <div className="container">
                 <img src={viewIcon} className="page-icon" alt="view icon"/>
-                <div className="spacer-vertical"></div>
-                <div className="spacer-vertical"></div>
+                <div className="spacer-vertical" />
+                <div className="spacer-vertical" />
                 { 
                     (() => {
                         if (this.state.isLoading) {

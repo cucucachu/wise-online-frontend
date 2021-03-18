@@ -7,9 +7,9 @@ const AdminViewCourses = (props) => {
     return(
         <div className="container">
             <img src={viewIcon} className="page-icon" alt="view icon"/>
-            <div className="spacer-vertical"></div>
+            <div className="spacer-vertical" />
             <h1>View courses by professor</h1>
-            <div className="spacer-vertical"></div> 
+            <div className="spacer-vertical" />
             
             <div className="row">
                 {

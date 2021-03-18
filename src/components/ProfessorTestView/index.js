@@ -16,7 +16,7 @@ class ProfessorTestView extends Component {
         this.state = {
             ...this.props.location.state,
             title: 'Loading...',
-        }
+        };
 
         this.handleClickStudentTest = this.handleClickStudentTest.bind(this);
     }
@@ -96,7 +96,7 @@ class ProfessorTestView extends Component {
         return (
             <div className="container">
                 <img src={editIcon} className="page-icon" alt="login icon"/>
-                <div className="spacer-vertical"></div>
+                <div className="spacer-vertical" />
 
                 <h1>{this.state.title}</h1>
                 <DataPane

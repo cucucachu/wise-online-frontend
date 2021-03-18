@@ -181,10 +181,10 @@ class ProfessorViewStudentTest extends Component {
         return (
             <div className="container">
                 <img src={editIcon} className="page-icon" alt="login icon"/>
-                <div className="spacer-vertical"></div>
+                <div className="spacer-vertical" />
 
                 <h1>Proctoring Results for {this.state.studentTest.name}</h1>
-                <div className="spacer-vertical"></div>
+                <div className="spacer-vertical" />
                 <DataPane 
                     title="Summary"
                     data={{
@@ -224,7 +224,7 @@ class ProfessorViewStudentTest extends Component {
                         </div>
                     );
                 })()}
-                <div className="spacer-vertical"></div>
+                <div className="spacer-vertical" />
                 <div className="shadow">
                     <ProctorDetailView
                         proctorDetail={this.state.proctorDetails[this.state.frame]}

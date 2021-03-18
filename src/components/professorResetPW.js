@@ -58,7 +58,7 @@ const ProfessorResetPW = (props) => {
     return ( 
         <div className="container">
             <img src={loginIcon} className="page-icon" alt="login icon"/>
-            <div className="spacer-vertical"></div>
+            <div className="spacer-vertical" />
             <h1>Reset my Password</h1>
             <div className="spacer-vertical-s"></div>
             <div className="width-adjust-1">
@@ -67,20 +67,20 @@ const ProfessorResetPW = (props) => {
                 </p>
             </div>
             <form onSubmit={handleSubmit}>
-            <div className="spacer-vertical"></div>
+            <div className="spacer-vertical" />
                 <div className="input-wrapper">
                     <div style={showHide}>{message}</div>
                     <span className="input-label">Password</span>
                     <input type="password" placeholder="New Password" className="" value={pw} onChange={handlePW} required/>
                 </div>
                         
-                <div className="spacer-vertical"></div>
+                <div className="spacer-vertical" />
 
                 <div className="input-wrapper">
                     <span className="input-label">Confirm Password</span>
                     <input type="password" placeholder="Confirm Password" className="" value={confirmPw} onChange={handleConfirmPW}required/>
                 </div>
-                <div className="spacer-vertical"></div>
+                <div className="spacer-vertical" />
                 <div className="">
                         <input type="submit" className="btn" value="Reset password" />
                 </div>

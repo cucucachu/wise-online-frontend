@@ -15,7 +15,7 @@ class StudentAttSuccess extends Component {
       return(
         <div className="container">
             <img src={attendClass} className="page-icon" alt="login icon"/>
-            <div className="spacer-vertical"></div>
+            <div className="spacer-vertical" />
                 <h1 style={{color: '#4ebd0f'}}>Success!</h1>
 
             <div className="spacer-vertical-s"></div>

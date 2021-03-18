@@ -81,11 +81,11 @@ class ProfessorClaim extends Component {
             <Fragment>
                 <div className="container">
                         <img src={editIcon} className="page-icon" alt="login icon"/>
-                        <div className="spacer-vertical"></div>
+                        <div className="spacer-vertical" />
                 <h1>Claim your account</h1>
 
                 <form onSubmit={this.handleSubmit.bind(this)}>
-                    <div className="spacer-vertical"></div>
+                    <div className="spacer-vertical" />
                     
                     <div className="spacer-vertical-s"></div>
                     <div className="input-wrapper">
@@ -109,7 +109,7 @@ class ProfessorClaim extends Component {
                         <span className="input-label">Setup key</span>
                         <input type="text" placeholder="Setup Key" name="setupkey" className="" value={this.state.setupkey} onChange={this.handleChangeKey.bind(this)} required/>
                     </div>
-                    <div className="spacer-vertical"></div>
+                    <div className="spacer-vertical" />
                         <div className="input-wrapper">
                             <div className="row content-center">
                                 <div className="col">
@@ -123,7 +123,7 @@ class ProfessorClaim extends Component {
                                     <strong style={{color: '#444'}}>&nbsp;I agree to the <a href="https://www.wiseattend.com/privacy" target="_blank" rel="noopener noreferrer">terms of use</a>.</strong></div>
                                     
                                 </div>
-                            <div className="spacer-vertical"></div>
+                            <div className="spacer-vertical" />
                         </div>
                     <div className="">
                         <input type="submit" className="btn" value="Submit" />

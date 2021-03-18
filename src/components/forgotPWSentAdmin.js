@@ -15,7 +15,7 @@ class ForgotPWSentAdmin extends Component {
       return(
         <div className="container">
             <img src={loginIcon} className="page-icon" alt="login icon"/>
-            <div className="spacer-vertical"></div>
+            <div className="spacer-vertical" />
             <h1>Forgot my Password</h1>
             <div className="spacer-vertical-s"></div>
             <div className="width-adjust-1">
@@ -23,10 +23,10 @@ class ForgotPWSentAdmin extends Component {
                 Reset link sent! Please allow a few moments for the email to reach your inbox.
                 </p>
             </div>
-            <div className="spacer-vertical"></div>
+            <div className="spacer-vertical" />
  
                         
-                <div className="spacer-vertical"></div>
+                <div className="spacer-vertical" />
                 <div className="">
                     <Link to="/">
                     <button className="btn">Back</button>

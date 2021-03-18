@@ -77,7 +77,7 @@ class SchoolStep1 extends Component {
         <Fragment>
             <div className="container">
                     <img src={editIcon} className="page-icon" alt="login icon"/>
-                    <div className="spacer-vertical"></div>
+                    <div className="spacer-vertical" />
             <h1>Create Your School</h1>
 
             <form onSubmit={this.handleSubmit.bind(this)}>

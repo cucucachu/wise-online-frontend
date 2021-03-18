@@ -117,10 +117,10 @@ class AttendanceView extends Component {
             <Fragment>
                 <div className="container">
                     <img src={attendanceIcon} className="page-icon" alt="Attendance icon"/>
-                        <div className="spacer-vertical"></div>
+                        <div className="spacer-vertical" />
                     <h1>Attendance for {this.state.course.classId} on {new Date(this.state.attendance.startTime).toLocaleDateString()}</h1>
 
-                    <div className="spacer-vertical"></div>
+                    <div className="spacer-vertical" />
                     <AttendanceSummary
                         course={this.state.course}
                         attendance={this.state.attendance}
@@ -146,10 +146,10 @@ class AttendanceView extends Component {
             <Fragment>
                 <div className="container">
                     <img src={attendanceIcon} className="page-icon" alt="Attendance icon"/>
-                        <div className="spacer-vertical"></div>
+                        <div className="spacer-vertical" />
                     <h1>Attendance for {this.state.course.classId} on {new Date(this.state.attendance.startTime).toLocaleDateString()}</h1>
 
-                    <div className="spacer-vertical"></div>
+                    <div className="spacer-vertical" />
                     <AttendanceSummary
                         course={this.state.course}
                         attendance={this.state.attendance}

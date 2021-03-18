@@ -12,7 +12,7 @@ class ProfessorResetPWSuccess extends Component {
       return(
         <div className="container">
             <img src={loginIcon} className="page-icon" alt="login icon"/>
-            <div className="spacer-vertical"></div>
+            <div className="spacer-vertical" />
                 <h1 style={{color: '#4ebd0f'}}>Success!</h1>
 
             <div className="spacer-vertical-s"></div>
@@ -20,7 +20,7 @@ class ProfessorResetPWSuccess extends Component {
             <div className="spacer-vertical-s"></div>
             <p className="text-plain">Your password has been reset.</p>
             {/* <h2>{this.state.classID}</h2> */}
-            <div className="spacer-vertical"></div>
+            <div className="spacer-vertical" />
             <Link to="/professor-login">
                 <button className="btn" >Log in</button>
             </Link>

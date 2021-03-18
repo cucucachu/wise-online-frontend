@@ -54,12 +54,12 @@ async componentDidMount(){
       return(
         <div className="container">
             <img src={educationIcon} className="page-icon" alt="wise education icon"/>
-            <div className="spacer-vertical"></div>
+            <div className="spacer-vertical" />
             <h1>Select your school</h1>
             <div className="spacer-vertical-s"></div>
             <p className="text-plain">Please select your school</p>
             <form onSubmit={this.handleSubmit.bind(this)}>
-            <div className="spacer-vertical"></div>
+            <div className="spacer-vertical" />
                 <div className="input-wrapper">
                     <div style={this.state.showHide}>{this.state.message}</div>
                    
@@ -71,7 +71,7 @@ async componentDidMount(){
                 </div>
                
     
-                <div className="spacer-vertical"></div>
+                <div className="spacer-vertical" />
                 <div className="">
                         <input type="submit" className="btn" value="Next" />
                 </div>

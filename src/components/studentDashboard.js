@@ -30,17 +30,17 @@ class StudentDashboard extends Component {
       return(
         <div className="container prevent-text">
             <img src={studentDashIcon} className="page-icon" alt="login icon"/>
-            <div className="spacer-vertical"></div>
+            <div className="spacer-vertical" />
             <h1>Are you going to a class, or taking a test?</h1>
             <form>
-                <div className="spacer-vertical"></div>
+                <div className="spacer-vertical" />
                 <Link to="/student/class/attend">
                     <button className="btn">
                         <img src={tickIcon} alt="attend class icon" className="icon-sm" />&nbsp;Attend class
                     </button>
                 </Link>
                 
-                <div className="spacer-vertical"></div>
+                <div className="spacer-vertical" />
                 <Link to="/student/tests">
                     <button className="btn">
                         <img src={editIcon} alt="take a test icon" className="icon-sm" />&nbsp;Take a test

@@ -83,21 +83,21 @@ const StudentTestId = (props) => {
         <React.Fragment>
             <div className="container prevent-text">
                 <img src={editIcon} className="page-icon" alt="edit icon"/>
-                <div className="spacer-vertical"></div>
+                <div className="spacer-vertical" />
                 <h1>Enter Test ID</h1>
-                <div className="spacer-vertical"></div>
+                <div className="spacer-vertical" />
                 <form onSubmit={handleSubmit}>
                     <div className="input-wrapper">
                         <div style={showHide}>{message}</div>
                         <span className="input-label">Class ID</span>
                         <input id="student_test1" type="text" className="" name="key" onChange={handleChangeClass} value={classId} placeholder="Class ID" onFocus={() => onFocus("student_test1")} required/>
                     </div>
-                    <div className="spacer-vertical"></div>
+                    <div className="spacer-vertical" />
                     <div className="input-wrapper">
                         <span className="input-label">Test ID</span>
                         <input id="student_test2" type="text" className="" name="key" placeholder="Test ID" onChange={handleChangeKey} value={testId} onFocus={() => onFocus("student_test2")} required/>
                     </div>
-                    <div className="spacer-vertical"></div><br/>
+                    <div className="spacer-vertical" /><br/>
                     <input id="student_test3" type="submit" className="btn-m" value="Begin test" onFocus={() => onFocus("student_test3")} />
                 </form>
         

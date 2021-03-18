@@ -123,10 +123,10 @@ handleSubmit = async e =>{
       return(
         <div className="container prevent-text">
             <img src={attendClass} className="page-icon" alt="login icon"/>
-            <div className="spacer-vertical"></div>
+            <div className="spacer-vertical" />
             <h1>Mark your attendance</h1>
 
-            <div className="spacer-vertical"></div>
+            <div className="spacer-vertical" />
             <form onSubmit={this.handleSubmit.bind(this)}>
                 <div className="input-wrapper">
                   <div style={{display: this.state.show}}>{this.state.message}</div>
@@ -144,7 +144,7 @@ handleSubmit = async e =>{
                   </div>
                   
                 </div>
-                <div className="spacer-vertical"></div>
+                <div className="spacer-vertical" />
                 <div className="container input-wrapper">
                   <div className="space-adjust-1">
                 <div className="row space-adjust">
@@ -164,7 +164,7 @@ handleSubmit = async e =>{
                 </div>
                 </div>
                 
-                <div className="spacer-vertical"></div>
+                <div className="spacer-vertical" />
                 <input type="submit" className="btn-att" value="Next" />
             </form>
             

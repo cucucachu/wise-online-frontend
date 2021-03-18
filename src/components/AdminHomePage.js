@@ -37,7 +37,7 @@ class AdminHomePage extends Component {
                     <img src={ attendanceIcon } className="page-icon" alt="login icon"/>
                     <div className="spacer-vertical-s"></div>
                     <h1>{sessionStorage.getItem('schoolName')}</h1>
-                    <div className="spacer-vertical"></div>
+                    <div className="spacer-vertical" />
                     <DataPane 
                         title="School Details"
                         data={this.state.schoolData}
