@@ -44,7 +44,7 @@ class GetPrivileges extends Component {
                                         >{this.props.test.testLink}</a>
                                     </h4>
                                     <h4 className="black">
-                                        Your test password is:&nbsp; {this.props.test.keyCode}
+                                        Your test password is:&nbsp; {this.props.test.testPassword}
                                     </h4>
                                 </>
                             );
