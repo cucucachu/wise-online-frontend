@@ -91,7 +91,7 @@ class SetUpSchoolPage extends Component {
                       })
                 }
                 else {                    
-                    this.setState({isLoading: false, message: `One or more files is invalid. Please check that the column headings are correct and that all required information is filled in.`});
+                    this.setState({isLoading: false, message: response.data.error});
                     this.showError()
                 }
     
