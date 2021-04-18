@@ -11,7 +11,7 @@ const StudentRecError = (props) => {
                 <h1>Recording error</h1>
                 <div className="spacer-vertical" />
                 <div className="width-adjust-1">
-                    <h2>How to allow camera parmissions</h2>
+                    <h2>How to allow camera permissions</h2>
                     <p className="text-plain">Wise uses confidential facial recognition to make sure you are really you.</p>
                     <div className="spacer-vertical-s"></div>
                     <p className="text-black" style={{fontWeight: 'bold', fontSize: 'large'}}>How to activate by browser</p>
