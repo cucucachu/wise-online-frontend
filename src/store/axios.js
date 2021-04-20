@@ -350,6 +350,15 @@ async function submitScreenshot(testAttendanceId, screenshot) {
     return response;
 }
 
+async function submitAudio(audioFormData) {
+    console.log("SEND FORM DATA", audioFormData);
+    const response = await backend.post("/student/submitAudio", audioFormData, {
+        headers: { "Content-Type": "multipart/form-data" },
+    });
+
+    return response;
+}
+
 async function submitTabs(testAttendanceId, tabs) {
     const response = await backend.post('student/submitTabs', {testAttendanceId, tabs});
     return response;
