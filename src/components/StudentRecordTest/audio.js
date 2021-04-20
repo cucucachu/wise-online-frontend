@@ -1,3 +1,6 @@
+const SMOOTHING = .9;
+const CALIBRATION_PERIOD_MILLISECONDS = 5000;
+
 function getMaxVolume(analyser, fftBins) {
   let maxVolume = -Infinity;
   analyser.getFloatFrequencyData(fftBins);
@@ -16,8 +19,10 @@ if (typeof window !== "undefined") {
   audioContextType = window.AudioContext || window.webkitAudioContext;
 }
 
+
 let audioContext = null;
-export default function thresholdVoice(stream, options = {}) {
+
+export function thresholdVoice(stream, options = {}) {
   const subscribers = {};
   const emitter = {
     emit: (event, value) => {
@@ -38,9 +43,9 @@ export default function thresholdVoice(stream, options = {}) {
   if (!audioContextType) return emitter;
 
   //Config
-  let smoothing = options.smoothing || 0.9,
+  let smoothing = SMOOTHING,
     interval = options.interval || 50,
-    threshold = options.threshold,
+    threshold = options.threshold || -50,
     play = options.play,
     history = options.history || 10,
     running = true;
@@ -163,4 +168,50 @@ export default function thresholdVoice(stream, options = {}) {
   looper();
 
   return emitter;
+}
+
+export function getAudioThumbprint(stream) {
+  const aC = new audioContextType();
+  const analyser = aC.createAnalyser();
+  //WebRTC Stream
+  const sourceNode = aC.createMediaStreamSource(stream);
+
+  analyser.fftSize = 512;
+  analyser.smoothingTimeConstant = SMOOTHING;
+
+  const processor = aC.createScriptProcessor(2048, 1, 1); // NOTE - this is a deprecated API, but still universally supported ( except by ie )
+
+  sourceNode.connect(analyser);
+  analyser.connect(processor);
+  processor.connect(aC.destination);
+
+  const readings = [];
+  processor.onaudioprocess = function(evt) {
+      let total = 0;
+      let i = 0;
+      var input = evt.inputBuffer.getChannelData(0)
+        , len = input.length   
+        , rms
+      while ( i < len ) total += Math.pow( input[i++], 2)
+      rms = Math.sqrt( total / ( len / 2  )) // root mean squared
+      var dB = 20 * (Math.log10(rms));
+    if (dB > -Infinity) {
+      readings.push(dB);
+    }
+  }
+
+  // sourceNode.start();
+
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      // TODO find some way to stop onaudioprocess
+      const averageDB = readings.reduce((sum, n) => {
+        return sum + (n || 0) }, 0) / readings.length;
+      resolve(averageDB);
+      sourceNode.disconnect(analyser);
+      analyser.disconnect(processor);
+      processor.onaudioprocess = null;
+    },
+    CALIBRATION_PERIOD_MILLISECONDS)
+  });
 }

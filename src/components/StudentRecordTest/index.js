@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Webcam from "react-webcam";
-import thresholdVoice from "./thresholdVoice";
+import { thresholdVoice, getAudioThumbprint } from "./audio";
 import { Link } from "react-router-dom";
 
 import { AuthContext } from "../../contexts/AuthContext";
@@ -21,6 +21,10 @@ const videoConstraints = {
   facingMode: "user",
 };
 
+// It relies on audio being divided into 'chunks' depending on the number of images taken.
+// 1. All audio will be recorded only in the vocal band 500hz to 4000hz
+// 2. We'll take an audio thumbprint of '5' seconds when the student clicks to take their ID verification image. The average DB on this thumbprint will set the noise-threshold, above which all audio will be flagged
+// 3. Any audio that is above the noise threshold, will cause the entire audio 'chunk' to be flagged.
 class StudentRecordTest extends Component {
   constructor(props) {
     super(props);
@@ -31,6 +35,7 @@ class StudentRecordTest extends Component {
       screenshotInterval: null,
       audioRecorder: null,
       audioBlob: null,
+      calibratedDBThreshold: null,
     };
 
     this.chunks = [];
@@ -38,6 +43,7 @@ class StudentRecordTest extends Component {
 
     this.capture = this.capture.bind(this);
     this.monitorAudio = this.monitorAudio.bind(this);
+    this.calibrateAudioBaseline = this.calibrateAudioBaseline.bind(this);
 
     this.takeScreenshot = this.takeScreenshot.bind(this);
   }
@@ -57,15 +63,38 @@ class StudentRecordTest extends Component {
     state.webCamInterval = webCamInterval;
     state.screenshotInterval = screenshotInterval;
     this.setState(state);
-
-    this.monitorAudio();
+    
+    this.calibrateAudioBaseline().then(( averageDB ) => {
+       this.monitorAudio(averageDB);
+    });
 
     this.tabsHandler();
     this.startScreenVideo();
-    // calibrateAudioBaseline();
   }
+  
+  calibrateAudioBaseline() {
+    // record through t
+    if (!navigator.getUserMedia)
+      navigator.getUserMedia =
+        navigator.getUserMedia ||
+        navigator.webkitGetUserMedia ||
+        navigator.mozGetUserMedia ||
+        navigator.msGetUserMedia;
 
-  monitorAudio() {
+    if (navigator.getUserMedia) {
+      return navigator.mediaDevices
+        .getUserMedia({ audio: { echoCancellation: true, noiseSupression: true } })
+        .then((stream) => {
+          return getAudioThumbprint(stream);
+        }).then((averageDB) => {
+          console.log("CALIBRATION READING TAKEN", `${ averageDB } dBFS`)
+          this.setState({ calibratedDBThreshold: averageDB });
+          return averageDB;
+      });
+    }
+  };
+
+  monitorAudio(dBThreshold) {
     const AudioContext = window.AudioContext || window.webkitAudioContext;
 
     // determines what permissions the user has
@@ -81,8 +110,7 @@ class StudentRecordTest extends Component {
         .getUserMedia({ audio: { echoCancellation: true, noiseSupression: true } })
         .then((stream) => {
           const voiceEvents = thresholdVoice(stream, {
-            // threshold: averageDb,
-            threshold: -50,
+            threshold: dBThreshold || -50,
           });
 
           const recorder = new MediaRecorder(stream);
@@ -167,6 +195,8 @@ class StudentRecordTest extends Component {
   }
 
   async sendAudio() {
+    if (!this.state.audioRecorder) return;
+    
     this.state.audioRecorder.requestData();
 
     const fd = new FormData();
