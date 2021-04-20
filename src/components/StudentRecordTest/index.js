@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import Webcam from "react-webcam";
 import thresholdVoice from "./thresholdVoice";
 import { Link } from "react-router-dom";
-import Recorder from "recorder-js";
 
 import { AuthContext } from "../../contexts/AuthContext";
 import editIcon from "../../Assets/images/edit-icon.png";

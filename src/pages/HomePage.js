@@ -29,7 +29,7 @@ import StudentClassAtt from '../components/studentClassAtt';
 import StudentLogin from '../components/studentLogin';
 import StudentTest from '../components/studentTest';
 import StudentAttSuccess from '../components/studentAttSuccess';
-import StudentRecordTest from '../components/studentRecordTest';
+import StudentRecordTest from '../components/StudentRecordTest';
 import StudentTestId from '../components/studentTestId';
 import StudentRecError from '../components/studentRecordingError';
 import StudentAttendanceFromLink from '../components/StudentAttendanceFromLink';

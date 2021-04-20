@@ -10,14 +10,14 @@ const baseURL = 'https://internal-wiseattendonline.appspot.com/' // URL for host
 axios.defaults.withCredentials = true
 
 const backend = axios.create({
-        baseURL,
-        timeout: 30000,
-        headers: {'X-Requested-With': 'XMLHttpRequest'},
-        withCredentials: true,
-        validateStatus: () => true,
+    baseURL,
+    timeout: 30000,
+    headers: {'X-Requested-With': 'XMLHttpRequest'},
+    withCredentials: true,
+    validateStatus: () => true,
 });
 
-  // Alter defaults after instance has been created
+// Alter defaults after instance has been created
 
 /* ----------------------------------------
     Logins
@@ -25,7 +25,7 @@ const backend = axios.create({
 
 async function adminLogin(email, password) {
     const response = await backend.post('admin/login', {email, password})
-    
+
     return response;
 }
 
@@ -35,7 +35,7 @@ async function professorLogin(email, password) {
 }
 
 async function studentLogin(email, studentId) {
-    const response = await backend.post('student/login', {email, password : studentId});
+    const response = await backend.post('student/login', {email, password: studentId});
     return response;
 }
 
@@ -75,7 +75,7 @@ async function superLoginAsAdmin(schoolId) {
 }
 
 async function superCreateSchool(setupKey) {
-    return backend.post('/super/school', { setupKey });
+    return backend.post('/super/school', {setupKey});
 }
 
 /* ----------------------------------------
@@ -92,7 +92,7 @@ async function postFiles(professorFile, studentFile) {
     formData.append('studentFile', studentFile)
     const response = await backend.post('admin/setupSchool', formData, {
         headers: {
-          'Content-Type': 'multipart/form-data'
+            'Content-Type': 'multipart/form-data'
         },
         timeout: 60000,
     });
@@ -105,7 +105,7 @@ async function addUsersPrecheck(professorFile, studentFile) {
     formData.append('studentFile', studentFile)
     const response = await backend.post('admin/setupSchool/preCheck', formData, {
         headers: {
-          'Content-Type': 'multipart/form-data'
+            'Content-Type': 'multipart/form-data'
         },
         timeout: 60000,
     });
@@ -116,7 +116,7 @@ async function adminRequestResetPW(email) {
     const response = await backend.post('/admin/requestPasswordReset', email);
     return response;
 }
-async function resetAdminPW(data){
+async function resetAdminPW(data) {
     const response = await backend.post('/admin/resetPassword', data)
     return response
 }
@@ -133,7 +133,7 @@ function adminDownloadDataByStudentURL(termId) {
     return baseURL + 'admin/students/attendanceData/' + termId;
 }
 
-async function adminEditTerm(termId, name){
+async function adminEditTerm(termId, name) {
     const response = await backend.post('/admin/terms/edit', {termId, name})
     return response;
 }
@@ -145,21 +145,21 @@ async function adminGetProctorConfiguration() {
 async function adminSetProctorConfiguration(
     {
         screenshotInterval,
-        webcamInterval, 
-        facialRecognitionThreshold, 
-        restrictedDomains, 
+        webcamInterval,
+        facialRecognitionThreshold,
+        restrictedDomains,
         allowedDomains,
         allowOverride
     }
-    ) {
-        return backend.post('/admin/proctorConfiguration', {
-            screenshotInterval,
-            webcamInterval, 
-            facialRecognitionThreshold, 
-            restrictedDomains, 
-            allowedDomains,
-            allowOverride
-        });
+) {
+    return backend.post('/admin/proctorConfiguration', {
+        screenshotInterval,
+        webcamInterval,
+        facialRecognitionThreshold,
+        restrictedDomains,
+        allowedDomains,
+        allowOverride
+    });
 }
 
 // async function adminGetProfessors() {
@@ -212,7 +212,7 @@ async function createTerm(name) {
     return response;
 }
 
-async function  setCurrentTerm(termId) {
+async function setCurrentTerm(termId) {
     const response = await backend.post('/admin/terms/setAsCurrent', {termId})
     return response;
 }
@@ -237,7 +237,7 @@ async function professorRequestResetPW(email) {
     const response = await backend.post('/professor/requestPasswordReset', email);
     return response;
 }
-async function resetProfessorPW(data){
+async function resetProfessorPW(data) {
     const response = await backend.post('/professor/resetPassword', data)
     return response
 }
@@ -268,7 +268,7 @@ async function editCourse(courseId, name, classId, integrationId) {
 }
 
 async function deleteCourse(courseId) {
-    const response = await backend.post('professor/deleteCourse', { courseId });
+    const response = await backend.post('professor/deleteCourse', {courseId});
     return response;
 }
 
@@ -289,19 +289,19 @@ async function professorGetProctorConfiguration() {
 async function professorSetProctorConfiguration(
     {
         screenshotInterval,
-        webcamInterval, 
-        facialRecognitionThreshold, 
+        webcamInterval,
+        facialRecognitionThreshold,
         restrictedDomains,
         allowedDomains,
     }
-    ) {
-        return backend.post('/professor/proctorConfiguration', {
-            screenshotInterval,
-            webcamInterval, 
-            facialRecognitionThreshold, 
-            restrictedDomains, 
-            allowedDomains,
-        });
+) {
+    return backend.post('/professor/proctorConfiguration', {
+        screenshotInterval,
+        webcamInterval,
+        facialRecognitionThreshold,
+        restrictedDomains,
+        allowedDomains,
+    });
 }
 
 async function professorProctorConfigurationAllowed() {
@@ -353,7 +353,7 @@ async function submitScreenshot(testAttendanceId, screenshot) {
 async function submitAudio(audioFormData) {
     console.log("SEND FORM DATA", audioFormData);
     const response = await backend.post("/student/submitAudio", audioFormData, {
-        headers: { "Content-Type": "multipart/form-data" },
+        headers: {"Content-Type": "multipart/form-data"},
     });
 
     return response;
@@ -373,7 +373,7 @@ async function submitFeeWaive(data) {
     const response = await backend.post('student/waiveFee', data);
     return response;
 }
-async function studentAgreeToTerms(){
+async function studentAgreeToTerms() {
     const response = await backend.post('/student/agreeToTerms')
     return response;
 }
@@ -385,7 +385,7 @@ async function studentAgreeToTerms(){
 async function getCourses() {
     const response = await backend.get('courses');
     return response;
-    
+
 }
 
 async function getTestsByCourse(professor, data) {
@@ -393,11 +393,11 @@ async function getTestsByCourse(professor, data) {
     return response;
 }
 
-async function getTestResults(professor, data){
+async function getTestResults(professor, data) {
     const response = await backend.get(`/professor/tests/${data}/results`, {professor, data});
     return response;
 }
-async function getTestImage(testId, imgNum){
+async function getTestImage(testId, imgNum) {
     const response = await backend.get(`/professor/testResults/${testId}/images/${imgNum}`);
     return response;
 }
@@ -422,20 +422,20 @@ async function proctoringProfessorCreateTest(
         testName,
         testLink,
         testPassword,
-        screenshotInterval, 
-        webcamInterval, 
+        screenshotInterval,
+        webcamInterval,
         facialRecognitionThreshold
     }) {
-        return backend.post('proctor/test', {
-            courseId,
-            publicKey,
-            testName,
-            testLink,
-            testPassword,
-            screenshotInterval, 
-            webcamInterval, 
-            facialRecognitionThreshold
-        });
+    return backend.post('proctor/test', {
+        courseId,
+        publicKey,
+        testName,
+        testLink,
+        testPassword,
+        screenshotInterval,
+        webcamInterval,
+        facialRecognitionThreshold
+    });
 }
 
 async function proctoringStudentStartTest({classId, keyCode}) {
@@ -518,6 +518,7 @@ export {
     editAttendance,
     setAttendanceReadyForIntegration,
     takeTest,
+    submitAudio,
     submitConfidenceScore,
     submitScreenshot,
     submitTabs,
