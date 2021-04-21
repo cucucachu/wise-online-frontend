@@ -7,7 +7,8 @@ import TakeReferenceImage from './TakeReferenceImage';
 import Recording from './Recording';
 import EndOfTest from './EndOfTest';
 
-import {proctoringEndProctorSession, proctoringSubmitProctorData} from '../../store/axios';
+import { thresholdVoice, getAudioThumbprint } from "./audio";
+import {proctoringEndProctorSession, proctoringSubmitProctorData, submitAudio} from '../../store/axios';
 import editIcon from '../../Assets/images/edit-icon.png';
 
 class StudentProctoring extends Component {
@@ -19,11 +20,14 @@ class StudentProctoring extends Component {
             state: 'TERMS',
             webcamPrivilege: false,
             screenshotPrivilege: false,
+            microphoneStream: null,
             captureInterval: null,
+            calibratedDBThreshold: -50, // this is in dBFS (not the conventional dBSPL)
         };
 
         this.webcamRef = React.createRef();
         this.screenCaptureRef = React.createRef();
+        this.microphoneRef = React.createRef();
 
         this.handleAgreeToTerms = this.handleAgreeToTerms.bind(this);
         this.handleWebcamPrivilegeGranted = this.handleWebcamPrivilegeGranted.bind(this);
@@ -38,6 +42,12 @@ class StudentProctoring extends Component {
         this.startRecording = this.startRecording.bind(this);
         this.capture = this.capture.bind(this);
         this.endTest = this.endTest.bind(this);
+
+        // TODO - call calibration on terms step
+        // TODO - call monitoring when testing
+        this.calibrateAudioBaseline().then(( averageDB ) => {
+           this.monitorAudio(averageDB);
+        });
     }
 
     componentWillUnmount() {
@@ -58,6 +68,17 @@ class StudentProctoring extends Component {
             ...this.state,
             webcamPrivilege: true,
         });
+    }
+
+    async handleClickEnableMicrophone() {
+        try {
+            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+            
+            this.setState({ microphoneStream: stream });
+        }
+        catch (error) {
+            console.error(error);
+        }
     }
 
     handleWebcamError(error) {
@@ -116,7 +137,7 @@ class StudentProctoring extends Component {
         }
 
         const captureInterval = setInterval(this.capture, interval);
-        
+
         this.setState({
             ...this.state,
             captureInterval,
@@ -126,6 +147,86 @@ class StudentProctoring extends Component {
         this.capture();
     }
 
+    calibrateAudioBaseline() {
+        // record through t
+        if (!navigator.getUserMedia)
+          navigator.getUserMedia =
+            navigator.getUserMedia ||
+            navigator.webkitGetUserMedia ||
+            navigator.mozGetUserMedia ||
+            navigator.msGetUserMedia;
+
+        if (navigator.getUserMedia) {
+          return navigator.mediaDevices
+            .getUserMedia({ audio: { echoCancellation: true, noiseSupression: true } })
+            .then((stream) => {
+              return getAudioThumbprint(stream);
+            }).then((averageDB) => {
+              console.log("CALIBRATION READING TAKEN", `${ averageDB } dBFS`)
+              this.setState({ calibratedDBThreshold: averageDB });
+              return averageDB;
+          });
+        }
+    };
+
+
+  async submitCurrentAudio(proctorDetailsId) {
+    if (!this.state.audioRecorder) return;
+    
+    this.state.audioRecorder.requestData();
+
+    const fd = new FormData();
+    fd.append("audio", this.state.audioBlob);
+
+    return submitAudio(fd, proctorDetailsId);
+  }
+
+  monitorAudio(dBThreshold) {
+    // determines what permissions the user has
+    if (!navigator.getUserMedia)
+      navigator.getUserMedia =
+        navigator.getUserMedia ||
+        navigator.webkitGetUserMedia ||
+        navigator.mozGetUserMedia ||
+        navigator.msGetUserMedia;
+
+    if (navigator.getUserMedia) {
+      navigator.mediaDevices
+        .getUserMedia({ audio: { echoCancellation: true, noiseSupression: true } })
+        .then((stream) => {
+          const voiceEvents = thresholdVoice(stream, {
+            threshold: dBThreshold || -50,
+          });
+
+          const recorder = new MediaRecorder(stream);
+
+          recorder.onstop = function (e) {
+            console.log("done recording");
+          };
+
+          recorder.ondataavailable = (e) => {
+            // const newChunks = [...this.state.audioChunks, e.data];
+            // this.setState({ audioChunks: newChunks });
+            this.setState({ audioBlob: e.data });
+          };
+
+          recorder.start();
+          this.setState({ audioRecorder: recorder });
+
+          voiceEvents.on("speaking", () => {
+            console.log("VOICE DETECTION: SPEAKING");
+          });
+          voiceEvents.on("stopped_speaking", () => {
+            console.log("VOICE DETECTION: STOPPED SPEAKING");
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      alert("getUserMedia not supported in this browser.");
+    }
+  }
     imageIsAllBlack(image) {
         const dataStart = image.indexOf('/AJV');
         const dataEnd = image.indexOf('//9k');
@@ -151,11 +252,14 @@ class StudentProctoring extends Component {
         const webcamDisabled = this.imageIsAllBlack(webcamImage);
         const screenCaptureDisabled = this.imageIsAllBlack(screenshotImage);
 
-        await proctoringSubmitProctorData({
+        const requestResponse = await proctoringSubmitProctorData({
             proctorSessionId: this.state.proctorSession._id, 
             webcamImage, 
             screenshotImage,
         });
+
+        const responseData = requestResponse.data;
+        this.submitCurrentAudio(responseData.proctorDetailInstanceId);
 
         if (this.imageIsAllBlack(webcamImage) || this.imageIsAllBlack(screenshotImage)) {
             clearInterval(this.state.captureInterval);
@@ -200,11 +304,13 @@ class StudentProctoring extends Component {
                     show={this.state.state === 'PRIVILEGES'}
                     webcamPrivilege={this.state.webcamPrivilege}
                     screenshotPrivilege={this.state.screenshotPrivilege}
+                    microphoneStream={this.state.microphoneStream}
                     webcamRef={this.webcamRef}
                     screenCaptureRef={this.screenCaptureRef}
                     proctorSession={this.state.proctorSession}
                     onScreenshotPrivilegeGranted={this.handleScreenCapturePrivilegeGranted}
                     onPermissionsGranted={this.handlePrivilegesGranted}
+                    onMicrophoneStreamRequested={this.handleMicrophoneStreamGranted}
                 />
                 <TakeReferenceImage
                     show={this.state.state === 'REFERENCE'}

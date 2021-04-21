@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ViewTable from '../Resusable/ViewTable';
 import Spinner from '../Resusable/Spinner';
 
 function ProctorDetailView(props) {
+    const [ currentAudio, setCurrentAudio ] = useState();
+
     if (props.proctorDetail === undefined) {
         return <Spinner/>;
     }
@@ -102,7 +104,7 @@ function ProctorDetailView(props) {
                 </div>
             </div>
             <div className="row">
-                <div className="col-8">
+                <div className="col-5">
                     <button className="play-button" onClick={props.onClickPlay}>&#9656;</button>
                     <button className="pause-button" onClick={props.onClickPause}>||</button>
                     {(() => {
@@ -116,8 +118,28 @@ function ProctorDetailView(props) {
                         else return '';
                     })()}
                 </div>
-                <div className="col-4 black align-right">
+                <div className="col-3 black align-right">
                     Frame {props.frame + 1} / {props.max} @ {props.proctorDetail.time}
+                </div>
+            </div>
+            <div className="row">
+                <div className="col-12">
+                <h2>Recorded Audio</h2>
+                <div className="slider-container">
+                        <input type="range" min="0" max={props.max - 1} value={props.frame} className="slider" onChange={e => props.onChangeSlider(e)}/>
+                </div>                
+                    <button className="play-button" onClick={() => {
+                    const audioElem = new Audio("https://actions.google.com/sounds/v1/household/clock_ticking.ogg")
+                    audioElem.play();
+                    setCurrentAudio(audioElem);
+                    audioElem.addEventListener('loadeddata', () => {
+                        console.log(audioElem.duration);
+                    })
+                    }}>&#9656;</button>
+                    <button className="pause-button" onClick={() => {
+                        currentAudio.pause();
+                    }}>||
+                    </button>
                 </div>
             </div>
             <div className="row">

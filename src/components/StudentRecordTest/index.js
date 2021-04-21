@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import Webcam from "react-webcam";
-import { thresholdVoice, getAudioThumbprint } from "./audio";
 import { Link } from "react-router-dom";
 
 import { AuthContext } from "../../contexts/AuthContext";
@@ -11,7 +10,6 @@ import { uploadReferenceImage, checkForStudent } from "../../store/faces";
 import {
   submitTabs,
   submitScreenshot,
-  submitAudio,
   submitProctoringError,
 } from "../../store/axios";
 
@@ -63,86 +61,11 @@ class StudentRecordTest extends Component {
     state.webCamInterval = webCamInterval;
     state.screenshotInterval = screenshotInterval;
     this.setState(state);
-    
-    this.calibrateAudioBaseline().then(( averageDB ) => {
-       this.monitorAudio(averageDB);
-    });
 
     this.tabsHandler();
     this.startScreenVideo();
   }
   
-  calibrateAudioBaseline() {
-    // record through t
-    if (!navigator.getUserMedia)
-      navigator.getUserMedia =
-        navigator.getUserMedia ||
-        navigator.webkitGetUserMedia ||
-        navigator.mozGetUserMedia ||
-        navigator.msGetUserMedia;
-
-    if (navigator.getUserMedia) {
-      return navigator.mediaDevices
-        .getUserMedia({ audio: { echoCancellation: true, noiseSupression: true } })
-        .then((stream) => {
-          return getAudioThumbprint(stream);
-        }).then((averageDB) => {
-          console.log("CALIBRATION READING TAKEN", `${ averageDB } dBFS`)
-          this.setState({ calibratedDBThreshold: averageDB });
-          return averageDB;
-      });
-    }
-  };
-
-  monitorAudio(dBThreshold) {
-    const AudioContext = window.AudioContext || window.webkitAudioContext;
-
-    // determines what permissions the user has
-    if (!navigator.getUserMedia)
-      navigator.getUserMedia =
-        navigator.getUserMedia ||
-        navigator.webkitGetUserMedia ||
-        navigator.mozGetUserMedia ||
-        navigator.msGetUserMedia;
-
-    if (navigator.getUserMedia) {
-      navigator.mediaDevices
-        .getUserMedia({ audio: { echoCancellation: true, noiseSupression: true } })
-        .then((stream) => {
-          const voiceEvents = thresholdVoice(stream, {
-            threshold: dBThreshold || -50,
-          });
-
-          const recorder = new MediaRecorder(stream);
-
-          recorder.onstop = function (e) {
-            console.log("done recording");
-          };
-
-          recorder.ondataavailable = (e) => {
-            // const newChunks = [...this.state.audioChunks, e.data];
-            // this.setState({ audioChunks: newChunks });
-            this.setState({ audioBlob: e.data });
-          };
-
-          recorder.start();
-          this.setState({ audioRecorder: recorder });
-
-          voiceEvents.on("speaking", () => {
-            console.log("VOICE DETECTION: SPEAKING");
-          });
-          voiceEvents.on("stopped_speaking", () => {
-            console.log("VOICE DETECTION: STOPPED SPEAKING");
-          });
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    } else {
-      alert("getUserMedia not supported in this browser.");
-    }
-  }
-
   async startScreenVideo() {
     const screenVideo = document.getElementById("screen-video");
     screenVideo.srcObject = await navigator.mediaDevices.getDisplayMedia({
@@ -194,16 +117,6 @@ class StudentRecordTest extends Component {
     await submitScreenshot(this.context.testAttendanceId, screenshot);
   }
 
-  async sendAudio() {
-    if (!this.state.audioRecorder) return;
-    
-    this.state.audioRecorder.requestData();
-
-    const fd = new FormData();
-    fd.append("audio", this.state.audioBlob);
-
-    submitAudio(fd);
-  }
 
   convertImage(image) {
     var data = image.split(",")[1];

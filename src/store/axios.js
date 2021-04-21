@@ -1,6 +1,6 @@
 const axios = require('axios');
-// const baseURL = 'http://localhost:8080/';
-const baseURL = 'https://internal-wiseattendonline.appspot.com/' // URL for hosted backend for test
+const baseURL = 'http://localhost:8080/';
+// const baseURL = 'https://internal-wiseattendonline.appspot.com/' // URL for hosted backend for test
 
 /* !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
 // const baseURL = 'https://wiseonlineattend.appspot.com/' // DO NOT USE! URL for hosted production.
@@ -350,9 +350,9 @@ async function submitScreenshot(testAttendanceId, screenshot) {
     return response;
 }
 
-async function submitAudio(audioFormData) {
+async function submitAudio(audioFormData, proctorDetailsId) {
     console.log("SEND FORM DATA", audioFormData);
-    const response = await backend.post("/student/submitAudio", audioFormData, {
+    const response = await backend.post(`/student/submitAudio/proctorDetails/${proctorDetailsId}`, audioFormData, {
         headers: {"Content-Type": "multipart/form-data"},
     });
 
@@ -450,8 +450,8 @@ async function proctoringSetReferenceImage({proctorSessionId, webcamImage}) {
     return backend.post('proctor/reference', {proctorSessionId, webcamImage});
 }
 
-async function proctoringSubmitProctorData({proctorSessionId, webcamImage, screenshotImage}) {
-    return backend.post('proctor/submit', {proctorSessionId, webcamImage, screenshotImage});
+async function proctoringSubmitProctorData({proctorSessionId, webcamImage, screenshotImage, audioBlob}) {
+    return backend.post('proctor/submit', {proctorSessionId, webcamImage, screenshotImage, audio: audioBlob});
 }
 
 async function proctoringEndProctorSession({proctorSessionId}) {
