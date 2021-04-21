@@ -351,7 +351,6 @@ async function submitScreenshot(testAttendanceId, screenshot) {
 }
 
 async function submitAudio(audioFormData, proctorDetailsId) {
-    console.log("SEND FORM DATA", audioFormData);
     const response = await backend.post(`/student/submitAudio/proctorDetails/${proctorDetailsId}`, audioFormData, {
         headers: {"Content-Type": "multipart/form-data"},
     });
@@ -442,8 +441,8 @@ async function proctoringStudentStartTest({classId, keyCode}) {
     return backend.post('proctor/start', {classId, keyCode});
 }
 
-async function proctoringVerifyPrivileges({proctorSessionId, webcamPrivilege, screenshotPrivilege}) {
-    return backend.post('proctor/privileges', {proctorSessionId, webcamPrivilege, screenshotPrivilege})
+async function proctoringVerifyPrivileges({proctorSessionId, webcamPrivilege, screenshotPrivilege, microphonePrivilege}) {
+    return backend.post('proctor/privileges', {proctorSessionId, webcamPrivilege, screenshotPrivilege, microphonePrivilege})
 }
 
 async function proctoringSetReferenceImage({proctorSessionId, webcamImage}) {

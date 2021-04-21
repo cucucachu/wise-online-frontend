@@ -22,7 +22,7 @@ class StudentProctoring extends Component {
             screenshotPrivilege: false,
             microphoneStream: null,
             captureInterval: null,
-            calibratedDBThreshold: -50, // this is in dBFS (not the conventional dBSPL)
+            calibratedDBThreshold: -50, // this is in dBFS (not the conventional dBSPL), thus the negative number
         };
 
         this.webcamRef = React.createRef();
@@ -37,17 +37,12 @@ class StudentProctoring extends Component {
         this.handleReferenceImageTaken = this.handleReferenceImageTaken.bind(this);
         this.handleEndRecording = this.handleEndRecording.bind(this);
         this.goToStudentDashboard = this.goToStudentDashboard.bind(this);
+        this.handleClickEnableMicrophone = this.handleClickEnableMicrophone.bind(this);
         this.restart = this.restart.bind(this);
 
         this.startRecording = this.startRecording.bind(this);
         this.capture = this.capture.bind(this);
         this.endTest = this.endTest.bind(this);
-
-        // TODO - call calibration on terms step
-        // TODO - call monitoring when testing
-        this.calibrateAudioBaseline().then(( averageDB ) => {
-           this.monitorAudio(averageDB);
-        });
     }
 
     componentWillUnmount() {
@@ -72,7 +67,8 @@ class StudentProctoring extends Component {
 
     async handleClickEnableMicrophone() {
         try {
-            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+            // TODO - navigator.mediaDevices polyfill https://github.com/mozdevs/mediaDevices-getUserMedia-polyfill/blob/master/README.md
+            const stream = await navigator.mediaDevices.getUserMedia({ audio: { noiseSuppression: true, echoCancellation: true }});
             
             this.setState({ microphoneStream: stream });
         }
@@ -82,6 +78,7 @@ class StudentProctoring extends Component {
     }
 
     handleWebcamError(error) {
+        console.log(error);
         this.setState({
             ...this.state,
             webcamPrivilege: false,
@@ -95,11 +92,14 @@ class StudentProctoring extends Component {
         });
     }
 
-
     handlePrivilegesGranted() {
         this.setState({
             ...this.state,
             state: 'REFERENCE',
+        });
+
+        this.calibrateAudioBaseline().then(( averageDB ) => {
+            this.setState({ calibratedDBThreshold: averageDB })
         });
     }
 
@@ -108,8 +108,8 @@ class StudentProctoring extends Component {
         //     ...this.state,
         //     state: 'RECORDING',
         // });
-        
         this.startRecording();
+        this.monitorAudio(this.state.calibratedDBThreshold);
     }
 
     handleEndRecording() {
@@ -148,25 +148,11 @@ class StudentProctoring extends Component {
     }
 
     calibrateAudioBaseline() {
-        // record through t
-        if (!navigator.getUserMedia)
-          navigator.getUserMedia =
-            navigator.getUserMedia ||
-            navigator.webkitGetUserMedia ||
-            navigator.mozGetUserMedia ||
-            navigator.msGetUserMedia;
-
-        if (navigator.getUserMedia) {
-          return navigator.mediaDevices
-            .getUserMedia({ audio: { echoCancellation: true, noiseSupression: true } })
-            .then((stream) => {
-              return getAudioThumbprint(stream);
-            }).then((averageDB) => {
-              console.log("CALIBRATION READING TAKEN", `${ averageDB } dBFS`)
-              this.setState({ calibratedDBThreshold: averageDB });
-              return averageDB;
-          });
-        }
+        return getAudioThumbprint(this.state.microphoneStream).then((averageDB) => {
+            console.log("CALIBRATION READING TAKEN", `${ averageDB } dBFS`)
+            this.setState({ calibratedDBThreshold: averageDB });
+            return averageDB;
+        });
     };
 
 
@@ -178,54 +164,44 @@ class StudentProctoring extends Component {
     const fd = new FormData();
     fd.append("audio", this.state.audioBlob);
 
-    return submitAudio(fd, proctorDetailsId);
+    const voiceDetected = this.state.voiceDetected;
+
+    if (voiceDetected) {
+        this.setState({ voiceDetected: false });
+        return submitAudio(fd, proctorDetailsId, voiceDetected);
+    }
   }
 
   monitorAudio(dBThreshold) {
     // determines what permissions the user has
-    if (!navigator.getUserMedia)
-      navigator.getUserMedia =
-        navigator.getUserMedia ||
-        navigator.webkitGetUserMedia ||
-        navigator.mozGetUserMedia ||
-        navigator.msGetUserMedia;
 
-    if (navigator.getUserMedia) {
-      navigator.mediaDevices
-        .getUserMedia({ audio: { echoCancellation: true, noiseSupression: true } })
-        .then((stream) => {
-          const voiceEvents = thresholdVoice(stream, {
-            threshold: dBThreshold || -50,
-          });
+    const voiceEvents = thresholdVoice(this.state.microphoneStream ,
+        { threshold: dBThreshold || -50, }
+    );
 
-          const recorder = new MediaRecorder(stream);
+    const recorder = new MediaRecorder(this.state.microphoneStream);
 
-          recorder.onstop = function (e) {
-            console.log("done recording");
-          };
+    recorder.onstop = function (e) {
+        console.log("done recording");
+    };
 
-          recorder.ondataavailable = (e) => {
-            // const newChunks = [...this.state.audioChunks, e.data];
-            // this.setState({ audioChunks: newChunks });
-            this.setState({ audioBlob: e.data });
-          };
+    recorder.ondataavailable = (e) => {
+    // const newChunks = [...this.state.audioChunks, e.data];
+    // this.setState({ audioChunks: newChunks });
+    this.setState({ audioBlob: e.data });
+    };
 
-          recorder.start();
-          this.setState({ audioRecorder: recorder });
+    recorder.start();
+    this.setState({ audioRecorder: recorder });
 
-          voiceEvents.on("speaking", () => {
-            console.log("VOICE DETECTION: SPEAKING");
-          });
-          voiceEvents.on("stopped_speaking", () => {
-            console.log("VOICE DETECTION: STOPPED SPEAKING");
-          });
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    } else {
-      alert("getUserMedia not supported in this browser.");
-    }
+    voiceEvents.on("speaking", () => {
+        this.setState({ voiceDetected: true })
+        console.log("VOICE DETECTION: SPEAKING");
+    });
+
+    voiceEvents.on("stopped_speaking", () => {
+        console.log("VOICE DETECTION: STOPPED SPEAKING");
+    });
   }
     imageIsAllBlack(image) {
         const dataStart = image.indexOf('/AJV');
@@ -310,7 +286,7 @@ class StudentProctoring extends Component {
                     proctorSession={this.state.proctorSession}
                     onScreenshotPrivilegeGranted={this.handleScreenCapturePrivilegeGranted}
                     onPermissionsGranted={this.handlePrivilegesGranted}
-                    onMicrophoneStreamRequested={this.handleMicrophoneStreamGranted}
+                    onMicrophoneStreamRequested={this.handleClickEnableMicrophone}
                 />
                 <TakeReferenceImage
                     show={this.state.state === 'REFERENCE'}

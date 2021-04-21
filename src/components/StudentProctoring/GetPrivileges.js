@@ -52,7 +52,7 @@ class GetPrivileges extends Component {
     }
 
     async handleContinue() {
-        if (this.props.webcamPrivilege && this.props.screenshotPrivilege && this.props.microphonePrivilege) {
+        if (this.props.webcamPrivilege && this.props.screenshotPrivilege && this.props.microphoneStream) {
             await proctoringVerifyPrivileges({
                 proctorSessionId: this.props.proctorSession._id,
                 webcamPrivilege: true,
