@@ -110,7 +110,7 @@ function ViewRow(props) {
                     <td 
                         key={`${props.title}-${props.rowNumber}-${column.propertyName}`}
                     >
-                        {value}
+                        {column.render && typeof column.render !== "undefined" ? column.render(value) : value}
                     </td>
                 )
             }

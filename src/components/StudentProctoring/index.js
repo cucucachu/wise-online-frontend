@@ -21,6 +21,7 @@ class StudentProctoring extends Component {
             webcamPrivilege: false,
             screenshotPrivilege: false,
             microphoneStream: null,
+            audioBlobArray: [],
             captureInterval: null,
             calibratedDBThreshold: -50, // this is in dBFS (not the conventional dBSPL), thus the negative number
         };
@@ -38,6 +39,7 @@ class StudentProctoring extends Component {
         this.handleEndRecording = this.handleEndRecording.bind(this);
         this.goToStudentDashboard = this.goToStudentDashboard.bind(this);
         this.handleClickEnableMicrophone = this.handleClickEnableMicrophone.bind(this);
+        this.handleAvailableData = this.handleAvailableData.bind(this);
         this.restart = this.restart.bind(this);
 
         this.startRecording = this.startRecording.bind(this);
@@ -103,6 +105,18 @@ class StudentProctoring extends Component {
         });
     }
 
+    handleAvailableData(e) {
+        if (e.data.size > 0) {
+            const newAudioBlobArray = [...this.state.audioBlobArray];
+            newAudioBlobArray.push(e.data);
+            this.setState({ audioBlobArray: newAudioBlobArray })
+        }
+
+        // const newChunks = [...this.state.audioChunks, e.data];
+        // this.setState({ audioChunks: newChunks });
+        // this.setState({ audioBlob: e.data });
+    }
+
     handleReferenceImageTaken() {
         // this.setState({
         //     ...this.state,
@@ -130,7 +144,7 @@ class StudentProctoring extends Component {
     }
 
     startRecording() {
-        let interval = 10 * 1000;
+        let interval = 5 * 1000;
 
         if (this.state.proctorConfiguration && this.state.proctorConfiguration.webcamInterval) {
             interval = this.state.proctorConfiguration.webcamInterval * 1000;
@@ -157,14 +171,31 @@ class StudentProctoring extends Component {
 
 
   async submitCurrentAudio(proctorDetailsId) {
-    if (!this.state.audioRecorder) return;
-    
-    this.state.audioRecorder.requestData();
+    // if (!this.state.audioRecorder) return;
+        if (!this.state.audioBlobArray.length) return;
+        const audioBlob = new Blob(this.state.audioBlobArray, { type: 'audio/webm' });
+    // this.state.audioRecorder.requestData();
 
-    const fd = new FormData();
-    fd.append("audio", this.state.audioBlob);
+      const fd = new FormData();
+      console.log("Finished audio blob", audioBlob)
+    fd.append("audio", audioBlob);
 
     const voiceDetected = this.state.voiceDetected;
+this.setState({ audioBlobArray: [] });
+
+    // console.log(this.state.audioBlob);
+  // if ( this.state.audioBlob ) {
+  //     const blob = new Blob([ this.state.audioBlob ], { type: 'audio/webm' });
+  //     console.log(blob);
+  //     let url = URL.createObjectURL(blob);
+  //     let a = document.createElement("a");
+  //     document.body.appendChild(a);
+  //     a.style = "display: none";
+  //     a.href = url;
+  //     a.download = `${+new Date()}-test`;
+  //     a.click();
+  //     window.URL.revokeObjectURL(url);
+  // }
 
     if (voiceDetected) {
         this.setState({ voiceDetected: false });
@@ -178,20 +209,16 @@ class StudentProctoring extends Component {
     const voiceEvents = thresholdVoice(this.state.microphoneStream ,
         { threshold: dBThreshold || -50, }
     );
-
     const recorder = new MediaRecorder(this.state.microphoneStream);
 
     recorder.onstop = function (e) {
         console.log("done recording");
     };
 
-    recorder.ondataavailable = (e) => {
-    // const newChunks = [...this.state.audioChunks, e.data];
-    // this.setState({ audioChunks: newChunks });
-    this.setState({ audioBlob: e.data });
-    };
+    recorder.ondataavailable = this.handleAvailableData
 
-    recorder.start();
+    recorder.start(100);
+
     this.setState({ audioRecorder: recorder });
 
     voiceEvents.on("speaking", () => {
@@ -203,6 +230,7 @@ class StudentProctoring extends Component {
         console.log("VOICE DETECTION: STOPPED SPEAKING");
     });
   }
+
     imageIsAllBlack(image) {
         const dataStart = image.indexOf('/AJV');
         const dataEnd = image.indexOf('//9k');
@@ -230,11 +258,13 @@ class StudentProctoring extends Component {
 
         const requestResponse = await proctoringSubmitProctorData({
             proctorSessionId: this.state.proctorSession._id, 
+            voiceDetected: this.state.voiceDetected,
             webcamImage, 
             screenshotImage,
         });
 
         const responseData = requestResponse.data;
+
         this.submitCurrentAudio(responseData.proctorDetailInstanceId);
 
         if (this.imageIsAllBlack(webcamImage) || this.imageIsAllBlack(screenshotImage)) {

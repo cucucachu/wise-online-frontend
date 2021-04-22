@@ -9,6 +9,7 @@ function ProctorDetailView(props) {
         return <Spinner/>;
     }
 
+    
     props.proctorDetail.datetime = new Date(props.proctorDetail.timestamp).toLocaleString();
     props.proctorDetail.time = new Date(props.proctorDetail.timestamp).toLocaleTimeString();
 
@@ -36,7 +37,7 @@ function ProctorDetailView(props) {
     if (props.proctorDetail.unknownURLs) {
         props.proctorDetail.websites = [...props.proctorDetail.websites, ...props.proctorDetail.unknownURLs];
     }
-    
+
     return (
         <div className="proctor-detail-view">
             <div className="row">
@@ -121,27 +122,13 @@ function ProctorDetailView(props) {
                 <div className="col-3 black align-right">
                     Frame {props.frame + 1} / {props.max} @ {props.proctorDetail.time}
                 </div>
+                { props.proctorDetail.audioUrl && 
+                    <div>
+                        <audio src={props.proctorDetail.audioUrl} autoPlay controls/>
+                    </div>
+                }
             </div>
-            <div className="row">
-                <div className="col-12">
-                <h2>Recorded Audio</h2>
-                <div className="slider-container">
-                        <input type="range" min="0" max={props.max - 1} value={props.frame} className="slider" onChange={e => props.onChangeSlider(e)}/>
-                </div>                
-                    <button className="play-button" onClick={() => {
-                    const audioElem = new Audio("https://actions.google.com/sounds/v1/household/clock_ticking.ogg")
-                    audioElem.play();
-                    setCurrentAudio(audioElem);
-                    audioElem.addEventListener('loadeddata', () => {
-                        console.log(audioElem.duration);
-                    })
-                    }}>&#9656;</button>
-                    <button className="pause-button" onClick={() => {
-                        currentAudio.pause();
-                    }}>||
-                    </button>
-                </div>
-            </div>
+            
             <div className="row">
                 <ViewTable 
                     title="Details"
@@ -165,6 +152,11 @@ function ProctorDetailView(props) {
                         {
                             label: 'Websites',
                             propertyName: 'websites',
+                        },
+                        { 
+                            label: 'Speaking Detected',
+                            propertyName: 'voiceDetected',
+                            render: val => val ? 'Yes' : 'No',
                         },
                     ]}
                     rows={[props.proctorDetail]}
