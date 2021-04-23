@@ -44,6 +44,7 @@ class StudentProctoring extends Component {
 
         this.startRecording = this.startRecording.bind(this);
         this.capture = this.capture.bind(this);
+        this.restartRecorder = this.restartRecorder.bind(this);
         this.endTest = this.endTest.bind(this);
     }
 
@@ -106,15 +107,13 @@ class StudentProctoring extends Component {
     }
 
     handleAvailableData(e) {
-        if (e.data.size > 0) {
-            const newAudioBlobArray = [...this.state.audioBlobArray];
-            newAudioBlobArray.push(e.data);
-            this.setState({ audioBlobArray: newAudioBlobArray })
-        }
-
-        // const newChunks = [...this.state.audioChunks, e.data];
-        // this.setState({ audioChunks: newChunks });
-        // this.setState({ audioBlob: e.data });
+        this.setState({ audioBlobArray: e.data });
+        // console.log("CHECKED");
+        // if (e.data.size > 0) {
+            // const newAudioBlobArray = [...this.state.audioBlobArray];
+            // newAudioBlobArray.push(e.data);
+            // this.setState({ audioBlobArray: newAudioBlobArray })
+        // }
     }
 
     handleReferenceImageTaken() {
@@ -170,66 +169,76 @@ class StudentProctoring extends Component {
     };
 
 
-  async submitCurrentAudio(proctorDetailsId) {
-    // if (!this.state.audioRecorder) return;
-        if (!this.state.audioBlobArray.length) return;
-        const audioBlob = new Blob(this.state.audioBlobArray, { type: 'audio/webm' });
-    // this.state.audioRecorder.requestData();
+    prepareAudioForSubmission(audioBlob) {
+        if (!audioBlob) return;
 
-      const fd = new FormData();
-      console.log("Finished audio blob", audioBlob)
-    fd.append("audio", audioBlob);
+        const fd = new FormData();
+        fd.append("audio", audioBlob);
 
-    const voiceDetected = this.state.voiceDetected;
-this.setState({ audioBlobArray: [] });
-
-    // console.log(this.state.audioBlob);
-  // if ( this.state.audioBlob ) {
-  //     const blob = new Blob([ this.state.audioBlob ], { type: 'audio/webm' });
-  //     console.log(blob);
-  //     let url = URL.createObjectURL(blob);
-  //     let a = document.createElement("a");
-  //     document.body.appendChild(a);
-  //     a.style = "display: none";
-  //     a.href = url;
-  //     a.download = `${+new Date()}-test`;
-  //     a.click();
-  //     window.URL.revokeObjectURL(url);
-  // }
-
-    if (voiceDetected) {
-        this.setState({ voiceDetected: false });
-        return submitAudio(fd, proctorDetailsId, voiceDetected);
+        return fd;
     }
-  }
 
-  monitorAudio(dBThreshold) {
-    // determines what permissions the user has
+    submitCurrentAudio(proctorDetailsId) {
+        // if (!this.state.audioBlobArray.length || !this.state.audioRecorder) return;
+        if (!this.state.audioRecorder) return Promise.resolve();
 
-    const voiceEvents = thresholdVoice(this.state.microphoneStream ,
-        { threshold: dBThreshold || -50, }
-    );
-    const recorder = new MediaRecorder(this.state.microphoneStream);
+        // ensure that the last blob of data is recorded
+        const voiceDetected = this.state.voiceDetected;
 
-    recorder.onstop = function (e) {
-        console.log("done recording");
-    };
+        if (voiceDetected) {
+            this.setState({ voiceDetected: false });
 
-    recorder.ondataavailable = this.handleAvailableData
+            this.state.audioRecorder.requestData()
+            return new Promise((resolve) => {
+                setTimeout(() => {
+                    const audioFileData = this.prepareAudioForSubmission(this.state.audioBlobArray);
 
-    recorder.start(100);
+                    this.restartRecorder();
 
-    this.setState({ audioRecorder: recorder });
+                    resolve( submitAudio(audioFileData, proctorDetailsId, voiceDetected) );
+                }, 0) // ensures that this is called AFTER onupdatedata
+            });
+        }
+        else {
+            this.restartRecorder();
 
-    voiceEvents.on("speaking", () => {
-        this.setState({ voiceDetected: true })
-        console.log("VOICE DETECTION: SPEAKING");
-    });
+            return Promise.resolve();
+        }
+    }
 
-    voiceEvents.on("stopped_speaking", () => {
-        console.log("VOICE DETECTION: STOPPED SPEAKING");
-    });
-  }
+
+    restartRecorder() {
+        // Restart to create new recorded audio blob
+        this.state.audioRecorder.stop();
+        this.state.audioRecorder.start();
+    }
+
+    monitorAudio(dBThreshold) {
+        // determines what permissions the user has
+
+        const voiceEvents = thresholdVoice(this.state.microphoneStream ,
+            { threshold: dBThreshold || -50, }
+        );
+        const recorder = new MediaRecorder(this.state.microphoneStream);
+
+        recorder.onerror = console.error;
+
+        // ondataavailable is called whenever recorder.requestData is called
+        recorder.ondataavailable = this.handleAvailableData
+
+        recorder.start();
+
+        this.setState({ audioRecorder: recorder });
+
+        voiceEvents.on("speaking", () => {
+            this.setState({ voiceDetected: true })
+            console.log("VOICE DETECTION: SPEAKING");
+        });
+
+        voiceEvents.on("stopped_speaking", () => {
+            console.log("VOICE DETECTION: STOPPED SPEAKING");
+        });
+    }
 
     imageIsAllBlack(image) {
         const dataStart = image.indexOf('/AJV');
@@ -265,7 +274,10 @@ this.setState({ audioBlobArray: [] });
 
         const responseData = requestResponse.data;
 
-        this.submitCurrentAudio(responseData.proctorDetailInstanceId);
+        this.submitCurrentAudio(responseData.proctorDetailInstanceId).then(() => {
+            // this.setState({ audioBlobArray: [] });
+        });
+
 
         if (this.imageIsAllBlack(webcamImage) || this.imageIsAllBlack(screenshotImage)) {
             clearInterval(this.state.captureInterval);

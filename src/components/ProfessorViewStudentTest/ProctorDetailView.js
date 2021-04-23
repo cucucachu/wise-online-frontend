@@ -1,15 +1,18 @@
-import React, { useState } from 'react';
+import React, { useRef, useEffect } from 'react';
 import ViewTable from '../Resusable/ViewTable';
 import Spinner from '../Resusable/Spinner';
 
 function ProctorDetailView(props) {
-    const [ currentAudio, setCurrentAudio ] = useState();
+    const audioRef = useRef();
+
+    useEffect(() => {
+        console.log(audioRef.current);
+    }, []);
 
     if (props.proctorDetail === undefined) {
         return <Spinner/>;
     }
 
-    
     props.proctorDetail.datetime = new Date(props.proctorDetail.timestamp).toLocaleString();
     props.proctorDetail.time = new Date(props.proctorDetail.timestamp).toLocaleTimeString();
 
@@ -105,7 +108,7 @@ function ProctorDetailView(props) {
                 </div>
             </div>
             <div className="row">
-                <div className="col-5">
+                <div className="col-9">
                     <button className="play-button" onClick={props.onClickPlay}>&#9656;</button>
                     <button className="pause-button" onClick={props.onClickPause}>||</button>
                     {(() => {
@@ -122,12 +125,16 @@ function ProctorDetailView(props) {
                 <div className="col-3 black align-right">
                     Frame {props.frame + 1} / {props.max} @ {props.proctorDetail.time}
                 </div>
-                { props.proctorDetail.audioUrl && 
-                    <div>
-                        <audio src={props.proctorDetail.audioUrl} autoPlay controls/>
-                    </div>
-                }
             </div>
+                { props.proctorDetail.audio && 
+                    (
+                        <div className="row align-items-center">
+                            <div className="col-3">
+                                <audio ref={audioRef} src={props.proctorDetail.audio} autoPlay controls/>
+                            </div>
+                        </div>
+                    )
+                }
             
             <div className="row">
                 <ViewTable 

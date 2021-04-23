@@ -76,9 +76,6 @@ export function thresholdVoice(stream, options = {}) {
 
   sourceNode.connect(filter);
   filter.connect(analyser);
-  // if (play) analyser.connect(audioContext.destination);
-  // analyser.connect(audioContext.destination);
-  //
 
   emitter.nodeChain = analyser;
 
