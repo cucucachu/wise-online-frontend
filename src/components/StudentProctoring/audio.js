@@ -1,4 +1,4 @@
-const SMOOTHING = .9;
+const SMOOTHING = .98; // 5 second period of averaging
 const CALIBRATION_PERIOD_MILLISECONDS = 5000;
 
 function getMaxVolume(analyser, fftBins) {
@@ -21,6 +21,25 @@ if (typeof window !== "undefined") {
 
 
 let audioContext = null;
+
+function getBandpassFilter(context) {
+  const low = 300;
+  const high = 1500;
+  const geometricMean = Math.sqrt(low * high);
+
+  return new BiquadFilterNode(context, {
+    type: "bandpass",
+    frequency: geometricMean,
+    Q: geometricMean / (high - low),
+  });
+}
+
+function getLowpassFilter(context) {
+  return new BiquadFilterNode(context, {
+    type: "lowpass",
+    frequency: 500, // set to upper limits of female speaking voice
+  });
+};
 
 export function thresholdVoice(stream, options = {}) {
   const subscribers = {};
@@ -53,29 +72,26 @@ export function thresholdVoice(stream, options = {}) {
   // Ensure that just a single AudioContext is internally created
   audioContext = options.audioContext || audioContext || new audioContextType();
 
-  const low = 300;
-  const high = 2000;
-  const geometricMean = Math.sqrt(low * high);
 
-  const filter = new BiquadFilterNode(audioContext, {
-    type: "bandpass",
-    frequency: geometricMean,
-    Q: geometricMean / (high - low),
-  });
+  const bandpassFilter = getBandpassFilter(audioContext); 
+  const lowpassFilter = getLowpassFilter(audioContext);
 
   let sourceNode, fftBins, analyser;
 
   analyser = audioContext.createAnalyser();
   analyser.fftSize = 512;
-  analyser.smoothingTimeConstant = smoothing;
+  analyser.smoothingTimeConstant = smoothing; // set to 5 second average
   fftBins = new Float32Array(analyser.frequencyBinCount);
 
   //WebRTC Stream
   sourceNode = audioContext.createMediaStreamSource(stream);
   threshold = threshold || -50;
 
-  sourceNode.connect(filter);
-  filter.connect(analyser);
+  sourceNode.connect(bandpassFilter);
+  bandpassFilter.connect(lowpassFilter); // necessary to smooth out loud, momentary sounds
+  lowpassFilter.connect(analyser);
+
+//   analyser.connect(audioContext.destination); // PLAY AUDIO for dev feedback purposes
 
   emitter.nodeChain = analyser;
 
@@ -178,7 +194,10 @@ export function getAudioThumbprint(stream) {
 
   const processor = aC.createScriptProcessor(2048, 1, 1); // NOTE - this is a deprecated API, but still universally supported ( except by ie )
 
-  sourceNode.connect(analyser);
+  const bandpassFilter = getBandpassFilter(aC);
+
+  sourceNode.connect(bandpassFilter);
+  bandpassFilter.connect(analyser);
   analyser.connect(processor);
   processor.connect(aC.destination);
 
@@ -201,11 +220,12 @@ export function getAudioThumbprint(stream) {
 
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      // TODO find some way to stop onaudioprocess
       const averageDB = readings.reduce((sum, n) => {
         return sum + (n || 0) }, 0) / readings.length;
-      resolve(averageDB);
-      sourceNode.disconnect(analyser);
+      // resolve(averageDB);
+      // resolve(Math.max(Math.min(averageDB, -35), -50)); // threshold between -50 and -35 dBFS
+      resolve(Math.min(averageDB, -35)); // threshold between -50 and -35 dBFS
+      // sourceNode.disconnect();
       analyser.disconnect(processor);
       processor.onaudioprocess = null;
     },

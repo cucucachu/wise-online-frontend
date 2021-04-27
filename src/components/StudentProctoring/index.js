@@ -52,6 +52,10 @@ class StudentProctoring extends Component {
         if (this.state.captureInterval) {
             clearInterval(this.state.captureInterval);
         }
+
+        if (this.state.microphoneStream) {
+            this.state.microphoneStream.getTracks().forEach(t => t.stop());
+        }
     }
 
     handleAgreeToTerms() {
@@ -219,6 +223,7 @@ class StudentProctoring extends Component {
         const voiceEvents = thresholdVoice(this.state.microphoneStream ,
             { threshold: dBThreshold || -50, }
         );
+
         const recorder = new MediaRecorder(this.state.microphoneStream);
 
         recorder.onerror = console.error;

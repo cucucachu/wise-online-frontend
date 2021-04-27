@@ -41,7 +41,7 @@ class ProfessorViewStudentTest extends Component {
         else {
             studentTest.end = studentTest.latestSubmissionTime ? new Date(studentTest.latestSubmissionTime).toLocaleString() : '';
         }
-
+        
         studentTest.suspiciousActivity = studentTest.multiplePeopleFound 
         || studentTest.lowConfidenceScore || studentTest.studentAwayFromCamera
         || studentTest.forbiddenWebsitesFound || studentTest.unknownWebsitesFound
@@ -69,6 +69,12 @@ class ProfessorViewStudentTest extends Component {
         for (const detailIndex in proctorDetails) {
             const proctorDetail = proctorDetails[detailIndex];
 
+            if (proctorDetail.voiceDetected) {
+                studentTest.suspiciousActivity = true;
+                const voicesIssueText= "Voices Detected";
+                if (!studentTest.issues.includes(voicesIssueText)) studentTest.issues.push(voicesIssueText);
+            }
+
             if (!proctorDetail.hasScreenshot || !proctorDetail.hasWebcamImage) {
                 issueFrames.push(Number(detailIndex));
             }
@@ -79,6 +85,9 @@ class ProfessorViewStudentTest extends Component {
                 issueFrames.push(Number(detailIndex));
             }
             else if (proctorDetail.forbiddenURLs || proctorDetail.unknownURLs) {
+                issueFrames.push(Number(detailIndex));
+            }
+            else if (proctorDetail.voiceDetected) {
                 issueFrames.push(Number(detailIndex));
             }
         }
@@ -116,17 +125,21 @@ class ProfessorViewStudentTest extends Component {
     }
 
     play() {
-        if (this.state.playInterval === null) {
-            this.nextFrame();
-            const playInterval = setInterval(this.nextFrame, 500);
-            this.setState({
-                ...this.state,
-                playInterval,
-            });
+        if (this.state.frame >= this.state.proctorDetails.length - 1) {
+            return;
         }
+        // if (this.state.playInterval === null) {
+        this.nextFrame();
+            // const playInterval = setInterval(this.nextFrame, 500);
+            // this.setState({
+            //     ...this.state,
+            //     playInterval,
+            // });
+        // }
     }
 
     pause() {
+        this.setState({ isPlaying: false });
         if (this.state.playInterval !== null) {
             clearInterval(this.state.playInterval);
             this.setState({
@@ -136,11 +149,17 @@ class ProfessorViewStudentTest extends Component {
         }
     }
 
-    nextFrame() {
-        if (this.state.frame >= this.state.proctorDetails.length - 1) {
-            this.pause();
+    nextFrame(forceNext = false) {
+        const proctorDetails = this.state.proctorDetails;
+        if (this.state.frame >= proctorDetails.length - 1) {
+            return this.pause();
         }
-        else {
+
+        if (!proctorDetails[this.state.frame].voiceDetected || forceNext) {
+            setTimeout(() => {
+                this.nextFrame();
+            }, 500 );
+
             this.setState({
                 ...this.state,
                 frame: this.state.frame + 1,
@@ -236,6 +255,7 @@ class ProfessorViewStudentTest extends Component {
                         onClickPlay={this.play}
                         onClickPause={this.pause}
                         onClickNextIssue={this.handleClickNextIssue}
+                        onNextFrame={this.nextFrame}
                     />
                 </div>
             </div>

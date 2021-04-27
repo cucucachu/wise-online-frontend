@@ -6,8 +6,14 @@ function ProctorDetailView(props) {
     const audioRef = useRef();
 
     useEffect(() => {
-        console.log(audioRef.current);
-    }, []);
+        if (audioRef.current) {
+            const onEnded = () => {
+                props.onNextFrame(true); // force to skip
+            };
+            audioRef.current.addEventListener('ended', onEnded);
+            return () => { if (audioRef.current) audioRef.current.removeEventListener('ended', onEnded); }
+        }
+    });
 
     if (props.proctorDetail === undefined) {
         return <Spinner/>;
@@ -130,7 +136,7 @@ function ProctorDetailView(props) {
                     (
                         <div className="row align-items-center">
                             <div className="col-3">
-                                <audio ref={audioRef} src={props.proctorDetail.audio} autoPlay controls/>
+                                <audio ref={audioRef} src={props.proctorDetail.audio} autoPlay controls controlsList="nodownload"/>
                             </div>
                         </div>
                     )
