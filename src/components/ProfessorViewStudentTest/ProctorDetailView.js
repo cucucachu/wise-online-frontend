@@ -46,7 +46,6 @@ function ProctorDetailView(props) {
     if (props.proctorDetail.unknownURLs) {
         props.proctorDetail.websites = [...props.proctorDetail.websites, ...props.proctorDetail.unknownURLs];
     }
-
     return (
         <div className="proctor-detail-view">
             <div className="row">
@@ -114,7 +113,7 @@ function ProctorDetailView(props) {
                 </div>
             </div>
             <div className="row">
-                <div className="col-9">
+                <div className="col-8">
                     <button className="play-button" onClick={props.onClickPlay}>&#9656;</button>
                     <button className="pause-button" onClick={props.onClickPause}>||</button>
                     {(() => {
@@ -128,7 +127,7 @@ function ProctorDetailView(props) {
                         else return '';
                     })()}
                 </div>
-                <div className="col-3 black align-right">
+                <div className="col-4 black align-right">
                     Frame {props.frame + 1} / {props.max} @ {props.proctorDetail.time}
                 </div>
             </div>

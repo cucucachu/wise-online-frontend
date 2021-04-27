@@ -112,12 +112,6 @@ class StudentProctoring extends Component {
 
     handleAvailableData(e) {
         this.setState({ audioBlobArray: e.data });
-        // console.log("CHECKED");
-        // if (e.data.size > 0) {
-            // const newAudioBlobArray = [...this.state.audioBlobArray];
-            // newAudioBlobArray.push(e.data);
-            // this.setState({ audioBlobArray: newAudioBlobArray })
-        // }
     }
 
     handleReferenceImageTaken() {
@@ -147,7 +141,7 @@ class StudentProctoring extends Component {
     }
 
     startRecording() {
-        let interval = 5 * 1000;
+        let interval = 10 * 1000;
 
         if (this.state.proctorConfiguration && this.state.proctorConfiguration.webcamInterval) {
             interval = this.state.proctorConfiguration.webcamInterval * 1000;
@@ -186,7 +180,6 @@ class StudentProctoring extends Component {
         // if (!this.state.audioBlobArray.length || !this.state.audioRecorder) return;
         if (!this.state.audioRecorder) return Promise.resolve();
 
-        // ensure that the last blob of data is recorded
         const voiceDetected = this.state.voiceDetected;
 
         if (voiceDetected) {
@@ -200,7 +193,7 @@ class StudentProctoring extends Component {
                     this.restartRecorder();
 
                     resolve( submitAudio(audioFileData, proctorDetailsId, voiceDetected) );
-                }, 0) // ensures that this is called AFTER onupdatedata
+                }, 0) // ensures that this is called AFTER onupdatedata. Adds to the top of the event queue (and thus is resolved AFTER onupdatedata)
             });
         }
         else {
@@ -209,7 +202,6 @@ class StudentProctoring extends Component {
             return Promise.resolve();
         }
     }
-
 
     restartRecorder() {
         // Restart to create new recorded audio blob

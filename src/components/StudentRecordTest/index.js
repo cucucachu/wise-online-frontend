@@ -19,10 +19,6 @@ const videoConstraints = {
   facingMode: "user",
 };
 
-// It relies on audio being divided into 'chunks' depending on the number of images taken.
-// 1. All audio will be recorded only in the vocal band 500hz to 4000hz
-// 2. We'll take an audio thumbprint of '5' seconds when the student clicks to take their ID verification image. The average DB on this thumbprint will set the noise-threshold, above which all audio will be flagged
-// 3. Any audio that is above the noise threshold, will cause the entire audio 'chunk' to be flagged.
 class StudentRecordTest extends Component {
   constructor(props) {
     super(props);

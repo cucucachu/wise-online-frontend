@@ -1,5 +1,10 @@
-const SMOOTHING = .98; // 5 second period of averaging
-const CALIBRATION_PERIOD_MILLISECONDS = 5000;
+// This code is based on hark.js 
+// https://github.com/otalk/hark
+// It was modified significantly to allow for
+// adding special filters to the WebAudio pipeline
+
+const SMOOTHING = .98; // Scale of 0-1. The higher the number, the smoother the running average
+const CALIBRATION_PERIOD_MILLISECONDS = 5000; // The length of the averaging period for the calibration operation.
 
 function getMaxVolume(analyser, fftBins) {
   let maxVolume = -Infinity;
@@ -37,12 +42,14 @@ function getBandpassFilter(context) {
 function getLowpassFilter(context) {
   return new BiquadFilterNode(context, {
     type: "lowpass",
-    frequency: 500, // set to upper limits of female speaking voice
+    frequency: 500, // arrived at this number through experimentation. It turns out it's pretty close to the upper range of the human voice.
   });
 };
 
 export function thresholdVoice(stream, options = {}) {
   const subscribers = {};
+
+  // Simple event emitter that permits subscribers to register callbacks
   const emitter = {
     emit: (event, value) => {
       (subscribers[event] || []).map((cb) => {
@@ -58,6 +65,7 @@ export function thresholdVoice(stream, options = {}) {
       }
     },
   };
+  
   // make it not break in non-supported browsers
   if (!audioContextType) return emitter;
 
@@ -65,13 +73,11 @@ export function thresholdVoice(stream, options = {}) {
   let smoothing = SMOOTHING,
     interval = options.interval || 50,
     threshold = options.threshold || -50,
-    play = options.play,
     history = options.history || 10,
     running = true;
 
-  // Ensure that just a single AudioContext is internally created
+  // Ensure that just a single AudioContext is created
   audioContext = options.audioContext || audioContext || new audioContextType();
-
 
   const bandpassFilter = getBandpassFilter(audioContext); 
   const lowpassFilter = getLowpassFilter(audioContext);
@@ -83,7 +89,6 @@ export function thresholdVoice(stream, options = {}) {
   analyser.smoothingTimeConstant = smoothing; // set to 5 second average
   fftBins = new Float32Array(analyser.frequencyBinCount);
 
-  //WebRTC Stream
   sourceNode = audioContext.createMediaStreamSource(stream);
   threshold = threshold || -50;
 
@@ -183,10 +188,12 @@ export function thresholdVoice(stream, options = {}) {
   return emitter;
 }
 
+// Takes a WebRTC stream 
+// and finds the dBFS average over a period of (5) seconds.
+// returns a promise
 export function getAudioThumbprint(stream) {
   const aC = new audioContextType();
   const analyser = aC.createAnalyser();
-  //WebRTC Stream
   const sourceNode = aC.createMediaStreamSource(stream);
 
   analyser.fftSize = 512;
@@ -216,16 +223,11 @@ export function getAudioThumbprint(stream) {
     }
   }
 
-  // sourceNode.start();
-
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       const averageDB = readings.reduce((sum, n) => {
         return sum + (n || 0) }, 0) / readings.length;
-      // resolve(averageDB);
-      // resolve(Math.max(Math.min(averageDB, -35), -50)); // threshold between -50 and -35 dBFS
-      resolve(Math.min(averageDB, -35)); // threshold between -50 and -35 dBFS
-      // sourceNode.disconnect();
+      resolve(Math.min(averageDB, -35)); // threshold between -100 and -35 dBFS
       analyser.disconnect(processor);
       processor.onaudioprocess = null;
     },
