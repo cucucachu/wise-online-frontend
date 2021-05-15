@@ -1,6 +1,6 @@
 const axios = require('axios');
-// const baseURL = 'http://localhost:8080/';
-const baseURL = 'https://internal-wiseattendonline.appspot.com/' // URL for hosted backend for test
+const baseURL = 'http://localhost:8080/';
+// const baseURL = 'https://internal-wiseattendonline.appspot.com/' // URL for hosted backend for test
 
 /* !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
 // const baseURL = 'https://wiseonlineattend.appspot.com/' // DO NOT USE! URL for hosted production.
@@ -467,6 +467,14 @@ async function proctoringGetStudentTestDetailsAndImages({studentTestId, start, p
     });
 }
 
+function proctoringGetWebcamImageURL({studentTestId, index}) {
+    return `${baseURL}proctor/studentTest/${studentTestId}/details/webcam?index=${index}`;
+}
+
+function proctoringGetScreenshotImageURL({studentTestId, index}) {
+    return `${baseURL}proctor/studentTest/${studentTestId}/details/screenshot?index=${index}`;
+}
+
 export {
     adminLogin,
     professorLogin,
@@ -543,4 +551,6 @@ export {
     proctoringGetTestDetails,
     proctoringGetStudentTestDetails,
     proctoringGetStudentTestDetailsAndImages,
+    proctoringGetWebcamImageURL,
+    proctoringGetScreenshotImageURL,
 }

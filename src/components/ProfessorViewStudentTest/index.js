@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import DataPane from '../Resusable/DataPane';
 import ProctorDetailView from './ProctorDetailView';
 
-import { proctoringGetStudentTestDetails, proctoringGetStudentTestDetailsAndImages } from '../../store/axios';
+import { proctoringGetStudentTestDetails, proctoringGetStudentTestDetailsAndImages, proctoringGetWebcamImageURL, proctoringGetScreenshotImageURL } from '../../store/axios';
 
 import editIcon from '../../Assets/images/edit-icon.png'
 
@@ -81,6 +81,9 @@ class ProfessorViewStudentTest extends Component {
             else if (proctorDetail.forbiddenURLs || proctorDetail.unknownURLs) {
                 issueFrames.push(Number(detailIndex));
             }
+
+            proctorDetail.webcamURL = proctoringGetWebcamImageURL({studentTestId: studentTest._id, index: detailIndex});
+            proctorDetail.screenshotURL = proctoringGetScreenshotImageURL({studentTestId: studentTest._id, index: detailIndex});
         }
 
         this.setState({
@@ -90,13 +93,14 @@ class ProfessorViewStudentTest extends Component {
             issueFrames,
         });
 
-        this.getStudentTestDetails(proctorDetails.length);
+        // this.getStudentTestDetails(proctorDetails.length);
     }
 
     async getStudentTestDetails(numberOfProctorDetails) {
-        const pageSize = 2;
+        let pageSize = 4;
 
-        for (let index = 0; index < numberOfProctorDetails; index += pageSize) {
+        for (let index = 0; index < 10/*numberOfProctorDetails*/; index += pageSize) {
+            // pageSize = pageSize < 5 ? pageSize + 1 : pageSize;
             
             const response = await proctoringGetStudentTestDetailsAndImages({
                 studentTestId: this.state.studentTest._id,
@@ -141,17 +145,20 @@ class ProfessorViewStudentTest extends Component {
             this.pause();
         }
         else {
+            const frame = this.state.frame + 1;
             this.setState({
                 ...this.state,
-                frame: this.state.frame + 1,
+                frame,
             });
         }
     }
 
     handleChangeSlider(e) {
+        const frame = Number(e.target.value);
+
         this.setState({
             ...this.state,
-            frame: Number(e.target.value),
+            frame,
         });
     }
 
