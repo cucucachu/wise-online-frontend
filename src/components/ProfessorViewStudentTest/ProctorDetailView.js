@@ -57,12 +57,12 @@ function ProctorDetailView(props) {
                                     <h2 className="center">No Image Received</h2>
                                 )
                             }
-                            else if (props.proctorDetail.webcamImage) {
+                            else if (props.proctorDetail.webcamURL) {
                                 return (
                                     <img 
                                         height="450" 
                                         width="800"
-                                        src={props.proctorDetail.webcamImage}
+                                        src={props.proctorDetail.webcamURL}
                                         alt="Webcam"
                                     />
                                 );
@@ -85,12 +85,12 @@ function ProctorDetailView(props) {
                                     <h2 className="center">No Image Recieved</h2>
                                 )
                             }
-                            else if (props.proctorDetail.screenshot) {
+                            else if (props.proctorDetail.screenshotURL) {
                                 return (
                                     <img 
                                         height="450" 
                                         width="800"
-                                        src={props.proctorDetail.screenshot}
+                                        src={props.proctorDetail.screenshotURL}
                                         alt="Screenshot"
                                     />
                                 );
