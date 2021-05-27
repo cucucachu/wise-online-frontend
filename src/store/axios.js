@@ -483,6 +483,10 @@ function proctoringGetScreenshotImageURL({studentTestId, index}) {
     return `${baseURL}proctor/studentTest/${studentTestId}/details/screenshot?index=${index}`;
 }
 
+function proctoringGetAudioURL({studentTestId, index}) {
+    return `${baseURL}proctor/studentTest/${studentTestId}/details/audio?index=${index}`;
+}
+
 export {
     adminLogin,
     professorLogin,
@@ -562,4 +566,5 @@ export {
     proctoringGetStudentTestDetailsAndImages,
     proctoringGetWebcamImageURL,
     proctoringGetScreenshotImageURL,
+    proctoringGetAudioURL,
 }

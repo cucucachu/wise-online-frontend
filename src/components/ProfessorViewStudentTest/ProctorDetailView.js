@@ -131,11 +131,11 @@ function ProctorDetailView(props) {
                     Frame {props.frame + 1} / {props.max} @ {props.proctorDetail.time}
                 </div>
             </div>
-                { props.proctorDetail.audio && 
+                { props.proctorDetail.voiceDetected && 
                     (
                         <div className="row align-items-center">
                             <div className="col-3">
-                                <audio ref={audioRef} src={props.proctorDetail.audio} autoPlay controls controlsList="nodownload"/>
+                                <audio ref={audioRef} src={props.proctorDetail.audioURL} autoPlay controls controlsList="nodownload"/>
                             </div>
                         </div>
                     )

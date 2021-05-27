@@ -3,7 +3,13 @@ import React, { Component } from 'react';
 import DataPane from '../Resusable/DataPane';
 import ProctorDetailView from './ProctorDetailView';
 
-import { proctoringGetStudentTestDetails, proctoringGetStudentTestDetailsAndImages, proctoringGetWebcamImageURL, proctoringGetScreenshotImageURL } from '../../store/axios';
+import { 
+    proctoringGetStudentTestDetails,
+    proctoringGetStudentTestDetailsAndImages,
+    proctoringGetWebcamImageURL,
+    proctoringGetScreenshotImageURL,
+    proctoringGetAudioURL 
+} from '../../store/axios';
 
 import editIcon from '../../Assets/images/edit-icon.png'
 
@@ -93,6 +99,7 @@ class ProfessorViewStudentTest extends Component {
 
             proctorDetail.webcamURL = proctoringGetWebcamImageURL({studentTestId: studentTest._id, index: detailIndex});
             proctorDetail.screenshotURL = proctoringGetScreenshotImageURL({studentTestId: studentTest._id, index: detailIndex});
+            proctorDetail.audioURL = proctoringGetAudioURL({studentTestId: studentTest._id, index: detailIndex});
         }
 
         this.setState({
@@ -144,13 +151,13 @@ class ProfessorViewStudentTest extends Component {
 
     pause() {
         this.setState({ isPlaying: false });
-        if (this.state.playInterval !== null) {
-            clearInterval(this.state.playInterval);
-            this.setState({
-                ...this.state,
-                playInterval: null,
-            });
-        }
+        // if (this.state.playInterval !== null) {
+        //     clearInterval(this.state.playInterval);
+        //     this.setState({
+        //         ...this.state,
+        //         playInterval: null,
+        //     });
+        // }
     }
 
     nextFrame(forceNext = false) {
@@ -159,12 +166,11 @@ class ProfessorViewStudentTest extends Component {
             return this.pause();
         }
 
-        // if (!proctorDetails[this.state.frame].voiceDetected || forceNext) {
-        //     setTimeout(() => {
-        //         this.nextFrame();
-        //     }, 500 );
+        if (!proctorDetails[this.state.frame].voiceDetected || forceNext) {
+            setTimeout(() => {
+                this.nextFrame();
+            }, 500 );
 
-        else {
             const frame = this.state.frame + 1;
             this.setState({
                 ...this.state,
