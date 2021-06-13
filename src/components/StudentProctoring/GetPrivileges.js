@@ -52,7 +52,7 @@ class GetPrivileges extends Component {
     }
 
     async handleContinue() {
-        if (this.props.webcamPrivilege && this.props.screenshotPrivilege && this.props.microphoneStream) {
+        if (this.props.webcamPrivilege && this.props.screenshotPrivilege && (this.props.microphoneStream || !this.props.audioEnabled)) {
             await proctoringVerifyPrivileges({
                 proctorSessionId: this.props.proctorSession._id,
                 webcamPrivilege: true,
@@ -115,11 +115,13 @@ class GetPrivileges extends Component {
                         onClick={this.handleClickEnableScreenCapture}
                     />
                     {(() => { if (this.state.screenCaptureMessage) return <p className="red">{this.state.screenCaptureMessage}</p>; else return ''; })()}
-                    <TextWithCheckbox 
-                        text="Microphone Permission"
-                        checked={this.state.microphoneStream}
-                        onClick={this.props.onMicrophoneStreamRequested}
-                    />
+                    {this.props.audioEnabled &&
+                        <TextWithCheckbox 
+                            text="Microphone Permission"
+                            checked={this.state.microphoneStream}
+                            onClick={this.props.onMicrophoneStreamRequested}
+                        />
+                    }
                     {(() => { if (this.state.microphoneMessage) return <p className="red">{this.state.microphoneMessage}</p>; else return ''; })()}
                 </div>
                 <div className="spacer-vertical-s"></div>

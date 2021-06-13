@@ -8,6 +8,7 @@ import {
 import { logout, checkLogin } from '../store/axios';
 
 import SuperDashboard from '../components/SuperDashboard';
+import SuperSchoolSettings from '../components/SuperSchoolSettings';
 
 //components
 import ProfessorLogin from '../components/professorLogin';
@@ -159,6 +160,7 @@ class HomePage extends Component {
 
                     <Switch>
                             {/* super */}
+                            <Route path="/super/school/settings" component={SuperSchoolSettings}/>
                             <Route path="/super"  render={
                                 props => <SuperDashboard
                                             {...props}

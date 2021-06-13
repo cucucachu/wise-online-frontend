@@ -24,6 +24,8 @@ class ProfessorViewStudentTest extends Component {
             proctorDetails: [],
             issueFrames: [],
             playInterval: null,
+            pauseForAudio: false,
+            playing: false,
         };
 
         this.nextFrame = this.nextFrame.bind(this);
@@ -31,6 +33,7 @@ class ProfessorViewStudentTest extends Component {
         this.pause = this.pause.bind(this);
         this.handleChangeSlider = this.handleChangeSlider.bind(this);
         this.handleClickNextIssue = this.handleClickNextIssue.bind(this);
+        this.videoController = this.videoController.bind(this);
     }
 
     async componentDidMount() {
@@ -112,80 +115,43 @@ class ProfessorViewStudentTest extends Component {
         // this.getStudentTestDetails(proctorDetails.length);
     }
 
-    async getStudentTestDetails(numberOfProctorDetails) {
-        let pageSize = 4;
-
-        for (let index = 0; index < 10/*numberOfProctorDetails*/; index += pageSize) {
-            // pageSize = pageSize < 5 ? pageSize + 1 : pageSize;
-            
-            const response = await proctoringGetStudentTestDetailsAndImages({
-                studentTestId: this.state.studentTest._id,
-                start: index,
-                pageSize,
-            });
-
-            const proctorDetails = [...this.state.proctorDetails];
-            if (response && response.data && response.data.proctorDetails)
-                proctorDetails.splice(index, response.data.proctorDetails.length, ...response.data.proctorDetails);
-
-            this.setState({
-                ...this.state,
-                proctorDetails,
-            });
-        }
+    componentWillUnmount() {
+        clearInterval(this.state.playInterval);
     }
 
+    // async getStudentTestDetails(numberOfProctorDetails) {
+    //     let pageSize = 4;
+
+    //     for (let index = 0; index < 10/*numberOfProctorDetails*/; index += pageSize) {
+    //         // pageSize = pageSize < 5 ? pageSize + 1 : pageSize;
+            
+    //         const response = await proctoringGetStudentTestDetailsAndImages({
+    //             studentTestId: this.state.studentTest._id,
+    //             start: index,
+    //             pageSize,
+    //         });
+
+    //         const proctorDetails = [...this.state.proctorDetails];
+    //         if (response && response.data && response.data.proctorDetails)
+    //             proctorDetails.splice(index, response.data.proctorDetails.length, ...response.data.proctorDetails);
+
+    //         this.setState({
+    //             ...this.state,
+    //             proctorDetails,
+    //         });
+    //     }
+    // }
+
     play() {
-        if (this.state.frame >= this.state.proctorDetails.length - 1) {
-            return;
-        }
-        // if (this.state.playInterval === null) {
-        this.nextFrame();
-            // const playInterval = setInterval(this.nextFrame, 500);
-            // this.setState({
-            //     ...this.state,
-            //     playInterval,
-            // });
-        // }
+        this.videoController({clickedPlay: true})
     }
 
     pause() {
-        this.setState({ isPlaying: false });
-        // if (this.state.playInterval !== null) {
-        //     clearInterval(this.state.playInterval);
-        //     this.setState({
-        //         ...this.state,
-        //         playInterval: null,
-        //     });
-        // }
-    }
-
-    nextFrame(forceNext = false) {
-        const proctorDetails = this.state.proctorDetails;
-        if (this.state.frame >= proctorDetails.length - 1) {
-            return this.pause();
-        }
-
-        if (!proctorDetails[this.state.frame].voiceDetected || forceNext) {
-            setTimeout(() => {
-                this.nextFrame();
-            }, 500 );
-
-            const frame = this.state.frame + 1;
-            this.setState({
-                ...this.state,
-                frame,
-            });
-        }
+        this.videoController({clickedPause: true});
     }
 
     handleChangeSlider(e) {
-        const frame = Number(e.target.value);
-
-        this.setState({
-            ...this.state,
-            frame,
-        });
+        this.videoController({clickedFrame: Number(e.target.value)});
     }
 
     handleClickNextIssue() {
@@ -204,10 +170,77 @@ class ProfessorViewStudentTest extends Component {
             }
         }
 
-        this.setState({
-            ...this.state,
-            frame: nextIssueFrame,
-        });
+        this.videoController({clickedFrame: nextIssueFrame});
+    }
+
+    videoController({calledFromTimeout, clickedPlay, clickedPause, clickedFrame}) {
+        console.log('videoController()')
+
+        const state = {...this.state};
+
+        const proctorDetails = this.state.proctorDetails;
+        const end = this.state.frame >= proctorDetails.length - 1;
+        const hasVoice = proctorDetails[this.state.frame].voiceDetected;
+        console.dir({calledFromTimeout, clickedPlay, clickedPause, clickedFrame, end, hasVoice});
+
+        if (calledFromTimeout) {
+            if (end || hasVoice) {
+                this.pauseState(state)
+            }
+            else if (state.playing) {
+                this.nextFrame(state);
+            }
+        }
+        else {
+            if (clickedPlay) {
+                this.playState(state);
+
+                if (!end)
+                    this.nextFrame(state);
+            }
+            else if (clickedPause) {
+                this.pauseState(state);
+            }
+            else if (clickedFrame) {
+                this.pauseState(state);
+                this.goToFrame(state, clickedFrame);
+            }
+        }
+
+        console.dir(state);
+
+        if (state.playing && (clickedPlay || calledFromTimeout)) {
+            setTimeout(() => this.videoController({calledFromTimeout: true}), 750);
+        }
+
+        this.setState(state);
+    }
+
+    playState(state) {
+        console.log('playState()');
+        state.playing = true;
+        // if (state.playInterval === null) {
+        //     state.playInterval = setInterval(this.videoController({calledFromInterval: true}), 500);
+        // }
+    }
+
+    pauseState(state) {
+        console.log('pauseState()');
+        state.playing = false;
+        // if (state.playInterval !== null) {
+        //     clearInterval(state.playInterval);
+        //     state.playInterval = null;
+        // }
+    }
+
+    nextFrame(state) {
+        console.log('nextFrame()');
+        state.frame = state.frame + 1;
+    }
+
+    goToFrame(state, frame) {
+        console.log('goToFrame()');
+        state.frame = frame;
     }
 
     render() {

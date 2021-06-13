@@ -35,17 +35,21 @@ class GetPrivileges extends Component {
                             return (
                                 <>
                                     <div className="spacer-vertical-s" />
-                                    <h4 className="black">
-                                        Your test link is:&nbsp;
-                                        <a
-                                            href={this.state.link && this.state.link}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                        >{this.props.test.testLink}</a>
-                                    </h4>
-                                    <h4 className="black">
-                                        Your test password is:&nbsp; {this.props.test.testPassword}
-                                    </h4>
+                                    {this.state.link &&
+                                        <h4 className="black">
+                                            Your test link is:&nbsp;
+                                            <a
+                                                href={this.state.link && this.state.link}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                            >{this.props.test.testLink}</a>
+                                        </h4>
+                                    }
+                                    {this.props.test.testPassword &&
+                                        <h4 className="black">
+                                            Your test password is:&nbsp; {this.props.test.testPassword}
+                                        </h4>
+                                    }
                                 </>
                             );
                         else return '';

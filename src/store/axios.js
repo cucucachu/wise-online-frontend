@@ -78,6 +78,10 @@ async function superCreateSchool(setupKey) {
     return backend.post('/super/school', {setupKey});
 }
 
+async function superSetAudioEnabled({schoolId, enable}) {
+    return backend.post('/super/setAudioEnabled', {schoolId, enable});
+}
+
 /* ----------------------------------------
     Admin Routes
 ------------------------------------------*/
@@ -414,6 +418,10 @@ async function getSchoolNames() {
     Proctoring V2.0 Routes
 ------------------------------------------*/
 
+async function proctoringSchoolAllowsAudio() {
+    return backend.get('proctor/audioAllowed');
+}
+
 async function proctoringProfessorCreateTest(
     {
         courseId,
@@ -423,7 +431,8 @@ async function proctoringProfessorCreateTest(
         testPassword,
         screenshotInterval,
         webcamInterval,
-        facialRecognitionThreshold
+        facialRecognitionThreshold,
+        audioEnabled,
     }) {
     return backend.post('proctor/test', {
         courseId,
@@ -433,7 +442,8 @@ async function proctoringProfessorCreateTest(
         testPassword,
         screenshotInterval,
         webcamInterval,
-        facialRecognitionThreshold
+        facialRecognitionThreshold,
+        audioEnabled,
     });
 }
 
@@ -496,6 +506,7 @@ export {
     superLoginAsAdmin,
     superGetSchoolDetails,
     superCreateSchool,
+    superSetAudioEnabled,
     createSchool,
     claimProfessorAccount,
     adminGetSchoolDetails,
@@ -554,6 +565,7 @@ export {
     adminEditTerm,
     createTerm,
     setCurrentTerm,
+    proctoringSchoolAllowsAudio,
     proctoringProfessorCreateTest,
     proctoringStudentStartTest,
     proctoringVerifyPrivileges,
