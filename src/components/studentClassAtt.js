@@ -126,20 +126,20 @@ handleSubmit = async e =>{
         <div className="container prevent-text">
             <img src={attendClass} className="page-icon" alt="login icon"/>
             <div className="spacer-vertical" />
-            <h1>Mark your attendance</h1>
+            <h1>{i18n("Mark your attendance")}</h1>
 
             <div className="spacer-vertical" />
             <form onSubmit={this.handleSubmit.bind(this)}>
                 <div className="input-wrapper">
                   <div style={{display: this.state.show}}>{this.state.message}</div>
-                    <span className="input-label">Class ID</span>
-                    <input id="classID" type="text" placeholder="Class ID" className="" name="classID" value={this.state.classID} onFocus={() => this.onFocus("classID")} onChange={this.handleChangeID.bind(this)} required/>
+                    <span className="input-label">{i18n("Class ID")}</span>
+                    <input id="classID" type="text" placeholder={i18n("Class ID")} className="" name="classID" value={this.state.classID} onFocus={() => this.onFocus("classID")} onChange={this.handleChangeID.bind(this)} required/>
                 </div>
                 <div className="container-note input-wrapper">
                   <div className="space-adjust-2">
-                    <p className="text-left tooltip-login" ><span className="tooltip-show">What is my class ID?<br/>
+                    <p className="text-left tooltip-login" ><span className="tooltip-show">{i18n("What is my class ID?")}<br/>
                         <span className="tooltiptext">
-                        The class ID is needed to ensure you have authorization to join a class, and can only be obtained from your instructor.
+                        {i18n("The class ID is needed to ensure you have authorization to join a class, and can only be obtained from your instructor.")}
                         </span>
                       </span>
                     </p>
@@ -167,7 +167,7 @@ handleSubmit = async e =>{
                 </div>
                 
                 <div className="spacer-vertical" />
-                <input type="submit" className="btn-att" value="Next" />
+                <input type="submit" className="btn-att" value={i18n("Next")} />
             </form>
             
     </div>
