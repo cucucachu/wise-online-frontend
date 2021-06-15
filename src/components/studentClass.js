@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 
 import attendClassIcon from '../Assets/images/attend-class.png';
 
+import { i18n } from 'web-translate';
+
 class StudentClass extends Component {
   render(){
       return(

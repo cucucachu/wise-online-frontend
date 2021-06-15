@@ -1,6 +1,9 @@
 {
-    "I Am A...": "I Am A...",
-    "student": "Student",
-    "professor": "Professor",
-    "admin": "Admin"
+
+    "AdminAddUsers_index_AddStudentsAndProfessor": "Add Students and Professors",
+
+    "selectRole_I Am A...": "I Am A...",
+    "selectRole_student": "Student",
+    "selectRole_professor": "Professor",
+    "selectRole_admin": "Admin"
 }

@@ -1,6 +1,24 @@
 {
+  "AdminAddUsers_index_AddStudentsAndProfessor": "添加学生和教授",
+  "Administrator": "行政人员",
+  "Begin test": "开始测试",
+  "Class ID": "班级号",
+  "Email": "电子邮件",
+  "Enter Test ID": "输入测试 ID",
+  "Get Support": "得到支持",
   "I Am A...": "我是一个...",
-  "admin": "行政",
-  "professor": "教授",
-  "student": "学生"
+  "I agree to the": "我同意",
+  "Login to Wise": "登录明智",
+  "Professor": "教授",
+  "Student": "学生",
+  "Student ID": "学生卡",
+  "Submit": "提交",
+  "Test ID": "测试编号",
+  "Whats my student ID?": "我的学生证是什么？",
+  "Your school’s student ID is a code of letters and/or numbers provided to identify you by your school.  Wise uses your school’s student ID to verify your identity, securely.  If you have forgotten your school ID, please contact the appropriate individual at your school.": "您学校的学生 ID 是由您的学校提供的用于识别您身份的字母和/或数字代码。 Wise 使用您学校的学生证来安全地验证您的身份。如果您忘记了您的学校 ID，请联系您学校的相应人员。",
+  "selectRole_I Am A...": "我是一个...",
+  "selectRole_admin": "行政",
+  "selectRole_professor": "教授",
+  "selectRole_student": "学生",
+  "terms of use": "使用条款"
 }

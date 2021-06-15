@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import editIcon from '../Assets/images/edit-icon.png';
+import { i18n } from 'web-translate';
 
 const StudentRecordAgreeToTerms = (props) => {
 

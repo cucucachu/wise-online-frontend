@@ -3,9 +3,7 @@ import { Link } from "react-router-dom";
 
 import loginIcon from '../Assets/images/login-icon.png';
 
-import {
-    i18n,
-  } from 'web-translate';
+import { i18n } from 'web-translate';
 
 function SelectRole(props) {
     return (
@@ -16,17 +14,17 @@ function SelectRole(props) {
             <div className="spacer-vertical" />
 
             <Link to="student-login">
-                <button className="btn-m">{i18n('student')}</button>
+                <button className="btn-m">{i18n('Student')}</button>
             </Link>
             <div className="spacer-vertical-s"></div>
 
             <Link to="professor-login">
-                <button className="btn-m">{i18n('professor')}</button>
+                <button className="btn-m">{i18n('Professor')}</button>
             </Link>
             <div className="spacer-vertical-s"></div>
 
             <Link to="admin-login">
-                <button className="btn-m">{i18n('admin')}</button>
+                <button className="btn-m">{i18n('Administrator')}</button>
             </Link>
 
         </div>

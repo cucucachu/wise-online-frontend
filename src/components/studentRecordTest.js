@@ -9,6 +9,8 @@ import recordingIcon from '../Assets/images/recording-icon.png'
 import { uploadReferenceImage, checkForStudent } from '../store/faces';
 import { submitTabs, submitScreenshot, submitProctoringError } from '../store/axios';
 
+import { i18n } from 'web-translate';
+
 const videoConstraints = {
     width: 1280,
     height: 720,

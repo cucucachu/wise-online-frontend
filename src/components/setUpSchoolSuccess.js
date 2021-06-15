@@ -3,6 +3,8 @@ import React, {Component} from 'react';
 import setUpIcon from '../Assets/images/setting-icon.png'
 import successIcon from '../Assets/images/success-icon.png'
 
+import { i18n } from 'web-translate';
+
 import { Link } from 'react-router-dom';
 
 class SetupSchoolSuccess extends Component {

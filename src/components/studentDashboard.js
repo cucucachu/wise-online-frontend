@@ -5,6 +5,8 @@ import studentDashIcon from '../Assets/images/student-dash-icon.png';
 import tickIcon from '../Assets/images/tick-icon-white.svg'
 import editIcon from '../Assets/images/edit-icon-white.svg'
 
+import { i18n } from 'web-translate';
+
 // import { AuthContext } from '../contexts/AuthContext'
 
 class StudentDashboard extends Component {

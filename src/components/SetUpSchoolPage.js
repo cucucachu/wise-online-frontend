@@ -9,6 +9,8 @@ import '../Assets/css/spinner.css'
 import { postFiles, getStudentTemplateURL, getProfessorTemplateURL, addUsersPrecheck } from '../store/axios'
 import { AuthContext } from '../contexts/AuthContext'
 
+import { i18n } from 'web-translate';
+
 
 
 class SetUpSchoolPage extends Component {

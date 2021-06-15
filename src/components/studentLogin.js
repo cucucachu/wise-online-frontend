@@ -6,6 +6,8 @@ import { studentLogin, logout, studentAgreeToTerms } from '../store/axios';
 
 import ModalSupport from "./modal-support";
 
+import { i18n } from 'web-translate';
+
 class StudentLogin extends Component {
 
     constructor(props) {
@@ -104,18 +106,18 @@ class StudentLogin extends Component {
             <div className="container">
                 <img src={loginIcon} className="page-icon" alt="login icon"/>
                 <div className="spacer-vertical" />
-                <h1>Login to Wise</h1>
+                <h1>{i18n('Login to Wise')}</h1>
                 <form onSubmit={this.handleSubmit.bind(this)}>
                 <div className="spacer-vertical" />
                     <div className="input-wrapper">
                         <div style={this.state.showHide}>{this.state.message}</div>
-                        <span className="input-label">Email</span>
+                        <span className="input-label">{i18n('Email')}</span>
                         <input
                             type="email"
                             className=""
                             value={this.state.email}
                             onChange={this.handleChangeName.bind(this)}
-                            placeholder="Email"
+                            placeholder={i18n('Email')}
                             required
                             autoComplete="email"
                         />
@@ -123,12 +125,12 @@ class StudentLogin extends Component {
 
                     <div className="spacer-vertical" />
                     <div className="input-wrapper">
-                        <span className="input-label">Student ID</span>
+                        <span className="input-label">{i18n('Student ID')}</span>
                         <input
                             type="password"
                             className=""
                             onChange={this.handleChangeKey.bind(this)} value={this.state.key}
-                            placeholder="Student ID"
+                            placeholder={i18n('Student ID')}
                             required
                             autoComplete="current-password"
                         />
@@ -137,9 +139,9 @@ class StudentLogin extends Component {
                         <div className="width-md">
                             {/* <Link to="#">What's my student ID?</Link> */}
                             <p className="tooltip-login">
-                                <span className="for-border">What's my student ID?<br />
+                                <span className="for-border">{i18n('Whats my student ID?')}<br />
                                     <span className="tooltiptext">
-                                    Your school’s student ID is a code of letters and/or numbers provided to identify you by your school.  Wise uses your school’s student ID to verify your identity, securely.  If you have forgotten your school ID, please contact the appropriate individual at your school.
+                                    {i18n("Your school’s student ID is a code of letters and/or numbers provided to identify you by your school.  Wise uses your school’s student ID to verify your identity, securely.  If you have forgotten your school ID, please contact the appropriate individual at your school.")}
                                     </span>
                                 </span><br/>
 
@@ -159,13 +161,13 @@ class StudentLogin extends Component {
                                     >
                                     </input>
                                     <strong style={{color: '#444'}} className="font-terms">
-                                        &nbsp;I agree to the&nbsp;
+                                        &nbsp;{i18n('I agree to the')}&nbsp;
                                         <a
                                             href="https://www.wiseattend.com/privacy"
                                             target="_blank"
                                             rel="noopener noreferrer"
                                         >
-                                            terms of use
+                                            {i18n('terms of use')}
                                         </a>.
                                     </strong>
 
@@ -177,13 +179,13 @@ class StudentLogin extends Component {
                     </React.Fragment>
                     : ''}
                     <div className="test">
-                        <input type="submit" className="btn" value="Submit" />
+                        <input type="submit" className="btn" value={i18n("Submit")} />
                     </div>
                     <div
                         className="btn-common-radius get-support"
                         // onClick={this.onShowModal}
                     >
-                        Get Support
+                        {i18n("Get Support")}
                     </div>
                 </form>
 

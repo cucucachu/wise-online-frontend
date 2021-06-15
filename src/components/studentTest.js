@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import editIcon from '../Assets/images/edit-icon.png';
+import { i18n } from 'web-translate';
 
 const StudentTest = (props) => {
 

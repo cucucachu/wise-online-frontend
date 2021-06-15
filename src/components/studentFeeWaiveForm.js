@@ -5,6 +5,8 @@ import educationIcon from '../Assets/images/wise-education.png'
 import { AuthContext } from '../contexts/AuthContext'
 import { submitFeeWaive } from '../store/axios'
 
+import { i18n } from 'web-translate';
+
 
 class StudentFeeWaiveForm extends Component {
     static contextType = AuthContext

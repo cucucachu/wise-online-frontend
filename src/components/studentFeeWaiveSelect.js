@@ -5,6 +5,8 @@ import educationIcon from '../Assets/images/wise-education.png'
 import { getSchoolNames } from '../store/axios'
 import { AuthContext } from '../contexts/AuthContext'
 
+import { i18n } from 'web-translate';
+
 
 class StudentFeeWaiveSelect extends Component {
     static contextType = AuthContext

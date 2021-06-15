@@ -5,6 +5,8 @@ import ExamCardRow from './examCardRow'
 import { getTestsByCourse, getTestResults, logout } from '../store/axios'
 import '../Assets/css/spinner.css'
 
+import { i18n } from 'web-translate';
+
 class ViewProctoring extends Component {
     
     constructor(props) {

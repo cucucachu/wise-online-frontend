@@ -4,6 +4,8 @@ import { adminAddStudents, adminAddProfessors } from '../../store/axios';
 
 import EditTable from '../Resusable/EditTable';
 
+import { i18n } from 'web-translate';
+
 class AdminAddUsers extends Component {
     constructor(props) {
         super(props);
@@ -268,7 +270,7 @@ class AdminAddUsers extends Component {
                 <div className="container">
                     <img src={setUpIcon} className="page-icon" alt="login icon"/>
                     <div className="spacer-vertical" />
-                    <h1>Add Students and Professors</h1>
+                    <h1>{i18n('AdminAddUsers_index_AddStudentsAndProfessor')}</h1>
                     <div className="spacer-vertical" />
                     <EditTable 
                         title="Professors"

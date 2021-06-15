@@ -1,6 +1,7 @@
 import React　from 'react'
 import { Link } from 'react-router-dom'
 import educationIcon from '../Assets/images/wise-education.png'
+import { i18n } from 'web-translate';
 
 const StudentFeeWaive = (props) => {
 

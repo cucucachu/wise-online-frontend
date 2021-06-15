@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import attendClass from '../Assets/images/attend-class.png';
 import { markAttendance, logout } from "../store/axios";
 
+import { i18n } from 'web-translate';
+
 import { AuthContext } from '../contexts/AuthContext'
 
 class StudentClassAtt extends Component {
