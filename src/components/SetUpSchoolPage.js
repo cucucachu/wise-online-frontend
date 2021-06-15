@@ -152,7 +152,7 @@ class SetUpSchoolPage extends Component {
                 <div className="container">
                     <img src={setUpIcon} className="page-icon" alt="login icon"/>
                     <div className="spacer-vertical" />
-                    <h1>Add Students and Professors</h1>
+                    <h1>{i18n("Add Students and Professors")}</h1>
                     <div className="spacer-vertical-s"></div>
                     <div className="row">
                         <div className="col-sm-2"></div>
@@ -177,18 +177,18 @@ class SetUpSchoolPage extends Component {
                         <div className="col-sm-6">
                                 <div className="shadow">
                                 
-                                    <label className="radio-container"><h2 style={{paddingTop: "5px"}} className="text-plain">Student roster</h2>
+                                    <label className="radio-container"><h2 style={{paddingTop: "5px"}} className="text-plain">{i18n("Student roster")}</h2>
                                     {this.state.checkStudent ? <input type="checkbox" disabled="disabled" checked/> : <input type="checkbox" disabled="disabled" /> }
                                     <span className="checkmark"></span>
                                     </label>
-                                    {this.state.isFileStudent ? <p　style={{paddingLeft: "35px"}}>Uploaded</p> : <p  style={{paddingLeft: "35px", color: 'gray'}} className="text-plain">Not uploaded</p>}
+                                    {this.state.isFileStudent ? <p　style={{paddingLeft: "35px"}}>{i18n("Uploaded")}</p> : <p  style={{paddingLeft: "35px", color: 'gray'}} className="text-plain">{i18n("Not uploaded")}</p>}
                                     <input type="file" id="fileupload1" onChange={(e)=>{
                                             this.handleFileStudent(e)
                                         }}/>
                                     <label className="btn-upload" htmlFor="fileupload1"><img src={uploadIcon} className="icon-sm" alt="upload icon"/>&nbsp;{this.state.fileStudentName}
                                     </label>
                                     <div className="spacer-vertical-s"></div>
-                                    <button　className="btn-download" onClick={this.handleDownloadStudent}> <div><img src={downloadIcon} className="icon-sm" alt="download icon"/>&nbsp;Download template</div>
+                                    <button　className="btn-download" onClick={this.handleDownloadStudent}> <div><img src={downloadIcon} className="icon-sm" alt="download icon"/>&nbsp;{i18n("Download template")}</div>
                                     </button>
                                 </div> 
                             </div>
@@ -197,11 +197,11 @@ class SetUpSchoolPage extends Component {
                                 <div className="shadow">
                                     {/* <h3 style={this.state.showHide}>{this.state.message}</h3> */}
 
-                                    <label className="radio-container"><h2 className="text-plain" style={{paddingTop: "5px"}}>Professor roster</h2>
+                                    <label className="radio-container"><h2 className="text-plain" style={{paddingTop: "5px"}}>{i18n("Professor roster")}</h2>
                                     {this.state.checkProfessor ? <input type="checkbox" disabled="disabled" checked/> : <input type="checkbox" disabled="disabled"/>}
                                     <span className="checkmark"></span>
                                     </label>
-                                    {this.state.isFileProfessor ? <p　style={{paddingLeft: "35px"}}>Uploaded</p> : <p  style={{paddingLeft: "35px", color: 'gray'}} className="text-plain">Not uploaded</p>}        
+                                    {this.state.isFileProfessor ? <p　style={{paddingLeft: "35px"}}>{i18n("Uploaded")}</p> : <p  style={{paddingLeft: "35px", color: 'gray'}} className="text-plain">{i18n("Not uploaded")}</p>}        
 
                                     <input type="file" id="fileupload2" onChange={(e)=>{
                                             this.handleFileProfessor(e)
@@ -211,13 +211,13 @@ class SetUpSchoolPage extends Component {
 
                                     <div className="spacer-vertical-s"></div>
                                     
-                                    <button　className="btn-download" onClick={this.handleDownloadProfessor}><img src={downloadIcon} className="icon-sm" alt="download icon"/>&nbsp;Download template</button>  
+                                    <button　className="btn-download" onClick={this.handleDownloadProfessor}><img src={downloadIcon} className="icon-sm" alt="download icon"/>&nbsp;{i18n("Download template")}</button>  
                                     
                                 </div>
                             </div>                            
                         </div>
                         <div className="spacer-vertical" />
-                        <button onClick={this.handleSubmitForPreCheck.bind(this)} className="btn">Continue</button>
+                        <button onClick={this.handleSubmitForPreCheck.bind(this)} className="btn">{i18n("Continue")}</button>
                     </div>
                 </div>
             </div>
@@ -231,23 +231,23 @@ class SetUpSchoolPage extends Component {
                 <div className="container">
                     <img src={setUpIcon} className="page-icon" alt="login icon"/>
                     <div className="spacer-vertical" />
-                    <h1>Add Students and Professors</h1>
+                    <h1>{i18n("Add Students and Professors")}</h1>
                     <div className="row">
                         <div className="col-sm-3"></div>
                         <div className="col-sm-6">
                             <div className="shadow">
-                                <h2>Upload Preview</h2>
+                                <h2>{i18n("Upload Preview")}</h2>
                                 <br/>
-                                <p>School: {sessionStorage.getItem('schoolName')}</p>
-                                <p>You are adding {this.state.newStudents.length} new students and {this.state.newProfessors.length} new professors.</p>
-                                <p>Click "Confirm" below to begin upload.</p>
+                                <p>{i18n("School:")} {sessionStorage.getItem('schoolName')}</p>
+                                <p>{i18n('setUpSchoolPage_confirm', {newStudents: this.state.newStudents.length, newProfessors: this.state.newProfessors.length})}</p>
+                                <p>{i18n("Click Confirm below to begin upload.")}</p>
                             </div>
                         </div>
                         <div className="col-sm-3"></div>
                     </div>
                     <div className="spacer-vertical-s"></div>
                     <div className="spacer-vertical" />
-                    <button onClick={this.handleSubmit.bind(this)} className="btn">Confirm</button>
+                    <button onClick={this.handleSubmit.bind(this)} className="btn">{i18n("Confirm")}</button>
                 </div>
             </div>
         )
@@ -260,10 +260,10 @@ class SetUpSchoolPage extends Component {
                     <div className="container">
                         <img src={setUpIcon} className="page-icon" alt="login icon"/>
                         <div className="spacer-vertical" />
-                        <h1>Add Students and Professors</h1>
+                        <h1>{i18n("Add Students and Professors")}</h1>
                         <div >
                             <div className="spacer-vertical" />
-                            <h2>Loading
+                            <h2>{i18n("Loading")}
                                 <div className="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
                             </h2>
                         </div>
