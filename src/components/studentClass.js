@@ -11,7 +11,7 @@ class StudentClass extends Component {
             <img src={attendClassIcon} className="page-icon" alt="login icon"/>
             <div className="spacer-vertical" />
             <div className="screen-adjust">
-                <h1>Have a great class!</h1>
+                <h1>{i18n("Have a great class!")}</h1>
             </div>
           
         </div>
