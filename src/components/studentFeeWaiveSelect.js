@@ -57,16 +57,16 @@ async componentDidMount(){
         <div className="container">
             <img src={educationIcon} className="page-icon" alt="wise education icon"/>
             <div className="spacer-vertical" />
-            <h1>Select your school</h1>
+            <h1>{i18n("Select your school")}</h1>
             <div className="spacer-vertical-s"></div>
-            <p className="text-plain">Please select your school</p>
+            <p className="text-plain">{i18n("Please select your school")}</p>
             <form onSubmit={this.handleSubmit.bind(this)}>
             <div className="spacer-vertical" />
                 <div className="input-wrapper">
                     <div style={this.state.showHide}>{this.state.message}</div>
                    
                     <select id="schools" name="schools" value={this.state.schoolName} onChange={this.handleChangeSchool.bind(this)} className="student-form-select text-plain shadow">
-                        <option value="not selected">Select university</option>
+                        <option value="not selected">{i18n("Select university")}</option>
                         {this.state.listItems}
                         
                     </select>
