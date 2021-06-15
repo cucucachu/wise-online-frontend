@@ -140,8 +140,8 @@ class StudentLogin extends Component {
                             {/* <Link to="#">What's my student ID?</Link> */}
                             <p className="tooltip-login">
                                 <span className="for-border">{i18n('Whats my student ID?')}<br />
-                                    <span className="tooltiptext">
-                                    {i18n("Your school’s student ID is a code of letters and/or numbers provided to identify you by your school.  Wise uses your school’s student ID to verify your identity, securely.  If you have forgotten your school ID, please contact the appropriate individual at your school.")}
+                                    <span className="tooltiptext">  
+                                    {i18n('studentLogin_StudentIDHelp')}
                                     </span>
                                 </span><br/>
 

@@ -7,6 +7,8 @@
     "selectRole_professor": "Professor",
     "selectRole_admin": "Admin",
 
+    "studentLogin_StudentIDHelp": "Your school’s student ID is a code of letters and/or numbers provided to identify you by your school.  Wise uses your school’s student ID to verify your identity, securely.  If you have forgotten your school ID, please contact the appropriate individual at your school.",
+
     "studentRecordAgreeToTerms_acknowledge": "By clicking begin you acknowledge that you are aware that you will be recorded by Wise through your device webcam, and the content of your web-browsing tabs will be recorded and displayed to professors, in effort to offer a secure exam proctoring experience at educational institutions. You hereby re-affirm that you have read, understand, and agree to our",
     "studentRecordAgreeToTerms_information": "Please know that all your information which is generated as part of using Wise is considered to be in the public domain. Your information may be stored and transmitted at the discretion of Wise to provide a secure exam proctoring experience."
 }
