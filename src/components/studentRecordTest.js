@@ -168,7 +168,7 @@ class StudentRecordTest extends Component {
 				<div className="container">
 					<img src={editIcon} className="page-icon" alt="edit icon"/>
 					<div className="spacer-vertical" />
-					<h1>Now Proctoring</h1>
+					<h1>{i18n("Now Proctoring")}</h1>
 					<div className="spacer-vertical" />
 					<Webcam
 						audio={false}
@@ -180,10 +180,10 @@ class StudentRecordTest extends Component {
 					/><br/>
 					<canvas id="screenshot-canvas" style={{display: 'none'}} />
 					<video id='screen-video' style={{display: 'none'}} />
-					<p className="text-plain"><img className="icon-xs" src={recordingIcon} alt="recording icon" />Recording in progress</p>
+					<p className="text-plain"><img className="icon-xs" src={recordingIcon} alt="recording icon" />{i18n("Recording in progress")}</p>
 					<div className="spacer-vertical" />
 					<Link to="/student/dashboard">
-					<button className="btn">End recording</button>
+					<button className="btn">{i18n("End Recording")}</button>
 					</Link>
 				</div>
 			</React.Fragment>
