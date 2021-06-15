@@ -15,16 +15,16 @@ class SetupSchoolSuccess extends Component {
         <div className="container">
             <img src={setUpIcon} className="page-icon" alt="login icon"/>
             <div className="spacer-vertical" />
-                <h1 style={{color: '#4ebd0f'}}>Success!</h1>
+                <h1 style={{color: '#4ebd0f'}}>{i18n("Success!")}</h1>
 
             <div className="spacer-vertical-s"></div>
             <img src={successIcon} className="page-icon" alt="success icon" style={{boxShadow: '0 0 0 transparent'}}/>
             <div className="spacer-vertical-s"></div>
-            <p className="text-plain">Your school has been set up.</p>
+            <p className="text-plain">{i18n("Your school has been set up.")}</p>
             {/* <h2>{this.state.classID}</h2> */}
             <div className="spacer-vertical" />
             <Link to="/admin/download">
-                <button className="btn" >Finish</button>
+                <button className="btn" >{i18n("Finish")}</button>
             </Link>
             
     </div>
