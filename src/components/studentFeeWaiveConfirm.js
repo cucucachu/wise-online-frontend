@@ -74,17 +74,17 @@ class StudentFeeWaiveConfirm extends Component {
         <div className="container prevent-text">
             <img src={educationIcon} className="page-icon" alt="wise education icon"/>
             <div className="spacer-vertical" />
-            <h1>Review and confirm</h1>
+            <h1>{i18n("Review and confirm")}</h1>
             <div className="spacer-vertical" />
             <div className="width-slim text-plain">
                 <p>
-                Please review and confirm that the following information is accurate, in your registration for waiving the Wise Education support fee.
+                {i18n("Please review and confirm that the following information is accurate, in your registration for waiving the Wise Education support fee.")}
                 </p>
                 <div className="spacer-vertical" />
                 <p>
-                    School: {schoolName} <br/>
-                    Student name: {firstName} {lastName} <br/>
-                    Student email: {email}
+                    {i18n("School")}: {schoolName} <br/>
+                    {i18n("Student name")}: {firstName} {lastName} <br/>
+                    {i18n("Student email")}: {email}
                 </p>
                 
                     <div className="spacer-vertical" />
@@ -95,14 +95,14 @@ class StudentFeeWaiveConfirm extends Component {
                             
                         </div>
                         <div className="col-sm-11">
-                            <strong>I register as having financial need.<br /> The above information is accurate.</strong></div>
+                            <strong>{i18n("I register as having financial need.")}<br /> {i18n("The above information is accurate.")}</strong></div>
                     </div>
                     
                     <div className="spacer-vertical" />
                 
             </div>
             <form onSubmit={this.handleSubmit.bind(this)}>
-                <input id="student_fee_waive" type="submit" className="btn" value="Submit" onFocus={() => this.onFocus("student_fee_waive")}/>
+                <input id="student_fee_waive" type="submit" className="btn" value={i18n("Submit")} onFocus={() => this.onFocus("student_fee_waive")}/>
             </form>
             
     </div>
