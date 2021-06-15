@@ -10,27 +10,27 @@ const StudentTest = (props) => {
             <div className="container prevent-text">
                 <img src={editIcon} className="page-icon" alt="edit icon"/>
                 <div className="spacer-vertical" />
-                <h1>Instructions</h1>
+                <h1>{i18n('Instructions')}</h1>
                 <div className="spacer-vertical" />
                 <div className="width-adjust-1">
                     <ul className="omit-indent">
-                        <li className="list-text">1. Allow camera permissions<br/>
-                            <div className="text-sm text-plain">Wise uses confidential facial recognition to make sure you’re really you</div>
+                        <li className="list-text">{i18n('1. Allow camera permissions')}<br/>
+                            <div className="text-sm text-plain">{i18n('Wise uses confidential facial recognition to make sure you’re really you')}</div>
                         </li>
-                        <li className="list-text">2. Open your online test<br/>
-                            <div className="text-sm text-plain">Get ready to begin your online test</div>
+                        <li className="list-text">{i18n('2. Open your online test')}<br/>
+                            <div className="text-sm text-plain">{i18n('Get ready to begin your online test')}</div>
                         </li>
-                        <li className="list-text">3. Start the recording and begin your test<br/>
-                            <div className="text-sm text-plain">Get ready to begin your online test</div>
+                        <li className="list-text">{i18n('3. Start the recording and begin your test')}<br/>
+                            <div className="text-sm text-plain">{i18n('Get ready to begin your online test')}</div>
                         </li>
-                        <li className="list-text">4. Stop the recording when you finish<br/>
-                            <div className="text-sm text-plain">Get ready to begin your online test</div>
+                        <li className="list-text">{i18n('4. Stop the recording when you finish')}<br/>
+                            <div className="text-sm text-plain">{i18n('Get ready to begin your online test')}</div>
                         </li>
                     </ul>
                 </div>
                 <div className="spacer-vertical" />
                 <Link to="test-id">
-                    <button className="btn">Begin</button>
+                    <button className="btn">{i18n('Begin')}</button>
                 </Link>
                 
             </div>
