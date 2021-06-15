@@ -3,13 +3,39 @@ import { withRouter } from 'react-router-dom';
 
 import chevronIcon from '../Assets/images/chevron-left.svg';
 
+import { AuthContext } from '../contexts/AuthContext';
+
+import {
+    getLanguageCode,
+    getSupportedLanguages,
+    i18n,
+    setLanguage
+  } from 'web-translate';
+
 class HeaderNew extends Component {
+
+    static contextType = AuthContext;
+
     constructor(props) {
         super(props);
 
         this.handleGoBack = this.handleGoBack.bind(this);
         this.handleLogout = this.handleLogout.bind(this);
     }
+
+
+    async componentDidMount() {
+        const languageCode = getLanguageCode();
+        const languages = await getSupportedLanguages();
+        this.context.setLanguageCode(languageCode);
+        this.context.setLanguages(languages);
+    };
+
+    changeLanguage = async event => {
+        const languageCode = event.target.value;
+        await setLanguage(languageCode);
+        this.context.setLanguageCode(languageCode);
+      };
     
     handleGoBack(e) {
         e.preventDefault();
@@ -23,6 +49,10 @@ class HeaderNew extends Component {
 
     render() {
 
+        const languageCode = this.context.languageCode;
+        const languages = this.context.languages;
+        const languageNames = Object.keys(languages);
+
         return ( 
             <header>
                   <div className="logo"></div>
@@ -32,6 +62,19 @@ class HeaderNew extends Component {
                     this.props.history.location.pathname === '/student/dashboard'
                    ? '' : (<button onClick={this.handleGoBack} className="btn-backlink"><img src={chevronIcon} className="icon-xs" alt="chevron icon"/>&nbsp;Go back </button>)}
           
+                    <span>
+                        <label>Language:</label>
+                        <select onChange={this.changeLanguage} value={languageCode}>
+                            {languageNames.map(name => (
+                            <option key={name} value={languages[name]}>
+                                {name}
+                            </option>
+                            ))}
+                        </select>
+                    </span>
+                    
+
+
     
                   {
                     (() => {

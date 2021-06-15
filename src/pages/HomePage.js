@@ -52,6 +52,7 @@ import SelectRole from '../components/selectRole'
 
 //contexts
 import { AuthContext } from '../contexts/AuthContext'
+// import { LanguageContext } from '../contexts/LanguageContext'
 
 // import Header from '../components/header'
 import HeaderNew from '../components/headerNew'
@@ -104,11 +105,17 @@ class HomePage extends Component {
     }
 
     async componentDidMount() {
-        const response = await checkLogin();
+        try {
+            const response = await checkLogin();
 
-        if (response.status === 200) {
-            await this.handleSuccessfulLogin(response.data);
+            if (response.status === 200) {
+                await this.handleSuccessfulLogin(response.data);
+            }
         }
+        catch(error){
+            console.log(error);
+        }
+    
     }
 
     async handleSuccessfulLogin(userData) {
@@ -144,17 +151,21 @@ class HomePage extends Component {
     }
 
     render(){
+
+
+
         return(
             <Router>
                 <HeaderNew 
                     username={this.state.username}
                     schoolName={this.state.schoolName}
                     isLoggedIn={this.state.isLoggedIn}
-                    handleLogout={this.handleLogout}
+                    handleLogout={this.handleLogout} 
                 />
                 <div className="wrap">
+
                     <div className="page-header">
-                        <img src={headerBackground} className="bg-img" alt="background"/>
+                        <img src={headerBackground} className="bg-img" alt="background"/> 
                     </div>
 
                     <Switch>

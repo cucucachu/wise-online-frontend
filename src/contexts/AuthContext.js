@@ -19,6 +19,8 @@ const AuthContextProvider = (props) => {
     const [role, setRole] = useState('');
     const [screenshotInterval, setScreenshotInterval] = useState(10);
     const [webcamInterval, setWebcamInterval] = useState(10);
+    const [languageCode, setLanguageCode] = useState('en');
+    const [languages, setLanguages] = useState({});
 
     const authToggle = ()=> {
         setIsAuthenticated(!isAuthenticated);
@@ -79,9 +81,15 @@ const AuthContextProvider = (props) => {
             setScreenshotInterval,
             webcamInterval,
             setWebcamInterval,
+            languageCode,
+            setLanguageCode,
+            languages,
+            setLanguages
         }}>
             {props.children}
         </AuthContext.Provider>
+
+        
      );
 }
  
