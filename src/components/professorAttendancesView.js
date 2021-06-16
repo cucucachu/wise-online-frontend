@@ -7,6 +7,8 @@ import attendanceIcon from '../Assets/images/attendance-icon.png';
 import AttendancesTableView from './professorAttendancesView/AttendancesTableView';
 import AttendancesSummary from './professorAttendancesView/AttendancesSummary';
 
+import { i18n } from 'web-translate';
+
 class ProfessorAttendancesView extends Component {
     
     constructor(props) {
@@ -55,7 +57,7 @@ class ProfessorAttendancesView extends Component {
                 <div className="container">
                         <img src={attendanceIcon} className="page-icon" alt="Attendance icon"/>
                         <div className="spacer-vertical" />
-                    <h1>Attendance for {this.state.course.classId}</h1>
+                    <h1>{i18n("Attendance for")} {this.state.course.classId}</h1>
 
                     <br/>
                     <AttendancesSummary 
