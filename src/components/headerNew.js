@@ -5,6 +5,8 @@ import chevronIcon from '../Assets/images/chevron-left.svg';
 
 import { AuthContext } from '../contexts/AuthContext';
 
+import { i18n } from 'web-translate';
+
 import {
     getLanguageCode,
     getSupportedLanguages,
@@ -60,10 +62,10 @@ class HeaderNew extends Component {
                     this.props.history.location.pathname === '/admin/download' ||
                     this.props.history.location.pathname === '/professor/course' ||
                     this.props.history.location.pathname === '/student/dashboard'
-                   ? '' : (<button onClick={this.handleGoBack} className="btn-backlink"><img src={chevronIcon} className="icon-xs" alt="chevron icon"/>&nbsp;Go back </button>)}
+                   ? '' : (<button onClick={this.handleGoBack} className="btn-backlink"><img src={chevronIcon} className="icon-xs" alt="chevron icon"/>&nbsp;{i18n("Go back")} </button>)}
           
                     <span>
-                        <label>Language:</label>
+                        <label>{i18n("Language:")}</label>
                         <select onChange={this.changeLanguage} value={languageCode}>
                             {languageNames.map(name => (
                             <option key={name} value={languages[name]}>
@@ -82,9 +84,9 @@ class HeaderNew extends Component {
                             return (
                                 <p className="nav-pos">
                                     <span className="hide-mobile">
-                                        { this.props.username === undefined ?  'Logged in as ' + this.props.schoolName  : 'Logged in as ' + this.props.username} 
+                                        { this.props.username === undefined ?  i18n('Logged in as ') + this.props.schoolName  : i18n('Logged in as ') + this.props.username} 
                                     </span>
-                                    <button className="btn-s" onClick={this.handleLogout} >Log out</button>
+                                    <button className="btn-s" onClick={this.handleLogout} >{i18n("Log out")}</button>
                                 </p> 
                             )
                         }
