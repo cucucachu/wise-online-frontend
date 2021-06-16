@@ -7,6 +7,8 @@ import viewIcon from '../Assets/images/eye-icon-white.svg'
 import moment from 'moment'
 import redFlag from '../Assets/images/red-flag.png'
 
+import { i18n } from 'web-translate';
+
 class ExamCard extends Component {
     
     constructor(props) {
@@ -65,7 +67,7 @@ class ExamCard extends Component {
                                     exam: this.props.exam
                                 }
                             }}>
-                            <button className="btn-upload" style={{marginBottom: '5px', fontSize: 'medium'}}><img src={viewIcon} className="icon-xs" alt="tick icon" />View Reports &amp; Videos</button>
+                            <button className="btn-upload" style={{marginBottom: '5px', fontSize: 'medium'}}><img src={viewIcon} className="icon-xs" alt="tick icon" />{i18n("View Reports")} &amp; {i18n("Videos")}</button>
                             </Link>
                 </div>
             </div>
