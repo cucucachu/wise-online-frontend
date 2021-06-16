@@ -9,6 +9,8 @@ import viewIcon from '../Assets/images/eye-icon-white.svg'
 
 import { downloadDataForCourseURL } from '../store/axios';
 
+import { i18n } from 'web-translate';
+
 class CourseCard extends Component {
     
     constructor(props) {
@@ -87,7 +89,7 @@ class CourseCard extends Component {
                         
                         <div className="col-sm-6">
                             <h2 className="course-title">{this.props.course.name}</h2>
-                            <p>Class ID: {this.props.course.classId}</p>
+                            <p>{i18n("Class ID:")} {this.props.course.classId}</p>
                             {(() => {
                                     const integrationName = sessionStorage.getItem('integrationName');
                                     if (integrationName) {
@@ -102,7 +104,7 @@ class CourseCard extends Component {
                             </ul>
                             <button className="btn-setting" onClick={this.handleClickEdit}>
                                 <img src={settingIcon} className="icon-sm" alt="setting icon"/>
-                                &nbsp;Settings
+                                &nbsp;{i18n("Settings")}
                             </button>
                         </div>
                         
@@ -114,7 +116,7 @@ class CourseCard extends Component {
                                     course: this.props.course,
                                 }
                             }}>
-                            <button className="btn-upload" style={{marginBottom: '5px', fontSize: 'medium'}}><img src={tickIcon} className="icon-xs" alt="tick icon" />Attendance</button>
+                            <button className="btn-upload" style={{marginBottom: '5px', fontSize: 'medium'}}><img src={tickIcon} className="icon-xs" alt="tick icon" />{i18n("Attendance")}</button>
                             </Link>
     
                             <Link to={{
@@ -123,7 +125,7 @@ class CourseCard extends Component {
                                     course: this.props.course,
                                 }
                             }}>
-                            <button className="btn-upload" style={{marginBottom: '5px', fontSize: 'medium'}}><img src={editIcon} className="icon-xs" alt="edit icon" />Proctor exam</button>
+                            <button className="btn-upload" style={{marginBottom: '5px', fontSize: 'medium'}}><img src={editIcon} className="icon-xs" alt="edit icon" />{i18n("Proctor exam")}</button>
                             </Link>
     
                             {/* <Link to={{
@@ -135,7 +137,7 @@ class CourseCard extends Component {
                             <button className="btn-upload" style={{marginBottom: '5px', fontSize: 'medium'}}><img src={editIcon} className="icon-xs" alt="edit icon" />Proctor exam</button>
                             </Link> */}
 
-                            <button className="btn-upload" onClick={this.downloadCourseData.bind(this)} style={{marginBottom: '5px', fontSize: 'medium'}}><img src={downloadIcon} className="icon-xs" alt="download icon" />Download data</button>
+                            <button className="btn-upload" onClick={this.downloadCourseData.bind(this)} style={{marginBottom: '5px', fontSize: 'medium'}}><img src={downloadIcon} className="icon-xs" alt="download icon" />{i18n("Download data")}</button>
 
                             <Link to={{
                                 pathname: `/proctor/tests`,
@@ -145,7 +147,7 @@ class CourseCard extends Component {
                             }}>
                             <button className="btn-upload" style={{marginBottom: '5px', fontSize: 'medium'}}>
                                 <img src={viewIcon} className="icon-xs" alt="download icon" />
-                                View proctoring
+                                {i18n("View proctoring")}
                             </button>
                             </Link>
                         </div>
@@ -184,10 +186,10 @@ class CourseCard extends Component {
                             </form>
                         </div>
                         <div className="col-sm-6 text-plain-s">
-                            Enter a class name<br/>
-                            e.g. ECON 101<br/>
-                            Enter a unique class ID<br/>
-                            e.g. ECON 101 Section 2<br/>
+                            {i18n("Enter a class name")}<br/>
+                            {i18n("For Example: ECON 101")}<br/>
+                            {i18n("Enter a unique class ID")}<br/>
+                            {i18n("For Example: ECON 101 Section 2")}<br/>
                             {(() => {
                                     const integrationName = sessionStorage.getItem('integrationName');
                                     if (integrationName) {
@@ -204,7 +206,7 @@ class CourseCard extends Component {
                                 
                                 onClick={(e) => { this.props.handleSubmit(e, this.props.course._id, this.state.name, this.state.classId, this.state.integrationId) }}
                                 >
-                                Submit
+                                {i18n("Submit")}
                             </button>
                         </div>
                         <div className="col-sm-2">
@@ -215,7 +217,7 @@ class CourseCard extends Component {
                                 style={ { textAlign: 'center' } }
                                 onClick={this.handleClickDelete}
                             >
-                                Delete
+                                {i18n("Delete")}
                             </button>
                         </div>
                     </div>
