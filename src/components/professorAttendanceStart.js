@@ -8,6 +8,8 @@ import ClipboardLink from './ClipboardLink';
 import { startAttendance, logout } from '../store/axios'
 import { AuthContext } from '../contexts/AuthContext'
 
+import { i18n } from 'web-translate';
+
 class ProfessorAttendanceStart extends Component {
     constructor(props) {
         super(props);
@@ -93,13 +95,13 @@ class ProfessorAttendanceStart extends Component {
                 <div className="container">
                     <img src={editIcon} className="page-icon" alt="login icon"/>
                     <div className="spacer-vertical" />
-                    <h1>Share this URL Link with Students</h1>
+                    <h1>{i18n("Share this URL Link with Students")}</h1>
                     <div className="spacer-vertical-s"></div>
                     <ClipboardLink 
                         link={this.state.link}
                     />
                     <div className="spacer-vertical" />
-                    <h2 className="bold">Or share this attendance code with your students</h2>
+                    <h2 className="bold">{i18n("Or share this attendance code with your students")}</h2>
                     <h2 className="bold">{this.state.attendanceCode}</h2>
                     <div className="spacer-vertical" />
                     <Link 
@@ -112,7 +114,7 @@ class ProfessorAttendanceStart extends Component {
                             }
                         }
                     >
-                        <button className="btn">Done</button>
+                        <button className="btn">{i18n("Done")}</button>
                     </Link>
                 </div>
             </Fragment>
