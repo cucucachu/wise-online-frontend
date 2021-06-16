@@ -7,6 +7,8 @@ import { createSchool, logout } from '../store/axios'
 
 import { AuthContext } from '../contexts/AuthContext'
 
+import { i18n } from 'web-translate';
+
 
 class SchoolStep1 extends Component {
     static contextType = AuthContext
@@ -78,38 +80,38 @@ class SchoolStep1 extends Component {
             <div className="container">
                     <img src={editIcon} className="page-icon" alt="login icon"/>
                     <div className="spacer-vertical" />
-            <h1>Create Your School</h1>
+            <h1>{i18n("Create Your School")}</h1>
 
             <form onSubmit={this.handleSubmit.bind(this)}>
                 <div className="spacer-vertical-s"></div>
                 <div className="input-wrapper">
                     <div style={this.state.showHide}>{this.state.message}</div>
-                    <span className="input-label">School name</span>
-                    <input type="text" placeholder="School name" className="" name="name" value={this.state.name} onChange={this.handleChangeName.bind(this)}/>
+                    <span className="input-label">{i18n("School name")}</span>
+                    <input type="text" placeholder={i18n("School name")} className="" name="name" value={this.state.name} onChange={this.handleChangeName.bind(this)}/>
                 </div>
                 
                 <div className="spacer-vertical-s"></div>
                 <div className="input-wrapper">
-                    <span className="input-label">School email</span>
-                    <input type="email" placeholder="School email" name="email" className="" value={this.state.email} onChange={this.handleChangeEmail.bind(this)}/>
+                    <span className="input-label">{i18n("School email")}</span>
+                    <input type="email" placeholder={i18n("School email")} name="email" className="" value={this.state.email} onChange={this.handleChangeEmail.bind(this)}/>
                 </div>
 
                 <div className="spacer-vertical-s"></div>
                 <div className="input-wrapper">
-                    <span className="input-label">School password</span>
-                    <input type="password" placeholder="School password" name="password" className="" value={this.state.password} onChange={this.handleChangePW.bind(this)} />
+                    <span className="input-label">{i18n("School password")}</span>
+                    <input type="password" placeholder={i18n("School password")} name="password" className="" value={this.state.password} onChange={this.handleChangePW.bind(this)} />
                 </div>
 
                 <div className="spacer-vertical-s"></div>
                 <div className="input-wrapper">
-                    <span className="input-label">School setup key</span>
-                    <input type="text" placeholder="School setup key" name="setupkey" className="" value={this.state.setupkey} onChange={this.handleChangeKey.bind(this)}/>
+                    <span className="input-label">{i18n("School setup key")}</span>
+                    <input type="text" placeholder={i18n("School setup key")} name="setupkey" className="" value={this.state.setupkey} onChange={this.handleChangeKey.bind(this)}/>
                 </div>
  
                 <div className="spacer-vertical-s"></div>
                 <div className="">
                 {/* <Link to="/create-school/step2"> */}
-                    <input type="submit" className="btn" value="Next" />
+                    <input type="submit" className="btn" value={i18n("Next")} />
                 {/* </Link> */}
                 </div>
             </form>
