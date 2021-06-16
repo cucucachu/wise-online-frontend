@@ -59,30 +59,28 @@ const ProfessorResetPW = (props) => {
         <div className="container">
             <img src={loginIcon} className="page-icon" alt="login icon"/>
             <div className="spacer-vertical" />
-            <h1>Reset my Password</h1>
+            <h1>{i18n("Reset my Password")}</h1>
             <div className="spacer-vertical-s"></div>
             <div className="width-adjust-1">
-                <p className="text-plain ">
-                    Please type your new password and confirm password below.
-                </p>
+                <p className="text-plain ">{i18n("Please type your new password and confirm password below.")}</p>
             </div>
             <form onSubmit={handleSubmit}>
             <div className="spacer-vertical" />
                 <div className="input-wrapper">
                     <div style={showHide}>{message}</div>
-                    <span className="input-label">Password</span>
-                    <input type="password" placeholder="New Password" className="" value={pw} onChange={handlePW} required/>
+                    <span className="input-label">{i18n("Password")}</span>
+                    <input type="password" placeholder={i18n("New Password")} className="" value={pw} onChange={handlePW} required/>
                 </div>
                         
                 <div className="spacer-vertical" />
 
                 <div className="input-wrapper">
-                    <span className="input-label">Confirm Password</span>
-                    <input type="password" placeholder="Confirm Password" className="" value={confirmPw} onChange={handleConfirmPW}required/>
+                    <span className="input-label">{i18n("Confirm Password")}</span>
+                    <input type="password" placeholder={i18n("Confirm Password")} className="" value={confirmPw} onChange={handleConfirmPW}required/>
                 </div>
                 <div className="spacer-vertical" />
                 <div className="">
-                        <input type="submit" className="btn" value="Reset password" />
+                        <input type="submit" className="btn" value={i18n("Reset password")}/>
                 </div>
             </form>
 
