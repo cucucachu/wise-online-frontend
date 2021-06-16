@@ -72,19 +72,19 @@ class ProfessorExam extends Component {
                 <div className="container">
                     <img src={editIcon} className="page-icon" alt="login icon"/>
                     <div className="spacer-vertical" />
-                    <h1>Share this URL Link with Students</h1>
+                    <h1>{i18n("Share this URL Link with Students")}</h1>
                     <div className="spacer-vertical" />
-                    <h2 className="width-slim bold">Copy and paste this link into the description of the test on your LMS</h2>
+                    <h2 className="width-slim bold">{i18n("Copy and paste this link into the description of the test on your LMS")}</h2>
                     <div className="spacer-vertical" />
                     <ClipboardLink 
                         link={this.state.link}
                     />                    
                     <div className="spacer-vertical" />
-                    <h2 className="bold">Or share this test code with your students</h2>
+                    <h2 className="bold">{i18n("Or share this test code with your students")}</h2>
                     <h2 className="bold">{this.state.attendanceCode}</h2>
                     <div className="spacer-vertical" />
                     <Link to="/professor/course">
-                        <button className="btn">Done</button>
+                        <button className="btn">{i18n("Done")}</button>
                     </Link>
                 </div>
             </Fragment>
