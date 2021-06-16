@@ -143,7 +143,7 @@ class ProfessorCourse extends Component {
                     <Link to="/professor/proctor-settings">
                         <button className="btn-setting" onClick={this.handleClickEdit}>
                             <img src={settingIcon} className="icon-sm" alt="setting icon"/>
-                            &nbsp;Proctor Settings
+                            &nbsp;{i18n("Proctor Settings")}
                         </button>
                     </Link>
                 </div>
@@ -161,7 +161,7 @@ class ProfessorCourse extends Component {
                     <img src={editIcon} className="page-icon" alt="login icon"/>
                     <div className="spacer-vertical" />
                     {/* {this.renderProctorSettingsButton()} */}
-                    <h1>My Courses</h1>
+                    <h1>{i18n("My Courses")}</h1>
                     <div className="row">
                         <div className="col-sm">
                             {
