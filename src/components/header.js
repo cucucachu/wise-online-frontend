@@ -5,6 +5,8 @@ import { logout } from '../store/axios'
 
 import chevronIcon from '../Assets/images/chevron-left.svg'
 
+import { i18n } from 'web-translate';
+
 class Header extends Component {
   constructor( props ) {
     super( props );
@@ -46,11 +48,11 @@ class Header extends Component {
                 historyPath === '/create-school' ||
                 historyPath === '/professor/course' ||
                 historyPath === '/student/dashboard'
-               ? '' : (<button onClick={this.handleGoBack.bind(this)} className="btn-backlink"><img src={chevronIcon} className="icon-xs" alt="chevron icon"/>&nbsp;Go back </button>)}
+               ? '' : (<button onClick={this.handleGoBack.bind(this)} className="btn-backlink"><img src={chevronIcon} className="icon-xs" alt="chevron icon"/>&nbsp;{i18n("Go back")} </button>)}
       
               <nav className="">
                 { this.state.isLoggedIn === true ? 
-                (<p className="nav-pos"><span className="hide-mobile">{ this.state.username === '' ?  'Logged in as ' + this.state.schoolName  : 'Logged in as ' + 	 this.state.username} </span><button className="btn-s" onClick={this.handleLogout.bind(this)} >Log out</button></p> ):
+                (<p className="nav-pos"><span className="hide-mobile">{ this.state.username === '' ?  i18n('Logged in as ') + this.state.schoolName  : i18n('Logged in as ') + 	 this.state.username} </span><button className="btn-s" onClick={this.handleLogout.bind(this)} >{i18n("Log out")}</button></p> ):
                 ''}
               </nav>
                 
