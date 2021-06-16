@@ -8,6 +8,8 @@ import LoginModal from '../LoginModal';
 
 import { AuthContext } from '../../contexts/AuthContext';
 
+import { i18n } from 'web-translate';
+
 class StudentTestFromLink extends Component {
 
     constructor(props) {
@@ -81,7 +83,7 @@ class StudentTestFromLink extends Component {
             <div className="container">
                 <img src={attendClass} className="page-icon" alt="login icon"/>
                 <div className="spacer-vertical" />
-                <h1>Taking a Test for {this.state.classId}</h1>
+                <h1>{i18n("Taking a Test for")} {this.state.classId}</h1>
                 <div className="spacer-vertical" />
                 {(() => {
                     if (this.state.showLogin) {
@@ -90,7 +92,7 @@ class StudentTestFromLink extends Component {
                         />)
                     }
                     else if (this.state.error) {
-                        return <p>Sorry, this link is no longer valid.</p>;
+                        return <p>{i18n("Sorry, this link is no longer valid.")}</p>;
                     } 
                     else {
                         return (<Spinner />);
