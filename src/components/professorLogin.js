@@ -4,6 +4,7 @@ import { professorLogin } from '../store/axios';
 import { AuthContext } from '../contexts/AuthContext';
 
 import loginIcon from '../Assets/images/login-icon.png';
+import { i18n } from 'web-translate';
 
 class ProfessorLogin extends Component {
     static contextType = AuthContext;

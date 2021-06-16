@@ -11,6 +11,8 @@ import { AuthContext } from '../contexts/AuthContext'
 
 import { professorProctorConfigurationAllowed } from '../store/axios';
 
+import { i18n } from 'web-translate';
+
 class ProfessorCourse extends Component {
     
     constructor(props) {

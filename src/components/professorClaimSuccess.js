@@ -5,6 +5,7 @@ import successIcon from '../Assets/images/success-icon.png'
 
 import { AuthContext } from '../contexts/AuthContext'
 import { Link } from 'react-router-dom';
+import { i18n } from 'web-translate';
 
 class ProfessorClaimSuccess extends Component {
   static contextType = AuthContext
@@ -39,16 +40,16 @@ class ProfessorClaimSuccess extends Component {
         <div className="container">
             <img src={loginIcon } className="page-icon" alt="login icon"/>
             <div className="spacer-vertical" />
-                <h1 style={{color: '#4ebd0f'}}>Success!</h1>
+                <h1 style={{color: '#4ebd0f'}}>{i18n("Success!")}</h1>
 
             <div className="spacer-vertical-s"></div>
             <img src={successIcon} className="page-icon" alt="success icon" style={{boxShadow: '0 0 0 transparent'}}/>
             <div className="spacer-vertical-s"></div>
-            <p className="text-plain">Thank you!</p>
+            <p className="text-plain">{i18n("Thank you!")}</p>
             {/* <h2 className="text-black">{this.state.userID}</h2> */}
             <div className="spacer-vertical-s"></div>
             <Link to="/professor-login">
-                <button className="btn" >Continue</button>
+                <button className="btn" >{i18n("Continue")}</button>
             </Link>
             
     </div>

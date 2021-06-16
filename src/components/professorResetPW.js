@@ -3,6 +3,7 @@ import React, {useState, useEffect} from 'react'
 import loginIcon from '../Assets/images/login-icon.png'
 import queryString from 'query-string'
 import { resetProfessorPW } from '../store/axios'
+import { i18n } from 'web-translate';
 
 const ProfessorResetPW = (props) => {
     const [userID, setUserID] = useState('')

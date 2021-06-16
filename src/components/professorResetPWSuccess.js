@@ -5,6 +5,8 @@ import successIcon from '../Assets/images/success-icon.png'
 
 import { Link } from 'react-router-dom';
 
+import { i18n } from 'web-translate';
+
 class ProfessorResetPWSuccess extends Component {
 
 

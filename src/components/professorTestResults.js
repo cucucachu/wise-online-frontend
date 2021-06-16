@@ -3,6 +3,7 @@ import viewIcon from '../Assets/images/view-icon.png';
 import redFlag from '../Assets/images/red-flag.png';
 import { Link } from 'react-router-dom';
 import chevronRight from '../Assets/images/chevron_right.svg';
+import { i18n } from 'web-translate';
 
 class ViewTestResults extends Component{
     constructor(props){

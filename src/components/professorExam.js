@@ -11,6 +11,8 @@ import { AuthContext } from '../contexts/AuthContext';
 
 import ClipboardLink from './ClipboardLink';
 
+import { i18n } from 'web-translate';
+
 class ProfessorExam extends Component {
     constructor(props) {
         super(props);
