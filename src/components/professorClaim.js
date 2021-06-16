@@ -3,6 +3,7 @@ import editIcon from '../Assets/images/edit-icon.png';
 import { claimProfessorAccount } from '../store/axios'
 
 import { AuthContext } from '../contexts/AuthContext'
+import { i18n } from 'web-translate';
 
 
 class ProfessorClaim extends Component {
@@ -82,7 +83,7 @@ class ProfessorClaim extends Component {
                 <div className="container">
                         <img src={editIcon} className="page-icon" alt="login icon"/>
                         <div className="spacer-vertical" />
-                <h1>Claim your account</h1>
+                <h1>{i18n("Claim your account")}</h1>
 
                 <form onSubmit={this.handleSubmit.bind(this)}>
                     <div className="spacer-vertical" />
@@ -90,24 +91,24 @@ class ProfessorClaim extends Component {
                     <div className="spacer-vertical-s"></div>
                     <div className="input-wrapper">
                         <div style={this.state.showHide}>{this.state.message}</div>
-                        <span className="input-label">Email</span>
-                        <input type="email" placeholder="Email" name="email" className="" value={this.state.email} onChange={this.handleChangeEmail.bind(this)} required/>
+                        <span className="input-label">{i18n("Email")}</span>
+                        <input type="email" placeholder={i18n("Email")} name="email" className="" value={this.state.email} onChange={this.handleChangeEmail.bind(this)} required/>
                     </div>
                     
                     <div className="spacer-vertical-s"></div>
                     <div className="input-wrapper">
-                        <div className="input-label">Password</div>
-                        <input type="password" placeholder="Password" className="" name="password" value={this.state.password} onChange={this.handleChangePW.bind(this)} required/>
+                        <div className="input-label">{i18n("Password")}</div>
+                        <input type="password" placeholder={i18n("Password")} className="" name="password" value={this.state.password} onChange={this.handleChangePW.bind(this)} required/>
                     </div>
                     <div className="spacer-vertical-s"></div>
                     <div className="input-wrapper">
-                        <span className="input-label">Confirm Password</span>
-                        <input type="password" placeholder="Confirm Password" name="confirmpassword" className="" value={this.state.conpassword} onChange={this.handleChangeConPW.bind(this)} required/>
+                        <span className="input-label">{i18n("Confirm Password")}</span>
+                        <input type="password" placeholder={i18n("Confirm Password")} name="confirmpassword" className="" value={this.state.conpassword} onChange={this.handleChangeConPW.bind(this)} required/>
                     </div>
                     <div className="spacer-vertical-s"></div>
                     <div className="input-wrapper">
-                        <span className="input-label">Setup key</span>
-                        <input type="text" placeholder="Setup Key" name="setupkey" className="" value={this.state.setupkey} onChange={this.handleChangeKey.bind(this)} required/>
+                        <span className="input-label">{i18n("Setup key")}</span>
+                        <input type="text" placeholder={i18n("Setup Key")} name="setupkey" className="" value={this.state.setupkey} onChange={this.handleChangeKey.bind(this)} required/>
                     </div>
                     <div className="spacer-vertical" />
                         <div className="input-wrapper">
@@ -120,13 +121,13 @@ class ProfessorClaim extends Component {
                                     >
                                         {this.state.hasAgreedToTerms ? <strong>&#10003;</strong> : ''}
                                     </button>
-                                    <strong style={{color: '#444'}}>&nbsp;I agree to the <a href="https://www.wiseattend.com/privacy" target="_blank" rel="noopener noreferrer">terms of use</a>.</strong></div>
+                                    <strong style={{color: '#444'}}>&nbsp;{i18n("I agree to the")} <a href="https://www.wiseattend.com/privacy" target="_blank" rel="noopener noreferrer">{i18n("terms of use")}</a>.</strong></div>
                                     
                                 </div>
                             <div className="spacer-vertical" />
                         </div>
                     <div className="">
-                        <input type="submit" className="btn" value="Submit" />
+                        <input type="submit" className="btn" value={i18n("Submit")} />
                     </div>
                 </form>
                 </div>
