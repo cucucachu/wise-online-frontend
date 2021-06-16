@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { i18n } from 'web-translate';
+
 function PagedViewTable(props) {
     const rows = [];
 
@@ -78,7 +80,7 @@ function filter(props) {
                 {filters}
                 <div className="button-row">
                     <div className="width-80-inline"></div>
-                    <button className="btn-submit" onClick={props.onClickFilter}>Filter</button>
+                    <button className="btn-submit" onClick={props.onClickFilter}>{i18n("Filter")}</button>
                 </div>
             </div>
         )
@@ -206,7 +208,7 @@ function pagination(props) {
                     }
                     else return '';
                 })()}
-                <span>Page {page + 1}</span>
+                <span>{i18n("Page")} {page + 1}</span>
                 {(() => {
                     if ((page + 1) * pageSize < total) {
                         return <button onClick={props.onClickNextPage}>&#9658;</button>
