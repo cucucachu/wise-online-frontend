@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 
 import { studentLogin, studentAgreeToTerms } from '../store/axios';
 
+import { i18n } from 'web-translate';
+
 class LoginModal extends Component {
 
     constructor(props) {
@@ -78,17 +80,17 @@ class LoginModal extends Component {
             return(
                 <form onSubmit={this.handleSubmit.bind(this)}>
                     <div className="spacer-vertical" />
-                    <h2>Please Login to Continue</h2>
+                    <h2>{i18n("Please Login to Continue")}</h2>
                     <div className="spacer-vertical" />
                     <div className="input-wrapper">
                         <div style={this.state.showHide}>{this.state.message}</div>
-                        <span className="input-label">Email</span>
+                        <span className="input-label">{i18n("Email")}</span>
                         <input 
                             type="email" 
                             className="" 
                             value={this.state.email} 
                             onChange={this.handleChangeName.bind(this)} 
-                            placeholder="Email" 
+                            placeholder={i18n("Email")}
                             required
                             autoComplete="email"
                         />
@@ -96,12 +98,12 @@ class LoginModal extends Component {
                     
                     <div className="spacer-vertical" />
                     <div className="input-wrapper">
-                        <span className="input-label">Student ID</span>
+                        <span className="input-label">{i18n("Student ID")}</span>
                         <input 
                             type="password" 
                             className="" 
                             onChange={this.handleChangeKey.bind(this)} value={this.state.key} 
-                            placeholder="Student ID" 
+                            placeholder={i18n("Student ID" )}
                             required
                             autoComplete="current-password"
                         />
@@ -110,10 +112,8 @@ class LoginModal extends Component {
                         <div className="width-md">
                             {/* <Link to="#">What's my student ID?</Link> */}
                             <p className="tooltip-login">
-                                <span className="for-border">What's my student ID?<br />
-                                    <span className="tooltiptext">
-                                    Your school’s student ID is a code of letters and/or numbers provided to identify you by your school.  Wise uses your school’s student ID to verify your identity, securely.  If you have forgotten your school ID, please contact the appropriate individual at your school.
-                                    </span>
+                                <span className="for-border">{i18n("What's my student ID?")}<br />
+                                    <span className="tooltiptext"> {i18n("LoginModal_idHelp")} </span>
                                 </span><br/>
                                 
                             </p>
@@ -133,13 +133,13 @@ class LoginModal extends Component {
                                     >
                                     </input>
                                     <strong style={{color: '#444'}} className="font-terms">
-                                        &nbsp;I agree to the&nbsp;
+                                        &nbsp;{i18n("I agree to the")}&nbsp;
                                         <a 
                                             href="https://www.wiseattend.com/privacy" 
                                             target="_blank"
                                             rel="noopener noreferrer"
                                         > 
-                                            terms of use
+                                            {i18n("terms of use")}
                                         </a>.
                                     </strong>
                                     
@@ -151,7 +151,7 @@ class LoginModal extends Component {
                     </React.Fragment>
                     : ''}
                     <div className="test">
-                            <input type="submit" className="btn" value="Submit" />
+                            <input type="submit" className="btn" value={i18n("Submit")} />
                     </div>
                 </form>
         );
