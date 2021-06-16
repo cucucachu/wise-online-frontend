@@ -26,9 +26,9 @@ function ClipboardLink(props) {
     return (
         <div className="clipboard-link">
             <input id="clipboard-link-input" type="text" value={props.link} readOnly></input>
-            <button onClick={onClickClipboardLink} className="btn">&#10697;&nbsp;copy</button>
+            <button onClick={onClickClipboardLink} className="btn">&#10697;&nbsp;{i18n("copy")}</button>
             <div id="clipboard-link-confirm" className="clipboard-link-confirm">
-                <p>&#10003; Copied</p>
+                <p>&#10003; {i18n("Copied")}</p>
             </div>
         </div>
     )
