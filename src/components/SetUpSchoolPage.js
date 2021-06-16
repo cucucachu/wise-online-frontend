@@ -157,16 +157,10 @@ class SetUpSchoolPage extends Component {
                     <div className="row">
                         <div className="col-sm-2"></div>
                         <div className="col-sm-8">
-                            <h4>Instructions:</h4>
-                            <p className="text-plain">
-                                Download the Student and Professor Roster templates below. Fill them out with the appropriate data
-                                for each student or professor. When you're ready, select each file and hit the Continue button.
-                            </p>
-                            <p className="text-plain">The column headings of the files you upload must match those in the template exactly.</p>
-                            <p className="text-plain">
-                                Any students or professors already in the system will be updated to match the row in the uploaded file, if they are found in the file.
-                                Existing students or professors not found in the uploaded file will be left untouched.
-                            </p>
+                            <h4>{i18n('Instructions:')}</h4>
+                            <p className="text-plain">{i18n("setUpSchoolPage_download")}</p>
+                            <p className="text-plain">{i18n("setUpSchoolPage_headings")}</p>
+                            <p className="text-plain">{i18n("setUpSchoolPage_update")}</p>
                         </div>
                         <div className="col-sm-2"></div>
                     </div>
