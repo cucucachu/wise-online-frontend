@@ -4,6 +4,8 @@ import attendanceIcon from '../../Assets/images/attendance-icon.png';
 import { superGetSchoolDetails, superLoginAsAdmin, superCreateSchool } from '../../store/axios';
 import ViewTable from '../Resusable/ViewTable';
 
+import { i18n } from 'web-translate';
+
 class SuperDashboard extends Component {
     
     constructor(props) {
@@ -109,7 +111,7 @@ class SuperDashboard extends Component {
                 <div className="popup">
                     <div>
                         <button onClick={() => this.handleClickCloseNewSchool()}>&#128473;</button>
-                        <h2>New School</h2>
+                        <h2>{i18n("New School")}</h2>
                         <hr></hr>
                         {(() => {
                             if (this.state.error) {
@@ -117,9 +119,9 @@ class SuperDashboard extends Component {
                             }
                             else return '';
                         })()}
-                        <label>Setup Key</label>
+                        <label>{i18n("Setup Key")}</label>
                         <input type="text" onChange={this.handleChangeSetupKey} value={this.state.newSchool.setupKey}/>
-                        <button className="btn-submit" onClick={this.handleClickSubmitNewSchool}>Submit</button>
+                        <button className="btn-submit" onClick={this.handleClickSubmitNewSchool}>{i18n("Submit")}</button>
                     </div>
                 </div>
             )
@@ -132,11 +134,11 @@ class SuperDashboard extends Component {
             <div className="container">
                 <img src={ attendanceIcon } className="page-icon" alt="login icon"/>
                 <div className="spacer-vertical-s"></div>
-                <h1>Super Dashboard</h1>
+                <h1>{i18n("Super Dashboard")}</h1>
                 <div className="spacer-vertical" />
                 {this.renderNewSchoolPopup()}
                 <ViewTable
-                    title="Schools"
+                    title={i18n("Schools")}
                     columns={[
                         {
                             label: 'Name',
