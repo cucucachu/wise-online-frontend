@@ -65,7 +65,7 @@ class ViewTestResults extends Component{
                                         return (
                                             <span>
                                                 <img className="red-flag" src={redFlag} alt="red flag icon"/>
-                                                <span className="red-text">Red Flags Detected</span>
+                                                <span className="red-text">{i18n("Red Flags Detected")}</span>
                                             </span>
                                         );
                                     }
