@@ -2,13 +2,15 @@ import React, { useState, useEffect, Fragment }　from 'react'
 import viewIcon from '../Assets/images/view-icon.png'
 import AdminNewTermCard from './adminNewTermCard'
 
+import { i18n } from 'web-translate';
+
 const AdminViewCourses = (props) => {
     
     return(
         <div className="container">
             <img src={viewIcon} className="page-icon" alt="view icon"/>
             <div className="spacer-vertical" />
-            <h1>View courses by professor</h1>
+            <h1>{i18n("View courses by professor")}</h1>
             <div className="spacer-vertical" />
             
             <div className="row">
