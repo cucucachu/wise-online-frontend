@@ -8,6 +8,8 @@ import AttendanceStudentsTableView from './AttendanceView/AttendanceStudentsTabl
 import AttendanceStudentsTableEdit from './AttendanceView/AttendanceStudentsTableEdit';
 import AttendanceSummary from './AttendanceView/AttendanceSummary';
 
+import { i18n } from 'web-translate';
+
 class AttendanceView extends Component {
     
     constructor(props) {
@@ -118,7 +120,7 @@ class AttendanceView extends Component {
                 <div className="container">
                     <img src={attendanceIcon} className="page-icon" alt="Attendance icon"/>
                         <div className="spacer-vertical" />
-                    <h1>Attendance for {this.state.course.classId} on {new Date(this.state.attendance.startTime).toLocaleDateString()}</h1>
+                    <h1>{i18n("Attendance for")} {this.state.course.classId} {i18n("on")} {new Date(this.state.attendance.startTime).toLocaleDateString()}</h1>
 
                     <div className="spacer-vertical" />
                     <AttendanceSummary
@@ -147,7 +149,7 @@ class AttendanceView extends Component {
                 <div className="container">
                     <img src={attendanceIcon} className="page-icon" alt="Attendance icon"/>
                         <div className="spacer-vertical" />
-                    <h1>Attendance for {this.state.course.classId} on {new Date(this.state.attendance.startTime).toLocaleDateString()}</h1>
+                    <h1>{i18n("Attendance for")} {this.state.course.classId} {i18n("on")} {new Date(this.state.attendance.startTime).toLocaleDateString()}</h1>
 
                     <div className="spacer-vertical" />
                     <AttendanceSummary
