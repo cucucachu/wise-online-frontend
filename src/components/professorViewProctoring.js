@@ -86,12 +86,12 @@ class ViewProctoring extends Component {
                 <div className="container">
                     <img src={viewIcon} className="page-icon" alt="view icon"/>
                     <div className="spacer-vertical" />
-                    <h1>{this.state.selectedCourse}&nbsp; Proctoring</h1>
+                    <h1>{this.state.selectedCourse}&nbsp; {i18n("Proctoring")}</h1>
 
                     {this.state.isLoading ?
                     <div >
                         <div className="spacer-vertical" />
-                        <h2>Loading
+                        <h2>{i18n("Loading")}
                             <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
                         </h2>
                     </div>
