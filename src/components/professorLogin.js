@@ -65,26 +65,26 @@ class ProfessorLogin extends Component {
             <div className="container">
                 <img src={loginIcon} className="page-icon" alt="login icon"/>
                 <div className="spacer-vertical"/>
-                <h1>Professor login</h1>
+                <h1>{i18n("Professor login")}</h1>
                 <form onSubmit={this.handleSubmit.bind(this)}>
                 <div className="spacer-vertical"/>
                     <div className="input-wrapper">
                         <div style={this.state.showHide}>{this.state.message}</div>
-                        <span className="input-label" >Email</span>
-                        <input type="email" className="" value={this.state.email} placeholder="Email" onChange={this.handleChangeName.bind(this)} required/>
+                        <span className="input-label" >{i18n("Email")}</span>
+                        <input type="email" className="" value={this.state.email} placeholder={i18n("Email")} onChange={this.handleChangeName.bind(this)} required/>
                     </div>
                     
                     <div className="spacer-vertical"/>
                     <div className="input-wrapper">
-                        <span className="input-label">Password</span>
-                        <input type="password" placeholder="Password" className="" name="key" onChange={this.handleChangeKey.bind(this)} value={this.state.key} required/>
+                        <span className="input-label">{i18n("Password")}</span>
+                        <input type="password" placeholder={i18n("Password")} className="" name="key" onChange={this.handleChangeKey.bind(this)} value={this.state.key} required/>
                     </div>
 
                     <div className="input-wrapper">
                         <div className="input-wrapper-bottom width-md">
                             <div className="student-login-wrapper">
-                                <Link  to="/professor/claim-account" >Claim your account</Link>
-                                <Link  to="professor/forgot-pw" >Forgot Password</Link>
+                                <Link  to="/professor/claim-account" >{i18n("Claim your account")}</Link>
+                                <Link  to="professor/forgot-pw" >{i18n("Forgot Password")}</Link>
                             </div>
                             
                         </div>
@@ -93,13 +93,13 @@ class ProfessorLogin extends Component {
                     <div className="spacer-vertical"/>
                 
                     <div className="">
-                        <input type="submit" className="btn" value="Next" />
+                        <input type="submit" className="btn" value={i18n("Next")} />
                     </div>
                     <div
                         className="btn-common-radius get-support"
                         // onClick={this.onShowModal}
                     >
-                        Get Support
+                        {i18n("Get Support")}
                     </div>
                 </form>
             </div>
