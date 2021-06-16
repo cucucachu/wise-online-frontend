@@ -5,6 +5,8 @@ import loginIcon from '../Assets/images/login-icon.png';
 import { AuthContext } from '../contexts/AuthContext';
 
 import { adminLogin } from '../store/axios';
+
+import { i18n } from 'web-translate';
    
    
 class AdminLogin extends Component {
@@ -75,15 +77,15 @@ class AdminLogin extends Component {
             <div className="container">
                 <img src={loginIcon} className="page-icon" alt="login icon"/>
                 <div className="spacer-vertical" />
-                <h1>Administration login</h1>
+                <h1>{i18n("Administration login")}</h1>
                 <form onSubmit={this.handleSubmit.bind(this)}>
                     <div className="spacer-vertical" />
                     <div className="input-wrapper">
                         <div style={this.state.showHide}>{this.state.message}</div>
-                        <span className="input-label">Email</span>
+                        <span className="input-label">{i18n("Email")}</span>
                         <input 
                             type="email" 
-                            placeholder="Email" 
+                            placeholder={i18n("Email")} 
                             className=""  
                             name="email" 
                             value={this.state.email} 
@@ -95,10 +97,10 @@ class AdminLogin extends Component {
                     
                     <div className="spacer-vertical" />
                     <div className="input-wrapper">
-                        <span className="input-label">Password</span>
+                        <span className="input-label">{i18n("Password")}</span>
                         <input 
                             type="password" 
-                            placeholder="Password"
+                            placeholder={i18n("Password")}
                             className="" 
                             name="key" 
                             onChange={this.handleChangeKey.bind(this)} 
@@ -110,20 +112,20 @@ class AdminLogin extends Component {
                     <div className="input-wrapper">
                         <div className="input-wrapper-bottom width-md">
                             <div className="student-login-wrapper">
-                                <Link to="/create-school">Create your school</Link>
-                                <Link to="admin/forgot-pw">Forgot Password</Link>
+                                <Link to="/create-school">{i18n("Create your school")}</Link>
+                                <Link to="admin/forgot-pw">{i18n("Forgot Password")}</Link>
                             </div>
                         </div>
                     </div>
                     <div className="spacer-vertical" />
                     <div className="">
-                        <input type="submit" className="btn" value="Next" />
+                        <input type="submit" className="btn" value={i18n("Next")} />
                     </div>
                     <div
                         className="btn-common-radius get-support"
                         // onClick={this.onShowModal}
                     >
-                        Get Support
+                        {i18n("Get Support")}
                     </div>
                 </form>
         </div>
