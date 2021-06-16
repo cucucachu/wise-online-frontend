@@ -5,8 +5,6 @@ import chevronIcon from '../Assets/images/chevron-left.svg';
 
 import { AuthContext } from '../contexts/AuthContext';
 
-import { i18n } from 'web-translate';
-
 import {
     getLanguageCode,
     getSupportedLanguages,
