@@ -5,6 +5,8 @@ import settingIcon from '../Assets/images/settings.svg'
 
 import { adminDownloadDataByCourseURL, adminDownloadDataByProfessorURL, adminDownloadDataByStudentURL, adminEditTerm, logout, setCurrentTerm } from '../store/axios'
 
+import { i18n } from 'web-translate';
+
 class AdminTermCard extends Component {
     
     constructor(props) {
@@ -133,25 +135,25 @@ class AdminTermCard extends Component {
                         <div className="col-sm-6">
                             <h2 className="course-title">{this.props.term.name}</h2>
                             {/* <p>Term ID: {this.state.termId}</p> */}
-                            <label className="radio-container"  onClick={this.handleSetCurrent.bind(this)}><h2 id={this.state.termId} style={{paddingTop: "5px"}} className="text-plain" >Current term</h2>
+                            <label className="radio-container"  onClick={this.handleSetCurrent.bind(this)}><h2 id={this.state.termId} style={{paddingTop: "5px"}} className="text-plain" >{i18n("Current term")}</h2>
                             {this.props.term.current ? 
                             <input type="checkbox" disabled="disabled" key={this.state.termId}  onClick={this.handleSetCurrent.bind(this)} checked/> : 
                             <input type="checkbox" name={this.props.term.name}  disabled="disabled"  /> }
                             <span className="checkmark"></span>
                             </label>
-                            {this.state.errorCurrentTerm && <p>Oops, something wrong, try again.</p>}
+                            {this.state.errorCurrentTerm && <p>{i18n("Oops, something wrong, try again.")}</p>}
                             <div className="spacer-vertical-s"></div>
                             <button className="btn-setting" onClick={this.handleClickEdit}>
                                 <img src={settingIcon} className="icon-sm" alt="setting icon"/>
-                                &nbsp;Settings
+                                &nbsp;{i18n("Settings")}
                             </button>
                         </div>
                         
                         <div className="col-sm-6">
                         
-                            <button className="btn-upload" onClick={this.downloadDataByCourse.bind(this)} style={{marginBottom: '5px', fontSize: 'medium'}}><img src={downloadIcon} className="icon-xs" alt="download icon" />Download data by course</button>
-                            <button className="btn-upload" onClick={this.downloadDataByProfessor.bind(this)} style={{marginBottom: '5px', fontSize: 'medium'}}><img src={downloadIcon} className="icon-xs" alt="download icon" />Download data by professor</button>
-                            <button className="btn-upload" onClick={this.downloadDataByStudent.bind(this)} style={{marginBottom: '5px', fontSize: 'medium'}}><img src={downloadIcon} className="icon-xs" alt="download icon" />Download data by student</button>
+                            <button className="btn-upload" onClick={this.downloadDataByCourse.bind(this)} style={{marginBottom: '5px', fontSize: 'medium'}}><img src={downloadIcon} className="icon-xs" alt="download icon" />{i18n("Download data by course")}</button>
+                            <button className="btn-upload" onClick={this.downloadDataByProfessor.bind(this)} style={{marginBottom: '5px', fontSize: 'medium'}}><img src={downloadIcon} className="icon-xs" alt="download icon" />{i18n("Download data by professor")}</button>
+                            <button className="btn-upload" onClick={this.downloadDataByStudent.bind(this)} style={{marginBottom: '5px', fontSize: 'medium'}}><img src={downloadIcon} className="icon-xs" alt="download icon" />{i18n("Download data by student")}</button>
                         </div>
                         
                     </div>
@@ -168,14 +170,14 @@ class AdminTermCard extends Component {
                         <div className="col-sm-6">
                             {/* <form onSubmit={(e) => { this.props.handleSubmit(e, this.state.termId, this.state.name, this.state.term) }}> */}
                             <form onSubmit={this.handleSubmitEditTerm.bind(this)}>
-                                <input type="text" placeholder="Enter a new class name" style={AdminTermCard.inputStype} onChange={this.handleChangeName} value={this.state.name}/>
+                                <input type="text" placeholder={i18n("Enter a new class name")} style={AdminTermCard.inputStype} onChange={this.handleChangeName} value={this.state.name}/>
                                 {/* <input type="text" placeholder="Enter a new class ID" style={AdminTermCard.inputStype} onChange={this.handleChangeId} value={this.state.termId}/> */}
-                                <input type="submit" style={{textAlign: 'center'}} className="btn-upload" value="Submit"/>
+                                <input type="submit" style={{textAlign: 'center'}} className="btn-upload" value={i18n("Submit")}/>
                             </form>
                         </div>
                         <div className="col-sm-6 text-plain-s">
-                            Enter a new term name<br/>
-                            e.g. Wise New Term<br/>
+                            {i18n("Enter a new term name")}<br/>
+                            {i18n("e.g. Wise New Term")}<br/>
                         </div>
                     </div>
                 </div>
