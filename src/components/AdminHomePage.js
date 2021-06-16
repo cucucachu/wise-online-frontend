@@ -5,6 +5,7 @@ import { adminGetSchoolDetails } from '../store/axios';
 
 import attendanceIcon from '../Assets/images/attendance-icon.png';
 import DataPane from './Resusable/DataPane';
+import { i18n } from 'web-translate';
 
 class AdminHomePage extends Component {
 
@@ -46,34 +47,34 @@ class AdminHomePage extends Component {
                     <div className="spacer-vertical-s"></div>
     
                     <div className="shadow">
-                        <h2>Actions</h2>
+                        <h2>{i18n("Actions")}</h2>
                         <hr></hr>
                         <div className="center">
                         <Link to="/admin-terms">
                             
                             <button className="btn-l">
-                            Academic Terms
+                            {i18n("Academic Terms")}
                             </button>
                         </Link>
                         
                         <div className="spacer-vertical-s"></div>
                         <Link to="/admin/addUsers">
-                            <button className="btn-l">Add Students and Professors</button>
+                            <button className="btn-l">{i18n("Add Students and Professors")}</button>
                         </Link>
                         
                         <div className="spacer-vertical-s"></div>
                         <Link to="/set-up-school">
-                            <button className="btn-l">Bulk Upload</button>
+                            <button className="btn-l">{i18n("Bulk Upload")}</button>
                         </Link>
                         
                         <div className="spacer-vertical-s"></div>
                         <Link to="/admin/professors">
-                            <button className="btn-l">View Professors</button>
+                            <button className="btn-l">{i18n("View Professors")}</button>
                         </Link>
                         
                         <div className="spacer-vertical-s"></div>
                         <Link to="/admin/students">
-                            <button className="btn-l">View Students</button>
+                            <button className="btn-l">{i18n("View Students")}</button>
                         </Link>
                         </div>
                     </div>
