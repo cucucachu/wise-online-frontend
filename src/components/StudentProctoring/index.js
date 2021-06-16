@@ -10,6 +10,8 @@ import EndOfTest from './EndOfTest';
 import {proctoringEndProctorSession, proctoringSubmitProctorData} from '../../store/axios';
 import editIcon from '../../Assets/images/edit-icon.png';
 
+import { i18n } from 'web-translate';
+
 class StudentProctoring extends Component {
     constructor(props) {
         super(props);
@@ -238,7 +240,7 @@ class StudentProctoring extends Component {
                 </div>
                 {
                     this.state.state === 'RECORDING' &&
-                    <button className='btn' onClick={this.endTest}>I'm Done!</button>
+                    <button className='btn' onClick={this.endTest}>{i18n("I'm Done!")}</button>
                 }
             </div>
         )
