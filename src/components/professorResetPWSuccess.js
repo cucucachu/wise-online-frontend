@@ -13,16 +13,16 @@ class ProfessorResetPWSuccess extends Component {
         <div className="container">
             <img src={loginIcon} className="page-icon" alt="login icon"/>
             <div className="spacer-vertical" />
-                <h1 style={{color: '#4ebd0f'}}>Success!</h1>
+                <h1 style={{color: '#4ebd0f'}}>{i18n("Success!")}</h1>
 
             <div className="spacer-vertical-s"></div>
             <img src={successIcon} className="page-icon" alt="success icon" style={{boxShadow: '0 0 0 transparent'}}/>
             <div className="spacer-vertical-s"></div>
-            <p className="text-plain">Your password has been reset.</p>
+            <p className="text-plain">{i18n("Your password has been reset.")}</p>
             {/* <h2>{this.state.classID}</h2> */}
             <div className="spacer-vertical" />
             <Link to="/professor-login">
-                <button className="btn" >Log in</button>
+                <button className="btn" >{i18n("Log in")}</button>
             </Link>
             
     </div>
