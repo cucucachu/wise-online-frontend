@@ -240,8 +240,8 @@ class CourseCard extends Component {
                     </div>
                     <div className="row">
                         <div className="col-sm">
-                            <p>Warning: Deleting a course perminantly deletes the course as well as all it's attendance and proctoring data.</p>
-                            <p>Are you sure you want to delete this course?</p>
+                            <p>{i18n("Warning: Deleting a course perminantly deletes the course as well as all it's attendance and proctoring data.")}</p>
+                            <p>{i18n("Are you sure you want to delete this course?")}</p>
                         </div>
                     </div>
                     <div className="row">
@@ -251,7 +251,7 @@ class CourseCard extends Component {
                                 style={ { textAlign: 'center' } }
                                 onClick={(e) => { this.props.handleDelete(e, this.props.course._id) }}
                             >
-                                Delete
+                                {i18n("Delete")}
                             </button>
                         </div>
                         <div className="col-sm 6">
