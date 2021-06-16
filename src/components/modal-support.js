@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import { i18n } from 'web-translate';
 
 class ModalSupport extends Component {
     constructor(props) {
@@ -26,8 +27,8 @@ class ModalSupport extends Component {
                         </div>
 
                         <div className="modal-contents">
-                            <div>Are you having trouble?</div>
-                            <div>Fear not! We love to help.</div>
+                            <div>{i18n("Are you having trouble?")}</div>
+                            <div>{i18n("Fear not! We love to help.")}</div>
                         </div>
                     </div>
                 </section>
