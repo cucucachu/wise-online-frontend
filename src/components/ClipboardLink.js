@@ -1,4 +1,5 @@
 import React from 'react';
+import { i18n } from 'web-translate';
 
 function onClickClipboardLink() {
     const linkInput = document.getElementById('clipboard-link-input');
