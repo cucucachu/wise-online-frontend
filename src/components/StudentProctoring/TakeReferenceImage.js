@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 
 import { proctoringSetReferenceImage } from '../../store/axios';
 
+import { i18n } from 'web-translate';
+
 
 class GetPrivileges extends Component {
     constructor(props) {
@@ -37,16 +39,16 @@ class GetPrivileges extends Component {
     render() {
         return (
             <div className={`shadow center${this.props.show ? '' : ' display-none'}`}>
-                <h2>Almost There...</h2>
+                <h2>{i18n("Almost There...")}</h2>
                 <hr/>
                 <div className="spacer-vertical-s"></div>
                 <div className="width-80 center">
-                    <h2>Take The First Picture to Get Started</h2>
+                    <h2>{i18n("Take The First Picture to Get Started")}</h2>
                     <div className="spacer-vertical-s"></div>
                     <div className="black width-60 text-align-left">
                         <ul>
-                            <li>Make sure the camera has a good view of your face, and take a picture with the button below.</li>
-                            <li>You cannot continue without a successful picture.</li>
+                            <li>{i18n("Make sure the camera has a good view of your face, and take a picture with the button below.")}</li>
+                            <li>{i18n("You cannot continue without a successful picture.")}</li>
                         </ul>
                     </div>
                     {(() => {
@@ -54,7 +56,7 @@ class GetPrivileges extends Component {
                             return <p className="red">{this.state.message}</p>;
                         else return '';
                     })()}
-                    <button className='btn' onClick={this.takeReferenceImage}>Take Picture</button>
+                    <button className='btn' onClick={this.takeReferenceImage}>{i18n("Take Picture")}</button>
                 </div>
             </div>
         )
