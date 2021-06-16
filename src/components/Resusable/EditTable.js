@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { i18n } from 'web-translate';
+
 function EditTable(props) {
     
 
@@ -50,7 +52,7 @@ function EditTable(props) {
                     </tbody>
                 </table>
                 <div className="submit-button">
-                    <button onClick={props.onClickSubmit}>Submit</button>
+                    <button onClick={props.onClickSubmit}>{i18n("Submit")}</button>
                 </div>
             </div>
         </div>
