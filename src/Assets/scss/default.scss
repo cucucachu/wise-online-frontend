@@ -418,6 +418,25 @@ footer {
     }
 }
 
+.btn-language-dropdown {
+    background-color: $primary-color;
+    border: 1px solid $primary-color;
+    color: $secondary-color;
+    font-size: small;
+    margin-top: .1rem;
+    margin-bottom: .1rem;
+    border-radius: 0.5rem;
+    text-align: center;
+    width: 4%;
+    box-shadow: 0 0 10px #999;
+    &:hover {
+        box-shadow: 0 0 5px #999;
+        border: 1px solid $primary-color;
+        background-color: $secondary-color;
+        color: $primary-color;
+    }
+}
+
 .btn-danger {
     background-color: $danger-color;
     border: 1px solid $danger-color;
@@ -523,7 +542,7 @@ footer {
     border: 0;
     position: absolute;
     left: 15px;
-    top: 15px;
+    top: 30px;
     font-size: large;
 }
 
@@ -639,6 +658,10 @@ input[type="file"] {
 
 .red-text {
     color: red;
+}
+
+.white-text {
+    color: white;
 }
 
 .red-text:hover {

@@ -54,7 +54,23 @@ class HeaderNew extends Component {
         const languageNames = Object.keys(languages);
 
         return ( 
+
+           
+
             <header>
+                    <header>
+                        <span>
+                            &nbsp;<label class="white-text">{i18n("Language:")}</label>&nbsp;
+                            <select id="language"  onChange={this.changeLanguage} value={languageCode} className="btn-language-dropdown">
+                                {languageNames.map(name => (
+                                <option key={name} value={languages[name]}>
+                                    {name}
+                                </option>
+                                ))}
+                            </select>
+                        </span>
+                    </header>
+
                   <div className="logo"></div>
                   { this.props.history.location.pathname === '/' || 
                     this.props.history.location.pathname === '/admin/download' ||
@@ -62,16 +78,7 @@ class HeaderNew extends Component {
                     this.props.history.location.pathname === '/student/dashboard'
                    ? '' : (<button onClick={this.handleGoBack} className="btn-backlink"><img src={chevronIcon} className="icon-xs" alt="chevron icon"/>&nbsp;{i18n("Go back")} </button>)}
           
-                    <span>
-                        <label>{i18n("Language:")}</label>
-                        <select onChange={this.changeLanguage} value={languageCode}>
-                            {languageNames.map(name => (
-                            <option key={name} value={languages[name]}>
-                                {name}
-                            </option>
-                            ))}
-                        </select>
-                    </span>
+                   
                     
 
 

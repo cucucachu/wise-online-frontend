@@ -156,6 +156,8 @@ class HomePage extends Component {
 
         return(
             <Router>
+{/* 
+                <p class="alert-box">Hello</p> */}
                 <HeaderNew 
                     username={this.state.username}
                     schoolName={this.state.schoolName}

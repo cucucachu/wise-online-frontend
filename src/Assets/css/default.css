@@ -287,12 +287,12 @@ footer {
   font-size: large; }
 
 .btn-backlink {
-  color: white;
+  color: black;
   background: transparent;
   border: 0;
   position: absolute;
-  left: 15px;
-  top: 15px;
+  left: 50px;
+  top: 50px;
   font-size: large; }
 
 .btn-setting {
@@ -712,6 +712,8 @@ input[type="file"] {
     font-size: 16px; }
   .shadow {
     padding: 5px; }
+  .small-shadow {
+    padding: 100px; }
   .col-md-6 > .shadow {
     padding: 8px; }
   .space-adjust-1 {
@@ -728,4 +730,6 @@ input[type="file"] {
   .align-l {
     text-align: left; }
   .align-r {
-    text-align: right; } }
+    text-align: right; } 
+
+  }

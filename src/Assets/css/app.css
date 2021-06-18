@@ -164,6 +164,19 @@
     box-shadow: 0 8px 15px rgba(0, 0, 0, 0.65);
 }
 
+.language-form-select {
+    margin: 100px;
+    width: 5%;
+    height: .25rem;
+    font-size: 6px; }
+  .alert-box {
+    background-color: #fffbcc;
+    color: #777;
+    font-size: 14px;
+    line-height: 23px;
+    padding: 13px 16px;
+    text-align: center; }
+
 @keyframes animatezoom {
     from {
         transform: scale(0)
