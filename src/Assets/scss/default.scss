@@ -419,7 +419,7 @@ footer {
 }
 
 .btn-language-dropdown {
-    background-color: $primary-color;
+    background-color: rgb(75, 75, 163);
     border: 1px solid $primary-color;
     color: $secondary-color;
     font-size: small;
@@ -427,7 +427,7 @@ footer {
     margin-bottom: .1rem;
     border-radius: 0.5rem;
     text-align: center;
-    width: 4%;
+    width: 75px;
     box-shadow: 0 0 10px #999;
     &:hover {
         box-shadow: 0 0 5px #999;
