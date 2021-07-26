@@ -1,0 +1,213 @@
+import React, { Component } from "react";
+import Webcam from "react-webcam";
+import { Link } from "react-router-dom";
+
+import { AuthContext } from "../../contexts/AuthContext";
+import editIcon from "../../Assets/images/edit-icon.png";
+import recordingIcon from "../../Assets/images/recording-icon.png";
+
+import { i18n } from 'web-translate';
+
+import { uploadReferenceImage, checkForStudent } from "../../store/faces";
+import {
+  submitTabs,
+  submitScreenshot,
+  submitProctoringError,
+} from "../../store/axios";
+
+const videoConstraints = {
+  width: 1280,
+  height: 720,
+  facingMode: "user",
+};
+
+class StudentRecordTest extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      referenceImage: null,
+      webCamInterval: null,
+      screenshotInterval: null,
+      audioRecorder: null,
+      audioBlob: null,
+      calibratedDBThreshold: null,
+    };
+
+    this.chunks = [];
+    this.webcamRef = React.createRef();
+
+    this.capture = this.capture.bind(this);
+    this.monitorAudio = this.monitorAudio.bind(this);
+    this.calibrateAudioBaseline = this.calibrateAudioBaseline.bind(this);
+
+    this.takeScreenshot = this.takeScreenshot.bind(this);
+  }
+
+  static contextType = AuthContext;
+
+  componentDidMount() {
+    const minTime = this.context.screenshotInterval
+      ? this.context.screenshotInterval * 1000
+      : 10 * 1000;
+    const offsetTime = 0;
+
+    const webCamInterval = setInterval(this.capture, minTime + offsetTime);
+    const screenshotInterval = setInterval(this.takeScreenshot, minTime + offsetTime);
+
+    const state = Object.assign({}, this.state);
+    state.webCamInterval = webCamInterval;
+    state.screenshotInterval = screenshotInterval;
+    this.setState(state);
+
+    this.tabsHandler();
+    this.startScreenVideo();
+  }
+  
+  async startScreenVideo() {
+    const screenVideo = document.getElementById("screen-video");
+    screenVideo.srcObject = await navigator.mediaDevices.getDisplayMedia({
+      video: { mediaSource: "screen" },
+    });
+
+    const displaySurface = screenVideo.srcObject.getVideoTracks()[0].getSettings()
+      .displaySurface;
+    screenVideo.play();
+
+    if (displaySurface !== "monitor") {
+      this.stopScreenVideo();
+      await this.startScreenVideo();
+    }
+  }
+
+  // stopScreenVideo() {
+  // 	const screenVideo = document.getElementById('screen-video');
+  // 	const screenStream = screenVideo.srcObject;
+  // 	const tracks = screenStream.getTracks();
+
+  // 	tracks.forEach(track => track.stop());
+  // }
+  stopScreenVideo() {
+    const screenVideo = document.getElementById("screen-video");
+    const screenStream = screenVideo.srcObject;
+    if (!screenStream) return;
+    const tracks = screenStream.getTracks();
+    tracks.forEach((track) => track.stop());
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.state.webCamInterval);
+    clearInterval(this.state.screenshotInterval);
+    this.stopScreenVideo();
+  }
+
+  async takeScreenshot() {
+    const screenVideo = document.getElementById("screen-video");
+    const screenshotCanvas = document.getElementById("screenshot-canvas");
+
+    screenshotCanvas.width = screenVideo.videoWidth;
+    screenshotCanvas.height = screenVideo.videoHeight;
+    screenshotCanvas
+      .getContext("2d")
+      .drawImage(screenVideo, 0, 0, screenVideo.videoWidth, screenVideo.videoHeight);
+    const screenshot = screenshotCanvas.toDataURL("image/jpeg");
+    this.sendAudio();
+    await submitScreenshot(this.context.testAttendanceId, screenshot);
+  }
+
+
+  convertImage(image) {
+    var data = image.split(",")[1];
+
+    var bytes = window.atob(data);
+    var buf = new ArrayBuffer(bytes.length);
+    var byteArr = new Uint8Array(buf);
+
+    for (var i = 0; i < bytes.length; i++) {
+      byteArr[i] = bytes.charCodeAt(i);
+    }
+
+    return byteArr;
+  }
+
+  async capture() {
+    this.getTabs();
+
+    try {
+      const imageSrc = this.webcamRef.current.getScreenshot();
+
+      if (imageSrc == null) {
+        this.props.history.push("recording-error");
+      } else {
+        const image = this.convertImage(imageSrc);
+
+        if (!this.state.referenceImage) {
+          const { faceId } = await uploadReferenceImage(image);
+
+          const state = Object.assign({}, this.state);
+          state.referenceImage = faceId;
+          this.setState(state);
+        } else {
+          await checkForStudent(
+            this.context.testAttendanceId,
+            this.state.referenceImage,
+            image,
+            imageSrc
+          );
+        }
+      }
+    } catch (error) {
+      await submitProctoringError(this.context.testAttendanceId, error.message);
+    }
+  }
+
+  getTabs() {
+    window.postMessage({ type: "REQUEST_TABS" }, "*");
+  }
+
+  tabsHandler() {
+    window.addEventListener("message", (event) => {
+      if (!event.data || !event.data.type || event.data.type !== "TABS_RESPONSE") {
+        return;
+      }
+
+      if (event.data.tabs && event.data.tabs.length) {
+        submitTabs(this.context.testAttendanceId, event.data.tabs).catch(console.error);
+      }
+    });
+  }
+
+  render() {
+    return (
+      <React.Fragment>
+        <div className="container">
+          <img src={editIcon} className="page-icon" alt="edit icon" />
+          <div className="spacer-vertical" />
+          <h1>{i18n("Now Proctoring")}</h1>
+          <div className="spacer-vertical" />
+          <Webcam
+            audio={false}
+            height={315}
+            ref={this.webcamRef}
+            screenshotFormat="image/jpeg"
+            width={600}
+            videoConstraints={videoConstraints}
+          />
+          <br />
+          <canvas id="screenshot-canvas" style={{ display: "none" }} />
+          <video id="screen-video" style={{ display: "none" }} />
+          <p className="text-plain">
+            <img className="icon-xs" src={recordingIcon} alt="recording icon" />
+            {i18n("Recording in progress")}
+          </p>
+          <div className="spacer-vertical" />
+          <Link to="/student/dashboard">
+            <button className="btn">{i18n("End Recording")}</button>
+          </Link>
+        </div>
+      </React.Fragment>
+    );
+  }
+}
+
+export default StudentRecordTest;

@@ -1,8 +1,19 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import ViewTable from '../Resusable/ViewTable';
 import Spinner from '../Resusable/Spinner';
 
 function ProctorDetailView(props) {
+    const audioRef = useRef();
+
+    useEffect(() => {
+        if (audioRef.current) {
+            const onEnded = () => {
+                props.onNextFrame(true); // force to skip
+            };
+            audioRef.current.addEventListener('ended', onEnded);
+            return () => { if (audioRef.current) audioRef.current.removeEventListener('ended', onEnded); }
+        }
+    });
 
     if (props.proctorDetail === undefined) {
         return <Spinner/>;
@@ -35,7 +46,6 @@ function ProctorDetailView(props) {
     if (props.proctorDetail.unknownURLs) {
         props.proctorDetail.websites = [...props.proctorDetail.websites, ...props.proctorDetail.unknownURLs];
     }
-    
     return (
         <div className="proctor-detail-view">
             <div className="row">
@@ -121,6 +131,16 @@ function ProctorDetailView(props) {
                     Frame {props.frame + 1} / {props.max} @ {props.proctorDetail.time}
                 </div>
             </div>
+                { props.proctorDetail.voiceDetected && 
+                    (
+                        <div className="row align-items-center">
+                            <div className="col-3">
+                                <audio ref={audioRef} src={props.proctorDetail.audioURL} autoPlay controls controlsList="nodownload"/>
+                            </div>
+                        </div>
+                    )
+                }
+            
             <div className="row">
                 <ViewTable 
                     title="Details"
@@ -144,6 +164,11 @@ function ProctorDetailView(props) {
                         {
                             label: 'Websites',
                             propertyName: 'websites',
+                        },
+                        { 
+                            label: 'Speaking Detected',
+                            propertyName: 'voiceDetected',
+                            render: val => val ? 'Yes' : 'No',
                         },
                     ]}
                     rows={[props.proctorDetail]}

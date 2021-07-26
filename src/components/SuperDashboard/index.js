@@ -21,6 +21,7 @@ class SuperDashboard extends Component {
         this.handleChangeSetupKey = this.handleChangeSetupKey.bind(this);
         this.handleClickCloseNewSchool = this.handleClickCloseNewSchool.bind(this);
         this.handleClickSubmitNewSchool = this.handleClickSubmitNewSchool.bind(this);
+        this.handleClickSchoolSettings = this.handleClickSchoolSettings.bind(this);
     }
 
     async componentDidMount() {
@@ -40,6 +41,7 @@ class SuperDashboard extends Component {
             school.adminEmail = school.admin ? school.admin.email : '';
             school.currentTermName = school.currentTerm ? school.currentTerm.name : '';
             school.numberOfTerms = school.terms ? school.terms.length : 0;
+            school.settings = 'Settings';
         }
 
         this.setState({
@@ -59,6 +61,10 @@ class SuperDashboard extends Component {
             this.props.onSuccessfulLogin(response.data);
             this.props.history.push('/admin');
         }
+    }
+
+    handleClickSchoolSettings(schoolIndex) {
+        this.props.history.push('/super/school/settings', {school: this.state.schools[schoolIndex]});
     }
 
     handleClickCreateSchool() {
@@ -168,6 +174,11 @@ class SuperDashboard extends Component {
                         {
                             label: 'Students',
                             propertyName: 'students',
+                        },
+                        {
+                            label: 'Settings',
+                            propertyName: 'settings',
+                            onClick: this.handleClickSchoolSettings,
                         },
                     ]}
                     rows={this.state.schools}

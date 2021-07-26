@@ -18,14 +18,14 @@ const baseURL = 'https://wiseproctorglobal.com/' // DO NOT USE! URL for hosted p
 axios.defaults.withCredentials = true
 
 const backend = axios.create({
-        baseURL,
-        timeout: 30000,
-        headers: {'X-Requested-With': 'XMLHttpRequest'},
-        withCredentials: true,
-        validateStatus: () => true,
+    baseURL,
+    timeout: 30000,
+    headers: {'X-Requested-With': 'XMLHttpRequest'},
+    withCredentials: true,
+    validateStatus: () => true,
 });
 
-  // Alter defaults after instance has been created
+// Alter defaults after instance has been created
 
 /* ----------------------------------------
     Logins
@@ -33,7 +33,7 @@ const backend = axios.create({
 
 async function adminLogin(email, password) {
     const response = await backend.post('admin/login', {email, password})
-    
+
     return response;
 }
 
@@ -43,7 +43,7 @@ async function professorLogin(email, password) {
 }
 
 async function studentLogin(email, studentId) {
-    const response = await backend.post('student/login', {email, password : studentId});
+    const response = await backend.post('student/login', {email, password: studentId});
     return response;
 }
 
@@ -83,7 +83,11 @@ async function superLoginAsAdmin(schoolId) {
 }
 
 async function superCreateSchool(setupKey) {
-    return backend.post('/super/school', { setupKey });
+    return backend.post('/super/school', {setupKey});
+}
+
+async function superSetAudioEnabled({schoolId, enable}) {
+    return backend.post('/super/setAudioEnabled', {schoolId, enable});
 }
 
 /* ----------------------------------------
@@ -100,7 +104,7 @@ async function postFiles(professorFile, studentFile) {
     formData.append('studentFile', studentFile)
     const response = await backend.post('admin/setupSchool', formData, {
         headers: {
-          'Content-Type': 'multipart/form-data'
+            'Content-Type': 'multipart/form-data'
         },
         timeout: 60000,
     });
@@ -113,7 +117,7 @@ async function addUsersPrecheck(professorFile, studentFile) {
     formData.append('studentFile', studentFile)
     const response = await backend.post('admin/setupSchool/preCheck', formData, {
         headers: {
-          'Content-Type': 'multipart/form-data'
+            'Content-Type': 'multipart/form-data'
         },
         timeout: 60000,
     });
@@ -124,7 +128,7 @@ async function adminRequestResetPW(email) {
     const response = await backend.post('/admin/requestPasswordReset', email);
     return response;
 }
-async function resetAdminPW(data){
+async function resetAdminPW(data) {
     const response = await backend.post('/admin/resetPassword', data)
     return response
 }
@@ -141,7 +145,7 @@ function adminDownloadDataByStudentURL(termId) {
     return baseURL + 'admin/students/attendanceData/' + termId;
 }
 
-async function adminEditTerm(termId, name){
+async function adminEditTerm(termId, name) {
     const response = await backend.post('/admin/terms/edit', {termId, name})
     return response;
 }
@@ -153,21 +157,21 @@ async function adminGetProctorConfiguration() {
 async function adminSetProctorConfiguration(
     {
         screenshotInterval,
-        webcamInterval, 
-        facialRecognitionThreshold, 
-        restrictedDomains, 
+        webcamInterval,
+        facialRecognitionThreshold,
+        restrictedDomains,
         allowedDomains,
         allowOverride
     }
-    ) {
-        return backend.post('/admin/proctorConfiguration', {
-            screenshotInterval,
-            webcamInterval, 
-            facialRecognitionThreshold, 
-            restrictedDomains, 
-            allowedDomains,
-            allowOverride
-        });
+) {
+    return backend.post('/admin/proctorConfiguration', {
+        screenshotInterval,
+        webcamInterval,
+        facialRecognitionThreshold,
+        restrictedDomains,
+        allowedDomains,
+        allowOverride
+    });
 }
 
 // async function adminGetProfessors() {
@@ -220,7 +224,7 @@ async function createTerm(name) {
     return response;
 }
 
-async function  setCurrentTerm(termId) {
+async function setCurrentTerm(termId) {
     const response = await backend.post('/admin/terms/setAsCurrent', {termId})
     return response;
 }
@@ -245,7 +249,7 @@ async function professorRequestResetPW(email) {
     const response = await backend.post('/professor/requestPasswordReset', email);
     return response;
 }
-async function resetProfessorPW(data){
+async function resetProfessorPW(data) {
     const response = await backend.post('/professor/resetPassword', data)
     return response
 }
@@ -276,7 +280,7 @@ async function editCourse(courseId, name, classId, integrationId) {
 }
 
 async function deleteCourse(courseId) {
-    const response = await backend.post('professor/deleteCourse', { courseId });
+    const response = await backend.post('professor/deleteCourse', {courseId});
     return response;
 }
 
@@ -297,19 +301,19 @@ async function professorGetProctorConfiguration() {
 async function professorSetProctorConfiguration(
     {
         screenshotInterval,
-        webcamInterval, 
-        facialRecognitionThreshold, 
+        webcamInterval,
+        facialRecognitionThreshold,
         restrictedDomains,
         allowedDomains,
     }
-    ) {
-        return backend.post('/professor/proctorConfiguration', {
-            screenshotInterval,
-            webcamInterval, 
-            facialRecognitionThreshold, 
-            restrictedDomains, 
-            allowedDomains,
-        });
+) {
+    return backend.post('/professor/proctorConfiguration', {
+        screenshotInterval,
+        webcamInterval,
+        facialRecognitionThreshold,
+        restrictedDomains,
+        allowedDomains,
+    });
 }
 
 async function professorProctorConfigurationAllowed() {
@@ -358,6 +362,14 @@ async function submitScreenshot(testAttendanceId, screenshot) {
     return response;
 }
 
+async function submitAudio(audioFormData, proctorDetailsId) {
+    const response = await backend.post(`/student/submitAudio/proctorDetails/${proctorDetailsId}`, audioFormData, {
+        headers: {"Content-Type": "multipart/form-data"},
+    });
+
+    return response;
+}
+
 async function submitTabs(testAttendanceId, tabs) {
     const response = await backend.post('student/submitTabs', {testAttendanceId, tabs});
     return response;
@@ -372,7 +384,7 @@ async function submitFeeWaive(data) {
     const response = await backend.post('student/waiveFee', data);
     return response;
 }
-async function studentAgreeToTerms(){
+async function studentAgreeToTerms() {
     const response = await backend.post('/student/agreeToTerms')
     return response;
 }
@@ -384,7 +396,7 @@ async function studentAgreeToTerms(){
 async function getCourses() {
     const response = await backend.get('courses');
     return response;
-    
+
 }
 
 async function getTestsByCourse(professor, data) {
@@ -392,11 +404,11 @@ async function getTestsByCourse(professor, data) {
     return response;
 }
 
-async function getTestResults(professor, data){
+async function getTestResults(professor, data) {
     const response = await backend.get(`/professor/tests/${data}/results`, {professor, data});
     return response;
 }
-async function getTestImage(testId, imgNum){
+async function getTestImage(testId, imgNum) {
     const response = await backend.get(`/professor/testResults/${testId}/images/${imgNum}`);
     return response;
 }
@@ -414,6 +426,10 @@ async function getSchoolNames() {
     Proctoring V2.0 Routes
 ------------------------------------------*/
 
+async function proctoringSchoolAllowsAudio() {
+    return backend.get('proctor/audioAllowed');
+}
+
 async function proctoringProfessorCreateTest(
     {
         courseId,
@@ -421,36 +437,38 @@ async function proctoringProfessorCreateTest(
         testName,
         testLink,
         testPassword,
-        screenshotInterval, 
-        webcamInterval, 
-        facialRecognitionThreshold
+        screenshotInterval,
+        webcamInterval,
+        facialRecognitionThreshold,
+        audioEnabled,
     }) {
-        return backend.post('proctor/test', {
-            courseId,
-            publicKey,
-            testName,
-            testLink,
-            testPassword,
-            screenshotInterval, 
-            webcamInterval, 
-            facialRecognitionThreshold
-        });
+    return backend.post('proctor/test', {
+        courseId,
+        publicKey,
+        testName,
+        testLink,
+        testPassword,
+        screenshotInterval,
+        webcamInterval,
+        facialRecognitionThreshold,
+        audioEnabled,
+    });
 }
 
 async function proctoringStudentStartTest({classId, keyCode}) {
     return backend.post('proctor/start', {classId, keyCode});
 }
 
-async function proctoringVerifyPrivileges({proctorSessionId, webcamPrivilege, screenshotPrivilege}) {
-    return backend.post('proctor/privileges', {proctorSessionId, webcamPrivilege, screenshotPrivilege})
+async function proctoringVerifyPrivileges({proctorSessionId, webcamPrivilege, screenshotPrivilege, microphonePrivilege}) {
+    return backend.post('proctor/privileges', {proctorSessionId, webcamPrivilege, screenshotPrivilege, microphonePrivilege})
 }
 
 async function proctoringSetReferenceImage({proctorSessionId, webcamImage}) {
     return backend.post('proctor/reference', {proctorSessionId, webcamImage});
 }
 
-async function proctoringSubmitProctorData({proctorSessionId, webcamImage, screenshotImage}) {
-    return backend.post('proctor/submit', {proctorSessionId, webcamImage, screenshotImage});
+async function proctoringSubmitProctorData({proctorSessionId, webcamImage, screenshotImage, voiceDetected}) {
+    return backend.post('proctor/submit', {proctorSessionId, webcamImage, screenshotImage, voiceDetected});
 }
 
 async function proctoringEndProctorSession({proctorSessionId}) {
@@ -483,6 +501,10 @@ function proctoringGetScreenshotImageURL({studentTestId, index}) {
     return `${baseURL}proctor/studentTest/${studentTestId}/details/screenshot?index=${index}`;
 }
 
+function proctoringGetAudioURL({studentTestId, index}) {
+    return `${baseURL}proctor/studentTest/${studentTestId}/details/audio?index=${index}`;
+}
+
 export {
     adminLogin,
     professorLogin,
@@ -492,6 +514,7 @@ export {
     superLoginAsAdmin,
     superGetSchoolDetails,
     superCreateSchool,
+    superSetAudioEnabled,
     createSchool,
     claimProfessorAccount,
     adminGetSchoolDetails,
@@ -525,6 +548,7 @@ export {
     editAttendance,
     setAttendanceReadyForIntegration,
     takeTest,
+    submitAudio,
     submitConfidenceScore,
     submitScreenshot,
     submitTabs,
@@ -549,6 +573,7 @@ export {
     adminEditTerm,
     createTerm,
     setCurrentTerm,
+    proctoringSchoolAllowsAudio,
     proctoringProfessorCreateTest,
     proctoringStudentStartTest,
     proctoringVerifyPrivileges,
@@ -561,4 +586,5 @@ export {
     proctoringGetStudentTestDetailsAndImages,
     proctoringGetWebcamImageURL,
     proctoringGetScreenshotImageURL,
+    proctoringGetAudioURL,
 }

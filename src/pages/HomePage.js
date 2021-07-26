@@ -8,6 +8,7 @@ import {
 import { logout, checkLogin } from '../store/axios';
 
 import SuperDashboard from '../components/SuperDashboard';
+import SuperSchoolSettings from '../components/SuperSchoolSettings';
 
 //components
 import ProfessorLogin from '../components/professorLogin';
@@ -29,7 +30,7 @@ import StudentClassAtt from '../components/studentClassAtt';
 import StudentLogin from '../components/studentLogin';
 import StudentTest from '../components/studentTest';
 import StudentAttSuccess from '../components/studentAttSuccess';
-import StudentRecordTest from '../components/studentRecordTest';
+import StudentRecordTest from '../components/StudentRecordTest';
 import StudentTestId from '../components/studentTestId';
 import StudentRecError from '../components/studentRecordingError';
 import StudentAttendanceFromLink from '../components/StudentAttendanceFromLink';
@@ -172,6 +173,7 @@ class HomePage extends Component {
 
                     <Switch>
                             {/* super */}
+                            <Route path="/super/school/settings" component={SuperSchoolSettings}/>
                             <Route path="/super"  render={
                                 props => <SuperDashboard
                                             {...props}

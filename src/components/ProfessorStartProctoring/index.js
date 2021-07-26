@@ -8,8 +8,9 @@ import icon from '../../Assets/images/attend-class.png';
 import ClipboardLink from '../ClipboardLink';
 import HorizontalSelector from '../ProctorSettings/HorizontalSelector';
 import LabeledTextInput from '../Resusable/LabeledTextInput';
+import TextWithCheckbox from '../Resusable/TextWithCheckbox';
 
-import { proctoringProfessorCreateTest } from '../../store/axios';
+import { proctoringSchoolAllowsAudio, proctoringProfessorCreateTest } from '../../store/axios';
 
 class ProfessorStartProctoring extends Component {
 
@@ -27,12 +28,24 @@ class ProfessorStartProctoring extends Component {
             testPassword: '',
             imageFrequency: 'LOW',
             facialRecognitionThreshold: 'LOW',
+            schoolAllowsAudio: false,
+            audioEnabled: false,
         };
 
         this.handleSelectFrequency = this.handleSelectFrequency.bind(this);
         this.handleSelectThreshold = this.handleSelectThreshold.bind(this);
         this.handleChangeTextInput = this.handleChangeTextInput.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleClickAudio = this.handleClickAudio.bind(this);
+    }
+
+    async componentDidMount() {
+        const response = await proctoringSchoolAllowsAudio(); 
+
+        this.setState({
+            ...this.state,
+            schoolAllowsAudio: response.data.audioAllowed,
+        });
     }
 
     handleSelectFrequency(index) {
@@ -59,6 +72,14 @@ class ProfessorStartProctoring extends Component {
         this.setState({
             ...this.state,
             [e.target.attributes.property.value]: e.target.value,
+        });
+    }
+
+    handleClickAudio(e) {
+
+        this.setState({
+            ...this.state,
+            audioEnabled: e.target.checked,
         });
     }
 
@@ -106,6 +127,7 @@ class ProfessorStartProctoring extends Component {
             screenshotInterval,
             webcamInterval,
             facialRecognitionThreshold,
+            audioEnabled: this.state.audioEnabled,
         };
 
         const response = await proctoringProfessorCreateTest(requestData);
@@ -206,6 +228,21 @@ class ProfessorStartProctoring extends Component {
                         selected={['LOW', 'MEDIUM', 'HIGH'].indexOf(this.state.facialRecognitionThreshold)}
                     />
                     <div className="spacer-vertical-s"></div>
+                    {
+                        this.state.schoolAllowsAudio &&
+                        <div>
+
+                            <div className="shadow horizontal-selector">
+                                <TextWithCheckbox
+                                    text="Audio Recording"
+                                    checked={this.state.audioEnabled}
+                                    onClick={this.handleClickAudio}
+                                />
+                            </div>
+                            
+                            <div className="spacer-vertical-s"></div>
+                        </div>
+                    }
                     <button className="btn btn-green" onClick={this.handleSubmit}>Start</button>
                 </div>
             );
