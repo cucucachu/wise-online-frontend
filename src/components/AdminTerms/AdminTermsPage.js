@@ -145,9 +145,8 @@ class AdminTermsPage extends Component {
 
     async loadTerms() {
         try {
-            const userId = sessionStorage.getItem('userID');
             this.setIsLoading(true);
-            const response = await getTerms(userId);
+            const response = await getTerms();
     
             if (response.status === 200) {
                 const state = Object.assign({}, this.state);
