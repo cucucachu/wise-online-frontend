@@ -86,6 +86,26 @@ class SuperDashboard extends Component {
         });
     }
 
+    handleChangeNewSchoolName(e) {
+        this.setState({
+            ...this.state,
+            newSchool: {
+                ...this.state.newSchool,
+                name: e.target.value,
+            }
+        });
+    }
+
+    handleChangeBillingType(e) {
+        this.setState({
+            ...this.state,
+            newSchool: {
+                ...this.state.newSchool,
+                billingType: e.target.value,
+            }
+        });
+    }
+
     handleClickCloseNewSchool() {
         this.setState({
             ...this.state,
@@ -125,9 +145,63 @@ class SuperDashboard extends Component {
                             }
                             else return '';
                         })()}
+
+                        <form onSubmit={this.handleClickSubmitNewSchool.bind(this)}>
+                            <div className="input-wrapper">
+                                <span className="input-label">{i18n("Setup Key")} </span>
+                                <input
+                                    type="number"
+                                    placeholder={i18n("Setup Key")}
+                                    className=""
+                                    name="setupKey"
+                                    value={this.state.newSchool.setupKey}
+                                    onChange={this.handleChangeSetupKey.bind(this)}
+                                    required
+                                />
+                                <br />
+                                <span className="input-label">{i18n("School Name")} </span>
+                                <input
+                                    type="text"
+                                    placeholder={i18n("School Name")}
+                                    className=""
+                                    name="name"
+                                    value={this.state.newSchool.name}
+                                    onChange={this.handleChangeNewSchoolName.bind(this)}
+                                    required
+                                />
+                                <br />
+                                <span className="input-label">{i18n("Billing Type")} </span>
+                                <select onChange={this.handleChangeBillingType.bind(this)} value={this.state.newSchool.billingType} className="btn-dropdown">
+                                    <option key="Per Student" value="student"> Per Student </option>
+                                    <option key="Per Test" value="test"> Per Test </option>
+                                </select>
+                                
+                                
+                            </div>
+                           
+
+                        </form>
+
+
+
+
+
+
+
+
+
+
+
+                        {/* OLD 
                         <label>{i18n("Setup Key")}</label>
                         <input type="text" onChange={this.handleChangeSetupKey} value={this.state.newSchool.setupKey}/>
-                        <button className="btn-submit" onClick={this.handleClickSubmitNewSchool}>{i18n("Submit")}</button>
+                        <br></br>
+                        <label>{i18n("Name     ")}</label>
+                        <input type="text" onChange={this.handleChangeSetupKey} value={this.state.newSchool.setupKey}/>
+                        <button className="btn-submit" onClick={this.handleClickSubmitNewSchool}>{i18n("Submit")}</button> */}
+
+
+
                     </div>
                 </div>
             )
