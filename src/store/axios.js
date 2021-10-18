@@ -4,7 +4,7 @@ const axios = require('axios');
 // const baseURL = 'http://localhost:8080/';
 
 // URL testing internal site to work in China
-const baseURL = "https://wiseattendchina.com/"
+// const baseURL = "https://wiseattendchina.com/"
 
 // No Longer Used
 // const baseURL = 'https://internal-wiseattendonline.appspot.com/' // URL for hosted backend for test
@@ -14,7 +14,7 @@ const baseURL = "https://wiseattendchina.com/"
 /* !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
 
 /* !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
-// const baseURL = 'https://wiseproctorglobal.com/' // DO NOT USE! URL for hosted production. - Works for China
+const baseURL = 'https://wiseproctorglobal.com/' // DO NOT USE! URL for hosted production. - Works for China
 /* !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
 
 
