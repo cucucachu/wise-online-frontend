@@ -96,12 +96,52 @@ class SuperDashboard extends Component {
         });
     }
 
+    handleChangeNewSchoolEmail(e) {
+        this.setState({
+            ...this.state,
+            newSchool: {
+                ...this.state.newSchool,
+                email: e.target.value,
+            }
+        });
+    }
+
     handleChangeBillingType(e) {
         this.setState({
             ...this.state,
             newSchool: {
                 ...this.state.newSchool,
                 billingType: e.target.value,
+            }
+        });
+    }
+    
+    handleChangeBillingType(e) {
+        this.setState({
+            ...this.state,
+            newSchool: {
+                ...this.state.newSchool,
+                billingType: e.target.value,
+            }
+        });
+    }
+
+    handleChangeUnitPrice(e) {
+        this.setState({
+            ...this.state,
+            newSchool: {
+                ...this.state.newSchool,
+                unitPrice: e.target.value,
+            }
+        });
+    }
+
+    handleChangeBillingFrequency(e) {
+        this.setState({
+            ...this.state,
+            newSchool: {
+                ...this.state.newSchool,
+                billingFrequency: e.target.value,
             }
         });
     }
@@ -118,7 +158,12 @@ class SuperDashboard extends Component {
             return;
         }
 
-        const response = await superCreateSchool(this.state.newSchool.setupKey);
+        const response = await superCreateSchool(
+            this.state.newSchool.setupKey, 
+            this.state.newSchool.adminEmail,
+            this.state.newSchool.billingType,
+            this.state.newSchool.unitPrice,
+            this.state.newSchool.billingFrequency);
 
         if (response.status === 204) {
             await this.loadSchools();
@@ -150,7 +195,7 @@ class SuperDashboard extends Component {
                             <div className="input-wrapper">
                                 <span className="input-label">{i18n("Setup Key")} </span>
                                 <input
-                                    type="number"
+                                    type="text"
                                     placeholder={i18n("Setup Key")}
                                     className=""
                                     name="setupKey"
@@ -170,10 +215,41 @@ class SuperDashboard extends Component {
                                     required
                                 />
                                 <br />
+                                <span className="input-label">{i18n("School Contact")} </span>
+                                <input
+                                    type="email"
+                                    placeholder={i18n("Email")}
+                                    className=""
+                                    name="adminEmail"
+                                    value={this.state.newSchool.adminEmail}
+                                    onChange={this.handleChangeNewSchoolEmail.bind(this)}
+                                    required
+                                />
+                                <br />
                                 <span className="input-label">{i18n("Billing Type")} </span>
-                                <select onChange={this.handleChangeBillingType.bind(this)} value={this.state.newSchool.billingType} className="btn-dropdown">
+                                <select onChange={this.handleChangeBillingType.bind(this)} value={this.state.newSchool.billingType} className="selector">
+                                    <option disabled selected value> -- select an option -- </option>
                                     <option key="Per Student" value="student"> Per Student </option>
                                     <option key="Per Test" value="test"> Per Test </option>
+                                </select>
+                                <br />
+                                <span className="input-label">{i18n("Unit Price")} </span>
+                                <input
+                                    type="number"
+                                    placeholder={i18n("$")}
+                                    className=""
+                                    name="unitPrice"
+                                    value={this.state.newSchool.unitPrice}
+                                    onChange={this.handleChangeUnitPrice.bind(this)}
+                                    required
+                                />
+                                <br />
+                                <span className="input-label">{i18n("Billing Frequency")} </span>
+                                <select onChange={this.handleChangeBillingFrequency.bind(this)} value={this.state.newSchool.billingFrequency} className="">
+                                    <option disabled selected value> -- select an option -- </option>
+                                    <option key="Per Quarter" value="10"> Per Quarter </option>
+                                    <option key="Per Semester" value="15"> Per Semester </option>
+                                    <option key="Per Year" value="52"> Per Year </option>
                                 </select>
                                 
                                 
@@ -183,7 +259,7 @@ class SuperDashboard extends Component {
                         </form>
 
 
-
+                        <button className="btn-submit" onClick={this.handleClickSubmitNewSchool}>{i18n("Submit")}</button>
 
 
 
@@ -198,7 +274,7 @@ class SuperDashboard extends Component {
                         <br></br>
                         <label>{i18n("Name     ")}</label>
                         <input type="text" onChange={this.handleChangeSetupKey} value={this.state.newSchool.setupKey}/>
-                        <button className="btn-submit" onClick={this.handleClickSubmitNewSchool}>{i18n("Submit")}</button> */}
+                         */}
 
 
 

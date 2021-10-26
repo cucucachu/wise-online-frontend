@@ -172,11 +172,14 @@ input[type="number"] {
   margin: 0 auto;
 }
 
-.btn-dropdown {
-  width: 100%;
-  font-size: large;
-  max-width: 800px;
-  margin: 0 auto;
+.selector {
+  padding: 10px 15px;
+  border-top-right-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
+  box-shadow: 0 0 5px #ccc;
+  width: 50%;
+  line-height: 1.5;
+  border: 1px solid #cccccc;
 }
 
 .spacer-vertical {

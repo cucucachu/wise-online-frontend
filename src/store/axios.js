@@ -85,8 +85,8 @@ async function superLoginAsAdmin(schoolId) {
     return backend.post(`/super/schools/${schoolId}`)
 }
 
-async function superCreateSchool(setupKey) {
-    return backend.post('/super/school', {setupKey});
+async function superCreateSchool(setupKey, adminEmail, billingType, unitPrice, billingFrequency) {
+    return backend.post('/super/school', {setupKey, adminEmail, billingType, unitPrice, billingFrequency});
 }
 
 async function superSetAudioEnabled({schoolId, enable}) {
