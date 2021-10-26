@@ -227,7 +227,7 @@ class SuperDashboard extends Component {
                                 />
                                 <br />
                                 <span className="input-label">{i18n("Billing Type")} </span>
-                                <select onChange={this.handleChangeBillingType.bind(this)} value={this.state.newSchool.billingType} className="selector">
+                                <select onChange={this.handleChangeBillingType.bind(this)} value={this.state.newSchool.billingType} className="">
                                     <option disabled selected value> -- select an option -- </option>
                                     <option key="Per Student" value="student"> Per Student </option>
                                     <option key="Per Test" value="test"> Per Test </option>

@@ -93,6 +93,10 @@ async function superSetAudioEnabled({schoolId, enable}) {
     return backend.post('/super/setAudioEnabled', {schoolId, enable});
 }
 
+async function superUpdateSchool(schoolData) {
+    return backend.post('/super/updateSchool', schoolData);
+}
+
 /* ----------------------------------------
     Admin Routes
 ------------------------------------------*/
@@ -518,6 +522,7 @@ export {
     superGetSchoolDetails,
     superCreateSchool,
     superSetAudioEnabled,
+    superUpdateSchool,
     createSchool,
     claimProfessorAccount,
     adminGetSchoolDetails,

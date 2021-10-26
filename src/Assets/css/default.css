@@ -172,7 +172,7 @@ input[type="number"] {
   margin: 0 auto;
 }
 
-.selector {
+select {
   padding: 10px 15px;
   border-top-right-radius: 0.5rem;
   border-bottom-right-radius: 0.5rem;
