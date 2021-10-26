@@ -20,17 +20,6 @@ class SuperSchoolSetings extends Component {
 
     }
 
-    handleClickAudioEnabled(e) {
-
-        this.setState({
-            ...this.state,
-            school: {
-                ...this.state.school,
-                audioEnabled: this.state.school.audioEnabled ? false : true,
-            }
-        });
-    }
-
     handleChange(e) {
         this.setState({
             ...this.state,
@@ -42,32 +31,15 @@ class SuperSchoolSetings extends Component {
         });
     }
 
-    async handleClickSubmit(e) {
+    async handleSubmit(e) {
         e.preventDefault();
 
         try {
-            // const response = await superSetAudioEnabled({
-            //     schoolId: this.state.school._id,
-            //      enable: this.state.school.audioEnabled
-            // });
-
             const response = await superUpdateSchool(this.state.school);
 
             if (response.status == 200) {
                 this.props.history.push('/super');
             }
-        }
-        catch (error) {
-
-        }
-    }
-
-    async handleSubmit(e) {
-        e.preventDefault();
-        try {
-        //     const userAccount = await createUserAccount(this.state.email, this.state.password);
-        //     this.props.successfulLoginHandler(userAccount);
-        //     const user = await addUser({...this.state, uid : userAccount.uid});
         }      
         catch(error) {
             console.log(error);
@@ -191,14 +163,12 @@ class SuperSchoolSetings extends Component {
                 <h1>School Settings</h1>
                 <h2>{this.state.school.name}</h2>
                 <div className="spacer-vertical"></div>
-                {/* <TextWithCheckbox
-                    text="Audio Enabled"
-                    checked={this.state.school.audioEnabled}
-                    onClick={this.handleClickAudioEnabled}
-                /> */}
-                
-                <Form questions={questions} handleChange={this.handleChange} handleSubmit={this.handleSubmit} buttonLabel="Save Changes"/>
-                
+                <Form 
+                    questions={questions} 
+                    handleChange={this.handleChange} 
+                    handleSubmit={this.handleSubmit} 
+                    buttonLabel="Save Changes"
+                />      
             </div>
         )
     }
