@@ -4,26 +4,28 @@ import { i18n } from 'web-translate';
 export default function SelectInput(props) {
 
     const {question, handleChange} = props;
-    const {label, id, type, placeholder, className, name, value, options} = question;
+    let {label, id, type, placeholder, className, name, value, options} = question;
 
-    // const answers = options.map(a => <option key={a.key} value={a.value}> {a.label} </option>);
+    const answers = options.map(a => <option key={a.key} value={a.value}> {a.label} </option>);
 
-    const answers = [];
-    let hadValue = false;
+    value = value ? value : "UNDEFINED";
 
-    for(const answer of options) {
-        if(answer.value === value) {
-            answers.push(<option selected key={answer.key} value={answer.value}> {answer.label} </option>);
-            hadValue = true;
-        }
-        else {
-            answers.push(<option key={answer.key} value={answer.value}> {answer.label} </option>);
-        }
-    }
+    // const answers = [];
+    // let hadValue = false;
 
-    if(!hadValue) {
-        answers.push(<option disabled selected> -- select an option -- </option>)
-    }
+    // for(const answer of options) {
+    //     if(answer.value === value) {
+    //         answers.push(<option selected key={answer.key} value={answer.value}> {answer.label} </option>);
+    //         hadValue = true;
+    //     }
+    //     else {
+    //         answers.push(<option key={answer.key} value={answer.value}> {answer.label} </option>);
+    //     }
+    // }
+
+    // if(!value) {
+    //     answers.push(<option disabled selected> -- select an option -- </option>)
+    // }
 
 
     return(
@@ -38,7 +40,7 @@ export default function SelectInput(props) {
             value={value}
             onChange={handleChange}> 
 
-            
+            <option disabled value="UNDEFINED"> -- select an option -- </option>
 
             {answers}
             

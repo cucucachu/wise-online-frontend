@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import attendanceIcon from '../../Assets/images/attendance-icon.png';
 
-import { superSetAudioEnabled, superUpdateSchool } from '../../store/axios';
-
-import TextWithCheckbox from '../Resusable/TextWithCheckbox';
+import { superUpdateSchool } from '../../store/axios';
 import Form from './Form';
 
 class SuperSchoolSetings extends Component {
@@ -14,9 +12,8 @@ class SuperSchoolSetings extends Component {
             ...props.location.state,
         }
 
-        this.handleClickAudioEnabled = this.handleClickAudioEnabled.bind(this);
         this.handleChange = this.handleChange.bind(this);
-        this.handleClickSubmit = this.handleClickSubmit.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
 
     }
 
@@ -34,8 +31,15 @@ class SuperSchoolSetings extends Component {
     async handleSubmit(e) {
         e.preventDefault();
 
+        const data = {
+            ...this.state.school,
+            unitPrice: Number(this.state.school.unitPrice),
+            billingFrequency: Number(this.state.school.billingFrequency),
+            audioEnabled: Boolean(this.state.school.audioEnabled),
+        };
+
         try {
-            const response = await superUpdateSchool(this.state.school);
+            const response = await superUpdateSchool(data);
 
             if (response.status == 200) {
                 this.props.history.push('/super');
