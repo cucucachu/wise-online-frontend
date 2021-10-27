@@ -162,8 +162,8 @@ class SuperDashboard extends Component {
             this.state.newSchool.setupKey, 
             this.state.newSchool.adminEmail,
             this.state.newSchool.billingType,
-            this.state.newSchool.unitPrice,
-            this.state.newSchool.billingFrequency);
+            Number(this.state.newSchool.unitPrice),
+            Number(this.state.newSchool.billingFrequency));
 
         if (response.status === 204) {
             await this.loadSchools();
