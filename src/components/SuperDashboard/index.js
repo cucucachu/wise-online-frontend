@@ -86,7 +86,7 @@ class SuperDashboard extends Component {
             ...this.state,
             newSchool: {
                 ...this.state.newSchool,
-                [e.target.id]: e.target.value,
+                [e.target.id]: e.target.type === 'number' ? parseInt(e.target.value) : e.target.value,
             }
         })
     }
@@ -98,17 +98,24 @@ class SuperDashboard extends Component {
         });
     }
 
-    async handleClickSubmitNewSchool() {
+    async handleClickSubmitNewSchool(e) {
+        e.preventDefault();
         if (!this.state.newSchool || !this.state.newSchool.setupKey) {
             return;
         }
 
-        const response = await superCreateSchool(
-            this.state.newSchool.setupKey, 
-            this.state.newSchool.adminEmail,
-            this.state.newSchool.billingType,
-            Number(this.state.newSchool.unitPrice),
-            Number(this.state.newSchool.billingFrequency));
+        let { setupKey, adminEmail, billingType, unitPrice, billingFrequency } = this.state.newSchool;
+        billingFrequency = parseInt(billingFrequency);
+
+        const request = {
+            setupKey,
+            adminEmail,
+            billingType,
+            unitPrice,
+            billingFrequency,
+        };
+
+        const response = await superCreateSchool(request);
 
         if (response.status === 204) {
             await this.loadSchools();
@@ -116,7 +123,7 @@ class SuperDashboard extends Component {
         else {
             this.setState({
                 ...this.state,
-                error: 'Error - Please Check New School Values.',
+                error: `Please fix the following field: ${response.data.properties[0]}`,
             });
         }
     }
@@ -194,7 +201,7 @@ class SuperDashboard extends Component {
                                 />
                                 <br />
                                 <span className="input-label">{i18n("Billing Frequency")} </span>
-                                <select id="billingFrequency" onChange={this.handleChangeNewSchool}  className="">
+                                <select id="billingFrequency" type="number" onChange={this.handleChangeNewSchool}  className="">
                                     <option disabled selected value> -- select an option -- </option>
                                     <option key="Per Quarter" value="10"> Per Quarter </option>
                                     <option key="Per Semester" value="15"> Per Semester </option>
@@ -205,12 +212,12 @@ class SuperDashboard extends Component {
                                 
                             </div>
                            
-                            {/* <input type="submit" className="btn-submit" value="Create School" /> */}
+                            <input type="submit" className="btn-submit" value="Create School" />
 
                         </form>
 
 
-                        <button className="btn-submit" onClick={this.handleClickSubmitNewSchool}>{i18n("Create School")}</button>
+                        {/* <button className="btn-submit" onClick={this.handleClickSubmitNewSchool}>{i18n("Create School")}</button> */}
 
                     </div>
                 </div>

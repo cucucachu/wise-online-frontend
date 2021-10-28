@@ -23,8 +23,7 @@ class SuperSchoolSetings extends Component {
             school: {
                 ...this.state.school,
                 [e.target.id]: e.target.value,
-            }
-            
+            } 
         });
     }
 
