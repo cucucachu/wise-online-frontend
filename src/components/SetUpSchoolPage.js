@@ -145,7 +145,7 @@ class SetUpSchoolPage extends Component {
         }
     }
 
-    renderUplaodPage() {
+    renderUploadPage() {
         return(
             <div className="wrap">
                 <div className="page-header"></div>
@@ -274,7 +274,7 @@ class SetUpSchoolPage extends Component {
             return this.renderConfirmPage();
         }
         else {
-            return this.renderUplaodPage();
+            return this.renderUploadPage();
         }
     }
 }

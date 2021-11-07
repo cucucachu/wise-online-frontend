@@ -267,7 +267,7 @@ class SuperDashboard extends Component {
                             propertyName: 'students',
                         },
                         {
-                            label: 'Settings',
+                            label: 'Info',
                             propertyName: 'settings',
                             onClick: this.handleClickSchoolSettings,
                         },

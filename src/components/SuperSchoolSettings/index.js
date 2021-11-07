@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import attendanceIcon from '../../Assets/images/attendance-icon.png';
 
 import { superUpdateSchool } from '../../store/axios';
+import DataPane from '../Resusable/DataPane';
 import Form from './Form';
 
 class SuperSchoolSetings extends Component {
@@ -16,6 +17,10 @@ class SuperSchoolSetings extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
 
     }
+
+    // async componentDidMount() {
+    //     // const response = await 
+    // }
 
     handleChange(e) {
         this.setState({
@@ -52,38 +57,38 @@ class SuperSchoolSetings extends Component {
     render() {
 
         const questions = [
-            {
-                label: "School Name",
-                id: "name",
-                type: "text",
-                className: "",
-                name: "",
-                value: this.state.school.name,
-            },
-            {
-                label: "Setup Key",
-                id: "setupKey",
-                type: "text",
-                className: "",
-                name: "",
-                value: this.state.school.setupKey,
-            },
-            {
-                label: "Integration Key",
-                id: "integrationKey",
-                type: "text",
-                className: "",
-                name: "",
-                value: this.state.school.integrationKey,
-            },
-            {
-                label: "Integration Name",
-                id: "integrationName",
-                type: "text",
-                className: "",
-                name: "",
-                value: this.state.school.integrationName,
-            },
+            // {
+            //     label: "School Name",
+            //     id: "name",
+            //     type: "text",
+            //     className: "",
+            //     name: "",
+            //     value: this.state.school.name,
+            // },
+            // {
+            //     label: "Setup Key",
+            //     id: "setupKey",
+            //     type: "text",
+            //     className: "",
+            //     name: "",
+            //     value: this.state.school.setupKey,
+            // },
+            // {
+            //     label: "Integration Key",
+            //     id: "integrationKey",
+            //     type: "text",
+            //     className: "",
+            //     name: "",
+            //     value: this.state.school.integrationKey,
+            // },
+            // {
+            //     label: "Integration Name",
+            //     id: "integrationName",
+            //     type: "text",
+            //     className: "",
+            //     name: "",
+            //     value: this.state.school.integrationName,
+            // },
             {
                 label: "Audio Enabled",
                 id: "audioEnabled",
@@ -159,12 +164,25 @@ class SuperSchoolSetings extends Component {
             },  
         ];
 
+        const schoolDetails = {
+            'School': this.state.school.name,
+            'Setup Key': this.state.school.setupKey,
+            'Integration Key':this.state.school.integrationKey,
+            "Integration Name":this.state.school.integrationName,
+
+        };
+
         return (
             <div className="container">
                 <img src={ attendanceIcon } className="page-icon" alt="login icon"/>
                 <div className="spacer-vertical-s"></div>
-                <h1>School Settings</h1>
+                <h1>School Info And Settings</h1>
                 <h2>{this.state.school.name}</h2>
+                <div className="spacer-vertical"></div>
+                <DataPane
+                    title="School Details"
+                    data={schoolDetails}
+                /> 
                 <div className="spacer-vertical"></div>
                 <Form 
                     questions={questions} 

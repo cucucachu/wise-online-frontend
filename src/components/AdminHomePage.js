@@ -28,6 +28,7 @@ class AdminHomePage extends Component {
                 'Current Term': schoolData.currentTerm.name,
                 'Professors': schoolData.professors,
                 'Students': schoolData.students,
+                'Proctor Sessions': schoolData.proctorSessions,
             }
         })
     }
