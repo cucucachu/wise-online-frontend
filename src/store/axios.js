@@ -105,7 +105,7 @@ async function adminGetSchoolDetails() {
     return backend.get('admin/school');
 }
 
-async function postFiles(professorFile, studentFile) {
+async function postFiles(professorFile, studentFile, autoRenew) {
     var formData = new FormData();
     formData.append('professorFile', professorFile)
     formData.append('studentFile', studentFile)
