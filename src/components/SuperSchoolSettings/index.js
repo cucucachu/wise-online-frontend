@@ -45,7 +45,7 @@ class SuperSchoolSetings extends Component {
         try {
             const response = await superUpdateSchool(data);
 
-            if (response.status == 200) {
+            if (response.status === 200) {
                 this.props.history.push('/super');
             }
         }      
@@ -160,7 +160,7 @@ class SuperSchoolSetings extends Component {
                 ],
                 className: "",
                 name: "",
-                value: this.state.school.billingFrquency,
+                value: this.state.school.billingFrequency,
             },  
         ];
 

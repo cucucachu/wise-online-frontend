@@ -37,11 +37,11 @@ export default function Form(props) {
 
 
     for(const question of props.questions) {
-        if(question.type == "text" || question.type == "number")  {
+        if(question.type === "text" || question.type === "number")  {
             inputs.push(
                 <TextInput question={question} handleChange={props.handleChange} />)
         }
-        if(question.type == "select")  {
+        if(question.type === "select")  {
             inputs.push(
                 <SelectInput question={question} handleChange={props.handleChange} />)
         }
