@@ -60,13 +60,9 @@ class HeaderNew extends Component {
             <header>
                     <header>
                         <span>
-                            &nbsp;<label class="white-text">{i18n("Language:")}</label>&nbsp;
+                            &nbsp;<label className="white-text">{i18n("Language:")}</label>&nbsp;
                             <select id="language"  onChange={this.changeLanguage} value={languageCode} className="btn-language-dropdown">
-                                {languageNames.map(name => (
-                                <option key={name} value={languages[name]}>
-                                    {name}
-                                </option>
-                                ))}
+                                {languageNames.map(name => (<option key={name} value={languages[name]}>{name}</option>))}
                             </select>
                         </span>
                     </header>
