@@ -127,6 +127,7 @@ button:focus {
   display: inline-block;
   background-color: $primary-color;
   padding: 11px;
+  margin: 5px 0px;
   color: $secondary-color;
   border-top-left-radius: 0.5rem;
   border-bottom-left-radius: 0.5rem;
@@ -431,6 +432,7 @@ footer {
   border: 1px solid $primary-color;
   color: $secondary-color;
   font-size: small;
+  padding: 0px 0px;
   margin-top: 0.1rem;
   margin-bottom: 0.1rem;
   border-radius: 0.5rem;
