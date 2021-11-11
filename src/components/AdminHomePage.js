@@ -1,7 +1,7 @@
 import React, { Component }　from 'react';
 import { Link } from 'react-router-dom'
 
-import { adminGetSchoolDetails } from '../store/axios';
+import { adminGetSchoolDetails, adminGetSchoolTests } from '../store/axios';
 
 import attendanceIcon from '../Assets/images/attendance-icon.png';
 import DataPane from './Resusable/DataPane';
@@ -19,7 +19,9 @@ class AdminHomePage extends Component {
 
     async componentDidMount() {
         const response = await adminGetSchoolDetails();
+        const response2 = await adminGetSchoolTests();
         const schoolData = response.data.school;
+        const totalTests = response2.data.tests.testsData;
 
         this.setState({
             ...this.state,
@@ -28,8 +30,8 @@ class AdminHomePage extends Component {
                 'Current Term': schoolData.currentTerm.name,
                 'Professors': schoolData.professors,
                 'Students': schoolData.students,
-                'Total Tests Taken': schoolData.tests,
-                'Tests Taken This Term': schoolData.currentTermTests,
+                'Total Tests Taken': totalTests,
+                // 'Tests Taken This Term': schoolData.currentTermTests,
             }
         })
     }
