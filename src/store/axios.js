@@ -81,6 +81,10 @@ async function superGetSchoolDetails() {
     return backend.get('/super/schools');
 }
 
+async function superGetSchoolTestCounts() {
+    return backend.get('/super/schools/tests');
+}
+
 async function superLoginAsAdmin(schoolId) {
     return backend.post(`/super/schools/${schoolId}`)
 }
@@ -524,6 +528,7 @@ export {
     checkLogin,
     superLoginAsAdmin,
     superGetSchoolDetails,
+    superGetSchoolTestCounts,
     superCreateSchool,
     superSetAudioEnabled,
     superUpdateSchool,

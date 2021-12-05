@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import attendanceIcon from '../../Assets/images/attendance-icon.png';
 
-import { superGetSchoolDetails, superLoginAsAdmin, superCreateSchool } from '../../store/axios';
+import { superGetSchoolDetails, superGetSchoolTestCounts, superLoginAsAdmin, superCreateSchool } from '../../store/axios';
 import ViewTable from '../Resusable/ViewTable';
+import Spinner from '../Resusable/Spinner';
 
 import { i18n } from 'web-translate';
 
@@ -26,6 +27,27 @@ class SuperDashboard extends Component {
 
     async componentDidMount() {
         await this.loadSchools();
+        await this.getTests();
+    }
+
+    async getTests() {
+        const response = await superGetSchoolTestCounts();
+        const schools = [...this.state.schools];
+
+        if (response.status === 401) {
+            await this.props.logout();
+            this.props.history.push('/');
+            return;
+        }
+
+        for(const school of schools) {
+            school.tests = response.data[school._id]
+        }
+
+        this.setState({
+            ...this.state,
+            schools: schools,
+        });
     }
 
     async loadSchools() {
@@ -234,50 +256,58 @@ class SuperDashboard extends Component {
                 <h1>{i18n("Super Dashboard")}</h1>
                 <div className="spacer-vertical" />
                 {this.renderNewSchoolPopup()}
-                <ViewTable
-                    title={i18n("Schools")}
-                    columns={[
-                        {
-                            label: 'Name',
-                            propertyName: 'name',
-                            onClick: this.handleClickSchool,
-                        },
-                        {
-                            label: 'Setup Key',
-                            propertyName: 'setupKey',
-                        },
-                        {
-                            label: 'Admin',
-                            propertyName: 'adminEmail',
-                        },
-                        {
-                            label: 'Current Term',
-                            propertyName: 'currentTermName',
-                        },
-                        {
-                            label: 'Terms',
-                            propertyName: 'numberOfTerms',
-                        },
-                        {
-                            label: 'Professors',
-                            propertyName: 'professors',
-                        },
-                        {
-                            label: 'Students',
-                            propertyName: 'students',
-                        },
-                        {
-                            label: 'Info',
-                            propertyName: 'settings',
-                            onClick: this.handleClickSchoolSettings,
-                        },
-                    ]}
-                    rows={this.state.schools}
-                    createButton={{
-                        text: 'Create',
-                        onClick: this.handleClickCreateSchool,
-                    }}
-                />
+                {this.state.schools.length ? 
+                    <ViewTable
+                        title={i18n("Schools")}
+                        columns={[
+                            {
+                                label: 'Name',
+                                propertyName: 'name',
+                                onClick: this.handleClickSchool,
+                            },
+                            {
+                                label: 'Setup Key',
+                                propertyName: 'setupKey',
+                            },
+                            {
+                                label: 'Admin',
+                                propertyName: 'adminEmail',
+                            },
+                            {
+                                label: 'Current Term',
+                                propertyName: 'currentTermName',
+                            },
+                            {
+                                label: 'Terms',
+                                propertyName: 'numberOfTerms',
+                            },
+                            {
+                                label: 'Professors',
+                                propertyName: 'professors',
+                            },
+                            {
+                                label: 'Students',
+                                propertyName: 'students',
+                            },
+                            {
+                                label: 'Tests',
+                                propertyName: 'tests',
+                                asynchronous : true,
+                            },
+                            {
+                                label: 'Info',
+                                propertyName: 'settings',
+                                onClick: this.handleClickSchoolSettings,
+                            },
+                        ]}
+                        rows={this.state.schools}
+                        createButton={{
+                            text: 'Create',
+                            onClick: this.handleClickCreateSchool,
+                        }}
+                    />
+                    : <Spinner />
+                }
             </div>
         )
     }
