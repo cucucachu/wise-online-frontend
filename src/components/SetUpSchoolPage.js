@@ -17,6 +17,7 @@ class SetUpSchoolPage extends Component {
     static contextType = AuthContext;
     
     state={
+        automaticRenewal: false,
         fileStudent: {},
         fileProfessor: {},
         fileStudentName: 'No file',
@@ -55,6 +56,13 @@ class SetUpSchoolPage extends Component {
     handleDownloadProfessor = async e =>{
         e.preventDefault();
         window.location = getProfessorTemplateURL();
+    }
+    
+    handleChange(e) {
+        this.setState({
+            ...this.state,
+            automaticRenewal : e.target.checked,
+        });
     }
 
     showError = () =>{
@@ -115,7 +123,7 @@ class SetUpSchoolPage extends Component {
         }else{
             this.loading();
             try {
-                const response = await postFiles(this.state.fileProfessor, this.state.fileStudent)
+                const response = await postFiles(this.state.fileProfessor, this.state.fileStudent, this.state.automaticRenewal)
 
                 if (response.status === 200) {
                     this.props.history.push('/admin/set-up-success')
@@ -145,7 +153,7 @@ class SetUpSchoolPage extends Component {
         }
     }
 
-    renderUplaodPage() {
+    renderUploadPage() {
         return(
             <div className="wrap">
                 <div className="page-header"></div>
@@ -166,16 +174,29 @@ class SetUpSchoolPage extends Component {
                     </div>
                     <div className="spacer-vertical-s"></div>
                     <h3 style={this.state.showHide}>{this.state.message}</h3>
-                    <div className="container">
+                    <div>
+                        <input 
+                            type="checkbox" 
+                            id="recurring" 
+                            name="recurring" 
+                            checked={this.state.automaticRenewal} 
+                            onChange={this.handleChange.bind(this)}/>
+                        <label for="recurring">&nbsp;&nbsp;Automatic Renewal</label>
+                    </div>
+                  
+                  <div className="container">
                         <div className="row align-1">
                         <div className="col-sm-6">
+                            
                                 <div className="shadow">
                                 
                                     <label className="radio-container"><h2 style={{paddingTop: "5px"}} className="text-plain">{i18n("Student roster")}</h2>
                                     {this.state.checkStudent ? <input type="checkbox" disabled="disabled" checked/> : <input type="checkbox" disabled="disabled" /> }
                                     <span className="checkmark"></span>
                                     </label>
+                                    
                                     {this.state.isFileStudent ? <p　style={{paddingLeft: "35px"}}>{i18n("Uploaded")}</p> : <p  style={{paddingLeft: "35px", color: 'gray'}} className="text-plain">{i18n("Not uploaded")}</p>}
+                                    
                                     <input type="file" id="fileupload1" onChange={(e)=>{
                                             this.handleFileStudent(e)
                                         }}/>
@@ -274,7 +295,7 @@ class SetUpSchoolPage extends Component {
             return this.renderConfirmPage();
         }
         else {
-            return this.renderUplaodPage();
+            return this.renderUploadPage();
         }
     }
 }

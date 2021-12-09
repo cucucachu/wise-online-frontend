@@ -1,4 +1,5 @@
 import React from 'react';
+import Spinner from './Spinner';
 
 function ViewTable(props) {
     
@@ -62,7 +63,10 @@ function ViewRow(props) {
     const cells = [];
 
     for (const column of props.columns) {
-        const value = props.row[column.propertyName];
+        let value = props.row[column.propertyName];
+        if (column.asynchronous === true && value === undefined) {
+            value = <Spinner size='s'/>
+        }
 
         if (Array.isArray(value)) {
             cells.push(

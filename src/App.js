@@ -6,6 +6,8 @@ import Footer from './components/footer';
 //pages
 import HomePage from './pages/HomePage'
 
+// import './Assets/scss.'
+
 import './Assets/css/default.min.css'
 // import './Assets/css/default.css'
 // import './Assets/css/bootstrap-grid.min.css'

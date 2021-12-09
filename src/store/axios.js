@@ -81,16 +81,24 @@ async function superGetSchoolDetails() {
     return backend.get('/super/schools');
 }
 
+async function superGetSchoolTestCounts() {
+    return backend.get('/super/schools/tests');
+}
+
 async function superLoginAsAdmin(schoolId) {
     return backend.post(`/super/schools/${schoolId}`)
 }
 
-async function superCreateSchool(setupKey) {
-    return backend.post('/super/school', {setupKey});
+async function superCreateSchool({setupKey, adminEmail, billingType, unitPrice, billingFrequency}) {
+    return backend.post('/super/school', {setupKey, adminEmail, billingType, unitPrice, billingFrequency});
 }
 
 async function superSetAudioEnabled({schoolId, enable}) {
     return backend.post('/super/setAudioEnabled', {schoolId, enable});
+}
+
+async function superUpdateSchool(schoolData) {
+    return backend.post('/super/updateSchool', schoolData);
 }
 
 /* ----------------------------------------
@@ -101,7 +109,7 @@ async function adminGetSchoolDetails() {
     return backend.get('admin/school');
 }
 
-async function postFiles(professorFile, studentFile) {
+async function postFiles(professorFile, studentFile, autoRenew) {
     var formData = new FormData();
     formData.append('professorFile', professorFile)
     formData.append('studentFile', studentFile)
@@ -175,6 +183,10 @@ async function adminSetProctorConfiguration(
         allowedDomains,
         allowOverride
     });
+}
+
+async function adminGetSchoolTests() {
+    return backend.get('admin/tests');
 }
 
 // async function adminGetProfessors() {
@@ -516,8 +528,10 @@ export {
     checkLogin,
     superLoginAsAdmin,
     superGetSchoolDetails,
+    superGetSchoolTestCounts,
     superCreateSchool,
     superSetAudioEnabled,
+    superUpdateSchool,
     createSchool,
     claimProfessorAccount,
     adminGetSchoolDetails,
@@ -526,6 +540,7 @@ export {
     adminDownloadDataByStudentURL,
     professorGetProctorConfiguration,
     professorSetProctorConfiguration,
+    adminGetSchoolTests,
     professorProctorConfigurationAllowed,
     adminGetProctorConfiguration,
     adminSetProctorConfiguration,
