@@ -48,6 +48,13 @@ class StudentDashboard extends Component {
                         <img src={editIcon} alt="take a test icon" className="icon-sm" />&nbsp;{i18n("Take a test")}
                     </button>
                 </Link>
+
+                <div className="spacer-vertical" />
+                <Link to="/student/demo/proctor">
+                    <button className="btn">
+                        <img src={editIcon} alt="take a test icon" className="icon-sm" />&nbsp;{i18n("Take a demo test")}
+                    </button>
+                </Link>
                 
             </form>
     </div>

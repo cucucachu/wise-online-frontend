@@ -7,14 +7,14 @@ const axios = require('axios');
 // const baseURL = "https://wiseattendchina.com/"
 
 // No Longer Used
-// const baseURL = 'https://internal-wiseattendonline.appspot.com/' // URL for hosted backend for test
+const baseURL = 'https://internal-wiseattendonline.appspot.com/' // URL for hosted backend for test
 
 /* !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
 // const baseURL = 'https://wiseonlineattend.appspot.com/' // DO NOT USE! URL for hosted production.
 /* !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
 
 /* !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
-const baseURL = 'https://wiseproctorglobal.com/' // DO NOT USE! URL for hosted production. - Works for China
+// const baseURL = 'https://wiseproctorglobal.com/' // DO NOT USE! URL for hosted production. - Works for China
 /* !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
 
 
@@ -482,6 +482,10 @@ async function proctoringSetReferenceImage({proctorSessionId, webcamImage}) {
     return backend.post('proctor/reference', {proctorSessionId, webcamImage});
 }
 
+async function demoProctoringSetReferenceImage({webcamImage}) {
+    return backend.post('proctor/demo/reference', {webcamImage});
+}
+
 async function proctoringSubmitProctorData({proctorSessionId, webcamImage, screenshotImage, voiceDetected}) {
     return backend.post('proctor/submit', {proctorSessionId, webcamImage, screenshotImage, voiceDetected});
 }
@@ -596,6 +600,7 @@ export {
     proctoringStudentStartTest,
     proctoringVerifyPrivileges,
     proctoringSetReferenceImage,
+    demoProctoringSetReferenceImage,
     proctoringSubmitProctorData,
     proctoringEndProctorSession,
     proctoringGetTestsForCourse,

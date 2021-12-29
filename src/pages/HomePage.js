@@ -36,6 +36,7 @@ import StudentRecError from '../components/studentRecordingError';
 import StudentAttendanceFromLink from '../components/StudentAttendanceFromLink';
 import StudentTestFromLink from '../components/StudentTestFromLink';
 import StudentProctoring from '../components/StudentProctoring';
+import StudentProctoringDemo from '../components/StudentProctoringDemo';
 
 import AdminLogin from '../components/adminLogin';
 import SetUpSchoolPage from '../components/SetUpSchoolPage';
@@ -244,6 +245,7 @@ class HomePage extends Component {
                             } />
                             <PrivateRouteStudent path="/student/dashboard" component={StudentDashboard} />
                             <PrivateRouteStudent path="/student/proctor" component={StudentProctoring} />
+                            <PrivateRouteStudent path="/student/demo/proctor" component={StudentProctoringDemo} />
                             <PrivateRouteStudent path="/student/classes" component={StudentClass} />
                             <PrivateRouteStudent path="/student/tests" component={StudentTest} />
                             <PrivateRouteStudent path="/student/class/attend" component={StudentClassAtt} />
