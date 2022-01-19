@@ -1,13 +1,13 @@
 const axios = require('axios');
 
 
-// const baseURL = 'http://localhost:8080/';
+const baseURL = 'http://localhost:8080/';
 
 // URL testing internal site to work in China
 // const baseURL = "https://wiseattendchina.com/"
 
 // No Longer Used
-const baseURL = 'https://internal-wiseattendonline.appspot.com/' // URL for hosted backend for test
+// const baseURL = 'https://internal-wiseattendonline.appspot.com/' // URL for hosted backend for test
 
 /* !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
 // const baseURL = 'https://wiseonlineattend.appspot.com/' // DO NOT USE! URL for hosted production.
@@ -73,6 +73,11 @@ async function claimProfessorAccount(setupKey, email, password) {
     return response;
 }
 
+async function claimStudentAccount(firstName, lastName, email, password, studentId, accessCode) {
+    const response = await backend.post('student/claimAccount', {firstName, lastName, email, password, studentId, accessCode});
+    return response;
+}
+
 /* ----------------------------------------
     Super Routes
 ------------------------------------------*/
@@ -81,8 +86,8 @@ async function superGetSchoolDetails() {
     return backend.get('/super/schools');
 }
 
-async function superGetSchoolTestCounts() {
-    return backend.get('/super/schools/tests');
+async function superGetSchoolTestCounts(schoolId) {
+    return backend.get(`/super/school/${schoolId}/tests`);
 }
 
 async function superLoginAsAdmin(schoolId) {
@@ -99,6 +104,22 @@ async function superSetAudioEnabled({schoolId, enable}) {
 
 async function superUpdateSchool(schoolData) {
     return backend.post('/super/updateSchool', schoolData);
+}
+
+function getAccessCodesCSVURL(schoolId) {
+    return baseURL + `super/school/${schoolId}/csv/accessCodes`;
+}
+
+function downloadNewAccessCodesCSVURL(schoolId) {
+    return baseURL + `super/school/${schoolId}/csv/newAccessCodes`;
+}
+
+async function superGetAccessCodes(schoolId, {_id, batchNumber, firstName, lastName, studentId, email, page, pageSize, orderBy, order}) {
+    return backend.get(`/super/school/${schoolId}/accessCodes?page=${page}&pageSize=${pageSize}&orderBy=${orderBy}&order=${order}&firstName=${firstName}&lastName=${lastName}&_id=${_id}&batchNumber=${batchNumber}&studentId=${studentId}&email=${email}`);
+}
+
+async function superGenerateAccessCodes({schoolId, numberOfCodes}) {
+    return backend.post(`/super/school/generateAccessCodes`, {schoolId, numberOfCodes});
 }
 
 /* ----------------------------------------
@@ -456,6 +477,7 @@ async function proctoringProfessorCreateTest(
         webcamInterval,
         facialRecognitionThreshold,
         audioEnabled,
+        demoEnabled,
     }) {
     return backend.post('proctor/test', {
         courseId,
@@ -467,6 +489,7 @@ async function proctoringProfessorCreateTest(
         webcamInterval,
         facialRecognitionThreshold,
         audioEnabled,
+        demoEnabled
     });
 }
 
@@ -536,7 +559,12 @@ export {
     superCreateSchool,
     superSetAudioEnabled,
     superUpdateSchool,
+    getAccessCodesCSVURL,
+    downloadNewAccessCodesCSVURL,
+    superGetAccessCodes,
+    superGenerateAccessCodes,
     createSchool,
+    claimStudentAccount,
     claimProfessorAccount,
     adminGetSchoolDetails,
     adminDownloadDataByCourseURL,

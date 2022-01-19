@@ -9,6 +9,7 @@ import { logout, checkLogin } from '../store/axios';
 
 import SuperDashboard from '../components/SuperDashboard';
 import SuperSchoolSettings from '../components/SuperSchoolSettings';
+import SuperSchoolAccessCodes from '../components/SuperSchoolAccessCodes';
 
 //components
 import ProfessorLogin from '../components/professorLogin';
@@ -24,6 +25,8 @@ import ProfessorTestsForCourse from '../components/ProfessorTestsForCourse';
 import ProfessorTestView from '../components/ProfessorTestView';
 import ProfessorViewStudentTest from '../components/ProfessorViewStudentTest';
 
+import StudentClaim from '../components/studentClaim';
+import StudentClaimSuccess from '../components/studentClaimSuccess';
 import StudentDashboard from '../components/studentDashboard';
 import StudentClass from '../components/studentClass';
 import StudentClassAtt from '../components/studentClassAtt';
@@ -175,6 +178,7 @@ class HomePage extends Component {
                     <Switch>
                             {/* super */}
                             <Route path="/super/school/settings" component={SuperSchoolSettings}/>
+                            <Route path="/super/school/accessCodes" component={SuperSchoolAccessCodes}/>
                             <Route path="/super"  render={
                                 props => <SuperDashboard
                                             {...props}
@@ -259,6 +263,9 @@ class HomePage extends Component {
                             
                             <PrivateRouteStudent path="/student/chrome-extension" component={StudentInstallChromeExtension} />
                             <PrivateRouteStudent path="/student/test/recording-error" component={StudentRecError} />
+                            <Route path="/student/claim-account" component={StudentClaim} />
+                            <PrivateRouteStudent path="/student/claim-account-success" component={StudentClaimSuccess} />
+                            
                             <Route path="/student/fee-waiver" component={StudentFeeWaive} />
                             <Route path="/student/fee-waiver-select-school" component={StudentFeeWaiveSelect} />
                             <Route path="/student/fee-waiver-form" component={StudentFeeWaiveForm} />

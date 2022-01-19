@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import { Link } from "react-router-dom";
+
 import loginIcon from '../Assets/images/login-icon.png';
 
 import { studentLogin, logout, studentAgreeToTerms } from '../store/axios';
@@ -136,16 +138,17 @@ class StudentLogin extends Component {
                         />
                     </div>
                     <div className="input-wrapper">
-                        <div className="width-md">
-                            {/* <Link to="#">What's my student ID?</Link> */}
+                        <div className="input-wrapper-bottom width-md">
+                            <div className="student-login-wrapper">
                             <p className="tooltip-login">
                                 <span className="for-border">{i18n('Whats my student ID?')}<br />
                                     <span className="tooltiptext">  
                                     {i18n('studentLogin_StudentIDHelp')}
                                     </span>
-                                </span><br/>
-
-                            </p>
+                                    </span><br/>
+                                </p>
+                                <Link  to="/student/claim-account" >{i18n("Claim your account")}</Link>
+                            </div>
                         </div>
                     </div>
                     <div className="spacer-vertical" />

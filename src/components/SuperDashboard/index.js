@@ -22,12 +22,13 @@ class SuperDashboard extends Component {
         this.handleClickCloseNewSchool = this.handleClickCloseNewSchool.bind(this);
         this.handleClickSubmitNewSchool = this.handleClickSubmitNewSchool.bind(this);
         this.handleClickSchoolSettings = this.handleClickSchoolSettings.bind(this);
+        this.handleClickAccessCodes = this.handleClickAccessCodes.bind(this);
         this.handleChangeNewSchool = this.handleChangeNewSchool.bind(this);
     }
 
     async componentDidMount() {
-        await this.loadSchools();
-        await this.getTests();
+        this.loadSchools();
+        // await this.getTests();
     }
 
     async getTests() {
@@ -64,6 +65,7 @@ class SuperDashboard extends Component {
             school.currentTermName = school.currentTerm ? school.currentTerm.name : '';
             school.numberOfTerms = school.terms ? school.terms.length : 0;
             school.settings = 'Settings';
+            school.accessCodes = 'Codes';
         }
 
         this.setState({
@@ -71,6 +73,23 @@ class SuperDashboard extends Component {
             schools: response.data.schools,
             newSchool: null,
         });
+
+        const promises = [];
+
+        for (const school of response.data.schools) {
+            promises.push(superGetSchoolTestCounts(school._id).then(
+                (response) => {
+                    const updatedSchools = [...this.state.schools];
+                    const schoolToUpdate = updatedSchools.filter(s => s._id === school._id)[0];
+                    schoolToUpdate.tests = response.data.tests;
+                    this.setState({
+                        ...this.state,
+                        schools: updatedSchools,
+                    });
+                })
+            );
+        }
+
     }
 
     async handleClickSchool(schoolIndex) {
@@ -87,6 +106,10 @@ class SuperDashboard extends Component {
 
     handleClickSchoolSettings(schoolIndex) {
         this.props.history.push('/super/school/settings', {school: this.state.schools[schoolIndex]});
+    }
+
+    handleClickAccessCodes(schoolIndex) {
+        this.props.history.push('/super/school/accessCodes', {school: this.state.schools[schoolIndex]});
     }
 
     handleClickCreateSchool() {
@@ -293,6 +316,11 @@ class SuperDashboard extends Component {
                                 label: 'Tests',
                                 propertyName: 'tests',
                                 asynchronous : true,
+                            },
+                            {
+                                label: 'Codes',
+                                propertyName: 'accessCodes',
+                                onClick: this.handleClickAccessCodes,
                             },
                             {
                                 label: 'Info',

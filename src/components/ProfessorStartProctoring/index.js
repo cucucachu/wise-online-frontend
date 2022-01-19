@@ -30,6 +30,7 @@ class ProfessorStartProctoring extends Component {
             facialRecognitionThreshold: 'LOW',
             schoolAllowsAudio: false,
             audioEnabled: false,
+            demoEnabled: false,
         };
 
         this.handleSelectFrequency = this.handleSelectFrequency.bind(this);
@@ -37,6 +38,7 @@ class ProfessorStartProctoring extends Component {
         this.handleChangeTextInput = this.handleChangeTextInput.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleClickAudio = this.handleClickAudio.bind(this);
+        this.handleClickDemo = this.handleClickDemo.bind(this);
     }
 
     async componentDidMount() {
@@ -83,74 +85,107 @@ class ProfessorStartProctoring extends Component {
         });
     }
 
+    handleClickDemo(e) {
+
+        this.setState({
+            ...this.state,
+            demoEnabled: e.target.checked,
+        });
+    }
+
     async handleSubmit() {
-        let screenshotInterval, webcamInterval, facialRecognitionThreshold;
 
-        switch (this.state.imageFrequency) {
-            case 'LOW':
-                screenshotInterval = 15;
-                webcamInterval = 15;
-                break;
-            case 'MEDIUM':
-                screenshotInterval = 10;
-                webcamInterval = 10;
-                break;
-            case 'HIGH':
-                screenshotInterval = 4;
-                webcamInterval = 4;
-                break;
-            default: 
-                screenshotInterval = 10;
-                webcamInterval = 10;
-        }
+        if(this.state.demoEnabled) {
 
-        switch (this.state.facialRecognitionThreshold) {
-            case 'LOW':
-                facialRecognitionThreshold = .5;
-                break;
-            case 'MEDIUM':
-                facialRecognitionThreshold = .75;
-                break;
-            case 'HIGH':
-                facialRecognitionThreshold = .90;
-                break;
-            default: 
-                facialRecognitionThreshold = .5;
-        }
-
-        const requestData = {
-            courseId: this.props.location.state.course._id,
-            publicKey: this.state.publicKey ? this.state.publicKey : undefined,
-            testName: this.state.testName ? this.state.testName : undefined,
-            testLink: this.state.testLink ? this.state.testLink : undefined,
-            testPassword: this.state.testPassword ? this.state.testPassword : undefined,
-            screenshotInterval,
-            webcamInterval,
-            facialRecognitionThreshold,
-            audioEnabled: this.state.audioEnabled,
-        };
-
-        const response = await proctoringProfessorCreateTest(requestData);
-
-        if (response && response.status === 200) {
-            const keyCode = response.data.test.keyCode;
             let link;
-            const classId = this.props.location.state.course.classId;
 
             if (window.location.hostname === 'localhost') {
-                link = `http://localhost:3000/student/testLink?c=${classId.replaceAll(/ /g, '%20')}&k=${keyCode}`;
+                link = `http://localhost:3000/student/demo/proctor`;
             }
             else {
-                link = `https://${window.location.hostname}/student/testLink?c=${classId.replaceAll(/ /g, '%20')}&k=${keyCode}`;
+                link = `https://${window.location.hostname}/student/demo/proctor`;
             }
 
             this.setState({
                 ...this.state,
                 success: true,
-                keyCode,
                 link,
             });
+
         }
+        else {
+            let screenshotInterval, webcamInterval, facialRecognitionThreshold;
+
+            switch (this.state.imageFrequency) {
+                case 'LOW':
+                    screenshotInterval = 15;
+                    webcamInterval = 15;
+                    break;
+                case 'MEDIUM':
+                    screenshotInterval = 10;
+                    webcamInterval = 10;
+                    break;
+                case 'HIGH':
+                    screenshotInterval = 4;
+                    webcamInterval = 4;
+                    break;
+                default: 
+                    screenshotInterval = 10;
+                    webcamInterval = 10;
+            }
+
+            switch (this.state.facialRecognitionThreshold) {
+                case 'LOW':
+                    facialRecognitionThreshold = .5;
+                    break;
+                case 'MEDIUM':
+                    facialRecognitionThreshold = .75;
+                    break;
+                case 'HIGH':
+                    facialRecognitionThreshold = .90;
+                    break;
+                default: 
+                    facialRecognitionThreshold = .5;
+            }
+
+            const requestData = {
+                courseId: this.props.location.state.course._id,
+                publicKey: this.state.publicKey ? this.state.publicKey : undefined,
+                testName: this.state.testName ? this.state.testName : undefined,
+                testLink: this.state.testLink ? this.state.testLink : undefined,
+                testPassword: this.state.testPassword ? this.state.testPassword : undefined,
+                screenshotInterval,
+                webcamInterval,
+                facialRecognitionThreshold,
+                audioEnabled: this.state.audioEnabled,
+            };
+
+
+
+            const response = await proctoringProfessorCreateTest(requestData);
+
+            if (response && response.status === 200) {
+                const keyCode = response.data.test.keyCode;
+                let link;
+                const classId = this.props.location.state.course.classId;
+
+                if (window.location.hostname === 'localhost') {
+                    link = `http://localhost:3000/student/testLink?c=${classId.replaceAll(/ /g, '%20')}&k=${keyCode}`;
+                }
+                else {
+                    link = `https://${window.location.hostname}/student/testLink?c=${classId.replaceAll(/ /g, '%20')}&k=${keyCode}`;
+                }
+
+                this.setState({
+                    ...this.state,
+                    success: true,
+                    keyCode,
+                    link,
+                });
+            }
+
+        }
+
     }
 
     render() {
@@ -168,9 +203,9 @@ class ProfessorStartProctoring extends Component {
                         link={this.state.link}
                     />                    
                     <div className="spacer-vertical" />
-                    <h2 className="bold">Or share this test code with your students</h2>
+                    {/* <h2 className="bold">Or share this test code with your students</h2>
                     <h2 className="bold">{this.state.keyCode}</h2>
-                    <div className="spacer-vertical" />
+                    <div className="spacer-vertical" /> */}
                     <Link to="/professor/course">
                         <button className="btn">Done</button>
                     </Link>
@@ -237,6 +272,14 @@ class ProfessorStartProctoring extends Component {
                                     text="Audio Recording"
                                     checked={this.state.audioEnabled}
                                     onClick={this.handleClickAudio}
+                                />
+                            </div>
+
+                            <div className="shadow horizontal-selector">
+                                <TextWithCheckbox
+                                    text="Demo Test"
+                                    checked={this.state.demoEnabled}
+                                    onClick={this.handleClickDemo}
                                 />
                             </div>
                             
