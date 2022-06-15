@@ -1,6 +1,8 @@
 import axios from 'axios';
 import { submitConfidenceScore } from './axios';
-import { baseURL, apiKey } from '../config/facesConfig';
+import facesConfig from '../config/facesConfig';
+
+const { baseURL, apiKey } = facesConfig;
 // import dotenv from 'dotenv'
 // const env = dotenv.config().parsed;
 

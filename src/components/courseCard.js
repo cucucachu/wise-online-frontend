@@ -10,6 +10,7 @@ import viewIcon from '../Assets/images/eye-icon-white.svg'
 import { downloadDataForCourseURL } from '../store/axios';
 
 import { i18n } from 'web-translate';
+import { paths } from '../paths';
 
 class CourseCard extends Component {
     
@@ -117,6 +118,16 @@ class CourseCard extends Component {
                                 }
                             }}>
                             <button className="btn-upload" style={{marginBottom: '5px', fontSize: 'medium'}}><img src={tickIcon} className="icon-xs" alt="tick icon" />{i18n("Attendance")}</button>
+                            </Link>
+                            <Link to={{
+                                pathname: paths.professorInClass({ courseId: this.props.course._id }),
+                                state: {
+                                    course: this.props.course,
+                                }
+                            }}>
+                            <button className="btn-upload" style={{marginBottom: '5px', fontSize: 'medium'}}><img src={tickIcon} className="icon-xs" alt="tick icon" />
+                                {this.props.course.isInSession ? i18n("View In Progress Class") : i18n("Start Class")}
+                            </button>
                             </Link>
     
                             <Link to={{

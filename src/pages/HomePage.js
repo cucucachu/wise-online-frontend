@@ -15,6 +15,9 @@ import ProfessorLogin from '../components/professorLogin';
 import ProfessorCourse from '../components/professorCourse';
 import ProfessorAttendanaceStart from '../components/professorAttendanceStart';
 import ProfessorAttendanacesView from '../components/professorAttendancesView';
+
+import ProfessorClassStart from '../components/professorInClass/professorStartClass';
+
 import AttendanaceView from '../components/AttendanceView';
 import ProfessorClaim from '../components/professorClaim';
 import ProfessorExam from '../components/professorExam';
@@ -24,7 +27,7 @@ import ProfessorTestsForCourse from '../components/ProfessorTestsForCourse';
 import ProfessorTestView from '../components/ProfessorTestView';
 import ProfessorViewStudentTest from '../components/ProfessorViewStudentTest';
 
-import StudentDashboard from '../components/studentDashboard';
+import {StudentDashboard} from '../components/studentDashboard';
 import StudentClass from '../components/studentClass';
 import StudentClassAtt from '../components/studentClassAtt';
 import StudentLogin from '../components/studentLogin';
@@ -37,6 +40,9 @@ import StudentAttendanceFromLink from '../components/StudentAttendanceFromLink';
 import StudentTestFromLink from '../components/StudentTestFromLink';
 import StudentProctoring from '../components/StudentProctoring';
 import StudentProctoringDemo from '../components/StudentProctoringDemo';
+
+import {StudentInClassCourseList} from '../components/studentInClass/StudentInClassCourseList';
+import {StudentInClassLanding} from '../components/studentInClass/StudentInClassLanding';
 
 import AdminLogin from '../components/adminLogin';
 import SetUpSchoolPage from '../components/SetUpSchoolPage';
@@ -87,6 +93,8 @@ import AdminTermsPage from '../components/AdminTerms/AdminTermsPage';
 
 // Proctoring Components
 import ProfessorStartProctoring from '../components/ProfessorStartProctoring';
+
+import { paths } from '../paths';
 
 class HomePage extends Component {
     
@@ -232,6 +240,8 @@ class HomePage extends Component {
                             <PrivateRouteProfessor path='/proctor/tests' component={ProfessorTestsForCourse} />
                             <PrivateRouteProfessor path='/proctor/test' component={ProfessorTestView} />
                             <PrivateRouteProfessor path='/proctor/result' component={ProfessorViewStudentTest} />
+
+                            <PrivateRouteProfessor path={paths.professorInClass.pattern} component={ProfessorClassStart} />
                             {/* <PrivateRouteProfessor 
                             path="/professor/proctoring/:courseId" 
                             render={(props) => <ViewProctoring {...props} />} /> */}
@@ -259,6 +269,10 @@ class HomePage extends Component {
                             
                             <PrivateRouteStudent path="/student/chrome-extension" component={StudentInstallChromeExtension} />
                             <PrivateRouteStudent path="/student/test/recording-error" component={StudentRecError} />
+
+                            <PrivateRouteStudent exact={true} path={paths.studentInClassCourseList.pattern} component={StudentInClassCourseList} />
+                            <PrivateRouteStudent exact={true} path={paths.studentInClassCourseDetail.pattern} component={StudentInClassLanding} />
+                            
                             <Route path="/student/fee-waiver" component={StudentFeeWaive} />
                             <Route path="/student/fee-waiver-select-school" component={StudentFeeWaiveSelect} />
                             <Route path="/student/fee-waiver-form" component={StudentFeeWaiveForm} />

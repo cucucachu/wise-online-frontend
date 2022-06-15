@@ -1,7 +1,7 @@
 const axios = require('axios');
 
 
-// const baseURL = 'http://localhost:8080/';
+const baseURL = 'http://localhost:8080/';
 
 // URL testing internal site to work in China
 // const baseURL = "https://wiseattendchina.com/"
@@ -34,18 +34,18 @@ const backend = axios.create({
     Logins
 ------------------------------------------*/
 
-async function adminLogin(email, password) {
+async function adminLogin(email: string, password: string) {
     const response = await backend.post('admin/login', {email, password})
 
     return response;
 }
 
-async function professorLogin(email, password) {
+async function professorLogin(email: string, password: string) {
     const response = await backend.post('professor/login', {email, password});
     return response;
 }
 
-async function studentLogin(email, studentId) {
+async function studentLogin(email: string, studentId: string) {
     const response = await backend.post('student/login', {email, password: studentId});
     return response;
 }
@@ -63,12 +63,12 @@ async function checkLogin() {
     Unprotected Routes
 ------------------------------------------*/
 
-async function createSchool(name, setupKey, email, password) {
+async function createSchool(name: string, setupKey: string, email: string, password: string) {
     const response = await backend.post('admin/createSchool', {name, setupKey, email, password});
     return response;
 }
 
-async function claimProfessorAccount(setupKey, email, password) {
+async function claimProfessorAccount(setupKey: string, email: string, password: string) {
     const response = await backend.post('professor/claimAccount', {setupKey, email, password});
     return response;
 }
@@ -85,19 +85,19 @@ async function superGetSchoolTestCounts() {
     return backend.get('/super/schools/tests');
 }
 
-async function superLoginAsAdmin(schoolId) {
+async function superLoginAsAdmin(schoolId: string) {
     return backend.post(`/super/schools/${schoolId}`)
 }
 
-async function superCreateSchool({setupKey, adminEmail, billingType, unitPrice, billingFrequency}) {
+async function superCreateSchool({setupKey, adminEmail, billingType, unitPrice, billingFrequency}: any) {
     return backend.post('/super/school', {setupKey, adminEmail, billingType, unitPrice, billingFrequency});
 }
 
-async function superSetAudioEnabled({schoolId, enable}) {
+async function superSetAudioEnabled({schoolId, enable}: any) {
     return backend.post('/super/setAudioEnabled', {schoolId, enable});
 }
 
-async function superUpdateSchool(schoolData) {
+async function superUpdateSchool(schoolData: any) {
     return backend.post('/super/updateSchool', schoolData);
 }
 
@@ -109,7 +109,7 @@ async function adminGetSchoolDetails() {
     return backend.get('admin/school');
 }
 
-async function postFiles(professorFile, studentFile, autoRenew) {
+async function postFiles(professorFile: any, studentFile: any, autoRenew: any) {
     var formData = new FormData();
     formData.append('professorFile', professorFile)
     formData.append('studentFile', studentFile)
@@ -122,7 +122,7 @@ async function postFiles(professorFile, studentFile, autoRenew) {
     return response;
 }
 
-async function addUsersPrecheck(professorFile, studentFile) {
+async function addUsersPrecheck(professorFile: any, studentFile: any) {
     var formData = new FormData();
     formData.append('professorFile', professorFile)
     formData.append('studentFile', studentFile)
@@ -135,28 +135,28 @@ async function addUsersPrecheck(professorFile, studentFile) {
     return response;
 }
 
-async function adminRequestResetPW(email) {
+async function adminRequestResetPW(email: string) {
     const response = await backend.post('/admin/requestPasswordReset', email);
     return response;
 }
-async function resetAdminPW(data) {
+async function resetAdminPW(data: any) {
     const response = await backend.post('/admin/resetPassword', data)
     return response
 }
 
-function adminDownloadDataByCourseURL(termId) {
+function adminDownloadDataByCourseURL(termId: string) {
     return baseURL + 'admin/courses/attendanceData/' + termId;
 }
 
-function adminDownloadDataByProfessorURL(termId) {
+function adminDownloadDataByProfessorURL(termId: string) {
     return baseURL + 'admin/professors/attendanceData/' + termId;
 }
 
-function adminDownloadDataByStudentURL(termId) {
+function adminDownloadDataByStudentURL(termId: string) {
     return baseURL + 'admin/students/attendanceData/' + termId;
 }
 
-async function adminEditTerm(termId, name) {
+async function adminEditTerm(termId: string, name: string) {
     const response = await backend.post('/admin/terms/edit', {termId, name})
     return response;
 }
@@ -173,7 +173,7 @@ async function adminSetProctorConfiguration(
         restrictedDomains,
         allowedDomains,
         allowOverride
-    }
+    }: any
 ) {
     return backend.post('/admin/proctorConfiguration', {
         screenshotInterval,
@@ -195,21 +195,21 @@ async function adminGetSchoolTests() {
 
 async function adminGetStudents({
     page, pageSize, firstName, lastName, email, orderBy, order,
-}) {
+}: any) {
     return backend.get(`/admin/students?page=${page}&pageSize=${pageSize}&firstName=${firstName}&lastName=${lastName}&email=${email}&orderBy=${orderBy}&order=${order}`);
 }
 
 async function adminGetProfessors({
     page, pageSize, firstName, lastName, email, orderBy, order,
-}) {
+}: any) {
     return backend.get(`/admin/professors?page=${page}&pageSize=${pageSize}&firstName=${firstName}&lastName=${lastName}&email=${email}&orderBy=${orderBy}&order=${order}`);
 }
 
-async function adminGetProfessorCourses(professorId) {
+async function adminGetProfessorCourses(professorId: string) {
     return backend.get(`/admin/school/professors/${professorId}/courses`);
 }
 
-async function adminGetCourseDetails(courseId) {
+async function adminGetCourseDetails(courseId: string) {
     return backend.get(`/admin/school/courses/${courseId}`)
 }
 
@@ -234,21 +234,21 @@ async function getTerms() {
     return response;
 }
 
-async function createTerm(name) {
+async function createTerm(name: string) {
     const response = await backend.post('/admin/terms/create', {name});
     return response;
 }
 
-async function setCurrentTerm(termId) {
+async function setCurrentTerm(termId: string) {
     const response = await backend.post('/admin/terms/setAsCurrent', {termId})
     return response;
 }
 
-async function adminAddStudents(students) {
+async function adminAddStudents(students: any) {
     return backend.post('/admin/students', {students});
 }
 
-async function adminAddProfessors(professors) {
+async function adminAddProfessors(professors: any) {
     return backend.post('/admin/professors', {professors});
 }
 
@@ -256,36 +256,36 @@ async function adminAddProfessors(professors) {
     Professor Routes
 ------------------------------------------*/
 
-async function createCourse(name, classId, students) {
+async function createCourse(name: string, classId: string, students: string) {
     const response = await backend.post('professor/createCourse', {name, classId, students});
     return response;
 }
-async function professorRequestResetPW(email) {
+async function professorRequestResetPW(email: string) {
     const response = await backend.post('/professor/requestPasswordReset', email);
     return response;
 }
-async function resetProfessorPW(data) {
+async function resetProfessorPW(data: string) {
     const response = await backend.post('/professor/resetPassword', data)
     return response
 }
 
-async function getAttendancesForCourse(courseId) {
+async function getAttendancesForCourse(courseId: string) {
     return backend.get(`/professor/courses/${courseId}/attendances`);
 }
 
-async function getAttendance(courseId, attendanceId) {
+async function getAttendance(courseId: string, attendanceId: string) {
     return backend.get(`/professor/courses/${courseId}/attendances/${attendanceId}`);
 }
 
-async function editAttendance(courseId, attendanceId, studentsPresent, scheduledTime, startTime) {
+async function editAttendance(courseId: string, attendanceId: string, studentsPresent: string, scheduledTime: string, startTime: string) {
     return backend.post(`/professor/courses/${courseId}/attendances/${attendanceId}`, {students: studentsPresent, scheduledTime, startTime});
 }
 
-async function setAttendanceReadyForIntegration(courseId, attendanceId) {
+async function setAttendanceReadyForIntegration(courseId: string, attendanceId: string) {
     return backend.post(`/professor/courses/${courseId}/attendances/${attendanceId}/readyForIntegration`);
 }
 
-async function editCourse(courseId, name, classId, integrationId) {
+async function editCourse(courseId: string, name: string, classId: string, integrationId: string | undefined) {
     if (integrationId === '') {
         integrationId = undefined;
     }
@@ -294,17 +294,17 @@ async function editCourse(courseId, name, classId, integrationId) {
     return response;
 }
 
-async function deleteCourse(courseId) {
+async function deleteCourse(courseId: string) {
     const response = await backend.post('professor/deleteCourse', {courseId});
     return response;
 }
 
-async function startAttendance(courseId) {
+async function startAttendance(courseId: string) {
     const response = await backend.post('professor/startAttendance', {courseId});
     return response;
 }
 
-async function startTest(courseId) {
+async function startTest(courseId: string) {
     const response = await backend.post('professor/startTest', {courseId});
     return response;
 }
@@ -320,7 +320,7 @@ async function professorSetProctorConfiguration(
         facialRecognitionThreshold,
         restrictedDomains,
         allowedDomains,
-    }
+    }: any
 ) {
     return backend.post('/professor/proctorConfiguration', {
         screenshotInterval,
@@ -335,49 +335,72 @@ async function professorProctorConfigurationAllowed() {
     return backend.get('/professor/proctorConfigurationAllowed');
 }
 
-function downloadDataForCourseURL(courseId) {
+function downloadDataForCourseURL(courseId: string) {
     return baseURL + 'professor/course/attendanceData/' + courseId;
 }
 
-async function getImage(testAttendanceId, imageNumber) {
+async function getImage(testAttendanceId: string, imageNumber: string) {
     const response = await backend.get(`professor/testResults/${testAttendanceId}/images/${imageNumber}`);
     const image = response.data;
     return image;
 }
 
-async function getScreenshot(testAttendanceId, screenshotNumber) {
+async function getScreenshot(testAttendanceId: string, screenshotNumber: string) {
     const response = await backend.get(`professor/testResults/${testAttendanceId}/screenshots/${screenshotNumber}`);
     const image = response.data;
     return image;
+}
+
+export async function professorGetCurrentSession(courseId: string) {
+    const response = await backend.get(`/professor/course/${courseId}/session`);
+    console.log('response', response.data)
+    return response.data;
+}
+
+export async function professorStartCourseSession(courseId: string) {
+    const response = await backend.post(`/professor/course/${courseId}/session`);
+    return response.data;
+}
+
+export async function professorStopCourseSession(courseId: string) {
+    await backend.post(`/professor/course/${courseId}/session/stop`);
+}
+
+export async function professorUpdateCourseSession(courseId: string, { allowedUrls }: { allowedUrls: string[] }) {
+    const response = await backend.put(`/professor/course/${courseId}/session`, {
+        allowedUrls,
+    });
+
+    return response.data;
 }
 
 /* ----------------------------------------
     Student Routes
 ------------------------------------------*/
 
-async function markAttendance(classId, keyCode) {
+async function markAttendance(classId: string, keyCode: string) {
     const response = await backend.post('student/markAttendance', {classId, keyCode});
     return response;
 }
 
-async function takeTest(classId, keyCode) {
+async function takeTest(classId: string, keyCode: string) {
     const response = await backend.post('student/takeTest', {classId, keyCode});
     return response;
 }
 
 // testAttendanceId will be returned as part of the response from takeTest()
-async function submitConfidenceScore(testAttendanceId, confidenceScore, numberOfPeople, image) {
+async function submitConfidenceScore(testAttendanceId: string, confidenceScore: any, numberOfPeople: any, image: any) {
     const response = await backend.post('student/submitConfidenceScore', {testAttendanceId, confidenceScore, numberOfPeople, image});
     return response;
 }
 
 // testAttendanceId will be returned as part of the response from takeTest()
-async function submitScreenshot(testAttendanceId, screenshot) {
+async function submitScreenshot(testAttendanceId: string, screenshot: any) {
     const response = await backend.post('student/submitScreenshot', {testAttendanceId, screenshot});
     return response;
 }
 
-async function submitAudio(audioFormData, proctorDetailsId) {
+async function submitAudio(audioFormData: any, proctorDetailsId: any) {
     const response = await backend.post(`/student/submitAudio/proctorDetails/${proctorDetailsId}`, audioFormData, {
         headers: {"Content-Type": "multipart/form-data"},
     });
@@ -385,23 +408,52 @@ async function submitAudio(audioFormData, proctorDetailsId) {
     return response;
 }
 
-async function submitTabs(testAttendanceId, tabs) {
+async function submitTabs(testAttendanceId: string, tabs: any) {
     const response = await backend.post('student/submitTabs', {testAttendanceId, tabs});
     return response;
 }
 
-async function submitProctoringError(testAttendanceId, errorMessage) {
+async function submitProctoringError(testAttendanceId: string, errorMessage: string) {
     const response = await backend.post('student/submitProctoringError', {testAttendanceId, errorMessage});
     return response;
 }
 
-async function submitFeeWaive(data) {
+async function submitFeeWaive(data: string) {
     const response = await backend.post('student/waiveFee', data);
     return response;
 }
 async function studentAgreeToTerms() {
     const response = await backend.post('/student/agreeToTerms')
     return response;
+}
+
+export async function studentJoinCourse({ classId, keyCode }: { classId: string, keyCode: string }) {
+    const response = await backend.post('/student/courses/join', { classId, keyCode });
+    return response.data;
+}
+
+export async function studentGetCourse(courseId: string) {
+    const response = await backend.get(`/student/courses/${courseId}`);
+    return response.data;
+}
+
+// Routes for InClass Product
+
+type Professor = {
+    firstName: string;
+    lastName: string;
+}
+  
+export type Course = {
+    id: string;
+    name: string;
+    professor: Professor;
+    isInSession: boolean;
+}
+
+export async function getStudentCourses(): Promise<Course[]> {
+    const response = await backend.get('/student/courses');
+    return response.data.courses;
 }
 
 /* ----------------------------------------
@@ -414,21 +466,21 @@ async function getCourses() {
 
 }
 
-async function getTestsByCourse(professor, data) {
+async function getTestsByCourse(professor: any, data: any) {
     const response = await backend.get(`/professor/courses/${data}/tests`, professor);
     return response;
 }
 
-async function getTestResults(professor, data) {
+async function getTestResults(professor: any, data: any) {
     const response = await backend.get(`/professor/tests/${data}/results`, {professor, data});
     return response;
 }
-async function getTestImage(testId, imgNum) {
+async function getTestImage(testId: any, imgNum: any) {
     const response = await backend.get(`/professor/testResults/${testId}/images/${imgNum}`);
     return response;
 }
 
-async function getStudents(school, professor, course) {
+async function getStudents(school: any, professor: any, course: any) {
     const response = await backend.post('get/students', {school, professor, course});
     return response;
 }
@@ -456,7 +508,7 @@ async function proctoringProfessorCreateTest(
         webcamInterval,
         facialRecognitionThreshold,
         audioEnabled,
-    }) {
+    }: any) {
     return backend.post('proctor/test', {
         courseId,
         publicKey,
@@ -470,57 +522,57 @@ async function proctoringProfessorCreateTest(
     });
 }
 
-async function proctoringStudentStartTest({classId, keyCode}) {
+async function proctoringStudentStartTest({classId, keyCode}: any) {
     return backend.post('proctor/start', {classId, keyCode});
 }
 
-async function proctoringVerifyPrivileges({proctorSessionId, webcamPrivilege, screenshotPrivilege, microphonePrivilege}) {
+async function proctoringVerifyPrivileges({proctorSessionId, webcamPrivilege, screenshotPrivilege, microphonePrivilege}: any) {
     return backend.post('proctor/privileges', {proctorSessionId, webcamPrivilege, screenshotPrivilege, microphonePrivilege})
 }
 
-async function proctoringSetReferenceImage({proctorSessionId, webcamImage}) {
+async function proctoringSetReferenceImage({proctorSessionId, webcamImage}: any) {
     return backend.post('proctor/reference', {proctorSessionId, webcamImage});
 }
 
-async function demoProctoringSetReferenceImage({webcamImage}) {
+async function demoProctoringSetReferenceImage({webcamImage}: any) {
     return backend.post('proctor/demo/reference', {webcamImage});
 }
 
-async function proctoringSubmitProctorData({proctorSessionId, webcamImage, screenshotImage, voiceDetected}) {
+async function proctoringSubmitProctorData({proctorSessionId, webcamImage, screenshotImage, voiceDetected}: any) {
     return backend.post('proctor/submit', {proctorSessionId, webcamImage, screenshotImage, voiceDetected});
 }
 
-async function proctoringEndProctorSession({proctorSessionId}) {
+async function proctoringEndProctorSession({proctorSessionId}: any) {
     return backend.post('proctor/end', {proctorSessionId});
 }
 
-async function proctoringGetTestsForCourse(courseId) {
+async function proctoringGetTestsForCourse(courseId: any) {
     return backend.get(`proctor/courses/${courseId}/tests`);
 }
 
-async function proctoringGetTestDetails(testId) {
+async function proctoringGetTestDetails(testId: any) {
     return backend.get(`proctor/tests/${testId}`);
 }
 
-async function proctoringGetStudentTestDetails(studentTestId) {
+async function proctoringGetStudentTestDetails(studentTestId: any) {
     return backend.get(`proctor/studentTests/${studentTestId}`);
 }
 
-async function proctoringGetStudentTestDetailsAndImages({studentTestId, start, pageSize}) {
+async function proctoringGetStudentTestDetailsAndImages({studentTestId, start, pageSize}: any) {
     return backend.get(`/proctor/studentTest/${studentTestId}/details?start=${start}&pageSize=${pageSize}`, {
         timeout: 0,
     });
 }
 
-function proctoringGetWebcamImageURL({studentTestId, index}) {
+function proctoringGetWebcamImageURL({studentTestId, index}: any) {
     return `${baseURL}proctor/studentTest/${studentTestId}/details/webcam?index=${index}`;
 }
 
-function proctoringGetScreenshotImageURL({studentTestId, index}) {
+function proctoringGetScreenshotImageURL({studentTestId, index}: any) {
     return `${baseURL}proctor/studentTest/${studentTestId}/details/screenshot?index=${index}`;
 }
 
-function proctoringGetAudioURL({studentTestId, index}) {
+function proctoringGetAudioURL({studentTestId, index}: any) {
     return `${baseURL}proctor/studentTest/${studentTestId}/details/audio?index=${index}`;
 }
 
