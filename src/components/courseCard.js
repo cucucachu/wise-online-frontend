@@ -129,7 +129,16 @@ class CourseCard extends Component {
                                 {this.props.course.isInSession ? i18n("View In Progress Class") : i18n("Start Class")}
                             </button>
                             </Link>
-    
+                            <Link to={{
+                                pathname: paths.professorInClassPastSessions({ courseId: this.props.course._id }),
+                                state: {
+                                    course: this.props.course,
+                                }
+                            }}>
+                            <button className="btn-upload" style={{marginBottom: '5px', fontSize: 'medium'}}><img src={tickIcon} className="icon-xs" alt="tick icon" />
+                                {i18n("View Past Class Sessions")}
+                            </button>
+                            </Link>
                             <Link to={{
                                 pathname: '/proctor/professor/start',
                                 state: {

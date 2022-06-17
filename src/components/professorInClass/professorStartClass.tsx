@@ -4,13 +4,31 @@ import { RouteComponentProps } from 'react-router-dom';
 import { i18n } from 'web-translate';
 import { v4 as uuid } from 'uuid';
 import { professorStopCourseSession, professorGetCurrentSession, professorStartCourseSession, professorUpdateCourseSession } from "../../store/axios";
-import { paths } from '../../paths';
 import recordingIcon from "../../Assets/images/recording-icon.png";
 
 const editIcon = require('../../Assets/images/edit-icon.png');
 
+type CourseSessionStudent = {
+    student: {
+        studentId: string;
+        firstName: string;
+        lastName: string;
+    },
+    devices: string;
+}
+
 type StudentTrackingTableProps = {
-    students: any[];
+    students: CourseSessionStudent[];
+}
+
+const ActiveStatus: React.FC<{ studentSession: CourseSessionStudent, device: string }> = ({ studentSession, device }) => {
+    if (studentSession.devices.includes(device)) {
+        return (
+            <span>Online <img width="20px" src={recordingIcon} /></span>
+        )
+    }
+
+    return <em>Offline</em>;
 }
 
 const StudentTrackingTable: React.FC<StudentTrackingTableProps> = ({ students }) => {
@@ -26,11 +44,17 @@ const StudentTrackingTable: React.FC<StudentTrackingTableProps> = ({ students })
               </tr>
           </thead>
           <tbody>
-            {students.map(() => 
-                <tr>
-                  <td>Drew Pomerleau</td>
-                  <td>Online <img width="20px" src={recordingIcon} /></td>
-                  <td>Online <img width="20px" src={recordingIcon} /></td>
+            {students.map((studentSession) => 
+                <tr key={studentSession.student.studentId}> 
+                  <td>
+                    {studentSession.student.firstName} {studentSession.student.lastName}
+                  </td>
+                  <td>
+                    <ActiveStatus studentSession={studentSession} device='web' />
+                  </td>
+                  <td>
+                    <ActiveStatus studentSession={studentSession} device='mobile' />
+                  </td>
                   <td></td>
               </tr>)}
           </tbody>
@@ -155,7 +179,10 @@ type CourseSession = {
     classId: string;
     keyCode: string;
     allowedUrls: string[];
+    students: CourseSessionStudent[];
 }
+
+const POLLING_INTERVAL = 1000 * 30;
 
 const ProfessorClassStart:  React.FC<Props> = ({ match, history }) => {
     const [loading, setLoading] = React.useState(true);
@@ -177,6 +204,19 @@ const ProfessorClassStart:  React.FC<Props> = ({ match, history }) => {
         };
 
         fetch();
+
+        const startPolling = () => {
+            return setTimeout(async () => {
+                await fetch();
+                timer = startPolling();
+            }, POLLING_INTERVAL);
+        };
+
+        let timer = startPolling();
+
+        return () => {
+            clearTimeout(timer);
+        }
     }, []);
 
     const stopSession = React.useCallback(async () => {
@@ -205,7 +245,7 @@ const ProfessorClassStart:  React.FC<Props> = ({ match, history }) => {
             <button type='button' onClick={stopSession} className="btn">{i18n("Stop Class")}</button>
             <div className="row">
                 <div className="col-sm">
-                    <StudentTrackingTable students={[]} />
+                    <StudentTrackingTable students={courseSession?.students ?? []} />
                 </div>
             </div>
             <div className="row">

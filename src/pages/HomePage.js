@@ -17,6 +17,8 @@ import ProfessorAttendanaceStart from '../components/professorAttendanceStart';
 import ProfessorAttendanacesView from '../components/professorAttendancesView';
 
 import ProfessorClassStart from '../components/professorInClass/professorStartClass';
+import {ProfessorPastCourseSessions} from '../components/professorInClass/professorPastCourseSessions';
+import {ProfessorPastCourseSessionDetail} from '../components/professorInClass/professorPastCourseSessionDetail';
 
 import AttendanaceView from '../components/AttendanceView';
 import ProfessorClaim from '../components/professorClaim';
@@ -242,6 +244,9 @@ class HomePage extends Component {
                             <PrivateRouteProfessor path='/proctor/result' component={ProfessorViewStudentTest} />
 
                             <PrivateRouteProfessor path={paths.professorInClass.pattern} component={ProfessorClassStart} />
+                            <PrivateRouteProfessor exact={true} path={paths.professorInClassPastSessions.pattern} component={ProfessorPastCourseSessions} />
+                            <PrivateRouteProfessor exact={true} path={paths.professorInClassPastSessionDetail.pattern} component={ProfessorPastCourseSessionDetail} />
+                            
                             {/* <PrivateRouteProfessor 
                             path="/professor/proctoring/:courseId" 
                             render={(props) => <ViewProctoring {...props} />} /> */}
