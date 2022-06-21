@@ -2,13 +2,13 @@ import * as React from 'react'
 import io, {Socket} from 'socket.io-client';
 import {RouteComponentProps} from 'react-router-dom'
 
-import { getStudentCourses, Course } from "../../store/axios";
-import { CodeEntry } from '../Resusable/CodeEntry';
+import { Course } from "../../store/axios";
 import {studentGetCourse} from '../../store/axios';
 import { AuthContext } from "../../contexts/AuthContext";
 // import {CodeEntry} from './Resusable/CodeEntry';
 
 import { i18n } from 'web-translate';
+import { apiUrl } from '../../config/apiUrl';
 const attendClass = require('../../Assets/images/attend-class.png');
 
 type StudentInClassLandingProps = RouteComponentProps<{
@@ -138,14 +138,19 @@ export const StudentInClassLanding: React.FC<StudentInClassLandingProps> = ({ ma
   });
   
   React.useEffect(() => {
-    const newSocket = io(`http://localhost:8080`, {
+    const newSocket = io(apiUrl, {
       withCredentials: true,
     });
     setSocket(newSocket);
 
-    newSocket.emit('enter-class', {
-      courseId,
-      device: 'web',
+    newSocket.on("connect", () => {
+      console.log('Connected to server')
+      if (newSocket.connected) {
+        newSocket.emit('enter-class', {
+          courseId,
+          device: 'web',
+        });
+      }
     });
 
     return () => {

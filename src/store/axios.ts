@@ -1,27 +1,10 @@
-const axios = require('axios');
-
-
-// const baseURL = 'http://localhost:8080/';
-
-// URL testing internal site to work in China
-// const baseURL = "https://wiseattendchina.com/"
-
-// No Longer Used
-const baseURL = 'https://internal-wiseattendonline.appspot.com/' // URL for hosted backend for test
-
-/* !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
-const baseURL = 'https://wiseonlineattend.appspot.com/' // DO NOT USE! URL for hosted production.
-/* !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
-
-/* !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
-// const baseURL = 'https://wiseproctorglobal.com/' // DO NOT USE! URL for hosted production. - Works for China
-/* !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
-
+import axios from 'axios';
+import { apiUrl } from '../config/apiUrl';
 
 axios.defaults.withCredentials = true
 
 const backend = axios.create({
-    baseURL,
+    baseURL: apiUrl,
     timeout: 30000,
     headers: {'X-Requested-With': 'XMLHttpRequest'},
     withCredentials: true,
@@ -145,15 +128,15 @@ async function resetAdminPW(data: any) {
 }
 
 function adminDownloadDataByCourseURL(termId: string) {
-    return baseURL + 'admin/courses/attendanceData/' + termId;
+    return apiUrl + 'admin/courses/attendanceData/' + termId;
 }
 
 function adminDownloadDataByProfessorURL(termId: string) {
-    return baseURL + 'admin/professors/attendanceData/' + termId;
+    return apiUrl + 'admin/professors/attendanceData/' + termId;
 }
 
 function adminDownloadDataByStudentURL(termId: string) {
-    return baseURL + 'admin/students/attendanceData/' + termId;
+    return apiUrl + 'admin/students/attendanceData/' + termId;
 }
 
 async function adminEditTerm(termId: string, name: string) {
@@ -214,19 +197,19 @@ async function adminGetCourseDetails(courseId: string) {
 }
 
 function getStudentTemplateURL() {
-    return baseURL + 'admin/studentTemplate';
+    return apiUrl + 'admin/studentTemplate';
 }
 
 function getProfessorTemplateURL() {
-    return baseURL + 'admin/professorTemplate';
+    return apiUrl + 'admin/professorTemplate';
 }
 
 function getStudentsCSVURL() {
-    return baseURL + 'admin/csv/students';
+    return apiUrl + 'admin/csv/students';
 }
 
 function getProfessorsCSVURL() {
-    return baseURL + 'admin/csv/professors';
+    return apiUrl + 'admin/csv/professors';
 }
 
 async function getTerms() {
@@ -336,7 +319,7 @@ async function professorProctorConfigurationAllowed() {
 }
 
 function downloadDataForCourseURL(courseId: string) {
-    return baseURL + 'professor/course/attendanceData/' + courseId;
+    return apiUrl + 'professor/course/attendanceData/' + courseId;
 }
 
 async function getImage(testAttendanceId: string, imageNumber: string) {
@@ -482,7 +465,7 @@ async function getTestsByCourse(professor: any, data: any) {
 }
 
 async function getTestResults(professor: any, data: any) {
-    const response = await backend.get(`/professor/tests/${data}/results`, {professor, data});
+    const response = await backend.get(`/professor/tests/${data}/results`);
     return response;
 }
 async function getTestImage(testId: any, imgNum: any) {
@@ -575,15 +558,15 @@ async function proctoringGetStudentTestDetailsAndImages({studentTestId, start, p
 }
 
 function proctoringGetWebcamImageURL({studentTestId, index}: any) {
-    return `${baseURL}proctor/studentTest/${studentTestId}/details/webcam?index=${index}`;
+    return `${apiUrl}proctor/studentTest/${studentTestId}/details/webcam?index=${index}`;
 }
 
 function proctoringGetScreenshotImageURL({studentTestId, index}: any) {
-    return `${baseURL}proctor/studentTest/${studentTestId}/details/screenshot?index=${index}`;
+    return `${apiUrl}proctor/studentTest/${studentTestId}/details/screenshot?index=${index}`;
 }
 
 function proctoringGetAudioURL({studentTestId, index}: any) {
-    return `${baseURL}proctor/studentTest/${studentTestId}/details/audio?index=${index}`;
+    return `${apiUrl}proctor/studentTest/${studentTestId}/details/audio?index=${index}`;
 }
 
 export {
