@@ -5,12 +5,13 @@ import loginIcon from '../Assets/images/login-icon.png';
 
 import { i18n } from 'web-translate';
 
-function SelectRole(props) {
+export const SelectRole: React.FC<{}> = () => {
     return (
         <div className="container">
             <img src={loginIcon} className="page-icon" alt="login icon"/>
             <div className="spacer-vertical" />
-            <h1 style={{color: '#444'}}>{i18n('I Am A...')}</h1>
+            <h2 className="bold">{i18n('Welcome to Wise')}</h2>
+            <p className='large-body-text'>{i18n('Login to your account below')}</p>
             <div className="spacer-vertical" />
 
             <Link to="student-login">
@@ -30,5 +31,3 @@ function SelectRole(props) {
         </div>
     );
 }
-
-export default SelectRole;

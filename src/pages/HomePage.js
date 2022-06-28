@@ -57,7 +57,7 @@ import AdminProfessorCourses from '../components/AdminProfessorCourses';
 import AdminCourseDetail from '../components/AdminCourseDetail';
 import AdminAddUsers from '../components/AdminAddUsers';
 
-import SelectRole from '../components/selectRole'
+import {SelectRole} from '../components/selectRole'
 
 
 //contexts

@@ -48,7 +48,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "gentran": "generate-translations"
+    "gentran": "generate-translations",
+    "build-styles": "gulp watch"
   },
   "eslintConfig": {
     "extends": "react-app"

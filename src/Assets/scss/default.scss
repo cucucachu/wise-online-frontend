@@ -1,7 +1,7 @@
 @import "./config.scss";
 
 body {
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Avenir", Arial, Helvetica, sans-serif;
   color: $primary-color;
 }
 
@@ -792,9 +792,20 @@ input[type="file"] {
 
 //professor
 .course-title {
-  color: $primary-color;
   padding-top: 0;
   margin-top: 0;
+  font-size: 1.8rem;
+  font-weight: bold;
+}
+
+.course-card-info {
+  display: flex;
+  flex-direction: column;
+  color: #000;
+}
+
+.course-card-info__content {
+  flex: 1;
 }
 
 .create-course {
@@ -1896,4 +1907,9 @@ $table-striped-order: odd !default;
   tbody tr:nth-of-type(#{$table-striped-order}) {
     background-color: $table-fill-color;
   }
+}
+
+.large-body-text {
+  font-size: 1.6rem;
+  color: #000;
 }

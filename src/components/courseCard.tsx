@@ -12,9 +12,34 @@ import { downloadDataForCourseURL } from '../store/axios';
 import { i18n } from 'web-translate';
 import { paths } from '../paths';
 
-class CourseCard extends Component {
+type Course = {
+    _id: string;
+    classId: string;
+    name: string;
+    integrationId: string;
+    attendances: any[];
+    tests: any[];
+    isInSession: boolean;
+    accessCode: string | null;
+};
+
+type CourseCardProps = {
+    course: Course;
+    handleDelete(e: any, id: string): void;
+    handleSubmit(e: any, courseId: string, name: string, classId: string, integrationId: string): void;
+};
+
+type CourseCardState = {
+    classId: string;
+    name: string;
+    integrationId: string;
+    editing: boolean;
+    deleting: boolean;
+}
+
+class CourseCard extends Component<CourseCardProps, CourseCardState> {
     
-    constructor(props) {
+    constructor(props: CourseCardProps) {
         super(props);
         this.state = {
             classId: props.course.classId,
@@ -22,14 +47,7 @@ class CourseCard extends Component {
             integrationId: props.course.integrationId,
             editing: false,
             deleting: false,
-        }
-
-        this.handleClickEdit = this.handleClickEdit.bind(this);
-        this.handleClickDelete = this.handleClickDelete.bind(this);
-        this.handleClickCancel = this.handleClickCancel.bind(this);
-        this.handleChangeId = this.handleChangeId.bind(this);
-        this.handleChangeName = this.handleChangeName.bind(this);
-        this.handleChangeIntegrationId = this.handleChangeIntegrationId.bind(this);
+        };
     }
 
     static inputStype = {
@@ -38,87 +56,81 @@ class CourseCard extends Component {
         marginBottom: '5px',
     }
 
-    handleClickEdit() {
-        const state = Object.assign({}, this.state);
-        state.editing = true;
-        this.setState(state);
+    handleClickEdit = () => {
+        this.setState({
+            editing: true,
+        });
     }
 
-    handleClickDelete() {
-        const state = Object.assign({}, this.state);
-        state.editing = false;
-        state.deleting = true;
-        this.setState(state);
+    handleClickDelete = () => {
+        this.setState({
+            editing: false,
+            deleting: true,
+        });
     }
 
-    handleClickCancel() {
-        const state = Object.assign({}, this.state);
-        state.editing = false;
-        state.deleting = false;
-        state.name = this.props.course.name;
-        state.classId = this.props.course.classId;
-        this.setState(state);
+    handleClickCancel = () => {
+        this.setState({
+            editing: false,
+            deleting: false,
+            name: this.props.course.name,
+            classId: this.props.course.classId,
+        });
     }
 
-    handleChangeId(e) {
-        const state = Object.assign({}, this.state);
-        state.classId = e.target.value;
-        this.setState(state);
+    handleChangeId: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+        this.setState({
+            classId: e.target.value,
+        });
     }
 
-    handleChangeName(e) {
-        const state = Object.assign({}, this.state);
-        state.name = e.target.value;
-        this.setState(state);
+    handleChangeName: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+        this.setState({
+            name: e.target.value,
+        });
     }
 
-    handleChangeIntegrationId(e) {
-        const state = Object.assign({}, this.state);
-        state.integrationId = e.target.value;
-        this.setState(state);
+    handleChangeIntegrationId: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+        this.setState({
+            integrationId: e.target.value,
+        });
     }
 
-    downloadCourseData() {
-        window.location = downloadDataForCourseURL(this.props.course._id);
+    downloadCourseData = () => {
+        window.location.href = downloadDataForCourseURL(this.props.course._id);
     } 
 
     renderView() {
+        const integrationName = sessionStorage.getItem('integrationName');
+
         return (
             <div className="col-sm-6">
                 <div className="shadow">
                     <div className="row ">
                         
-                        <div className="col-sm-6">
-                            <h2 className="course-title">{this.props.course.name}</h2>
-                            <p>{i18n("Class ID:")} {this.props.course.classId}</p>
-                            {(() => {
-                                    const integrationName = sessionStorage.getItem('integrationName');
-                                    if (integrationName) {
-                                        return (
-                                        <p>{`${integrationName} ID:`} {this.props.course.integrationId ? this.props.course.integrationId : 'Not Set'}</p>
-                                        );
-                                    }
-                                })()}
-                            <ul className="text-plain custom-list">
-                                <li>{this.props.course.attendances ? this.props.course.attendances.length : 0} class{this.props.course.attendances && this.props.course.attendances.length === 1 ? '' : 'es'} recorded</li>
-                                <li>{this.props.course.tests ? this.props.course.tests.length : 0} test{this.props.course.tests && this.props.course.tests.length === 1 ? '' : 's'} recorded</li>
-                            </ul>
+                        <div className="col-sm-6 course-card-info">
+                            <div className='course-card-info__content'>
+                                <h2 className="course-title">{this.props.course.name}</h2>
+                                <div><strong>{i18n("Class ID:")}</strong> {this.props.course.classId}</div>
+                                {this.props.course.accessCode && <div><strong>{i18n("Access Code:")}</strong> {this.props.course.accessCode}</div>}
+                                {integrationName && <p>{`${integrationName} ID:`} {this.props.course.integrationId ? this.props.course.integrationId : 'Not Set'}</p>}
+                            </div>
                             <button className="btn-setting" onClick={this.handleClickEdit}>
                                 <img src={settingIcon} className="icon-sm" alt="setting icon"/>
-                                &nbsp;{i18n("Settings")}
+                                &nbsp;{i18n("Course Settings")}
                             </button>
                         </div>
                         
                         <div className="col-sm-6">
 
-                            <Link to={{
+                            {/* <Link to={{
                                 pathname: '/professor/attendancesView',
                                 state: {
                                     course: this.props.course,
                                 }
                             }}>
                             <button className="btn-upload" style={{marginBottom: '5px', fontSize: 'medium'}}><img src={tickIcon} className="icon-xs" alt="tick icon" />{i18n("Attendance")}</button>
-                            </Link>
+                            </Link> */}
                             <Link to={{
                                 pathname: paths.professorInClass({ courseId: this.props.course._id }),
                                 state: {
@@ -126,7 +138,7 @@ class CourseCard extends Component {
                                 }
                             }}>
                             <button className="btn-upload" style={{marginBottom: '5px', fontSize: 'medium'}}><img src={tickIcon} className="icon-xs" alt="tick icon" />
-                                {this.props.course.isInSession ? i18n("View In Progress Class") : i18n("Start Class")}
+                                {this.props.course.isInSession ? i18n("View In Progress Class") : i18n("Start Inlass")}
                             </button>
                             </Link>
                             <Link to={{
@@ -136,7 +148,7 @@ class CourseCard extends Component {
                                 }
                             }}>
                             <button className="btn-upload" style={{marginBottom: '5px', fontSize: 'medium'}}><img src={tickIcon} className="icon-xs" alt="tick icon" />
-                                {i18n("View Past Class Sessions")}
+                                {i18n("View InClass Sessions")}
                             </button>
                             </Link>
                             <Link to={{
@@ -145,7 +157,7 @@ class CourseCard extends Component {
                                     course: this.props.course,
                                 }
                             }}>
-                            <button className="btn-upload" style={{marginBottom: '5px', fontSize: 'medium'}}><img src={editIcon} className="icon-xs" alt="edit icon" />{i18n("Proctor exam")}</button>
+                            <button className="btn-upload" style={{marginBottom: '5px', fontSize: 'medium'}}><img src={editIcon} className="icon-xs" alt="edit icon" />{i18n("Start Proctoring")}</button>
                             </Link>
     
                             {/* <Link to={{
@@ -157,7 +169,7 @@ class CourseCard extends Component {
                             <button className="btn-upload" style={{marginBottom: '5px', fontSize: 'medium'}}><img src={editIcon} className="icon-xs" alt="edit icon" />Proctor exam</button>
                             </Link> */}
 
-                            <button className="btn-upload" onClick={this.downloadCourseData.bind(this)} style={{marginBottom: '5px', fontSize: 'medium'}}><img src={downloadIcon} className="icon-xs" alt="download icon" />{i18n("Download data")}</button>
+                            {/* <button className="btn-upload" onClick={this.downloadCourseData.bind(this)} style={{marginBottom: '5px', fontSize: 'medium'}}><img src={downloadIcon} className="icon-xs" alt="download icon" />{i18n("Download data")}</button> */}
 
                             <Link to={{
                                 pathname: `/proctor/tests`,

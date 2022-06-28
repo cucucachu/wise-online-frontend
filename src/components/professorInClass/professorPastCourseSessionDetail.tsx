@@ -86,9 +86,9 @@ export const ProfessorPastCourseSessionDetail:  React.FC<Props> = ({ match }) =>
                       </tbody>
                   </table>
                 </div>
-                <pre style={{ textAlign: 'left' }}>
+                {/* <pre style={{ textAlign: 'left' }}>
                 {JSON.stringify(courseSession, null, 2)}
-                </pre>
+                </pre> */}
               </div>
           </div>
       </div>
