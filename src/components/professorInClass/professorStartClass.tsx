@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 //axios
 import { i18n } from 'web-translate';

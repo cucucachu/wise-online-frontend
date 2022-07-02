@@ -6,22 +6,13 @@ import tickIcon from '../Assets/images/tick-icon-white.svg'
 import settingIcon from '../Assets/images/settings.svg'
 import editIcon from '../Assets/images/edit-icon-white.svg'
 import viewIcon from '../Assets/images/eye-icon-white.svg'
+import bookIcon from '../Assets/images/book.svg'
 
 import { downloadDataForCourseURL } from '../store/axios';
 
 import { i18n } from 'web-translate';
 import { paths } from '../paths';
-
-type Course = {
-    _id: string;
-    classId: string;
-    name: string;
-    integrationId: string;
-    attendances: any[];
-    tests: any[];
-    isInSession: boolean;
-    accessCode: string | null;
-};
+import {Course} from '../types';
 
 type CourseCardProps = {
     course: Course;
@@ -138,7 +129,7 @@ class CourseCard extends Component<CourseCardProps, CourseCardState> {
                                 }
                             }}>
                             <button className="btn-upload" style={{marginBottom: '5px', fontSize: 'medium'}}><img src={tickIcon} className="icon-xs" alt="tick icon" />
-                                {this.props.course.isInSession ? i18n("View In Progress Class") : i18n("Start Inlass")}
+                                {this.props.course.isInSession ? i18n("View In Progress Class") : i18n("Start InClass")}
                             </button>
                             </Link>
                             <Link to={{
@@ -147,7 +138,7 @@ class CourseCard extends Component<CourseCardProps, CourseCardState> {
                                     course: this.props.course,
                                 }
                             }}>
-                            <button className="btn-upload" style={{marginBottom: '5px', fontSize: 'medium'}}><img src={tickIcon} className="icon-xs" alt="tick icon" />
+                            <button className="btn-upload" style={{marginBottom: '5px', fontSize: 'medium'}}><img src={bookIcon} className="icon-xs" alt="tick icon" />
                                 {i18n("View InClass Sessions")}
                             </button>
                             </Link>

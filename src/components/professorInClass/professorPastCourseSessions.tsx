@@ -1,14 +1,10 @@
 import React, { useState } from 'react';
 import { Link, RouteComponentProps } from 'react-router-dom';
-//axios
-import { i18n } from 'web-translate';
-import { v4 as uuid } from 'uuid';
 import { professorGetCourseSessions } from "../../store/axios";
-import recordingIcon from "../../Assets/images/recording-icon.png";
 import {paths} from "../../paths";
+import {Course} from '../../types';
 
 const editIcon = require('../../Assets/images/edit-icon.png');
-// 
 
 type Props = RouteComponentProps<{
   courseId: string;
@@ -19,11 +15,31 @@ type PastCourseSession = {
   startTime: string;
   endTime: string;
   course: any;
+  students: any;
+};
+
+const getMinuteDuration = (s1: string, s2: string): string => {
+  const d1 = new Date(s1);
+  const d2 = new Date(s2);
+  const diff = d2.getTime() - d1.getTime();
+  const diffInMinutes = Math.round(diff / 1000 / 60);
+  return `${diffInMinutes} minutes`;
+}
+
+const calculateAttendancePercent = (course: Course, session: PastCourseSession): number => {
+  if (!course.students) {
+    return 100;
+  }
+
+  const presentStudents = new Set(session.students.map((s: any) => s._id));
+
+  const presentCount = course.students.map((sId): number => presentStudents.has(sId) ? 1 : 0).reduce((total, count) => total + count, 0);
+  return Math.round((presentCount / course.students.length) * 100);
 };
 
 export const ProfessorPastCourseSessions:  React.FC<Props> = ({ match }) => {
   const [loading, setLoading] = React.useState(true);
-  const [course, setCourse] = React.useState<any | null>();
+  const [course, setCourse] = React.useState<Course | null>();
   const [sessions, setSessions] = React.useState<PastCourseSession[] | null>();
   const {courseId} = match.params;
 
@@ -63,23 +79,27 @@ export const ProfessorPastCourseSessions:  React.FC<Props> = ({ match }) => {
                   <table className="table table-striped">
                       <thead>
                           <tr>
-                              <th>Class Start Time</th>
-                              <th>Class End Time</th>
-                              <th></th>
+                              <th>Date</th>
+                              <th>Duration</th>
+                              <th>Attendance</th>
+                              <th>Flagged Students</th>
                           </tr>
                       </thead>
                       <tbody>
                         {sessions?.map((session) => 
                             <tr key={session.id}> 
                               <td>
-                                {(new Date(session.startTime)).toDateString()}
+                                <Link to={paths.professorInClassPastSessionDetail({ courseId, sessionId: session.id })}>
+                                  {(new Date(session.startTime)).toDateString()}
+                                </Link>
                               </td>
                               <td>
-                              {(new Date(session.endTime)).toDateString()}
+                                {getMinuteDuration(session.startTime, session.endTime)}
                               </td>
                               <td>
-                                <Link to={paths.professorInClassPastSessionDetail({ courseId, sessionId: session.id })}>View Class Report</Link>
+                                {calculateAttendancePercent(course!, session)}
                               </td>
+                              <td></td>
                           </tr>)}
                       </tbody>
                   </table>
