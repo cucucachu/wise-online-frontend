@@ -1,6 +1,7 @@
 import * as React from 'react'
 import {RouteComponentProps} from 'react-router-dom'
-import { getStudentCourses, Course } from "../../store/axios";
+import { getStudentCourses } from "../../store/axios";
+import {Course} from '../../types';
 import { CodeEntry } from '../Resusable/CodeEntry';
 import attendClass from '../../Assets/images/attend-class.png';
 import { studentJoinCourse } from '../../store/axios';

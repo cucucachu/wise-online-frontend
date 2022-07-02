@@ -12,13 +12,14 @@ import SuperSchoolSettings from '../components/SuperSchoolSettings';
 
 //components
 import ProfessorLogin from '../components/professorLogin';
-import ProfessorCourse from '../components/professorCourse';
+import ProfessorCourse from '../components/professorCourses/ProfessorCourseList';
 import ProfessorAttendanaceStart from '../components/professorAttendanceStart';
 import ProfessorAttendanacesView from '../components/professorAttendancesView';
 
 import ProfessorClassStart from '../components/professorInClass/professorStartClass';
 import {ProfessorPastCourseSessions} from '../components/professorInClass/professorPastCourseSessions';
 import {ProfessorPastCourseSessionDetail} from '../components/professorInClass/professorPastCourseSessionDetail';
+import {ProfessorEditCourse} from '../components/professorCourses/ProfessorEditCourse';
 
 import AttendanaceView from '../components/AttendanceView';
 import ProfessorClaim from '../components/professorClaim';
@@ -98,11 +99,11 @@ import ProfessorStartProctoring from '../components/ProfessorStartProctoring';
 
 import { paths } from '../paths';
 
-class HomePage extends Component {
+class HomePage extends Component<any, any, any> {
     
     static contextType = AuthContext;
 
-    constructor(props) {
+    constructor(props: any) {
         super(props);
 
         this.state = {
@@ -130,17 +131,17 @@ class HomePage extends Component {
     
     }
 
-    async handleSuccessfulLogin(userData) {
+    async handleSuccessfulLogin(userData: any) {
         sessionStorage.setItem('userID', userData.id);
         sessionStorage.setItem('username', userData.name);
         sessionStorage.setItem('schoolName', userData.school.name);
         sessionStorage.setItem('schoolID', userData.school.id);
-        sessionStorage.setItem('isLoggedIn', true);
+        sessionStorage.setItem('isLoggedIn', true as any);
         sessionStorage.setItem('role', userData.role);
 
-        this.context.setRole(userData.role);
+        (this.context as any).setRole(userData.role);
 
-        const state = Object.assign({}, this.state);
+        const state: any = Object.assign({}, this.state);
         state.username = userData.name;
         state.schoolName = userData.school.name;
         state.isLoggedIn = true;
@@ -151,9 +152,9 @@ class HomePage extends Component {
     async handleLogout() {
         sessionStorage.clear();
         await logout();
-        sessionStorage.setItem('isLoggedIn', false);
+        sessionStorage.setItem('isLoggedIn', false as any);
 
-        const state = Object.assign({}, this.state);
+        const state: any = Object.assign({}, this.state);
 
         state.username = undefined;
         state.schoolName = undefined;
@@ -226,7 +227,8 @@ class HomePage extends Component {
                             } />
                             <Route path="/professor/reset-password" component={ProfessorResetPW} />
                             <Route path="/professor/reset-success" component={ProfessorResetPWSuccess} />
-                            <PrivateRouteProfessor path="/professor/course" component={ProfessorCourse} />
+                            <PrivateRouteProfessor exact={true} path={paths.professorCourseList.pattern} component={ProfessorCourse} />
+                            <PrivateRouteProfessor path={paths.professorEditCourse.pattern} component={ProfessorEditCourse} />
                             <Route path="/professor/claim-account" component={ProfessorClaim} />
                             {/* <PrivateRouteProfessor path="/professor/claim-account-success" component={ProfessorClaimSuccess} /> */}
                             <Route path="/professor/claim-account-success" component={ProfessorClaimSuccess} />

@@ -2,7 +2,7 @@ import * as React from 'react'
 import io, {Socket} from 'socket.io-client';
 import {RouteComponentProps} from 'react-router-dom'
 
-import { Course } from "../../store/axios";
+import { Course } from "../../types";
 import {studentGetCourse} from '../../store/axios';
 import { AuthContext } from "../../contexts/AuthContext";
 // import {CodeEntry} from './Resusable/CodeEntry';

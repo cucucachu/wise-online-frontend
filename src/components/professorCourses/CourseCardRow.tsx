@@ -1,9 +1,8 @@
-import React from 'react';
-
-import CourseCard from './courseCard';
+import * as React from 'react';
+import CourseCard from './CourseCard';
 import NewCourseCard from './newCourseCard';
 
-function CourseCardRow (props) {
+function CourseCardRow (props: any) {
     return (
         <div className="row">
             {

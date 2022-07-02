@@ -1,18 +1,17 @@
 import React, { Component } from 'react';
 import { Link } from "react-router-dom"
 
-import downloadIcon from '../Assets/images/download-icon-white.svg'
-import tickIcon from '../Assets/images/tick-icon-white.svg'
-import settingIcon from '../Assets/images/settings.svg'
-import editIcon from '../Assets/images/edit-icon-white.svg'
-import viewIcon from '../Assets/images/eye-icon-white.svg'
-import bookIcon from '../Assets/images/book.svg'
+import tickIcon from '../../Assets/images/tick-icon-white.svg'
+import settingIcon from '../../Assets/images/settings.svg'
+import editIcon from '../../Assets/images/edit-icon-white.svg'
+import viewIcon from '../../Assets/images/eye-icon-white.svg'
+import bookIcon from '../../Assets/images/book.svg'
 
-import { downloadDataForCourseURL } from '../store/axios';
+import { downloadDataForCourseURL } from '../../store/axios';
 
 import { i18n } from 'web-translate';
-import { paths } from '../paths';
-import {Course} from '../types';
+import { paths } from '../../paths';
+import {Course} from '../../types';
 
 type CourseCardProps = {
     course: Course;
@@ -106,10 +105,10 @@ class CourseCard extends Component<CourseCardProps, CourseCardState> {
                                 {this.props.course.accessCode && <div><strong>{i18n("Access Code:")}</strong> {this.props.course.accessCode}</div>}
                                 {integrationName && <p>{`${integrationName} ID:`} {this.props.course.integrationId ? this.props.course.integrationId : 'Not Set'}</p>}
                             </div>
-                            <button className="btn-setting" onClick={this.handleClickEdit}>
+                            <Link className="btn-setting" to={paths.professorEditCourse({ courseId: this.props.course._id })}>
                                 <img src={settingIcon} className="icon-sm" alt="setting icon"/>
                                 &nbsp;{i18n("Course Settings")}
-                            </button>
+                            </Link>
                         </div>
                         
                         <div className="col-sm-6">

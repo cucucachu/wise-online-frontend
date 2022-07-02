@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { apiUrl } from '../config/apiUrl';
+import { Course } from '../types';
 
 axios.defaults.withCredentials = true
 
@@ -239,10 +240,16 @@ async function adminAddProfessors(professors: any) {
     Professor Routes
 ------------------------------------------*/
 
-async function createCourse(name: string, classId: string, students: string) {
+async function createCourse(name: string, classId: string, students?: string) {
     const response = await backend.post('professor/createCourse', {name, classId, students});
     return response;
 }
+
+export async function getCourse(courseId: string): Promise<Course> {
+    const response = await backend.get(`professor/course/${courseId}`);
+    return response.data.course;
+}
+
 async function professorRequestResetPW(email: string) {
     const response = await backend.post('/professor/requestPasswordReset', email);
     return response;
@@ -268,12 +275,12 @@ async function setAttendanceReadyForIntegration(courseId: string, attendanceId: 
     return backend.post(`/professor/courses/${courseId}/attendances/${attendanceId}/readyForIntegration`);
 }
 
-async function editCourse(courseId: string, name: string, classId: string, integrationId: string | undefined) {
-    if (integrationId === '') {
-        integrationId = undefined;
+async function editCourse(courseId: string, data: {name: string, classId: string, integrationId: string | null | undefined, allowedUrls?: string[] }) {
+    if (data.integrationId === '') {
+        data.integrationId = undefined;
     }
 
-    const response = await backend.post('professor/editCourse', {id: courseId, name, classId, integrationId});
+    const response = await backend.post('professor/editCourse', {id: courseId, ...data});
     return response;
 }
 
@@ -432,17 +439,6 @@ export async function studentGetCourse(courseId: string) {
 
 // Routes for InClass Product
 
-type Professor = {
-    firstName: string;
-    lastName: string;
-}
-  
-export type Course = {
-    id: string;
-    name: string;
-    professor: Professor;
-    isInSession: boolean;
-}
 
 export async function getStudentCourses(): Promise<Course[]> {
     const response = await backend.get('/student/courses');
