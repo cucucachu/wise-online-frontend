@@ -12,6 +12,10 @@ export type Course = {
   students?: any[];
   allowedUrls?: string[];
   professor: Professor;
+
+  defaultAttendanceTrackingDelay?: number;
+  defaultAttendanceThreshold?: number;
+  defaultAttendanceFlags?: string[];
 };
 type Professor = {
   firstName: string;

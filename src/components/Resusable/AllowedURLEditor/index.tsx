@@ -1,5 +1,6 @@
 import React from 'react';
 import { v4 as uuid } from 'uuid';
+import {Card} from '../Card';
 
 export type AllowedURLEntity = {
     id: string;
@@ -74,7 +75,7 @@ export const AllowedURLEditor: React.FC<AllowedURLTableProps> = ({ urls, onChang
     }, [urls, onChangeUrls]);
 
   return (
-    <div className="shadow">
+    <Card>
       <h4>Allowed Website URLs for Students</h4>
       <table className="table table-striped">
           <thead>
@@ -88,6 +89,6 @@ export const AllowedURLEditor: React.FC<AllowedURLTableProps> = ({ urls, onChang
           </tbody>
       </table>
       <p><a onClick={handleClickAdd}>Add</a></p>
-  </div>
+    </Card>
   );
 };

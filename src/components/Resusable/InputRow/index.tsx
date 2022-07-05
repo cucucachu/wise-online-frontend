@@ -2,17 +2,18 @@ import * as React from 'react';
 type InputRowProps = {
   label: string;
   value: string;
+  placeholder?: string;
   onChange(value: string): void;
 }
 
-export const InputRow: React.FC<InputRowProps> = ({ value, label, onChange }) => {
+export const InputRow: React.FC<InputRowProps> = ({ placeholder, value, label, onChange }) => {
   return (
     <div className="input-wrapper">
-      <span className="input-label" >{label}</span>
+      <span style={{ width: 'auto' }} className="input-label" >{label}</span>
       <input
         className=""
         value={value}
-        placeholder={label}
+        placeholder={placeholder ?? label}
         onChange={(e) => onChange(e.target.value)}
         required={true}
       />

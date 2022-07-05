@@ -1,9 +1,13 @@
 import * as React from 'react';
 import './Card.css';
 
-export const Card: React.FC<React.PropsWithChildren<{}>> = ({ children }) => {
+type CardProps = {
+  className?: string;
+}
+
+export const Card: React.FC<React.PropsWithChildren<CardProps>> = ({ children, className }) => {
   return (
-    <div className='shadow'>
+    <div className={`shadow-card ${className}`}>
       {children}
     </div>
   );

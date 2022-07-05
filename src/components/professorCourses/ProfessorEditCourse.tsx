@@ -27,10 +27,15 @@ export const ProfessorEditCourse: React.FC<RouteComponentProps<{ courseId: strin
   React.useEffect(() => {
     const fetch = async () => {
       const course = await getCourse(courseId);
+      debugger;
       setDisplayName(course?.name);
       setClassId(course?.classId);
       setAllowedUrls(course?.allowedUrls?.map(url => ({ id: uuid(), url })) ?? []);
       setIntegrationId(course?.integrationId);
+
+      setTrackingDelay(course?.defaultAttendanceTrackingDelay ? `${course?.defaultAttendanceTrackingDelay}` : '');
+      setAttendanceThreshold(course?.defaultAttendanceThreshold ? `${course?.defaultAttendanceThreshold}` : '');
+      setFlagTriggers(course?.defaultAttendanceFlags ?? []);
     };
 
     fetch();
@@ -45,6 +50,9 @@ export const ProfessorEditCourse: React.FC<RouteComponentProps<{ courseId: strin
         integrationId,
         classId,
         allowedUrls: allowedUrls?.map(u => u.url),
+        defaultAttendanceTrackingDelay: trackingDelay ? Number(trackingDelay) : undefined,
+        defaultAttendanceThreshold: attendanceThreshold ? Number(attendanceThreshold) : undefined,
+        defaultAttendanceFlags: flagTriggers,
       });
 
       history.push(paths.professorCourseList({}));
@@ -52,13 +60,14 @@ export const ProfessorEditCourse: React.FC<RouteComponentProps<{ courseId: strin
       setErrorMessage((err as Error).message);
     }
 
-  }, [displayName, integrationId, classId, allowedUrls]);
+  }, [displayName, integrationId, classId, allowedUrls, trackingDelay, attendanceThreshold, flagTriggers]);
 
   return(
       <div className="container">
           <img src={loginIcon} className="page-icon" alt="login icon"/>
           <div className="spacer-vertical"/>
           <h1>{i18n("Course Settings")}</h1>
+          <div className="spacer-vertical"/>
           {errorMessage && <div className="error-message">{errorMessage}</div>}
           <form onSubmit={onSubmit}>
             <Card>
@@ -84,9 +93,10 @@ export const ProfessorEditCourse: React.FC<RouteComponentProps<{ courseId: strin
           />
           <div className="spacer-vertical"/>
           <AllowedURLEditor urls={allowedUrls} onChangeUrls={setAllowedUrls} />
-              <div className="">
-                  <input type="submit" className="btn" value={i18n("Save Class Settings")} />
-              </div>
+          <div className="spacer-vertical"/>
+            <div className="">
+                <input type="submit" className="btn" value={i18n("Save Class Settings")} />
+            </div>
           </form>
       </div>
   );

@@ -275,7 +275,15 @@ async function setAttendanceReadyForIntegration(courseId: string, attendanceId: 
     return backend.post(`/professor/courses/${courseId}/attendances/${attendanceId}/readyForIntegration`);
 }
 
-async function editCourse(courseId: string, data: {name: string, classId: string, integrationId: string | null | undefined, allowedUrls?: string[] }) {
+async function editCourse(courseId: string, data: {
+    name: string,
+    classId: string,
+    integrationId: string | null | undefined,
+    allowedUrls?: string[],
+    defaultAttendanceTrackingDelay?: number;
+    defaultAttendanceThreshold?: number;
+    defaultAttendanceFlags?: string[];
+}) {
     if (data.integrationId === '') {
         data.integrationId = undefined;
     }
