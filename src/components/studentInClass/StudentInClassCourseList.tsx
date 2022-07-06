@@ -16,7 +16,7 @@ export const StudentInClassCourseList: React.FC<RouteComponentProps> = ({ histor
   React.useEffect(() => {
     const fetch = async () => {
       const resp = await getStudentCourses();
-      setCourse(resp);
+      setCourse(resp ?? []);
     }
 
     fetch();

@@ -447,6 +447,10 @@ export async function studentGetCourse(courseId: string) {
 
 // Routes for InClass Product
 
+export async function submitScreenshotForInClass(socketId: string, screenshot: any) {
+    const response = await backend.post('student/courses/submitScreenshot', {socketId, screenshot});
+    return response;
+}
 
 export async function getStudentCourses(): Promise<Course[]> {
     const response = await backend.get('/student/courses');

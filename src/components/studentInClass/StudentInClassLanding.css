@@ -1,0 +1,17 @@
+
+.student-in-class-cb-row input[type="checkbox"] {
+  margin-left: 10px;
+  margin-right: 20px;
+}
+
+.student-in-class-cb-row {
+  font-size: 1.3rem;
+}
+
+.green-success-welcome {
+  background: rgb(124,200,78);
+  height: 200px;
+  width: 200px;
+  margin: 20px auto;
+  border-radius: 50%;
+}

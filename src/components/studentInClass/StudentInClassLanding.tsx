@@ -3,15 +3,17 @@ import io, {Socket} from 'socket.io-client';
 import {RouteComponentProps} from 'react-router-dom'
 
 import { Course } from "../../types";
-import {studentGetCourse} from '../../store/axios';
+import {studentGetCourse, submitScreenshotForInClass} from '../../store/axios';
 import { AuthContext } from "../../contexts/AuthContext";
 // import {CodeEntry} from './Resusable/CodeEntry';
 
 import { i18n } from 'web-translate';
 import { apiUrl } from '../../config/apiUrl';
+import { Card } from '../Resusable/Card';
+import './StudentInClassLanding.css';
 const attendClass = require('../../Assets/images/attend-class.png');
 
-type StudentInClassLandingProps = RouteComponentProps<{
+type StudentInClassInSessionProps = RouteComponentProps<{
   courseId: string;
 }>
 
@@ -23,11 +25,12 @@ type UseScreenTrackingArgs = {
 };
 
 const useScreenTracking = ({ onReceiveTabs, screenVideoRef, screenshotCanvasRef, onTakeScreenShot }: UseScreenTrackingArgs) => {
+  const [isScreenTracking, setIsScreenTracking] = React.useState(false);
   const authContext = React.useContext(AuthContext);
-  const takeScreenShot = async () => {
+  const takeScreenShot = () => {
+    console.log('TAKE SCREEN SHOT');
     const screenVideo = screenVideoRef.current;
     const screenshotCanvas = screenshotCanvasRef.current;
-    console.log({ screenshotCanvas, screenVideo })  
     if (screenshotCanvas && screenVideo) {
       screenshotCanvas.width = screenVideo.videoWidth;
       screenshotCanvas.height = screenVideo.videoHeight;
@@ -49,25 +52,32 @@ const useScreenTracking = ({ onReceiveTabs, screenVideoRef, screenshotCanvasRef,
       if (!screenStream) return;
       const tracks = screenStream.getTracks();
       tracks.forEach((track: any) => track.stop());  
+      setIsScreenTracking(false);
     }
   }, []);
 
   const startScreenVideo = React.useCallback(async () => {
     const screenVideo = screenVideoRef.current;
     if (screenVideo) {
-      screenVideo.srcObject = await navigator.mediaDevices.getDisplayMedia({
-        video: {
-          mediaSource: "screen"
-        } as any,
-      });
+      try {
+        screenVideo.srcObject = await navigator.mediaDevices.getDisplayMedia({
+          video: {
+            mediaSource: "screen"
+          } as any,
+        });
 
-      const displaySurface = (screenVideo.srcObject.getVideoTracks()[0].getSettings() as any)
-        .displaySurface;
-      screenVideo.play();
+        const displaySurface = (screenVideo.srcObject.getVideoTracks()[0].getSettings() as any)
+          .displaySurface;
+        screenVideo.play();
   
-      if (displaySurface !== "monitor") {
-        stopScreenVideo();
-        await startScreenVideo();
+        if (displaySurface !== undefined && displaySurface !== "monitor") {
+          stopScreenVideo();
+          setIsScreenTracking(false);
+        }  else {
+          setIsScreenTracking(true);        
+        }
+      } catch (err) {
+        console.log("Screen error: ", err)
       }
     }
   }, [stopScreenVideo]);
@@ -75,9 +85,13 @@ const useScreenTracking = ({ onReceiveTabs, screenVideoRef, screenshotCanvasRef,
   React.useEffect(() => {
     const minTime = authContext.screenshotInterval ? authContext.screenshotInterval * 1000 : 10 * 1000;
 
-    const screenshotInterval = setInterval(takeScreenShot, minTime);
+    let screenshotInterval: any;
+    console.log('IN EFFECT', {isScreenTracking});
+    if (isScreenTracking) {
+      screenshotInterval = setInterval(takeScreenShot, minTime);
+    }
 
-    window.addEventListener("message", (event) => {
+    const tabListener = (event: any) => {
       if (!event.data || !event.data.type || event.data.type !== "TABS_RESPONSE") {
         return;
       }
@@ -85,26 +99,107 @@ const useScreenTracking = ({ onReceiveTabs, screenVideoRef, screenshotCanvasRef,
       if (event.data.tabs && event.data.tabs.length) {
         onReceiveTabs(event.data.tabs)
       }
-    });
-
-    startScreenVideo();
+    }
+    
+    window.addEventListener("message", tabListener);
 
     return () => {
-      clearInterval(screenshotInterval);
-      stopScreenVideo();
+      if (screenshotInterval) {
+        clearInterval(screenshotInterval);
+      }
+
+      window.removeEventListener("message", tabListener);
     };
-  }, [onReceiveTabs]);
+  }, [onReceiveTabs, isScreenTracking]);
 
-  const requestTabs = React.useCallback(() => {
-    window.postMessage({ type: "REQUEST_TABS" }, "*");
-  }, []);
-
-  return { requestTabs };
+  return { startScreenVideo, stopScreenVideo, isScreenTracking };
 };
 
-export const StudentInClassLanding: React.FC<StudentInClassLandingProps> = ({ match }) => {
-  const {courseId} = match.params;
+type InClassInstructionsProps = {
+  agreedToTerms: boolean;
+  isScreenTracking: boolean;
+  startInClass(): void;
+  setAgreedToTerms(value: boolean): void;
+  startScreenVideo(): void;
+}
+
+const InClassInstructions: React.FC<InClassInstructionsProps> = ({ setAgreedToTerms, startScreenVideo, agreedToTerms, isScreenTracking, startInClass }) => {
+  return (
+    <>
+        <div className="spacer-vertical" />
+        <h1>{i18n("Join InClass")}</h1>
+        <div className="row">
+            <div className="col-sm">
+              <Card className='text-black'>
+                <h5>{i18n('Permissions & Information')}</h5>
+                <p>
+                  <b><u>{i18n('Your computer screen will be recorded and any/all intormation open on you screen will be avallable for your instructor to view during and atter through their Wise InClass application.')}</u></b>
+                  {i18n('To avoid being flagged, do not visit any sites or use any applications that are not specifically allowed by your instructor.')}
+                </p>
+                <p>
+                  <b><u>{i18n('If needed. take a moment to close any/all non-allowed windows.')}</u></b>
+                </p>
+                <p>
+                  {i18n('Once vou have enabled permissions and agreed to the terms of service, click "Join" to join InClass')}
+                </p>
+                <div>
+                  <label className='student-in-class-cb-row' htmlFor='in-class-terms'>
+                    <input onChange={(e) => setAgreedToTerms(e.target.checked)} checked={agreedToTerms} type='checkbox' id='in-class-terms' />
+                    {i18n('I Agree to the Terms of Service')}
+                  </label>
+                </div>
+                <div>
+                  <label className='student-in-class-cb-row' htmlFor='in-class-screen-cap'>
+                    <input onChange={() => startScreenVideo()} checked={isScreenTracking} type='checkbox' id='in-class-screen-cap' />
+                    {i18n('Enable Screen Sharing')}
+                  </label>
+                </div>
+              </Card>
+            </div>
+        </div>
+        <div className="spacer-vertical" />
+        <div>
+          <button disabled={!agreedToTerms || !isScreenTracking} onClick={startInClass} className="btn" type='button'>
+            {i18n('Begin InClass')}
+          </button>
+        </div>
+    </>
+  )
+}
+
+type InClassLiveProps = {
+  course: Course | null;
+}
+
+const InClassLive: React.FC<InClassLiveProps> = ({ course }) => {
+  return (
+    <>
+        <div className="spacer-vertical" />
+        <h1>{i18n("You're in ")} {course?.name}</h1>
+        <div className="spacer-vertical" />
+        <div className='green-success-welcome' />
+        <div className="spacer-vertical" />
+        <div className="row">
+          <div className="col-sm">
+            <Card className='text-black'>
+              <h5>{i18n('Keep this Window Open!')}</h5>
+              <p>
+                <b><u>{i18n('Your screen is now being recorded. Closing this window before class is over will notity your instructor. ')}</u></b>
+                {i18n('We hope you have a great class. This window will close automatically arter your Instructor ends class.')}
+              </p>
+            </Card>
+          </div>
+        </div>
+    </>
+  )
+}
+
+export const StudentInClassLanding: React.FC<StudentInClassInSessionProps> = (props) => {
+  const {courseId} = props.match.params;
   const [course, setCourse] = React.useState<Course | null>(null);
+
+  const [agreedToTerms, setAgreedToTerms] = React.useState(false);
+
   React.useEffect(() => {
     const fetch = async () => {
       const response = await studentGetCourse(courseId);
@@ -119,9 +214,7 @@ export const StudentInClassLanding: React.FC<StudentInClassLandingProps> = ({ ma
   const [socket, setSocket] = React.useState<Socket | null>(null);
 
   const onTakeScreenShot = React.useCallback((screenshotUrl: string) => {
-    socket?.emit('class-checkin', {
-      screenshot: screenshotUrl,
-    });
+    submitScreenshotForInClass(socket!.id, screenshotUrl);
   }, [socket]);
 
   const onReceiveTabs = React.useCallback((tabs: string[]) => {
@@ -130,14 +223,14 @@ export const StudentInClassLanding: React.FC<StudentInClassLandingProps> = ({ ma
     });
   }, [socket]);
 
-  const { requestTabs } = useScreenTracking({
+  const { startScreenVideo, isScreenTracking, stopScreenVideo } = useScreenTracking({
     screenVideoRef,
     screenshotCanvasRef,
     onTakeScreenShot,
     onReceiveTabs,
   });
   
-  React.useEffect(() => {
+  const startInClass = React.useCallback(() => {
     const newSocket = io(apiUrl, {
       withCredentials: true,
     });
@@ -152,24 +245,26 @@ export const StudentInClassLanding: React.FC<StudentInClassLandingProps> = ({ ma
         });
       }
     });
-
-    return () => {
-      newSocket.close()
-    };
   }, [setSocket]);
 
+  React.useEffect(() => {
+    return () => {
+      stopScreenVideo();
+    }
+  }, [stopScreenVideo]);
+
+  React.useEffect(() => {
+    return () => {
+      socket?.close()
+    };
+  }, [socket]);
+  
   return (
     <div className="container">
-      <img src={attendClass} className="page-icon" alt="login icon"/>
-      <div className="spacer-vertical" />
-      <h1>{i18n("Thanks for joining")} {course?.name}</h1>
-      <div className="row">
-          <div className="col-sm">
-            <div onClick={requestTabs}>Request Tabs</div>
-          </div>
-      </div>
-      <canvas ref={screenshotCanvasRef} style={{ display: "none" }} />
-      <video ref={screenVideoRef} style={{ display: "none" }} />
-  </div>
+        <img src={attendClass} className="page-icon" alt="login icon"/>
+        {socket ? <InClassLive course={course} /> : <InClassInstructions startScreenVideo={startScreenVideo} setAgreedToTerms={setAgreedToTerms} startInClass={startInClass} agreedToTerms={agreedToTerms} isScreenTracking={isScreenTracking} />}
+        <canvas ref={screenshotCanvasRef} style={{ display: "none" }} />
+        <video ref={screenVideoRef} style={{ display: "none" }} />
+    </div>
   )
 };
