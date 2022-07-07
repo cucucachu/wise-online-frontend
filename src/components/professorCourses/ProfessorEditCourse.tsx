@@ -71,16 +71,18 @@ export const ProfessorEditCourse: React.FC<RouteComponentProps<{ courseId: strin
           {errorMessage && <div className="error-message">{errorMessage}</div>}
           <form onSubmit={onSubmit}>
             <Card>
-              <InputRow
-                label={i18n("Display Name")}
-                value={displayName}
-                onChange={setDisplayName}
-              />
-              <InputRow
-                label={i18n("ClassID")}
-                value={classId}
-                onChange={setClassId}
-              />
+              <Card.Body>
+                <InputRow
+                  label={i18n("Display Name")}
+                  value={displayName}
+                  onChange={setDisplayName}
+                />
+                <InputRow
+                  label={i18n("ClassID")}
+                  value={classId}
+                  onChange={setClassId}
+                />
+              </Card.Body>
           </Card>
           <div className="spacer-vertical"/>
           <InClassOptions

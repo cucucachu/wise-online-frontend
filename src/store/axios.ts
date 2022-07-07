@@ -359,6 +359,11 @@ export async function professorGetCourseSessionDetail(courseId: string, sessionI
     return response.data;
 }
 
+export async function professorGetCourseSessionDetailForStudent(courseId: string, sessionId: string, studentId: string) {
+    const response = await backend.get(`/professor/course/${courseId}/sessions/${sessionId}/students/${studentId}`);
+    return response.data;
+}
+
 export async function professorGetCurrentSession(courseId: string) {
     const response = await backend.get(`/professor/course/${courseId}/session`);
     console.log('response', response.data)

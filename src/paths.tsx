@@ -4,6 +4,7 @@ export const paths = {
   professorInClass: path("/professor/in-class/:courseId/start"),
   professorInClassPastSessions: path("/professor/in-class/:courseId/sessions"),
   professorInClassPastSessionDetail: path("/professor/in-class/:courseId/sessions/:sessionId"),
+  professorInClassViewStudent: path("/professor/in-class/:courseId/sessions/:sessionId/students/:studentId"),
 
   professorCourseList: path('/professor/course'),
   professorEditCourse: path('/professor/course/edit/:courseId'),

@@ -40,42 +40,44 @@ export const InClassOptions: React.FC<InClassOptionsProps> = (props) => {
   }, [flagTriggers, setFlagTriggers]);
 
   return (
-    <Card className='in-class-options-card'>
-      <h5>{i18n('InClass Session Setup Options')}</h5>
-      <p>
-        {i18n('We recommend the default settings below, of 5m and 99% threshold, to prevent false-positive flags from students logging in or out of class')}
-      </p>
-      <InputRow
-        label={i18n('Begin tracking attendance after:')}
-        value={props.trackingDelay}
-        onChange={props.setTrackingDelay}
-        placeholder=''
-      />
-      <InputRow
-        label={i18n('Threshold of Engagement for Attendance')}
-        value={props.attendanceThreshold}
-        onChange={props.setAttendanceThreshold}
-        placeholder=''
-      />
-      <h5>{i18n('Flag If')}</h5>
-      <FlagRow
-        id='phone-disconnected'
-        name='Phone Disconnected'
-        onToggle={onToggleFlag}
-        checked={flagTriggers.includes('phone-disconnected')}
-      />
-      <FlagRow
-        id='non-allowed-url'
-        name='Non-Allowed URL/App Visited'
-        onToggle={onToggleFlag}
-        checked={flagTriggers.includes('non-allowed-url')}
-      />
-      <FlagRow
-        id='computer-disconnected'
-        name='Computer Disconnected'
-        onToggle={onToggleFlag}
-        checked={flagTriggers.includes('computer-disconnected')}
-      />
+    <Card>
+      <Card.Body className='in-class-options-card'>
+        <h5>{i18n('InClass Session Setup Options')}</h5>
+        <p>
+          {i18n('We recommend the default settings below, of 5m and 99% threshold, to prevent false-positive flags from students logging in or out of class')}
+        </p>
+        <InputRow
+          label={i18n('Begin tracking attendance after:')}
+          value={props.trackingDelay}
+          onChange={props.setTrackingDelay}
+          placeholder=''
+        />
+        <InputRow
+          label={i18n('Threshold of Engagement for Attendance')}
+          value={props.attendanceThreshold}
+          onChange={props.setAttendanceThreshold}
+          placeholder=''
+        />
+        <h5>{i18n('Flag If')}</h5>
+        <FlagRow
+          id='phone-disconnected'
+          name='Phone Disconnected'
+          onToggle={onToggleFlag}
+          checked={flagTriggers.includes('phone-disconnected')}
+        />
+        <FlagRow
+          id='non-allowed-url'
+          name='Non-Allowed URL/App Visited'
+          onToggle={onToggleFlag}
+          checked={flagTriggers.includes('non-allowed-url')}
+        />
+        <FlagRow
+          id='computer-disconnected'
+          name='Computer Disconnected'
+          onToggle={onToggleFlag}
+          checked={flagTriggers.includes('computer-disconnected')}
+        />
+      </Card.Body>
     </Card> 
   )
 }

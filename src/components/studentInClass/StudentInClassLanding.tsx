@@ -130,7 +130,8 @@ const InClassInstructions: React.FC<InClassInstructionsProps> = ({ setAgreedToTe
         <h1>{i18n("Join InClass")}</h1>
         <div className="row">
             <div className="col-sm">
-              <Card className='text-black'>
+              <Card>
+                <Card.Body className='text-black'>
                 <h5>{i18n('Permissions & Information')}</h5>
                 <p>
                   <b><u>{i18n('Your computer screen will be recorded and any/all intormation open on you screen will be avallable for your instructor to view during and atter through their Wise InClass application.')}</u></b>
@@ -154,6 +155,7 @@ const InClassInstructions: React.FC<InClassInstructionsProps> = ({ setAgreedToTe
                     {i18n('Enable Screen Sharing')}
                   </label>
                 </div>
+                </Card.Body>
               </Card>
             </div>
         </div>
@@ -182,11 +184,13 @@ const InClassLive: React.FC<InClassLiveProps> = ({ course }) => {
         <div className="row">
           <div className="col-sm">
             <Card className='text-black'>
-              <h5>{i18n('Keep this Window Open!')}</h5>
-              <p>
-                <b><u>{i18n('Your screen is now being recorded. Closing this window before class is over will notity your instructor. ')}</u></b>
-                {i18n('We hope you have a great class. This window will close automatically arter your Instructor ends class.')}
-              </p>
+              <Card.Body>
+                <h5>{i18n('Keep this Window Open!')}</h5>
+                <p>
+                  <b><u>{i18n('Your screen is now being recorded. Closing this window before class is over will notity your instructor. ')}</u></b>
+                  {i18n('We hope you have a great class. This window will close automatically arter your Instructor ends class.')}
+                </p>
+              </Card.Body>
             </Card>
           </div>
         </div>

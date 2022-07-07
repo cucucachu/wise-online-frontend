@@ -1,5 +1,9 @@
 @import "./config.scss";
 
+:root {
+  --wise-primary-color: #1376cc;
+}
+
 body {
   font-family: "Avenir", Arial, Helvetica, sans-serif;
   color: $primary-color;
@@ -462,6 +466,24 @@ footer {
     border: 1px solid $secondary-color;
     background-color: $danger-color;
     color: $secondary-color;
+  }
+}
+
+.btn-red {
+  background-color: rgb(255, 2, 0);
+  border: 1px solid rgb(255, 2, 0);
+  color: #fff;
+  font-size: large;
+  padding: 5px 15px;
+  border-radius: 0.5rem;
+  text-align: center;
+  // width: 100%;
+  box-shadow: 0 0 10px #999;
+  &:hover {
+    box-shadow: 0 0 5px #999;
+    border: 1px solid #fff;
+    background-color: rgb(255, 2, 0);
+    color: #fff;
   }
 }
 

@@ -57,7 +57,6 @@ export const ProfessorPastCourseSessions:  React.FC<Props> = ({ match }) => {
       fetch();
   }, []);
 
-
   if (loading) {
       return (
           <div className="container">
@@ -99,7 +98,9 @@ export const ProfessorPastCourseSessions:  React.FC<Props> = ({ match }) => {
                               <td>
                                 {calculateAttendancePercent(course!, session)}
                               </td>
-                              <td></td>
+                              <td>
+                                0
+                              </td>
                           </tr>)}
                       </tbody>
                   </table>

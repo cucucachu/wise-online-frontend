@@ -76,19 +76,21 @@ export const AllowedURLEditor: React.FC<AllowedURLTableProps> = ({ urls, onChang
 
   return (
     <Card>
-      <h4>Allowed Website URLs for Students</h4>
-      <table className="table table-striped">
-          <thead>
-              <tr>
-                  <th>URL</th>
-                  <th></th>
-              </tr>
-          </thead>
-          <tbody>
-            {urls.map(url => <AllowedURLRow key={url.id} urlEntity={url} onChange={onChangeUrl} onRemove={onRemoveUrl} />)}
-          </tbody>
-      </table>
-      <p><a onClick={handleClickAdd}>Add</a></p>
+        <Card.Body>
+            <h4>Allowed Website URLs for Students</h4>
+            <table className="table table-striped">
+                <thead>
+                    <tr>
+                        <th>URL</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {urls.map(url => <AllowedURLRow key={url.id} urlEntity={url} onChange={onChangeUrl} onRemove={onRemoveUrl} />)}
+                </tbody>
+            </table>
+            <p><a onClick={handleClickAdd}>Add</a></p>
+      </Card.Body>
     </Card>
   );
 };

@@ -19,6 +19,7 @@ import ProfessorAttendanacesView from '../components/professorAttendancesView';
 import ProfessorClassStart from '../components/professorInClass/professorStartClass';
 import {ProfessorPastCourseSessions} from '../components/professorInClass/professorPastCourseSessions';
 import {ProfessorPastCourseSessionDetail} from '../components/professorInClass/professorPastCourseSessionDetail';
+import {ProfessorInClassViewStudent} from '../components/professorInClass/ProfessorInClassViewStudent';
 import {ProfessorEditCourse} from '../components/professorCourses/ProfessorEditCourse';
 
 import AttendanaceView from '../components/AttendanceView';
@@ -248,7 +249,7 @@ class HomePage extends Component<any, any, any> {
                             <PrivateRouteProfessor path={paths.professorInClass.pattern} component={ProfessorClassStart} />
                             <PrivateRouteProfessor exact={true} path={paths.professorInClassPastSessions.pattern} component={ProfessorPastCourseSessions} />
                             <PrivateRouteProfessor exact={true} path={paths.professorInClassPastSessionDetail.pattern} component={ProfessorPastCourseSessionDetail} />
-                            
+                            <PrivateRouteProfessor exact={true} path={paths.professorInClassViewStudent.pattern} component={ProfessorInClassViewStudent} />
                             {/* <PrivateRouteProfessor 
                             path="/professor/proctoring/:courseId" 
                             render={(props) => <ViewProctoring {...props} />} /> */}
