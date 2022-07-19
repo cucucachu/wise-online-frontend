@@ -1,6 +1,5 @@
 import * as React from 'react';
-
-type EngagementGraphSeries = 'mobile' | 'connected' | 'disconnects';
+import {EngagementGraphSeries} from './types';
 
 export const useEngagementGraphToggles = () => {
   const [selectedGraphLines, setSelectedGraphLines] = React.useState<EngagementGraphSeries[]>([

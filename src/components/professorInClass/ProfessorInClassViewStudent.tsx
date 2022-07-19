@@ -2,7 +2,7 @@ import * as React from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import { format } from 'date-fns';
 import {professorGetCourseSessionDetailForStudent} from '../../store/axios';
-import { CourseSession, Student } from './types';
+import { CourseSession, Student, StudentCourseSession } from './types';
 import { Loading } from './Loading';
 import { EngagementGraph } from './EngagementGraph';
 import { Card } from '../Resusable/Card';
@@ -92,7 +92,7 @@ export const ProfessorInClassViewStudent: React.FC<ProfessorInClassViewStudentPr
           </div>
         </Card.Header>
         <Card.Body>
-            <EngagementGraph />
+          <EngagementGraph data={[]} selectedSeries={selectedGraphLines} />
         </Card.Body>
     </Card>
     <div className="spacer-vertical" />

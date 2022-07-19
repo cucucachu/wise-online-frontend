@@ -11,6 +11,8 @@ import { i18n } from 'web-translate';
 import { apiUrl } from '../../config/apiUrl';
 import { Card } from '../Resusable/Card';
 import './StudentInClassLanding.css';
+import {StudentCheckIcon} from './StudentCheckIcon';
+
 const attendClass = require('../../Assets/images/attend-class.png');
 
 type StudentInClassInSessionProps = RouteComponentProps<{
@@ -25,7 +27,7 @@ type UseScreenTrackingArgs = {
 };
 
 const useScreenTracking = ({ onReceiveTabs, screenVideoRef, screenshotCanvasRef, onTakeScreenShot }: UseScreenTrackingArgs) => {
-  const [isScreenTracking, setIsScreenTracking] = React.useState(false);
+  const [isScreenTracking, setIsScreenTracking] = React.useState(true);
   const authContext = React.useContext(AuthContext);
   const takeScreenShot = () => {
     console.log('TAKE SCREEN SHOT');
@@ -179,7 +181,9 @@ const InClassLive: React.FC<InClassLiveProps> = ({ course }) => {
         <div className="spacer-vertical" />
         <h1>{i18n("You're in ")} {course?.name}</h1>
         <div className="spacer-vertical" />
-        <div className='green-success-welcome' />
+        <div className='green-success-welcome'>
+          <StudentCheckIcon />
+        </div>
         <div className="spacer-vertical" />
         <div className="row">
           <div className="col-sm">

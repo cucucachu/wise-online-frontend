@@ -10,9 +10,10 @@ import { GraphSeriesFilter } from '../Resusable/GraphSeriesFilter';
 import { IndicatorDot } from '../Resusable/IndicatorDot';
 import { EngagementGraph } from './EngagementGraph';
 import { paths } from '../../paths';
-import { CourseSession, Student, StudentCourseSession } from './types';
+import { EngagementData, CourseSession, Student, StudentCourseSession } from './types';
 import { Loading } from './Loading';
 import { useEngagementGraphToggles } from './hooks';
+import { transformIndividualStudentSessionsIntoPoints, ByDeviceAndStudentId, flattenAndTotalEngagmentData, findLatestDisconnectTime, clampDateToBucket } from './utils';
 
 const editIcon = require('../../Assets/images/edit-icon.png');
 
@@ -64,8 +65,6 @@ type GroupedSessions = {
 }
 
 const StudentTrackingTable: React.FC<StudentTrackingTableProps> = ({ courseId, sessionId, students, studentCourseSessions }) => {
-    console.log(students, studentCourseSessions);
-
     const sessionsByStudent = React.useMemo(() => {
         const copy = [...studentCourseSessions];
         copy.sort((a, b) => {
@@ -98,7 +97,7 @@ const StudentTrackingTable: React.FC<StudentTrackingTableProps> = ({ courseId, s
             return accum;   
         }, {});
     }, [studentCourseSessions]);
-    console.log(sessionsByStudent)
+
   return (
     <Card>
         <Card.Body>
@@ -173,7 +172,7 @@ type Props = RouteComponentProps<{
     courseId: string;
 }>
 
-const POLLING_INTERVAL = 1000 * 5;
+const POLLING_INTERVAL = 1000 * 2;
 
 const ProfessorClassStart:  React.FC<Props> = ({ match, history }) => {
     const [loading, setLoading] = React.useState(true);
@@ -218,6 +217,44 @@ const ProfessorClassStart:  React.FC<Props> = ({ match, history }) => {
 
     const { onToggleGraphLine, selectedGraphLines } = useEngagementGraphToggles();
 
+  const engagementPoints: EngagementData[] | undefined = React.useMemo(() => {
+    if (courseSession) {
+      if (courseSession.studentCourseSessions.length === 0) {
+        return undefined;
+      }
+
+      const copy = [...courseSession.studentCourseSessions].map(x => ({ ...x, epoch: (new Date(x.connectedTime).getTime()) }));
+      copy.sort((a, b) => {
+        return a.epoch - b.epoch;
+      });
+
+      const lastSessionEnd = findLatestDisconnectTime(courseSession.studentCourseSessions)
+      const firstStartSessionStart = clampDateToBucket(new Date(copy[0].connectedTime));
+      const clampedLastSessionEnd = clampDateToBucket(lastSessionEnd ?? new Date());
+
+      const courseSessionsByDeviceAndStudent = courseSession.studentCourseSessions.reduce((byDeviceAndStudent: ByDeviceAndStudentId, studentCourseSession) => {
+        if (!byDeviceAndStudent[studentCourseSession.device]) {
+          byDeviceAndStudent[studentCourseSession.device] = {};
+        }
+
+        if (!byDeviceAndStudent[studentCourseSession.device][studentCourseSession.student]) {
+          byDeviceAndStudent[studentCourseSession.device][studentCourseSession.student] = [];
+        }
+
+        byDeviceAndStudent[studentCourseSession.device][studentCourseSession.student].push(studentCourseSession);
+
+        return byDeviceAndStudent;
+      }, {});
+
+        // Devices are hard coded, could be dynamic
+        const bucketedStatusesForWeb = Object.values(courseSessionsByDeviceAndStudent['web'] ?? {}).map(sessions => transformIndividualStudentSessionsIntoPoints(sessions, true, firstStartSessionStart, clampedLastSessionEnd));
+        const bucketedStatusesForMobile = Object.values(courseSessionsByDeviceAndStudent['mobile'] ?? {}).map(sessions => transformIndividualStudentSessionsIntoPoints(sessions, false, firstStartSessionStart, clampedLastSessionEnd));
+        const combinedStatuses = [...bucketedStatusesForWeb, ...bucketedStatusesForMobile];
+
+        return flattenAndTotalEngagmentData(combinedStatuses)
+    }
+  }, [courseSession]);
+
     if (loading) {
         return <Loading />
     }
@@ -258,7 +295,7 @@ const ProfessorClassStart:  React.FC<Props> = ({ match, history }) => {
                     </div>
                 </Card.Header>
                 <Card.Body>
-                    <EngagementGraph />
+                    <EngagementGraph data={engagementPoints} selectedSeries={selectedGraphLines} />
                 </Card.Body>
             </Card>
             <div className="spacer-vertical" />

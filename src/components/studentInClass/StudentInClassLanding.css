@@ -14,4 +14,11 @@
   width: 200px;
   margin: 20px auto;
   border-radius: 50%;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+}
+
+.green-success-welcome svg {
+  max-width: 60%;
 }

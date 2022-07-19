@@ -23,3 +23,12 @@ export type CourseSession = {
   students: Student[];
   course: any;
 }
+
+export type EngagementData = {
+  time: number;
+  disconnects: number;
+  mobilesConnected: number;
+  desktopsConnected: number;
+};
+
+export type EngagementGraphSeries = 'mobile' | 'connected' | 'disconnects';

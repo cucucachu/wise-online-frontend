@@ -13,6 +13,8 @@ import './Assets/css/default.min.css'
 // import './Assets/css/bootstrap-grid.min.css'
 import './Assets/css/app.css'
 import AuthContextProvider from './contexts/AuthContext';
+import * as Sentry from '@sentry/react';
+import {BrowserTracing} from '@sentry/tracing';
 
 if (process.env.NODE_ENV !== 'development') {
   Sentry.init({
