@@ -283,6 +283,7 @@ async function editCourse(courseId: string, data: {
     defaultAttendanceTrackingDelay?: number;
     defaultAttendanceThreshold?: number;
     defaultAttendanceFlags?: string[];
+    accessCode?: string,
 }) {
     if (data.integrationId === '') {
         data.integrationId = undefined;
