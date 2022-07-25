@@ -1,6 +1,6 @@
 import { EngagementData, StudentCourseSession } from './types';
 
-export const GRAPH_BUCKET_TIME_SIZE = 1 * 60 * 1000;
+export const GRAPH_BUCKET_TIME_SIZE = 0.25 * 60 * 1000;
 
 export const clampDateToBucket = (d: Date): Date => {
     const remainder = d.getTime() % GRAPH_BUCKET_TIME_SIZE;
@@ -47,7 +47,7 @@ export const transformIndividualStudentSessionsIntoPoints = (studentSessions: St
     const bucketedData: EngagementData[] = [];
     let connectedRangePointer = 0;
     let hasConnected = false;
-    console.log('in transofmr', startingTimePoint, endTimePoint)
+
     for (let timePoint = startingTimePoint.getTime(); timePoint <= endTimePoint.getTime(); timePoint += GRAPH_BUCKET_TIME_SIZE) {
         const range = connectedRanges[connectedRangePointer];
         if (!range || timePoint < range.start.getTime()) {
@@ -77,16 +77,16 @@ export const transformIndividualStudentSessionsIntoPoints = (studentSessions: St
             connectedRangePointer++;
         }
     }
-
+    console.log(bucketedData);
     return bucketedData;
 };
 
 export const flattenAndTotalEngagmentData = (bucketedData: EngagementData[][]): EngagementData[] => {
     return bucketedData[0].map((firstPoint, index) => {
         return bucketedData.map(l => l[index]).reduce((accum, point) => {
-            point.disconnects += accum.disconnects;
-            point.mobilesConnected += accum.mobilesConnected;
-            point.desktopsConnected += accum.desktopsConnected;
+            accum.disconnects += point.disconnects;
+            accum.mobilesConnected += point.mobilesConnected;
+            accum.desktopsConnected += point.desktopsConnected;
 
             return point;
         }, {

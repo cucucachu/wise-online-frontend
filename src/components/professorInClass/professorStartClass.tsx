@@ -197,7 +197,7 @@ const ProfessorClassStart:  React.FC<Props> = ({ match, history }) => {
 
         const startPolling = () => {
             return setTimeout(async () => {
-                await fetch();
+                // await fetch();
                 timer = startPolling();
             }, POLLING_INTERVAL);
         };

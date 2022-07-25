@@ -92,7 +92,7 @@ export const EngagementGraph: React.FC<EngagementGraphProps> = ({ data, selected
         datasets.push({
           fill: true,
           label: 'Mobile Connects',
-          data: data.map(p => p.disconnects),
+          data: data.map(p => p.mobilesConnected),
           backgroundColor: 'rgba(39, 169, 213, 0.4)',    
         });
       }
