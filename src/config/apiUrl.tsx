@@ -4,8 +4,8 @@
 // URL testing internal site to work in China
 // const apiUrl = "https://wiseattendchina.com/"
 
-// No Longer Used
-export const apiUrl = 'https://internal-wiseattendonline.appspot.com/' // URL for hosted backend for test
+console.log('process.env.REACT_APP_API_URL', process.env.REACT_APP_API_URL)
+export const apiUrl = process.env.REACT_APP_API_URL!;
 
 /* !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
 // const apiUrl = 'https://wiseonlineattend.appspot.com/' // DO NOT USE! URL for hosted production.

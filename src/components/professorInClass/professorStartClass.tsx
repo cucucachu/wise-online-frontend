@@ -13,7 +13,7 @@ import { paths } from '../../paths';
 import { EngagementData, CourseSession, Student, StudentCourseSession } from './types';
 import { Loading } from './Loading';
 import { useEngagementGraphToggles } from './hooks';
-import { transformIndividualStudentSessionsIntoPoints, ByDeviceAndStudentId, flattenAndTotalEngagmentData, findLatestDisconnectTime, clampDateToBucket } from './utils';
+import { createEngagementPointsForCourseSession } from './utils';
 
 const editIcon = require('../../Assets/images/edit-icon.png');
 
@@ -197,7 +197,7 @@ const ProfessorClassStart:  React.FC<Props> = ({ match, history }) => {
 
         const startPolling = () => {
             return setTimeout(async () => {
-                // await fetch();
+                await fetch();
                 timer = startPolling();
             }, POLLING_INTERVAL);
         };
@@ -219,39 +219,7 @@ const ProfessorClassStart:  React.FC<Props> = ({ match, history }) => {
 
   const engagementPoints: EngagementData[] | undefined = React.useMemo(() => {
     if (courseSession) {
-      if (courseSession.studentCourseSessions.length === 0) {
-        return undefined;
-      }
-
-      const copy = [...courseSession.studentCourseSessions].map(x => ({ ...x, epoch: (new Date(x.connectedTime).getTime()) }));
-      copy.sort((a, b) => {
-        return a.epoch - b.epoch;
-      });
-
-      const lastSessionEnd = findLatestDisconnectTime(courseSession.studentCourseSessions)
-      const firstStartSessionStart = clampDateToBucket(new Date(copy[0].connectedTime));
-      const clampedLastSessionEnd = clampDateToBucket(lastSessionEnd ?? new Date());
-
-      const courseSessionsByDeviceAndStudent = courseSession.studentCourseSessions.reduce((byDeviceAndStudent: ByDeviceAndStudentId, studentCourseSession) => {
-        if (!byDeviceAndStudent[studentCourseSession.device]) {
-          byDeviceAndStudent[studentCourseSession.device] = {};
-        }
-
-        if (!byDeviceAndStudent[studentCourseSession.device][studentCourseSession.student]) {
-          byDeviceAndStudent[studentCourseSession.device][studentCourseSession.student] = [];
-        }
-
-        byDeviceAndStudent[studentCourseSession.device][studentCourseSession.student].push(studentCourseSession);
-
-        return byDeviceAndStudent;
-      }, {});
-
-        // Devices are hard coded, could be dynamic
-        const bucketedStatusesForWeb = Object.values(courseSessionsByDeviceAndStudent['web'] ?? {}).map(sessions => transformIndividualStudentSessionsIntoPoints(sessions, true, firstStartSessionStart, clampedLastSessionEnd));
-        const bucketedStatusesForMobile = Object.values(courseSessionsByDeviceAndStudent['mobile'] ?? {}).map(sessions => transformIndividualStudentSessionsIntoPoints(sessions, false, firstStartSessionStart, clampedLastSessionEnd));
-        const combinedStatuses = [...bucketedStatusesForWeb, ...bucketedStatusesForMobile];
-
-        return flattenAndTotalEngagmentData(combinedStatuses)
+        return createEngagementPointsForCourseSession(courseSession);
     }
   }, [courseSession]);
 

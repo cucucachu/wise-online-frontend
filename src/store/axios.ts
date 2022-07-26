@@ -1,4 +1,5 @@
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
+import { createBrowserHistory } from 'history';
 import { apiUrl } from '../config/apiUrl';
 import { Course } from '../types';
 
@@ -11,6 +12,14 @@ const backend = axios.create({
     withCredentials: true,
     validateStatus: () => true,
 });
+
+backend.interceptors.response.use(response => {
+    if (response.status === 401) {
+        createBrowserHistory().push('/');
+    }
+
+    return response;
+}, (error) => error);
 
 // Alter defaults after instance has been created
 
@@ -441,8 +450,15 @@ async function studentAgreeToTerms() {
     return response;
 }
 
+const handleResponse = <T extends unknown>(response: AxiosResponse<T>) => {
+    if (response.status !== 200) {
+        throw new Error((response.data as any).error);
+    }
+}
+
 export async function studentJoinCourse({ classId, keyCode }: { classId: string, keyCode: string }) {
     const response = await backend.post('/student/courses/join', { classId, keyCode });
+    handleResponse(response);
     return response.data;
 }
 

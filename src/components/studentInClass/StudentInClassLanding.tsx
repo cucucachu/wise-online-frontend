@@ -30,7 +30,6 @@ const useScreenTracking = ({ onReceiveTabs, screenVideoRef, screenshotCanvasRef,
   const [isScreenTracking, setIsScreenTracking] = React.useState(true);
   const authContext = React.useContext(AuthContext);
   const takeScreenShot = () => {
-    console.log('TAKE SCREEN SHOT');
     const screenVideo = screenVideoRef.current;
     const screenshotCanvas = screenshotCanvasRef.current;
     if (screenshotCanvas && screenVideo) {
@@ -88,7 +87,7 @@ const useScreenTracking = ({ onReceiveTabs, screenVideoRef, screenshotCanvasRef,
     const minTime = authContext.screenshotInterval ? authContext.screenshotInterval * 1000 : 10 * 1000;
 
     let screenshotInterval: any;
-    console.log('IN EFFECT', {isScreenTracking});
+
     if (isScreenTracking) {
       screenshotInterval = setInterval(takeScreenShot, minTime);
     }

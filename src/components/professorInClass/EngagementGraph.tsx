@@ -25,7 +25,7 @@ ChartJS.register(
   Legend
 );
 
-export const options: ChartProps['options'] = {
+export const options: React.ComponentProps<typeof Line>['options'] = {
   // responsive: true,
   interaction: {
     mode: 'index' as const,
@@ -39,26 +39,11 @@ export const options: ChartProps['options'] = {
       display: false,
     },
   },
-};
-
-const labels = (new Array(13)).fill(0).map((_, i) => i * 5);
-console.log('labels', labels);
-export const data = {
-  labels,
-  datasets: [
-    {
-      fill: true,
-      label: 'Dataset 2',
-      data: labels.map(() => Math.floor(Math.random() * 100)),
-      backgroundColor: 'rgba(255, 0, 0, 0.4)',
-    },
-    {
-      fill: true,
-      label: 'Dataset 3',
-      data: labels.map(() => Math.floor(Math.random() * 100)),
-      backgroundColor: 'rgba(0, 0, 255, 0.4)',
-    },
-  ],
+  scales: {
+    y: {
+      beginAtZero: true,
+    }
+  }
 };
 
 type EngagementGraphProps = {
@@ -67,7 +52,7 @@ type EngagementGraphProps = {
 }
 
 export const EngagementGraph: React.FC<EngagementGraphProps> = ({ data, selectedSeries }) => {
-  const chartData = React.useMemo(() => {
+  const chartData: React.ComponentProps<typeof Line>['data'] = React.useMemo(() => {
     if (data) {
       const datasets = [];
       if (selectedSeries.includes('connected')) {

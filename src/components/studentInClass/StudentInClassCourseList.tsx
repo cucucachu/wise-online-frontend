@@ -11,14 +11,14 @@ import { i18n } from 'web-translate';
 import { paths } from '../../paths';
 
 export const StudentInClassCourseList: React.FC<RouteComponentProps> = ({ history }) => {
-  const [courses, setCourse] = React.useState<Course[]>([]);
-  
-  React.useEffect(() => {
-    const fetch = async () => {
-      const resp = await getStudentCourses();
-      setCourse(resp ?? []);
-    }
+  const [courses, setCourses] = React.useState<Course[]>([]);
 
+  const fetch = React.useCallback(async () => {
+    const resp = await getStudentCourses();
+    setCourses(resp ?? []);
+  }, [setCourses]);
+
+  React.useEffect(() => {
     fetch();
   }, []);
 
@@ -31,16 +31,23 @@ export const StudentInClassCourseList: React.FC<RouteComponentProps> = ({ histor
   const [keyCode4, setKeyCode4] = React.useState('');
   const handleSubmit = React.useCallback(async (e: any) => {
     e.preventDefault();
+    setJoinErrorMessage(undefined);
 
     try {
       const keyCode = [keyCode1, keyCode2, keyCode3, keyCode4].join('');
       const {course} = await studentJoinCourse({ classId, keyCode });
-      const courseId = course._id;
-      history.push(paths.studentInClassCourseDetail({ courseId }))
+      setCourses(courses.concat(course));
+      setKeyCode1('');
+      setKeyCode2('');
+      setKeyCode3('');
+      setKeyCode4('');
+      setClassId('');
+
+      await fetch();
     } catch (error) {
       setJoinErrorMessage((error as Error).message);
     }
-  }, [keyCode1, keyCode2, keyCode3, keyCode4, classId]);
+  }, [keyCode1, keyCode2, keyCode3, keyCode4, classId, fetch, courses, setCourses]);
 
   return (
     <div className="container">

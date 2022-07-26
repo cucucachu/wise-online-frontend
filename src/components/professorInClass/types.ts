@@ -1,9 +1,9 @@
 
 export type StudentCourseSession = {
   device: string;
-  screenshotViolations: string[];
+  screenshotViolations?: string[];
   connectedTime: string;
-  disconnectedTime: string;
+  disconnectedTime?: string;
   student: string;
 }
 
@@ -19,6 +19,7 @@ export type CourseSession = {
   keyCode: string;
   allowedUrls: string[];
   startTime: string;
+  endTime?: string;
   studentCourseSessions: StudentCourseSession[];
   students: Student[];
   course: any;
