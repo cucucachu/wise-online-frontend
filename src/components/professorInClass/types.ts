@@ -1,5 +1,7 @@
+import { Course } from "../../types";
 
 export type StudentCourseSession = {
+  _id: string;
   device: string;
   screenshotViolations?: string[];
   connectedTime: string;
@@ -22,7 +24,7 @@ export type CourseSession = {
   endTime?: string;
   studentCourseSessions: StudentCourseSession[];
   students: Student[];
-  course: any;
+  course: Course;
 }
 
 export type EngagementData = {
@@ -33,3 +35,14 @@ export type EngagementData = {
 };
 
 export type EngagementGraphSeries = 'mobile' | 'connected' | 'disconnects';
+
+export type StudentCourseSessions = {
+  byDevice: {
+      [device: string]: StudentCourseSession[];
+  };
+  flags: number;
+};
+
+export type GroupedSessions = {
+  [studentId: string]: StudentCourseSessions
+}

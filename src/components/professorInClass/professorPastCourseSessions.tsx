@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { professorGetCourseSessions } from "../../store/axios";
 import {paths} from "../../paths";
@@ -81,7 +81,6 @@ export const ProfessorPastCourseSessions:  React.FC<Props> = ({ match }) => {
                               <th>Date</th>
                               <th>Duration</th>
                               <th>Attendance</th>
-                              <th>Flagged Students</th>
                           </tr>
                       </thead>
                       <tbody>
@@ -97,9 +96,6 @@ export const ProfessorPastCourseSessions:  React.FC<Props> = ({ match }) => {
                               </td>
                               <td>
                                 {calculateAttendancePercent(course!, session)}
-                              </td>
-                              <td>
-                                0
                               </td>
                           </tr>)}
                       </tbody>

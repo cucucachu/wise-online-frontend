@@ -27,7 +27,7 @@ type UseScreenTrackingArgs = {
 };
 
 const useScreenTracking = ({ onReceiveTabs, screenVideoRef, screenshotCanvasRef, onTakeScreenShot }: UseScreenTrackingArgs) => {
-  const [isScreenTracking, setIsScreenTracking] = React.useState(true);
+  const [isScreenTracking, setIsScreenTracking] = React.useState(false);
   const authContext = React.useContext(AuthContext);
   const takeScreenShot = () => {
     const screenVideo = screenVideoRef.current;

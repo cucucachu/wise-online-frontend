@@ -4,7 +4,6 @@
 // URL testing internal site to work in China
 // const apiUrl = "https://wiseattendchina.com/"
 
-console.log('process.env.REACT_APP_API_URL', process.env.REACT_APP_API_URL)
 export const apiUrl = process.env.REACT_APP_API_URL!;
 
 /* !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/

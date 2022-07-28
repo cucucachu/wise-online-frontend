@@ -9,6 +9,7 @@ import {InputRow} from '../Resusable/InputRow';
 import {InClassOptions} from '../Resusable/InClassOptions';
 import { v4 as uuid } from 'uuid';
 import { paths } from '../../paths';
+import { InClassFlagAction } from '../../types';
 
 const isValid = (accessCode: string) => {
   if (accessCode.length === 0) {
@@ -29,7 +30,7 @@ export const ProfessorEditCourse: React.FC<RouteComponentProps<{ courseId: strin
 
   const [trackingDelay, setTrackingDelay] = React.useState<string>('1');
   const [attendanceThreshold, setAttendanceThreshold] = React.useState<string>('99');
-  const [flagTriggers, setFlagTriggers] = React.useState<string[]>([]);
+  const [flagTriggers, setFlagTriggers] = React.useState<InClassFlagAction[]>([]);
 
   const [errorMessage, setErrorMessage] = React.useState<string | null>(null);
 
@@ -44,7 +45,7 @@ export const ProfessorEditCourse: React.FC<RouteComponentProps<{ courseId: strin
       setDisplayName(course?.name);
       setClassId(course?.classId);
       setAllowedUrls(course?.allowedUrls?.map(url => ({ id: uuid(), url })) ?? []);
-      setIntegrationId(course?.integrationId);
+      setIntegrationId(course?.integrationId ?? "");
       setAccessCode(course?.accessCode ?? '');
 
       setTrackingDelay(course?.defaultAttendanceTrackingDelay ? `${course?.defaultAttendanceTrackingDelay}` : '1');

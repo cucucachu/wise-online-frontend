@@ -69,9 +69,9 @@ export const StudentInClassCourseList: React.FC<RouteComponentProps> = ({ histor
                 {courses.map(course => (
                   <tr key={course.id}>
                     <td>{course.name}</td>
-                    <td>Professor {course.professor?.lastName}</td>
+                    <td>Professor {(course.professor as any)?.lastName}</td>
                     <td>
-                      {course.isInSession && <a href={paths.studentInClassCourseDetail({courseId: course.id })}>Attend Class</a>}
+                      {course.isInSession && <a href={paths.studentInClassCourseDetail({courseId: course.id! })}>Attend Class</a>}
                     </td>
                   </tr>
                 ))}

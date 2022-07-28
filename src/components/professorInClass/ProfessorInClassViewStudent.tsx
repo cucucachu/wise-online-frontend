@@ -2,13 +2,14 @@ import * as React from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import { format } from 'date-fns';
 import {professorGetCourseSessionDetailForStudent} from '../../store/axios';
-import { CourseSession, Student, StudentCourseSession } from './types';
+import { CourseSession, Student, EngagementData } from './types';
 import { Loading } from './Loading';
 import { EngagementGraph } from './EngagementGraph';
 import { Card } from '../Resusable/Card';
 import {GraphSeriesFilter} from '../Resusable/GraphSeriesFilter';
 import {OutlineButton} from '../Resusable/OutlineButton';
 import { useEngagementGraphToggles } from './hooks';
+import {createEngagementPointsForCourseSession} from './utils';
 
 const editIcon = require('../../Assets/images/edit-icon.png');
 
@@ -38,6 +39,13 @@ export const ProfessorInClassViewStudent: React.FC<ProfessorInClassViewStudentPr
   }, []);
 
   const { onToggleGraphLine, selectedGraphLines } = useEngagementGraphToggles();
+
+
+  const engagementPoints: EngagementData[] | undefined = React.useMemo(() => {
+    if (courseSession) {
+        return createEngagementPointsForCourseSession(courseSession);
+    }
+  }, [courseSession]);
 
   if (loading || !courseSession) {
     return <Loading />;
@@ -92,7 +100,7 @@ export const ProfessorInClassViewStudent: React.FC<ProfessorInClassViewStudentPr
           </div>
         </Card.Header>
         <Card.Body>
-          <EngagementGraph data={[]} selectedSeries={selectedGraphLines} />
+          <EngagementGraph data={engagementPoints} selectedSeries={selectedGraphLines} />
         </Card.Body>
     </Card>
     <div className="spacer-vertical" />

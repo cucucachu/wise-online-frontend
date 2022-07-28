@@ -42,6 +42,8 @@ export const options: React.ComponentProps<typeof Line>['options'] = {
   scales: {
     y: {
       beginAtZero: true,
+      min: 0,
+
     }
   }
 };

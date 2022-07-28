@@ -34,7 +34,7 @@ class CourseCard extends Component<CourseCardProps, CourseCardState> {
         this.state = {
             classId: props.course.classId,
             name: props.course.name,
-            integrationId: props.course.integrationId,
+            integrationId: props.course.integrationId ?? '',
             editing: false,
             deleting: false,
         };

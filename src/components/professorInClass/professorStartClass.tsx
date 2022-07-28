@@ -7,131 +7,14 @@ import { professorStopCourseSession, professorGetCurrentSession, professorStartC
 import { Card } from '../Resusable/Card';
 import { AllowedURLEditor } from '../Resusable/AllowedURLEditor';
 import { GraphSeriesFilter } from '../Resusable/GraphSeriesFilter';
-import { IndicatorDot } from '../Resusable/IndicatorDot';
 import { EngagementGraph } from './EngagementGraph';
-import { paths } from '../../paths';
-import { EngagementData, CourseSession, Student, StudentCourseSession } from './types';
+import { EngagementData, CourseSession } from './types';
 import { Loading } from './Loading';
 import { useEngagementGraphToggles } from './hooks';
 import { createEngagementPointsForCourseSession } from './utils';
+import {StudentTrackingTable} from './InClass/StudentTrackingTable';
 
 const editIcon = require('../../Assets/images/edit-icon.png');
-
-type StudentTrackingTableProps = {
-    courseId: string;
-    sessionId?: string;
-    students: Student[];
-    studentCourseSessions: StudentCourseSession[];
-}
-
-const ActiveStatus: React.FC<{ studentSessions: StudentCourseSessions, device: string }> = ({ studentSessions, device }) => {
-    const sessionsForDevice = studentSessions?.byDevice[device] ?? [];
-
-    if (sessionsForDevice?.length) {
-        if (sessionsForDevice[sessionsForDevice.length - 1].disconnectedTime) {
-            return (
-                <div>
-                    <IndicatorDot color='red' />
-                    Disconnected
-                </div>
-            );
-        }
-
-        return (
-            <div>
-                <IndicatorDot color='green' />
-                Online
-            </div>
-        )
-    }
-
-    return (
-        <div>
-            <IndicatorDot color='gray' />
-            Not entered
-        </div>
-    )
-}
-
-type StudentCourseSessions = {
-    byDevice: {
-        [device: string]: StudentCourseSession[];
-    };
-    flags: number;
-};
-
-type GroupedSessions = {
-    [studentId: string]: StudentCourseSessions
-}
-
-const StudentTrackingTable: React.FC<StudentTrackingTableProps> = ({ courseId, sessionId, students, studentCourseSessions }) => {
-    const sessionsByStudent = React.useMemo(() => {
-        const copy = [...studentCourseSessions];
-        copy.sort((a, b) => {
-            if (!a.disconnectedTime) {
-                return 1;
-            }
-
-            if (!b.disconnectedTime) {
-                return -1;
-            }
-
-            return (new Date(a.disconnectedTime)).getTime() - (new Date(b.disconnectedTime)).getTime()
-        });
-
-        return copy.reduce((accum: GroupedSessions, session) => {
-            if (!accum[session.student]) {
-                accum[session.student] = {
-                    byDevice: {},
-                    flags: 0,
-                };
-            }
-
-            if (!accum[session.student].byDevice[session.device]) {
-                accum[session.student].byDevice[session.device] = []
-            }
-
-            accum[session.student].byDevice[session.device].push(session);
-            accum[session.student].flags += session.screenshotViolations?.length ?? 0;
-
-            return accum;   
-        }, {});
-    }, [studentCourseSessions]);
-
-  return (
-    <Card>
-        <Card.Body>
-      <table className="table table-striped">
-          <thead>
-              <tr>
-                  <th>Student</th>
-                  <th>Computer</th>
-                  <th>Mobile</th>
-                  <th>Flags</th>
-              </tr>
-          </thead>
-          <tbody>
-            {students.map((student) => 
-                <tr key={student._id}> 
-                  <td>
-                    <Link to={paths.professorInClassViewStudent({ courseId: courseId!, sessionId: sessionId!, studentId: student._id })}>{student.firstName} {student.lastName}</Link>
-                  </td>
-                  <td>
-                    <ActiveStatus studentSessions={sessionsByStudent && sessionsByStudent[student._id]} device='web' />
-                  </td>
-                  <td>
-                    <ActiveStatus studentSessions={sessionsByStudent && sessionsByStudent[student._id]} device='mobile' />
-                  </td>
-                  <td>
-                    {sessionsByStudent[student._id]?.flags ?? 0}
-                  </td>
-              </tr>)}
-          </tbody>
-      </table>
-      </Card.Body>
-    </Card>
-  )
-}
 
 type AllowedURLEntity = {
     id: string;
@@ -163,6 +46,7 @@ const InClassAllowedURLTable: React.FC<AllowedURLTableProps> = ({ courseId, allo
   return (
     <>
         <AllowedURLEditor urls={urls} onChangeUrls={setUrls} />
+        <div className="spacer-vertical" />
         {saving ? <p>Saving...</p> : <button type='button' onClick={handleClickSave} className="btn">{i18n("Save")}</button>}
     </>
   );
@@ -178,19 +62,24 @@ const ProfessorClassStart:  React.FC<Props> = ({ match, history }) => {
     const [loading, setLoading] = React.useState(true);
     const [courseSession, setCourseSession] = React.useState<CourseSession | null>();
     const {courseId} = match.params;
+    const [error, setError] = React.useState<string | undefined>();
 
     React.useEffect(() => {
         const fetch = async () => {
-            const {courseSession} = await professorGetCurrentSession(courseId);
-            if (!courseSession) {
-                const resp = await professorStartCourseSession(courseId);
-                setCourseSession(resp);
-                setLoading(false);
-                return;
+            try  {
+                const {courseSession} = await professorGetCurrentSession(courseId);
+                if (!courseSession) {
+                    const resp = await professorStartCourseSession(courseId);
+                    setCourseSession(resp);
+                    setLoading(false);
+                    return;
+                }
+    
+                setCourseSession(courseSession);
+                setLoading(false);    
+            } catch (err) {
+                setError((err as Error).message);
             }
-
-            setCourseSession(courseSession);
-            setLoading(false);
         };
 
         fetch();
@@ -269,7 +158,7 @@ const ProfessorClassStart:  React.FC<Props> = ({ match, history }) => {
             <div className="spacer-vertical" />
             <div className="row">
                 <div className="col-sm">
-                    <StudentTrackingTable courseId={courseId} sessionId={courseSession?.id} students={courseSession?.students ?? []} studentCourseSessions={courseSession?.studentCourseSessions ?? []} />
+                    <StudentTrackingTable course={courseSession?.course} courseId={courseId} sessionId={courseSession?.id} students={courseSession?.students ?? []} studentCourseSessions={courseSession?.studentCourseSessions ?? []} />
                 </div>
             </div>
             <div className="spacer-vertical" />

@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Card} from '../Card';
 import { i18n } from 'web-translate';
 import {InputRow} from '../InputRow';
+import {InClassFlagAction} from '../../../types';
 import './InClassOptions.css';
 
 type InClassOptionsProps = {
@@ -11,11 +12,11 @@ type InClassOptionsProps = {
   attendanceThreshold: string;
   setAttendanceThreshold(value: string): void;
 
-  flagTriggers: string[];
-  setFlagTriggers(triggers: string[]): void;
+  flagTriggers: InClassFlagAction[];
+  setFlagTriggers(triggers: InClassFlagAction[]): void;
 }
 
-const FlagRow: React.FC<{ id: string, name: string, checked: boolean, onToggle(id: string, checked: boolean): void }> = (props) => {
+const FlagRow: React.FC<{ id: InClassFlagAction, name: string, checked: boolean, onToggle(id: InClassFlagAction, checked: boolean): void }> = (props) => {
   return (
     <div>
       <label className='in-class-flag-row' htmlFor={props.id}>
@@ -28,7 +29,7 @@ const FlagRow: React.FC<{ id: string, name: string, checked: boolean, onToggle(i
 
 export const InClassOptions: React.FC<InClassOptionsProps> = (props) => {
   const { flagTriggers, setFlagTriggers } = props;
-  const onToggleFlag = React.useCallback((flag: string, checked: boolean) => {
+  const onToggleFlag = React.useCallback((flag: InClassFlagAction, checked: boolean) => {
     const newFlagTriggers = new Set(flagTriggers);
     if (checked) {
       newFlagTriggers.add(flag);
@@ -51,31 +52,33 @@ export const InClassOptions: React.FC<InClassOptionsProps> = (props) => {
           value={props.trackingDelay}
           onChange={props.setTrackingDelay}
           placeholder=''
+          unitLabel='m'
         />
         <InputRow
           label={i18n('Threshold of Engagement for Attendance')}
           value={props.attendanceThreshold}
           onChange={props.setAttendanceThreshold}
           placeholder=''
+          unitLabel='%'
         />
         <h5>{i18n('Flag If')}</h5>
         <FlagRow
-          id='phone-disconnected'
+          id={InClassFlagAction.phoneDisconnected}
           name='Phone Disconnected'
           onToggle={onToggleFlag}
-          checked={flagTriggers.includes('phone-disconnected')}
+          checked={flagTriggers.includes(InClassFlagAction.phoneDisconnected)}
         />
         <FlagRow
-          id='non-allowed-url'
+          id={InClassFlagAction.nonAllowedUrl}
           name='Non-Allowed URL/App Visited'
           onToggle={onToggleFlag}
-          checked={flagTriggers.includes('non-allowed-url')}
+          checked={flagTriggers.includes(InClassFlagAction.nonAllowedUrl)}
         />
         <FlagRow
-          id='computer-disconnected'
+          id={InClassFlagAction.computerDisconnected}
           name='Computer Disconnected'
           onToggle={onToggleFlag}
-          checked={flagTriggers.includes('computer-disconnected')}
+          checked={flagTriggers.includes(InClassFlagAction.computerDisconnected)}
         />
       </Card.Body>
     </Card> 

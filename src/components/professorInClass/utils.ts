@@ -114,9 +114,12 @@ export const flattenAndTotalEngagmentData = (bucketedData: EngagementData[][]): 
             accum.mobilesConnected += point.mobilesConnected;
             accum.desktopsConnected += point.desktopsConnected;
 
-            return point;
+            return accum;
         }, {
             ...firstPoint,
+            disconnects: 0,
+            mobilesConnected: 0,
+            desktopsConnected: 0,
         });
     });
 };
@@ -153,10 +156,12 @@ export const createEngagementPointsForCourseSession = (courseSession: CourseSess
 
     return byDeviceAndStudent;
   }, {});
-
+  console.log(courseSessionsByDeviceAndStudent);
     // Devices are hard coded, could be dynamic
     const bucketedStatusesForWeb = Object.values(courseSessionsByDeviceAndStudent['web'] ?? {}).map(sessions => transformIndividualStudentSessionsIntoPoints(sessions, true, firstStartSessionStart, clampedLastSessionEnd, bucketSizeInSeconds));
     const bucketedStatusesForMobile = Object.values(courseSessionsByDeviceAndStudent['mobile'] ?? {}).map(sessions => transformIndividualStudentSessionsIntoPoints(sessions, false, firstStartSessionStart, clampedLastSessionEnd, bucketSizeInSeconds));
+    // console.log(bucketedStatusesForWeb);
+    // console.log(bucketedStatusesForMobile, '\n\n');
     const combinedStatuses = [...bucketedStatusesForWeb, ...bucketedStatusesForMobile];
     if (combinedStatuses.length === 0) {
         return createEmptyEngagementPoints(firstStartSessionStart, clampedLastSessionEnd, bucketSizeInSeconds);

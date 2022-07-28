@@ -1,23 +1,30 @@
 
 export type Course = {
   _id: string;
-  id: string;
+  id?: string;
   classId: string;
   name: string;
-  integrationId: string;
-  attendances: any[];
-  tests: any[];
+  integrationId?: string;
+  attendances?: any[];
+  tests?: any[];
   isInSession: boolean;
   accessCode: string | null;
   students?: any[];
   allowedUrls?: string[];
-  professor: Professor;
+  professor: Professor | string;
 
   defaultAttendanceTrackingDelay?: number;
   defaultAttendanceThreshold?: number;
-  defaultAttendanceFlags?: string[];
+  defaultAttendanceFlags?: InClassFlagAction[];
 };
+
 type Professor = {
   firstName: string;
   lastName: string;
+}
+
+export enum InClassFlagAction {
+  phoneDisconnected = 'phone-disconnected',
+  nonAllowedUrl = 'non-allowed-url',
+  computerDisconnected = 'computer-disconnected',
 }
