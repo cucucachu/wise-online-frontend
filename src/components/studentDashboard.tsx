@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import { Link } from "react-router-dom";
 
 import studentDashIcon from '../Assets/images/student-dash-icon.png';
-import tickIcon from '../Assets/images/tick-icon-white.svg'
+import tickIcon from '../Assets/images/start-class.svg'
 import editIcon from '../Assets/images/edit-icon-white.svg'
 
 import { i18n } from 'web-translate';
