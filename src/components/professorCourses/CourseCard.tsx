@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { Link } from "react-router-dom"
 
-import tickIcon from '../../Assets/images/tick-icon-white.svg'
+import tickIcon from '../../Assets/images/start-class.svg'
 import settingIcon from '../../Assets/images/settings.svg'
 import editIcon from '../../Assets/images/edit-icon-white.svg'
 import viewIcon from '../../Assets/images/eye-icon-white.svg'
-import bookIcon from '../../Assets/images/book.svg'
+import bookIcon from '../../Assets/images/book-icon.svg'
 
 import { downloadDataForCourseURL } from '../../store/axios';
 
