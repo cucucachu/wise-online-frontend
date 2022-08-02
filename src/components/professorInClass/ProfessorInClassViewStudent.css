@@ -1,0 +1,16 @@
+
+.in-class-flag-report-row {
+  display: flex;
+  flex-direction: row;
+  font-size: 1.8rem;
+  color: #000;
+}
+
+.in-class-flag-report-label {
+  
+}
+
+.in-class-flag-report-value {
+  text-align: right;
+  flex-grow: 1;
+}

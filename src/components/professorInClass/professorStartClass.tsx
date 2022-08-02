@@ -12,7 +12,7 @@ import { EngagementData, CourseSession } from './types';
 import { Loading } from './Loading';
 import { useEngagementGraphToggles } from './hooks';
 import { createEngagementPointsForCourseSession } from './utils';
-import {StudentTrackingTable} from './InClass/StudentTrackingTable';
+import {LiveStudentTrackingTable} from './InClass/LiveStudentTrackingTable';
 
 const editIcon = require('../../Assets/images/edit-icon.png');
 
@@ -158,7 +158,7 @@ const ProfessorClassStart:  React.FC<Props> = ({ match, history }) => {
             <div className="spacer-vertical" />
             <div className="row">
                 <div className="col-sm">
-                    <StudentTrackingTable course={courseSession?.course} courseId={courseId} sessionId={courseSession?.id} students={courseSession?.students ?? []} studentCourseSessions={courseSession?.studentCourseSessions ?? []} />
+                    <LiveStudentTrackingTable course={courseSession?.course} courseId={courseId} sessionId={courseSession?.id} students={courseSession?.students ?? []} studentCourseSessions={courseSession?.studentCourseSessions ?? []} />
                 </div>
             </div>
             <div className="spacer-vertical" />

@@ -8,6 +8,7 @@ import {EngagementGraph} from './EngagementGraph';
 import {useEngagementGraphToggles} from './hooks';
 import { createEngagementPointsForCourseSession } from './utils';
 import { EngagementData, CourseSession } from './types';
+import {PastStudentTrackingTable} from './InClass/PastStudentTrackingTable';
 
 const editIcon = require('../../Assets/images/edit-icon.png');
 // 
@@ -97,6 +98,12 @@ export const ProfessorPastCourseSessionDetail:  React.FC<Props> = ({ match }) =>
                   <EngagementGraph data={engagementPoints} selectedSeries={selectedGraphLines} />
               </Card.Body>
           </Card>
+          <div className="spacer-vertical" />
+        <div className="row">
+            <div className="col-sm">
+                <PastStudentTrackingTable course={courseSession?.course} courseId={courseId} sessionId={courseSession?.id} students={courseSession?.students ?? []} studentCourseSessions={courseSession?.studentCourseSessions ?? []} />
+            </div>
+        </div>
           <div className="spacer-vertical" />
           <div className="row">
               <div className="col-sm">
