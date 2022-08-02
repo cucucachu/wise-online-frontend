@@ -1,7 +1,6 @@
 import * as React from 'react';
 import CourseCard from './CourseCard';
 import NewCourseCard from './newCourseCard';
-
 function CourseCardRow (props: any) {
     return (
         <div className="row">
@@ -26,10 +25,6 @@ function CourseCardRow (props: any) {
                     if (props.lastRow) {
                         return (
                             <NewCourseCard
-                                inputStype={props.inputStype}
-                                handleChangeID={props.handleChangeID}
-                                handleChangeName={props.handleChangeName}
-                                handleSubmit={props.handleSubmitNewCourse}
                             />
                         )
                     }

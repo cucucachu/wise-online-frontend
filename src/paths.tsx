@@ -8,6 +8,7 @@ export const paths = {
 
   professorCourseList: path('/professor/course'),
   professorEditCourse: path('/professor/course/edit/:courseId'),
+  professorAddCourse: path('/professor/course/add'),
 
   studentInClassCourseList: path('/student/in-class/courses'),
   studentInClassCourseDetail: path('/student/in-class/courses/:courseId'),

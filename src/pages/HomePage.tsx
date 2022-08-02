@@ -21,6 +21,7 @@ import {ProfessorPastCourseSessions} from '../components/professorInClass/profes
 import {ProfessorPastCourseSessionDetail} from '../components/professorInClass/professorPastCourseSessionDetail';
 import {ProfessorInClassViewStudent} from '../components/professorInClass/ProfessorInClassViewStudent';
 import {ProfessorEditCourse} from '../components/professorCourses/ProfessorEditCourse';
+import {ProfessorAddCourse} from '../components/professorCourses/ProfessorAddCourse';
 
 import AttendanaceView from '../components/AttendanceView';
 import ProfessorClaim from '../components/professorClaim';
@@ -230,6 +231,8 @@ class HomePage extends Component<any, any, any> {
                             <Route path="/professor/reset-success" component={ProfessorResetPWSuccess} />
                             <PrivateRouteProfessor exact={true} path={paths.professorCourseList.pattern} component={ProfessorCourse} />
                             <PrivateRouteProfessor path={paths.professorEditCourse.pattern} component={ProfessorEditCourse} />
+                            <PrivateRouteProfessor path={paths.professorAddCourse.pattern} component={ProfessorAddCourse} />
+
                             <Route path="/professor/claim-account" component={ProfessorClaim} />
                             {/* <PrivateRouteProfessor path="/professor/claim-account-success" component={ProfessorClaimSuccess} /> */}
                             <Route path="/professor/claim-account-success" component={ProfessorClaimSuccess} />
