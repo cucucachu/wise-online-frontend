@@ -3,7 +3,7 @@ import { RouteComponentProps, Link } from 'react-router-dom';
 //axios
 import { i18n } from 'web-translate';
 import { v4 as uuid } from 'uuid';
-import { professorStopCourseSession, professorGetCurrentSession, professorStartCourseSession, professorUpdateCourseSession } from "../../store/axios";
+import {getCourse, professorStopCourseSession, professorGetCurrentSession, professorStartCourseSession, professorUpdateCourseSession } from "../../store/axios";
 import { Card } from '../Resusable/Card';
 import { AllowedURLEditor } from '../Resusable/AllowedURLEditor';
 import { GraphSeriesFilter } from '../Resusable/GraphSeriesFilter';
@@ -13,6 +13,8 @@ import { Loading } from './Loading';
 import { useEngagementGraphToggles } from './hooks';
 import { createEngagementPointsForCourseSession } from './utils';
 import {LiveStudentTrackingTable} from './InClass/LiveStudentTrackingTable';
+import { InClassOptions } from '../Resusable/InClassOptions';
+import { Course, InClassFlagAction } from '../../types';
 
 const editIcon = require('../../Assets/images/edit-icon.png');
 
@@ -58,63 +60,20 @@ type Props = RouteComponentProps<{
 
 const POLLING_INTERVAL = 1000 * 2;
 
-const ProfessorClassStart:  React.FC<Props> = ({ match, history }) => {
-    const [loading, setLoading] = React.useState(true);
-    const [courseSession, setCourseSession] = React.useState<CourseSession | null>();
-    const {courseId} = match.params;
-    const [error, setError] = React.useState<string | undefined>();
+type InSessionInClassProps = {
+    courseSession: CourseSession;
+    stopSession(): void;
+    courseId: string;
+}
 
-    React.useEffect(() => {
-        const fetch = async () => {
-            try  {
-                const {courseSession} = await professorGetCurrentSession(courseId);
-                if (!courseSession) {
-                    const resp = await professorStartCourseSession(courseId);
-                    setCourseSession(resp);
-                    setLoading(false);
-                    return;
-                }
-    
-                setCourseSession(courseSession);
-                setLoading(false);    
-            } catch (err) {
-                setError((err as Error).message);
-            }
-        };
-
-        fetch();
-
-        const startPolling = () => {
-            return setTimeout(async () => {
-                await fetch();
-                timer = startPolling();
-            }, POLLING_INTERVAL);
-        };
-
-        let timer = startPolling();
-
-        return () => {
-            clearTimeout(timer);
-        }
-    }, []);
-
-    const stopSession = React.useCallback(async () => {
-        setLoading(true);
-        await professorStopCourseSession(courseId);
-        history.push('/professor/course');
-    }, [courseId, history]);
-
+const InSessionInClass: React.FC<InSessionInClassProps> = ({ courseId, courseSession, stopSession }) => {
     const { onToggleGraphLine, selectedGraphLines } = useEngagementGraphToggles();
 
-  const engagementPoints: EngagementData[] | undefined = React.useMemo(() => {
+    const engagementPoints: EngagementData[] | undefined = React.useMemo(() => {
     if (courseSession) {
         return createEngagementPointsForCourseSession(courseSession);
     }
-  }, [courseSession]);
-
-    if (loading) {
-        return <Loading />
-    }
+    }, [courseSession]);
 
     return(
         <div className="container">
@@ -172,6 +131,141 @@ const ProfessorClassStart:  React.FC<Props> = ({ match, history }) => {
             <div className="spacer-vertical" />
         </div>
     )
+}
+
+type SessionStartParams = {
+    trackingDelay: number;
+    attendanceThreshold: number;
+    flagTriggers: InClassFlagAction[];
+    urls: string[];
+};
+
+type StartInClassSessionProps = {
+    course: Course;
+    startSession(data: SessionStartParams): void;
+};
+
+const StartInClassSession: React.FC<StartInClassSessionProps> = ({ course, startSession }) => {
+    const [trackingDelay, setTrackingDelay] = React.useState<string>(course?.defaultAttendanceTrackingDelay ? `${course?.defaultAttendanceTrackingDelay}` : '1');
+    const [attendanceThreshold, setAttendanceThreshold] = React.useState<string>(course?.defaultAttendanceThreshold ? `${course?.defaultAttendanceThreshold}` : '99');
+    const [flagTriggers, setFlagTriggers] = React.useState<InClassFlagAction[]>(course?.defaultAttendanceFlags ?? []);
+    const [urls, setUrls] = React.useState<AllowedURLEntity[]>(course?.allowedUrls?.map(url => ({ id: uuid(), url })) ?? []);
+
+    const onSubmit: React.FormEventHandler<HTMLFormElement> = React.useCallback(e => {
+        e.preventDefault();
+
+        startSession({
+            trackingDelay: Number(trackingDelay),
+            attendanceThreshold: Number(attendanceThreshold),
+            flagTriggers,
+            urls: urls.map(u => u.url),
+        })
+    }, [startSession, trackingDelay, attendanceThreshold, flagTriggers, urls]);
+
+    return(
+        <div className="container">
+            <img src={editIcon} className="page-icon" alt="login icon"/>
+            <div className="spacer-vertical" />
+            <h3 className='text-black'>Start InClass Session</h3>
+            <div className="spacer-vertical" />
+            <form onSubmit={onSubmit}>
+                <div className="row">
+                    <div className="col-sm">
+                        <InClassOptions
+                            trackingDelay={trackingDelay}
+                            setTrackingDelay={setTrackingDelay}
+                            attendanceThreshold={attendanceThreshold}
+                            setAttendanceThreshold={setAttendanceThreshold}
+                            flagTriggers={flagTriggers}
+                            setFlagTriggers={setFlagTriggers}
+                        />
+                    </div>
+                </div>
+                <div className="spacer-vertical" />
+                <div className="row">
+                    <div className="col-sm">
+                        <AllowedURLEditor urls={urls} onChangeUrls={setUrls} />
+                        <div className="spacer-vertical" />
+                    </div>
+                </div>
+                <div className="spacer-vertical" />
+                <div className="">
+                    <input type="submit" className="btn" value={i18n("Begin InClass")} />
+                </div>
+            </form>
+        </div>
+    )
+};
+
+const ProfessorClassStart:  React.FC<Props> = ({ match, history }) => {
+    const [loading, setLoading] = React.useState(true);
+    const [course, setCourse] = React.useState<Course | null>();
+    const [courseSession, setCourseSession] = React.useState<CourseSession | null>();
+    const {courseId} = match.params;
+    const [error, setError] = React.useState<string | undefined>();
+
+    React.useEffect(() => {
+        const fetch = async () => {
+            try  {
+                const course = await getCourse(courseId);
+                setCourse(course);
+
+                const courseSessionResponse = await professorGetCurrentSession(courseId);
+                setCourseSession(courseSessionResponse.courseSession);
+
+                setLoading(false);    
+            } catch (err) {
+                setError((err as Error).message);
+            }
+        };
+
+        fetch();
+
+        const startPolling = () => {
+            return setTimeout(async () => {
+                await fetch();
+                timer = startPolling();
+            }, POLLING_INTERVAL);
+        };
+
+        let timer = startPolling();
+
+        return () => {
+            clearTimeout(timer);
+        }
+    }, []);
+
+    const startSession = React.useCallback(async (data: SessionStartParams) => {
+        try {
+            setLoading(true);
+            const newSession = await professorStartCourseSession(courseId, data);
+            setCourseSession(newSession);
+            setLoading(false);
+        } catch (err) {
+            setError(err as any);
+        }
+    }, [courseId, history]);
+
+    const stopSession = React.useCallback(async () => {
+        setLoading(true);
+        await professorStopCourseSession(courseId);
+        history.push('/professor/course');
+    }, [courseId, history]);
+
+    if (loading || error) {
+        return <Loading />
+    }
+
+    if (courseSession) {
+        return <InSessionInClass courseId={courseId} courseSession={courseSession} stopSession={stopSession} />
+    }
+
+    return (
+        <StartInClassSession
+            course={course!}
+            startSession={startSession}
+        />
+    );
 }
 
 export default ProfessorClassStart;

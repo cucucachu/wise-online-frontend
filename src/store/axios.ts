@@ -1,7 +1,7 @@
 import axios, { AxiosResponse } from 'axios';
 import { createBrowserHistory } from 'history';
 import { apiUrl } from '../config/apiUrl';
-import { Course } from '../types';
+import { Course, InClassFlagAction } from '../types';
 
 axios.defaults.withCredentials = true
 
@@ -382,8 +382,13 @@ export async function professorGetCurrentSession(courseId: string) {
     return response.data;
 }
 
-export async function professorStartCourseSession(courseId: string) {
-    const response = await backend.post(`/professor/course/${courseId}/session`);
+export async function professorStartCourseSession(courseId: string, params: {
+    trackingDelay: number;
+    attendanceThreshold: number;
+    flagTriggers: InClassFlagAction[];
+    urls: string[];
+}) {
+    const response = await backend.post(`/professor/course/${courseId}/session`, params);
     handleResponse(response);
     return response.data;
 }
