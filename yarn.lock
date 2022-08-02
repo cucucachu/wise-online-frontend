@@ -3864,10 +3864,15 @@
   "resolved" "https://registry.npmjs.org/char-regex/-/char-regex-2.0.1.tgz"
   "version" "2.0.1"
 
-"chart.js@^3.5.0", "chart.js@^3.8.0":
+"chart.js@^3.0.0", "chart.js@^3.5.0", "chart.js@^3.8.0":
   "integrity" "sha512-cr8xhrXjLIXVLOBZPkBZVF6NDeiVIrPLHcMhnON7UufudL+CNeRrD+wpYanswlm8NpudMdrt3CHoLMQMxJhHRg=="
   "resolved" "https://registry.npmjs.org/chart.js/-/chart.js-3.8.0.tgz"
   "version" "3.8.0"
+
+"chartjs-adapter-date-fns@^2.0.0":
+  "integrity" "sha512-rmZINGLe+9IiiEB0kb57vH3UugAtYw33anRiw5kS2Tu87agpetDDoouquycWc9pRsKtQo5j+vLsYHyr8etAvFw=="
+  "resolved" "https://registry.npmjs.org/chartjs-adapter-date-fns/-/chartjs-adapter-date-fns-2.0.0.tgz"
+  "version" "2.0.0"
 
 "check-types@^11.1.1":
   "integrity" "sha512-tzWzvgePgLORb9/3a0YenggReLKAIb2owL03H2Xdoe5pKcUyWRSEQ8xfCar8t2SIAuEDwtmx2da1YB52YuHQMQ=="

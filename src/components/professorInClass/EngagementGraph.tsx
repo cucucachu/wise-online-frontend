@@ -3,6 +3,7 @@ import {
   Chart as ChartJS,
   CategoryScale,
   LinearScale,
+  TimeScale,
   PointElement,
   LineElement,
   Title,
@@ -13,11 +14,12 @@ import {
 import { Line, ChartProps } from 'react-chartjs-2';
 import {EngagementGraphSeries, EngagementData} from './types';
 import { format } from 'date-fns';
-
+import 'chartjs-adapter-date-fns';
 ChartJS.register(
   CategoryScale,
   LinearScale,
   PointElement,
+  TimeScale,
   LineElement,
   Title,
   Tooltip,
@@ -44,6 +46,12 @@ export const options: React.ComponentProps<typeof Line>['options'] = {
       beginAtZero: true,
       min: 0,
 
+    },
+    x: {
+        type: 'time',
+        time: {
+            unit: 'minute'
+        }
     }
   }
 };
@@ -86,7 +94,7 @@ export const EngagementGraph: React.FC<EngagementGraphProps> = ({ data, selected
 
       return {
         labels: data.map(point => {
-          return format(new Date(point.time), 'h:mm');
+          return new Date(point.time);
         }),
         datasets,
       }
