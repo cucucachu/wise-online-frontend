@@ -249,8 +249,36 @@ async function adminAddProfessors(professors: any) {
     Professor Routes
 ------------------------------------------*/
 
-async function createCourse(name: string, classId: string, students?: string) {
-    const response = await backend.post('professor/createCourse', {name, classId, students});
+type CourseAPIData = {
+    name: string,
+    classId: string,
+    integrationId: string | null | undefined,
+    allowedUrls?: string[],
+    defaultAttendanceTrackingDelay?: number;
+    defaultAttendanceThreshold?: number;
+    defaultAttendanceFlags?: string[];
+    accessCode?: string,
+};
+
+type AddCourseAPIData = CourseAPIData & { students?: string[] };
+
+async function createCourse(data: AddCourseAPIData) {
+    if (data.integrationId === '') {
+        data.integrationId = undefined;
+    }
+
+    const response = await backend.post('professor/createCourse', data);
+    handleResponse(response);
+    return response;
+}
+
+async function editCourse(courseId: string, data: CourseAPIData) {
+    if (data.integrationId === '') {
+        data.integrationId = undefined;
+    }
+
+    const response = await backend.post('professor/editCourse', {id: courseId, ...data});
+    handleResponse(response);
     return response;
 }
 
@@ -282,24 +310,6 @@ async function editAttendance(courseId: string, attendanceId: string, studentsPr
 
 async function setAttendanceReadyForIntegration(courseId: string, attendanceId: string) {
     return backend.post(`/professor/courses/${courseId}/attendances/${attendanceId}/readyForIntegration`);
-}
-
-async function editCourse(courseId: string, data: {
-    name: string,
-    classId: string,
-    integrationId: string | null | undefined,
-    allowedUrls?: string[],
-    defaultAttendanceTrackingDelay?: number;
-    defaultAttendanceThreshold?: number;
-    defaultAttendanceFlags?: string[];
-    accessCode?: string,
-}) {
-    if (data.integrationId === '') {
-        data.integrationId = undefined;
-    }
-
-    const response = await backend.post('professor/editCourse', {id: courseId, ...data});
-    return response;
 }
 
 async function deleteCourse(courseId: string) {

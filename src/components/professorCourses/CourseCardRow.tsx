@@ -1,35 +1,25 @@
 import * as React from 'react';
+import { Course } from '../../types';
 import CourseCard from './CourseCard';
 import NewCourseCard from './newCourseCard';
-function CourseCardRow (props: any) {
+
+type CourseCardRowProps = {
+    courses: Course[];
+    handleDeleteCourse: any;
+    lastRow: boolean;
+};
+
+function CourseCardRow (props: CourseCardRowProps) {
     return (
         <div className="row">
-            {
-                (() => {
-                    const courseCards = [];
-                    for (const course of props.courses) {
-                        //props.courses be in course
-                        const component = <CourseCard 
-                            course={course} 
-                            handleSubmit={props.handleSubmitEditCourse}
-                            handleDelete={props.handleDeleteCourse}
-                            key={course._id}
-                        />
-                        courseCards.push(component);
-                    }
-                    return courseCards;
-                })()
-            }
-            {
-                (() => {
-                    if (props.lastRow) {
-                        return (
-                            <NewCourseCard
-                            />
-                        )
-                    }
-                })()
-            }
+            { props.courses.map(course => 
+                <CourseCard 
+                    course={course} 
+                    handleDelete={props.handleDeleteCourse}
+                    key={course._id}
+                />
+            )}
+            {props.lastRow && <NewCourseCard />}
         </div>
     );
 }

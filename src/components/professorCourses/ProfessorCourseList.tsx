@@ -3,7 +3,7 @@ import React, { Component, Fragment } from 'react'
 import editIcon from '../../Assets/images/edit-icon.png'
 import CourseCardRow from './CourseCardRow';
 
-import { professorProctorConfigurationAllowed, createCourse, editCourse, deleteCourse, getCourses, logout } from '../../store/axios'
+import { professorProctorConfigurationAllowed, deleteCourse, getCourses, logout } from '../../store/axios'
 import { AuthContext } from '../../contexts/AuthContext'
 
 import { i18n } from 'web-translate';
@@ -25,10 +25,6 @@ class ProfessorCourse extends Component<any, any> {
             proctorConfigurationAllowed: false,
         }
 
-        this.handleChangeID = this.handleChangeID.bind(this);
-        this.handleChangeName = this.handleChangeName.bind(this);
-        this.handleSubmitNewCourse = this.handleSubmitNewCourse.bind(this);
-        this.handleSubmitEditCourse = this.handleSubmitEditCourse.bind(this);
         this.handleDeleteCourse = this.handleDeleteCourse.bind(this);
         this.setError = this.setError.bind(this);
         this.proctorConfigurationAllowed = this.proctorConfigurationAllowed.bind(this);
@@ -36,38 +32,10 @@ class ProfessorCourse extends Component<any, any> {
     
     static contextType = AuthContext;
 
-    handleChangeID = (e: any) => {
-        const state: any = Object.assign({}, this.state);
-
-        state.courseId = e.target.value;
-        this.setState(state);
-    }
-
-    handleChangeName = (e: any) => {
-        const state: any = Object.assign({}, this.state);
-
-        state.courseName = e.target.value;
-        this.setState(state);
-    }
-
     setError(error: any) {
         const state: any = Object.assign({}, this.state);
         state.error = error;
         this.setState(state);
-    }
-
-    async handleSubmitEditCourse(e: any, courseId: any, name: any, classId: any, integrationId: any) {
-        e.preventDefault();
-        const response = await editCourse(courseId, {name, classId, integrationId});
-
-        if (response.status !== 200) {
-            this.setError(`The Class Id ${classId} is already in use by another course. Please choose a different Class ID.`);
-        }
-        else {
-            this.setError(null);
-        }
-
-        await this.loadCourses();
     }
 
     async handleDeleteCourse(e: any, courseId: any) {
@@ -75,20 +43,6 @@ class ProfessorCourse extends Component<any, any> {
         await deleteCourse(courseId);
         await this.loadCourses();
     }
-
-    handleSubmitNewCourse = async (e: any) => {
-        e.preventDefault();
-        const response = await createCourse(this.state.courseName, this.state.courseId);
-
-        if (response.status !== 200) {
-            this.setError(`That Class Id is already in use by another course. Please choose a different Class ID.`);
-        }
-        else {
-            this.setError(null);
-        }
-
-        await this.loadCourses();
-    };
 
     async loadCourses() {
         let state: any = Object.assign({}, this.state);
@@ -167,13 +121,8 @@ class ProfessorCourse extends Component<any, any> {
                                 rows.push(
                                     <CourseCardRow 
                                         courses={coursesForRow}
-                                        inputStype={this.state.inputStype}
                                         key={`CoursesRow${index}`} 
                                         lastRow={index >= this.state.courses.length - 1}
-                                        handleSubmitNewCourse={this.handleSubmitNewCourse}
-                                        handleChangeID={this.handleChangeID}
-                                        handleChangeName={this.handleChangeName}
-                                        handleSubmitEditCourse={this.handleSubmitEditCourse}
                                         handleDeleteCourse={this.handleDeleteCourse}
                                     />
                                 );
@@ -184,13 +133,9 @@ class ProfessorCourse extends Component<any, any> {
                                 rows.push(
                                     <CourseCardRow 
                                         courses={[]}
-                                        inputStype={this.state.inputStype}
                                         key={`CoursesRowLast`} 
                                         lastRow={true}
-                                        handleSubmitNewCourse={this.handleSubmitNewCourse}
-                                        handleChangeID={this.handleChangeID}
-                                        handleChangeName={this.handleChangeName}
-                                        handleSubmitEditCourse={this.handleSubmitEditCourse}
+                                        handleDeleteCourse={this.handleDeleteCourse}
                                     />
                                 );
     

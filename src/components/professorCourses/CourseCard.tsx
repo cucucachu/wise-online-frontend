@@ -16,14 +16,9 @@ import {Course} from '../../types';
 type CourseCardProps = {
     course: Course;
     handleDelete(e: any, id: string): void;
-    handleSubmit(e: any, courseId: string, name: string, classId: string, integrationId: string): void;
 };
 
 type CourseCardState = {
-    classId: string;
-    name: string;
-    integrationId: string;
-    editing: boolean;
     deleting: boolean;
 }
 
@@ -32,10 +27,6 @@ class CourseCard extends Component<CourseCardProps, CourseCardState> {
     constructor(props: CourseCardProps) {
         super(props);
         this.state = {
-            classId: props.course.classId,
-            name: props.course.name,
-            integrationId: props.course.integrationId ?? '',
-            editing: false,
             deleting: false,
         };
     }
@@ -46,43 +37,15 @@ class CourseCard extends Component<CourseCardProps, CourseCardState> {
         marginBottom: '5px',
     }
 
-    handleClickEdit = () => {
-        this.setState({
-            editing: true,
-        });
-    }
-
     handleClickDelete = () => {
         this.setState({
-            editing: false,
             deleting: true,
         });
     }
 
     handleClickCancel = () => {
         this.setState({
-            editing: false,
             deleting: false,
-            name: this.props.course.name,
-            classId: this.props.course.classId,
-        });
-    }
-
-    handleChangeId: React.ChangeEventHandler<HTMLInputElement> = (e) => {
-        this.setState({
-            classId: e.target.value,
-        });
-    }
-
-    handleChangeName: React.ChangeEventHandler<HTMLInputElement> = (e) => {
-        this.setState({
-            name: e.target.value,
-        });
-    }
-
-    handleChangeIntegrationId: React.ChangeEventHandler<HTMLInputElement> = (e) => {
-        this.setState({
-            integrationId: e.target.value,
         });
     }
 
@@ -180,74 +143,6 @@ class CourseCard extends Component<CourseCardProps, CourseCardState> {
         );
     }
 
-    renederEdit() {
-        return (
-            <div className="col-sm-6">
-                <div className="shadow" >
-                    <div className="row">
-                        <div className="col-sm-10">
-                            <h2 className="course-title">{this.props.course.name}</h2>
-                        </div>
-                        <div className="col-sm-2">
-                            <button className="btn-neutral" onClick={this.handleClickCancel}><div style={{textAlign: 'center'}}>&#128473;</div></button>
-                        </div>
-                    </div>
-                    <div className="row">
-                        <div className="col-sm-6">
-                            <form onSubmit={(e) => { e.preventDefault() }}>
-                                <input type="text" placeholder="Enter a class name" style={CourseCard.inputStype} onChange={this.handleChangeName} value={this.state.name}/>
-                                <input type="text" placeholder="Enter a unique class ID" style={CourseCard.inputStype} onChange={this.handleChangeId} value={this.state.classId}/>
-                                {(() => {
-                                    const integrationName = sessionStorage.getItem('integrationName');
-                                    if (integrationName) {
-                                        return (
-                                            <input type="text" placeholder={`ID in ${integrationName}`} style={CourseCard.inputStype} onChange={this.handleChangeIntegrationId} value={this.state.integrationId}/>
-                                        );
-                                    }
-                                })()}
-                            </form>
-                        </div>
-                        <div className="col-sm-6 text-plain-s">
-                            {i18n("Enter a class name")}<br/>
-                            {i18n("For Example: ECON 101")}<br/>
-                            {i18n("Enter a unique class ID")}<br/>
-                            {i18n("For Example: ECON 101 Section 2")}<br/>
-                            {(() => {
-                                    const integrationName = sessionStorage.getItem('integrationName');
-                                    if (integrationName) {
-                                        return `Enter the Id of this course in ${integrationName}`;
-                                    }
-                            })()}
-                        </div>
-                    </div>
-                    <div className="row">
-                        <div className="col-sm-6">
-                            <button 
-                                className="btn-upload" 
-                                style={ { textAlign: 'center' } }
-                                
-                                onClick={(e) => { this.props.handleSubmit(e, this.props.course._id, this.state.name, this.state.classId, this.state.integrationId) }}
-                                >
-                                {i18n("Submit")}
-                            </button>
-                        </div>
-                        <div className="col-sm-2">
-                        </div>
-                        <div className="col-sm-4">
-                            <button 
-                                className="btn-danger"
-                                style={ { textAlign: 'center' } }
-                                onClick={this.handleClickDelete}
-                            >
-                                {i18n("Delete")}
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        );
-    }
-
     renderDelete() {
         return (
             <div className="col-sm-6">
@@ -285,10 +180,6 @@ class CourseCard extends Component<CourseCardProps, CourseCardState> {
     }
 
     render() {
-        if (this.state.editing) {
-            return this.renederEdit();
-        }
-
         if (this.state.deleting) {
             return this.renderDelete();
         }
