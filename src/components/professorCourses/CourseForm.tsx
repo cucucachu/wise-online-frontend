@@ -1,14 +1,10 @@
 import * as React from 'react';
-import { RouteComponentProps } from "react-router-dom";
-import loginIcon from '../../Assets/images/login-icon.png';
 import { i18n } from 'web-translate';
-import {getCourse, editCourse} from '../../store/axios';
 import {Card} from '../Resusable/Card';
 import {AllowedURLEditor, AllowedURLEntity} from '../Resusable/AllowedURLEditor';
 import {InputRow} from '../Resusable/InputRow';
 import {InClassOptions} from '../Resusable/InClassOptions';
 import { v4 as uuid } from 'uuid';
-import { paths } from '../../paths';
 import { InClassFlagAction, Course } from '../../types';
 
 const isValid = (accessCode: string) => {
@@ -33,9 +29,10 @@ export type CourseFormSaveData = {
 type CourseFormProps = {
   course: Course | null;
   saveCourse(data: CourseFormSaveData): void;
+  errorMessage?: string;
 }
 
-export const CourseForm: React.FC<CourseFormProps> = ({ course, saveCourse }) => {
+export const CourseForm: React.FC<CourseFormProps> = ({ errorMessage, course, saveCourse }) => {
   const [displayName, setDisplayName] = React.useState('');
   const [classId, setClassId] = React.useState('');
   const [accessCode, setAccessCode] = React.useState('');
@@ -46,8 +43,6 @@ export const CourseForm: React.FC<CourseFormProps> = ({ course, saveCourse }) =>
   const [trackingDelay, setTrackingDelay] = React.useState<string>('1');
   const [attendanceThreshold, setAttendanceThreshold] = React.useState<string>('99');
   const [flagTriggers, setFlagTriggers] = React.useState<InClassFlagAction[]>([]);
-
-  const [errorMessage, setErrorMessage] = React.useState<string | null>(null);
 
   React.useEffect(() => {
     setDisplayName(course?.name ?? '');
@@ -81,13 +76,9 @@ export const CourseForm: React.FC<CourseFormProps> = ({ course, saveCourse }) =>
   }, [displayName, isAccessCodeValid, accessCode, integrationId, classId, allowedUrls, trackingDelay, attendanceThreshold, flagTriggers]);
 
   return(
-      <div className="container">
-          <img src={loginIcon} className="page-icon" alt="login icon"/>
-          <div className="spacer-vertical"/>
-          <h1>{i18n("Course Settings")}</h1>
-          <div className="spacer-vertical"/>
-          {errorMessage && <div className="error-message">{errorMessage}</div>}
-          <form onSubmit={onSubmit}>
+      <>
+        {errorMessage && <div className="error-message">{errorMessage}</div>}
+        <form onSubmit={onSubmit}>
             <Card>
               <Card.Body>
                 <InputRow
@@ -124,7 +115,7 @@ export const CourseForm: React.FC<CourseFormProps> = ({ course, saveCourse }) =>
             <div className="">
                 <input type="submit" className="btn" value={i18n("Save Class Settings")} />
             </div>
-          </form>
-      </div>
+        </form>
+      </>
   );
 }
