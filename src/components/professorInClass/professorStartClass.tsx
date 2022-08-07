@@ -1,5 +1,5 @@
 import React from 'react';
-import { RouteComponentProps, Link } from 'react-router-dom';
+import { RouteComponentProps, Prompt } from 'react-router-dom';
 //axios
 import { i18n } from 'web-translate';
 import { v4 as uuid } from 'uuid';
@@ -70,10 +70,16 @@ const InSessionInClass: React.FC<InSessionInClassProps> = ({ courseId, courseSes
     const { onToggleGraphLine, selectedGraphLines } = useEngagementGraphToggles();
 
     const engagementPoints: EngagementData[] | undefined = React.useMemo(() => {
-    if (courseSession) {
-        return createEngagementPointsForCourseSession(courseSession);
-    }
+        if (courseSession) {
+            return createEngagementPointsForCourseSession(courseSession);
+        }
     }, [courseSession]);
+
+    React.useEffect(() => {
+        return () => {
+            stopSession();
+        };
+    }, []);
 
     return(
         <div className="container">
@@ -129,6 +135,10 @@ const InSessionInClass: React.FC<InSessionInClassProps> = ({ courseId, courseSes
                 </div>
             </div>
             <div className="spacer-vertical" />
+            <Prompt
+                when={true}
+                message="Are you sure you want to leave? Exiting this page will end your class session."
+            />
         </div>
     )
 }
