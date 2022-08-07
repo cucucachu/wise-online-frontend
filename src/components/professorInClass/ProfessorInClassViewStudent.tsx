@@ -30,7 +30,6 @@ export const ProfessorInClassViewStudent: React.FC<ProfessorInClassViewStudentPr
     const fetch = async () => {
       try {
         const response = await professorGetCourseSessionDetailForStudent(courseId, sessionId, studentId);
-        console.log(response.courseSession)
         setCourseSession(response.courseSession);
         setStudent(response.student);
         setLoading(false);
@@ -142,7 +141,7 @@ export const ProfessorInClassViewStudent: React.FC<ProfessorInClassViewStudentPr
                   <GraphSeriesFilter
                       selected={selectedGraphLines.includes('disconnects')}
                       color='red'
-                      label='Disconnects/Flags'
+                      label='Disconnects'
                       onToggle={(value) => onToggleGraphLine('disconnects', value)}
                   />
               </div>

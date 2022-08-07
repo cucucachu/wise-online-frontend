@@ -27,41 +27,13 @@ ChartJS.register(
   Legend
 );
 
-export const options: React.ComponentProps<typeof Line>['options'] = {
-  // responsive: true,
-  interaction: {
-    mode: 'index' as const,
-    intersect: false,
-  },
-  plugins: {
-    legend: {
-      display: false,
-    },
-    title: {
-      display: false,
-    },
-  },
-  scales: {
-    y: {
-      beginAtZero: true,
-      min: 0,
-
-    },
-    x: {
-        type: 'time',
-        time: {
-            unit: 'minute'
-        }
-    }
-  }
-};
-
 type EngagementGraphProps = {
   data: EngagementData[] | undefined;
   selectedSeries: EngagementGraphSeries[];
+  yAxisMax?: number;
 }
 
-export const EngagementGraph: React.FC<EngagementGraphProps> = ({ data, selectedSeries }) => {
+export const EngagementGraph: React.FC<EngagementGraphProps> = ({ yAxisMax, data, selectedSeries }) => {
   const chartData: React.ComponentProps<typeof Line>['data'] = React.useMemo(() => {
     if (data) {
       const datasets = [];
@@ -105,6 +77,40 @@ export const EngagementGraph: React.FC<EngagementGraphProps> = ({ data, selected
       datasets: [],
     }
   }, [data, selectedSeries]);
+
+  const options: React.ComponentProps<typeof Line>['options'] = React.useMemo(() => {
+    return {
+      // responsive: true,
+      interaction: {
+        mode: 'index' as const,
+        intersect: false,
+      },
+      plugins: {
+        legend: {
+          display: false,
+        },
+        title: {
+          display: false,
+        },
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          min: 0,
+          max: yAxisMax,
+          ticks: {
+            stepSize: 1,
+          },
+        },
+        x: {
+            type: 'time',
+            time: {
+                unit: 'minute'
+            }
+        }
+      }
+    };
+  }, []);
   
   return <Line options={options} data={chartData} />;
 };

@@ -88,7 +88,7 @@ export const ProfessorPastCourseSessionDetail:  React.FC<Props> = ({ match }) =>
                           <GraphSeriesFilter
                               selected={selectedGraphLines.includes('disconnects')}
                               color='red'
-                              label='Disconnects/Flags'
+                              label='Disconnects'
                               onToggle={(value) => onToggleGraphLine('disconnects', value)}
                           />
                       </div>

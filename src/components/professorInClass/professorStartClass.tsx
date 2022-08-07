@@ -64,9 +64,10 @@ type InSessionInClassProps = {
     courseSession: CourseSession;
     stopSession(): void;
     courseId: string;
+    course: Course;
 }
 
-const InSessionInClass: React.FC<InSessionInClassProps> = ({ courseId, courseSession, stopSession }) => {
+const InSessionInClass: React.FC<InSessionInClassProps> = ({ course, courseId, courseSession, stopSession }) => {
     const { onToggleGraphLine, selectedGraphLines } = useEngagementGraphToggles();
 
     const engagementPoints: EngagementData[] | undefined = React.useMemo(() => {
@@ -110,14 +111,18 @@ const InSessionInClass: React.FC<InSessionInClassProps> = ({ courseId, courseSes
                             <GraphSeriesFilter
                                 selected={selectedGraphLines.includes('disconnects')}
                                 color='red'
-                                label='Disconnects/Flags'
+                                label='Disconnects'
                                 onToggle={(value) => onToggleGraphLine('disconnects', value)}
                             />
                         </div>
                     </div>
                 </Card.Header>
                 <Card.Body>
-                    <EngagementGraph data={engagementPoints} selectedSeries={selectedGraphLines} />
+                    <EngagementGraph
+                        data={engagementPoints}
+                        selectedSeries={selectedGraphLines}
+                        yAxisMax={course.students?.length}
+                    />
                 </Card.Body>
             </Card>
             <div className="spacer-vertical" />
@@ -267,7 +272,14 @@ const ProfessorClassStart:  React.FC<Props> = ({ match, history }) => {
     }
 
     if (courseSession) {
-        return <InSessionInClass courseId={courseId} courseSession={courseSession} stopSession={stopSession} />
+        return (
+            <InSessionInClass
+                courseId={courseId}
+                courseSession={courseSession}
+                stopSession={stopSession}
+                course={course!}
+            />
+        );
     }
 
     return (

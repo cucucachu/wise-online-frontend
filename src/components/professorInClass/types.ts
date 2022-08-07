@@ -25,6 +25,9 @@ export type CourseSession = {
   studentCourseSessions: StudentCourseSession[];
   students: Student[];
   course: Course;
+  trackingDelay: Course['defaultAttendanceTrackingDelay'],
+  attendanceThreshold: Course['defaultAttendanceThreshold'],
+  flagTriggers: Course['defaultAttendanceFlags'],
 }
 
 export type EngagementData = {

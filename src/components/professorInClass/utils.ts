@@ -1,3 +1,4 @@
+import { InClassFlagAction } from '../../types';
 import { CourseSession, EngagementData, StudentCourseSession } from './types';
 
 const clampDateToBucket = (d: Date, bucketSizeInSeconds: number): Date => {
@@ -50,7 +51,7 @@ export const createEmptyEngagementPoints = (startingTimePoint: Date, endTimePoin
     return bucketedData;
 };
 // 
-export const transformIndividualStudentSessionsIntoPoints = (studentSessions: StudentCourseSession[], isDesktop: boolean, startingTimePoint: Date, endTimePoint: Date, bucketSizeInSeconds: number): EngagementData[] => {
+export const transformIndividualStudentSessionsIntoPoints = (trackDisconnects: boolean, studentSessions: StudentCourseSession[], isDesktop: boolean, startingTimePoint: Date, endTimePoint: Date, bucketSizeInSeconds: number): EngagementData[] => {
     const connectedRanges: Array<{ start: Date, end?: Date }> = [];
     for (let session of studentSessions) {
         const start = clampDateToBucket(new Date(session.connectedTime), bucketSizeInSeconds);
@@ -69,17 +70,17 @@ export const transformIndividualStudentSessionsIntoPoints = (studentSessions: St
     let hasConnected = false;
     for (let timePoint of createTimePointIterator(startingTimePoint, endTimePoint, bucketSizeInSeconds)) {
         const range = connectedRanges[connectedRangePointer];
-        if (!range || timePoint < range.start.getTime()) {
-            bucketedData.push({
-                time: timePoint,
-                disconnects: hasConnected ? 1 : 0,
-                mobilesConnected: 0,
-                desktopsConnected: 0,
-            });
-        } else if (timePoint > Date.now()) {
+        if (timePoint > Date.now()) {
             bucketedData.push({
                 time: timePoint,
                 disconnects: 0,
+                mobilesConnected: 0,
+                desktopsConnected: 0,
+            });
+        } else if (!range || timePoint < range.start.getTime()) {
+            bucketedData.push({
+                time: timePoint,
+                disconnects: hasConnected && trackDisconnects ? 1 : 0,
                 mobilesConnected: 0,
                 desktopsConnected: 0,
             });
@@ -110,7 +111,7 @@ export const transformIndividualStudentSessionsIntoPoints = (studentSessions: St
 export const flattenAndTotalEngagmentData = (bucketedData: EngagementData[][]): EngagementData[] => {
     return bucketedData[0].map((firstPoint, index) => {
         return bucketedData.map(l => l[index]).reduce((accum, point) => {
-            accum.disconnects += point.disconnects;
+            accum.disconnects = point.disconnects > 0 ? 1 : 0;
             accum.mobilesConnected += point.mobilesConnected;
             accum.desktopsConnected += point.desktopsConnected;
 
@@ -156,10 +157,28 @@ export const createEngagementPointsForCourseSession = (courseSession: CourseSess
 
     return byDeviceAndStudent;
   }, {});
-  console.log(courseSessionsByDeviceAndStudent);
+
     // Devices are hard coded, could be dynamic
-    const bucketedStatusesForWeb = Object.values(courseSessionsByDeviceAndStudent['web'] ?? {}).map(sessions => transformIndividualStudentSessionsIntoPoints(sessions, true, firstStartSessionStart, clampedLastSessionEnd, bucketSizeInSeconds));
-    const bucketedStatusesForMobile = Object.values(courseSessionsByDeviceAndStudent['mobile'] ?? {}).map(sessions => transformIndividualStudentSessionsIntoPoints(sessions, false, firstStartSessionStart, clampedLastSessionEnd, bucketSizeInSeconds));
+    const bucketedStatusesForWeb = Object.values(courseSessionsByDeviceAndStudent['web'] ?? {}).map(sessions => {
+        return transformIndividualStudentSessionsIntoPoints(
+            courseSession.flagTriggers?.includes(InClassFlagAction.computerDisconnected) ?? false,
+            sessions,
+            true,
+            firstStartSessionStart,
+            clampedLastSessionEnd,
+            bucketSizeInSeconds
+        )
+    });
+    const bucketedStatusesForMobile = Object.values(courseSessionsByDeviceAndStudent['mobile'] ?? {}).map(sessions => {
+        return transformIndividualStudentSessionsIntoPoints(
+            courseSession.flagTriggers?.includes(InClassFlagAction.phoneDisconnected) ?? false,
+            sessions,
+            false,
+            firstStartSessionStart,
+            clampedLastSessionEnd,
+            bucketSizeInSeconds
+        )
+    });
     // console.log(bucketedStatusesForWeb);
     // console.log(bucketedStatusesForMobile, '\n\n');
     const combinedStatuses = [...bucketedStatusesForWeb, ...bucketedStatusesForMobile];
