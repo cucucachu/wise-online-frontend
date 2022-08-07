@@ -26,9 +26,9 @@ const getMinuteDuration = (s1: string, s2: string): string => {
   return `${diffInMinutes} minutes`;
 }
 
-const calculateAttendancePercent = (course: Course, session: PastCourseSession): number => {
+const calculateAttendancePercent = (course: Course, session: PastCourseSession): number | null => {
   if (!course.students) {
-    return 100;
+    return null;
   }
 
   const presentStudents = new Set(session.students.map((s: any) => s._id));
@@ -36,6 +36,10 @@ const calculateAttendancePercent = (course: Course, session: PastCourseSession):
   const presentCount = course.students.map((sId): number => presentStudents.has(sId) ? 1 : 0).reduce((total, count) => total + count, 0);
   return Math.round((presentCount / course.students.length) * 100);
 };
+
+const formatAttendancePercent = (value: number | null): string => {
+  return value || value === 0 ? `${value}%` : 'Unknown';
+}
 
 export const ProfessorPastCourseSessions:  React.FC<Props> = ({ match }) => {
   const [loading, setLoading] = React.useState(true);
@@ -95,7 +99,7 @@ export const ProfessorPastCourseSessions:  React.FC<Props> = ({ match }) => {
                                 {getMinuteDuration(session.startTime, session.endTime)}
                               </td>
                               <td>
-                                {calculateAttendancePercent(course!, session)}
+                                {formatAttendancePercent(calculateAttendancePercent(course!, session))}
                               </td>
                           </tr>)}
                       </tbody>
