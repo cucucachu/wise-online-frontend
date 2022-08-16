@@ -8,7 +8,7 @@ import { Card } from '../Resusable/Card';
 import { AllowedURLEditor } from '../Resusable/AllowedURLEditor';
 import { GraphSeriesFilter } from '../Resusable/GraphSeriesFilter';
 import { EngagementGraph } from './EngagementGraph';
-import { EngagementData, CourseSession } from './types';
+import { EngagementData, CourseSession, Student } from './types';
 import { Loading } from './Loading';
 import { useEngagementGraphToggles } from './hooks';
 import { createEngagementPointsForCourseSession } from './utils';
@@ -76,10 +76,22 @@ const InSessionInClass: React.FC<InSessionInClassProps> = ({ course, courseId, c
         }
     }, [courseSession]);
 
-    React.useEffect(() => {
-        return () => {
-            stopSession();
-        };
+    // React.useEffect(() => {
+    //     return () => {
+    //         stopSession();
+    //     };
+    // }, []);
+
+    const studentsById = React.useMemo(() => {
+        return courseSession.students.reduce((accum, student) => {
+            accum[student._id] = student;
+            return accum;
+        }, {} as { [id: string]: Student });
+    }, [courseSession]);
+
+    const getStudentName = React.useCallback((studentId: string) => {
+        const student = studentsById[studentId];
+        return student ? `${student.firstName} ${student.lastName}` : '';
     }, []);
 
     return(
@@ -122,6 +134,7 @@ const InSessionInClass: React.FC<InSessionInClassProps> = ({ course, courseId, c
                         data={engagementPoints}
                         selectedSeries={selectedGraphLines}
                         yAxisMax={course.students?.length}
+                        getStudentName={getStudentName}
                     />
                 </Card.Body>
             </Card>
@@ -142,7 +155,14 @@ const InSessionInClass: React.FC<InSessionInClassProps> = ({ course, courseId, c
             <div className="spacer-vertical" />
             <Prompt
                 when={true}
-                message="Are you sure you want to leave? Exiting this page will end your class session."
+                message={(location) => {
+                    const urlRegex = new RegExp('^/professor/in-class/.+/sessions/.+/students/.+$')
+                    if (urlRegex.test(location.pathname)) {
+                        return true;
+                    }
+
+                    return "Are you sure you want to leave? Exiting this page will end your class session.";
+                }}
             />
         </div>
     )

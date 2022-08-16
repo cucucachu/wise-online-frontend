@@ -45,14 +45,15 @@ export const createEmptyEngagementPoints = (startingTimePoint: Date, endTimePoin
             disconnects: 0,
             mobilesConnected: 0,
             desktopsConnected: 0,
+            flaggedStudents: [],
         });
     }
 
     return bucketedData;
 };
 // 
-export const transformIndividualStudentSessionsIntoPoints = (trackDisconnects: boolean, studentSessions: StudentCourseSession[], isDesktop: boolean, startingTimePoint: Date, endTimePoint: Date, bucketSizeInSeconds: number): EngagementData[] => {
-    const connectedRanges: Array<{ start: Date, end?: Date }> = [];
+export const transformIndividualStudentSessionsIntoPoints = (flaggedActions: InClassFlagAction[] | undefined, studentId: string, studentSessions: StudentCourseSession[], isDesktop: boolean, startingTimePoint: Date, endTimePoint: Date, bucketSizeInSeconds: number): EngagementData[] => {
+    const connectedRanges: Array<{ start: Date, end?: Date, hasFlaggedScreenshots: boolean }> = [];
     for (let session of studentSessions) {
         const start = clampDateToBucket(new Date(session.connectedTime), bucketSizeInSeconds);
         const end = session.disconnectedTime ? clampDateToBucket(new Date(session.disconnectedTime), bucketSizeInSeconds) : undefined;
@@ -61,9 +62,18 @@ export const transformIndividualStudentSessionsIntoPoints = (trackDisconnects: b
         if (lastRange?.end && end && lastRange.end > end) {
             connectedRanges[connectedRanges.length - 1].end = end;
         } else {
-            connectedRanges.push({ start, end });
+            connectedRanges.push({ start, end, hasFlaggedScreenshots: (session.screenshotViolations?.length ?? 0) > 0 });
         }
     }
+
+    let flagDisconnects = (
+        (
+            isDesktop && flaggedActions?.includes(InClassFlagAction.computerDisconnected)
+        ) ||
+        (
+            !isDesktop && flaggedActions?.includes(InClassFlagAction.phoneDisconnected)
+        )
+    );
 
     const bucketedData: EngagementData[] = [];
     let connectedRangePointer = 0;
@@ -76,13 +86,15 @@ export const transformIndividualStudentSessionsIntoPoints = (trackDisconnects: b
                 disconnects: 0,
                 mobilesConnected: 0,
                 desktopsConnected: 0,
+                flaggedStudents: [],
             });
         } else if (!range || timePoint < range.start.getTime()) {
             bucketedData.push({
                 time: timePoint,
-                disconnects: hasConnected && trackDisconnects ? 1 : 0,
+                disconnects: hasConnected ? 1 : 0,
                 mobilesConnected: 0,
                 desktopsConnected: 0,
+                flaggedStudents: flagDisconnects && hasConnected ? [studentId] : [],
             });
         } else if (
             range.start.getTime() <= timePoint &&
@@ -97,6 +109,7 @@ export const transformIndividualStudentSessionsIntoPoints = (trackDisconnects: b
                 disconnects: 0,
                 mobilesConnected: isDesktop ? 0 : 1,
                 desktopsConnected: isDesktop ? 1 : 0,
+                flaggedStudents: range.hasFlaggedScreenshots ? [studentId] : [],
             });
         }
 
@@ -114,6 +127,7 @@ export const flattenAndTotalEngagmentData = (bucketedData: EngagementData[][]): 
             accum.disconnects = point.disconnects > 0 ? 1 : 0;
             accum.mobilesConnected += point.mobilesConnected;
             accum.desktopsConnected += point.desktopsConnected;
+            accum.flaggedStudents = accum.flaggedStudents.concat(point.flaggedStudents);
 
             return accum;
         }, {
@@ -121,6 +135,7 @@ export const flattenAndTotalEngagmentData = (bucketedData: EngagementData[][]): 
             disconnects: 0,
             mobilesConnected: 0,
             desktopsConnected: 0,
+            flaggedStudents: [],
         });
     });
 };
@@ -159,9 +174,10 @@ export const createEngagementPointsForCourseSession = (courseSession: CourseSess
   }, {});
 
     // Devices are hard coded, could be dynamic
-    const bucketedStatusesForWeb = Object.values(courseSessionsByDeviceAndStudent['web'] ?? {}).map(sessions => {
+    const bucketedStatusesForWeb = Object.entries(courseSessionsByDeviceAndStudent['web'] ?? {}).map(([studentId, sessions]) => {
         return transformIndividualStudentSessionsIntoPoints(
-            courseSession.flagTriggers?.includes(InClassFlagAction.computerDisconnected) ?? false,
+            courseSession.flagTriggers,
+            studentId,
             sessions,
             true,
             firstStartSessionStart,
@@ -169,9 +185,10 @@ export const createEngagementPointsForCourseSession = (courseSession: CourseSess
             bucketSizeInSeconds
         )
     });
-    const bucketedStatusesForMobile = Object.values(courseSessionsByDeviceAndStudent['mobile'] ?? {}).map(sessions => {
+    const bucketedStatusesForMobile = Object.entries(courseSessionsByDeviceAndStudent['mobile'] ?? {}).map(([studentId, sessions]) => {
         return transformIndividualStudentSessionsIntoPoints(
-            courseSession.flagTriggers?.includes(InClassFlagAction.phoneDisconnected) ?? false,
+            courseSession.flagTriggers,
+            studentId,
             sessions,
             false,
             firstStartSessionStart,

@@ -35,6 +35,7 @@ export type EngagementData = {
   disconnects: number;
   mobilesConnected: number;
   desktopsConnected: number;
+  flaggedStudents: string[];
 };
 
 export type EngagementGraphSeries = 'mobile' | 'connected' | 'disconnects';
