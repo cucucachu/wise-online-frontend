@@ -22,6 +22,16 @@ const AllowedURLRow: React.FC<AllowedURLRowProps> = ({ urlEntity, onChange, onRe
 
     }, [onChange, urlEntity]);
 
+    const onBlurInput: React.FocusEventHandler<HTMLInputElement> = React.useCallback((e) => {
+        const url = new URL(e.currentTarget.value);
+        
+        onChange({
+            ...urlEntity,
+            url: url.host,
+        });
+
+    }, [onChange, urlEntity]);
+
     const handleClickRemove = React.useCallback(() => {
         onRemove(urlEntity);
     }, [urlEntity, onRemove]);
@@ -31,13 +41,14 @@ const AllowedURLRow: React.FC<AllowedURLRowProps> = ({ urlEntity, onChange, onRe
             <td>
               <input
                 type="text"
-                placeholder="https://google.com"
+                placeholder="google.com"
                 onChange={onChangeInput}
+                onBlur={onBlurInput}
                 value={urlEntity.url}
                 />
            </td>
            <td>
-                <a onClick={handleClickRemove}>Remove</a>
+                <a href='#' onClick={handleClickRemove}>Remove</a>
            </td>
         </tr>
     );
