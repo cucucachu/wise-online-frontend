@@ -28,6 +28,7 @@ type UseScreenTrackingArgs = {
 
 const useScreenTracking = ({ onReceiveTabs, screenVideoRef, screenshotCanvasRef, onTakeScreenShot }: UseScreenTrackingArgs) => {
   const [isScreenTracking, setIsScreenTracking] = React.useState(false);
+  const [screenPermissionError, setScreenPermissionError] = React.useState(false);
   const authContext = React.useContext(AuthContext);
   const takeScreenShot = () => {
     const screenVideo = screenVideoRef.current;
@@ -61,19 +62,18 @@ const useScreenTracking = ({ onReceiveTabs, screenVideoRef, screenshotCanvasRef,
     const screenVideo = screenVideoRef.current;
     if (screenVideo) {
       try {
-        screenVideo.srcObject = await navigator.mediaDevices.getDisplayMedia({
-          video: {
-            mediaSource: "screen"
-          } as any,
-        });
+        const stream = await navigator.mediaDevices.getDisplayMedia();
 
-        const displaySurface = (screenVideo.srcObject.getVideoTracks()[0].getSettings() as any)
-          .displaySurface;
+        screenVideo.srcObject = stream;
+
+        const mediaSettings = (stream.getVideoTracks()[0].getSettings() as any);
+        const displaySurface = mediaSettings.displaySurface;
         screenVideo.play();
-  
-        if (displaySurface !== undefined && displaySurface !== "monitor") {
+
+        if (displaySurface && displaySurface !== "monitor") {
           stopScreenVideo();
           setIsScreenTracking(false);
+          setScreenPermissionError(true);
         }  else {
           setIsScreenTracking(true);        
         }
@@ -113,18 +113,19 @@ const useScreenTracking = ({ onReceiveTabs, screenVideoRef, screenshotCanvasRef,
     };
   }, [onReceiveTabs, isScreenTracking]);
 
-  return { startScreenVideo, stopScreenVideo, isScreenTracking };
+  return { startScreenVideo, stopScreenVideo, isScreenTracking, screenPermissionError };
 };
 
 type InClassInstructionsProps = {
   agreedToTerms: boolean;
   isScreenTracking: boolean;
+  screenPermissionError: boolean;
   startInClass(): void;
   setAgreedToTerms(value: boolean): void;
   startScreenVideo(): void;
 }
 
-const InClassInstructions: React.FC<InClassInstructionsProps> = ({ setAgreedToTerms, startScreenVideo, agreedToTerms, isScreenTracking, startInClass }) => {
+const InClassInstructions: React.FC<InClassInstructionsProps> = ({ screenPermissionError, setAgreedToTerms, startScreenVideo, agreedToTerms, isScreenTracking, startInClass }) => {
   return (
     <>
         <div className="spacer-vertical" />
@@ -155,6 +156,7 @@ const InClassInstructions: React.FC<InClassInstructionsProps> = ({ setAgreedToTe
                     <input onChange={() => startScreenVideo()} checked={isScreenTracking} type='checkbox' id='in-class-screen-cap' />
                     {i18n('Enable Screen Sharing')}
                   </label>
+                  {screenPermissionError && <p className='red'>You must share your entire screen.</p>}
                 </div>
                 </Card.Body>
               </Card>
@@ -230,7 +232,7 @@ export const StudentInClassLanding: React.FC<StudentInClassInSessionProps> = (pr
     });
   }, [socket]);
 
-  const { startScreenVideo, isScreenTracking, stopScreenVideo } = useScreenTracking({
+  const { startScreenVideo, isScreenTracking, stopScreenVideo, screenPermissionError } = useScreenTracking({
     screenVideoRef,
     screenshotCanvasRef,
     onTakeScreenShot,
@@ -269,7 +271,7 @@ export const StudentInClassLanding: React.FC<StudentInClassInSessionProps> = (pr
   return (
     <div className="container">
         <img src={attendClass} className="page-icon" alt="login icon"/>
-        {socket ? <InClassLive course={course} /> : <InClassInstructions startScreenVideo={startScreenVideo} setAgreedToTerms={setAgreedToTerms} startInClass={startInClass} agreedToTerms={agreedToTerms} isScreenTracking={isScreenTracking} />}
+        {socket ? <InClassLive course={course} /> : <InClassInstructions screenPermissionError={screenPermissionError} startScreenVideo={startScreenVideo} setAgreedToTerms={setAgreedToTerms} startInClass={startInClass} agreedToTerms={agreedToTerms} isScreenTracking={isScreenTracking} />}
         <canvas ref={screenshotCanvasRef} style={{ display: "none" }} />
         <video ref={screenVideoRef} style={{ display: "none" }} />
     </div>

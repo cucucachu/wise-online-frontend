@@ -138,8 +138,8 @@ const externalTooltipHandler = (getStudentName: EngagementGraphProps['getStudent
     tableRoot.appendChild(tableHead);
     tableRoot.appendChild(tableBody);
 
-    if (tooltip.dataPoints[0] && tooltip.dataPoints[0].dataIndex && getStudentName) {
-      const studentNames = data![tooltip.dataPoints[0].dataIndex].flaggedStudents.map(studentId => {
+    if (tooltip.dataPoints[0] && tooltip.dataPoints[0].dataIndex && getStudentName && data) {
+      const studentNames = data[tooltip.dataPoints[0].dataIndex].flaggedStudents.map(studentId => {
         return getStudentName(studentId);
       });
     
