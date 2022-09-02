@@ -48,7 +48,7 @@ const AllowedURLRow: React.FC<AllowedURLRowProps> = ({ urlEntity, onChange, onRe
                 />
            </td>
            <td>
-                <a href='#' onClick={handleClickRemove}>Remove</a>
+                <span onClick={handleClickRemove}>Remove</span>
            </td>
         </tr>
     );
