@@ -12,6 +12,7 @@ import { apiUrl } from '../../config/apiUrl';
 import { Card } from '../Resusable/Card';
 import './StudentInClassLanding.css';
 import {StudentCheckIcon} from './StudentCheckIcon';
+import { paths } from '../../paths';
 
 const attendClass = require('../../Assets/images/attend-class.png');
 
@@ -203,6 +204,27 @@ const InClassLive: React.FC<InClassLiveProps> = ({ course }) => {
   )
 }
 
+const InClassFinished: React.FC<InClassLiveProps> = ({ course }) => {
+  return (
+    <>
+        <div className="spacer-vertical" />
+        <h1>{`Congrats, ${course?.name} is over! We hope you had a great class.`}</h1>
+        <div className="spacer-vertical" />
+        <div className='green-success-welcome'>
+          <StudentCheckIcon />
+        </div>
+        <div className="spacer-vertical" />
+        <div className="row">
+          <div className="col-sm">
+            <a href={paths.studentInClassCourseList({})} className="btn" type='button'>
+              {i18n('Go back')}
+            </a>
+          </div>
+        </div>
+    </>
+  )
+}
+
 export const StudentInClassLanding: React.FC<StudentInClassInSessionProps> = (props) => {
   const {courseId} = props.match.params;
   const [course, setCourse] = React.useState<Course | null>(null);
@@ -238,6 +260,8 @@ export const StudentInClassLanding: React.FC<StudentInClassInSessionProps> = (pr
     onTakeScreenShot,
     onReceiveTabs,
   });
+
+  const [classOver, setClassOver] = React.useState(false);
   
   const startInClass = React.useCallback(() => {
     const newSocket = io(apiUrl, {
@@ -253,6 +277,12 @@ export const StudentInClassLanding: React.FC<StudentInClassInSessionProps> = (pr
           device: 'web',
         });
       }
+
+      newSocket.on('class-end', (e) => {
+        if (e?.courseId === courseId) {
+          setClassOver(true);
+        }
+      });
     });
   }, [setSocket]);
 
@@ -271,7 +301,7 @@ export const StudentInClassLanding: React.FC<StudentInClassInSessionProps> = (pr
   return (
     <div className="container">
         <img src={attendClass} className="page-icon" alt="login icon"/>
-        {socket ? <InClassLive course={course} /> : <InClassInstructions screenPermissionError={screenPermissionError} startScreenVideo={startScreenVideo} setAgreedToTerms={setAgreedToTerms} startInClass={startInClass} agreedToTerms={agreedToTerms} isScreenTracking={isScreenTracking} />}
+        {socket ? (classOver ? <InClassFinished course={course} /> : <InClassLive course={course} />) : <InClassInstructions screenPermissionError={screenPermissionError} startScreenVideo={startScreenVideo} setAgreedToTerms={setAgreedToTerms} startInClass={startInClass} agreedToTerms={agreedToTerms} isScreenTracking={isScreenTracking} />}
         <canvas ref={screenshotCanvasRef} style={{ display: "none" }} />
         <video ref={screenVideoRef} style={{ display: "none" }} />
     </div>
