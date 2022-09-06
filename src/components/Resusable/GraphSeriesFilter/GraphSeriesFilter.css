@@ -1,0 +1,27 @@
+
+.graph-series-filter {
+  display: inline-flex;
+  background-color: rgba(255, 255, 255, 0.5);
+  border-radius: 20px;
+  padding: 5px 15px;
+  font-size: 1.2rem;
+  border: 1px solid #ccc;
+  align-items: center;
+  cursor: pointer;
+  margin: 0 5px 10px;
+}
+
+.graph-series-filter--unselected {
+  background-color: #bbb;
+}
+
+.graph-series-filter--unselected .graph-series-filter-circle {
+  background-color: #fff;
+}
+
+.graph-series-filter-circle {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  margin-right: 10px;
+}

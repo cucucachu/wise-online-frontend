@@ -1,7 +1,11 @@
 @import "./config.scss";
 
+:root {
+  --wise-primary-color: #1376cc;
+}
+
 body {
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Avenir", Arial, Helvetica, sans-serif;
   color: $primary-color;
 }
 
@@ -465,6 +469,24 @@ footer {
   }
 }
 
+.btn-red {
+  background-color: rgb(255, 2, 0);
+  border: 1px solid rgb(255, 2, 0);
+  color: #fff;
+  font-size: large;
+  padding: 5px 15px;
+  border-radius: 0.5rem;
+  text-align: center;
+  // width: 100%;
+  box-shadow: 0 0 10px #999;
+  &:hover {
+    box-shadow: 0 0 5px #999;
+    border: 1px solid #fff;
+    background-color: rgb(255, 2, 0);
+    color: #fff;
+  }
+}
+
 .btn-neutral {
   background-color: white;
   border: 0px solid $lighter-gray;
@@ -792,9 +814,20 @@ input[type="file"] {
 
 //professor
 .course-title {
-  color: $primary-color;
   padding-top: 0;
   margin-top: 0;
+  font-size: 1.8rem;
+  font-weight: bold;
+}
+
+.course-card-info {
+  display: flex;
+  flex-direction: column;
+  color: #000;
+}
+
+.course-card-info__content {
+  flex: 1;
 }
 
 .create-course {
@@ -1896,4 +1929,9 @@ $table-striped-order: odd !default;
   tbody tr:nth-of-type(#{$table-striped-order}) {
     background-color: $table-fill-color;
   }
+}
+
+.large-body-text {
+  font-size: 1.6rem;
+  color: #000;
 }

@@ -1,0 +1,16 @@
+
+.shadow-card {
+  box-shadow: 0 0 8px #ccc;
+  border-radius: 15px;
+  text-align: left;
+}
+
+.shadow-card .card-body {
+  padding: 30px 40px;
+}
+
+.shadow-card .card-header {
+  background-color: #eee;
+  padding: 10px 40px;
+  color: #333;
+}

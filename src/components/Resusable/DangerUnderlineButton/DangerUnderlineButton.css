@@ -1,0 +1,9 @@
+
+.danger-underline-btn {
+  background: none;
+  outline: none;
+  text-decoration: underline;
+  color: red;
+  box-shadow: none;
+  border: 0;
+}

@@ -12,9 +12,17 @@ import SuperSchoolSettings from '../components/SuperSchoolSettings';
 
 //components
 import ProfessorLogin from '../components/professorLogin';
-import ProfessorCourse from '../components/professorCourse';
+import ProfessorCourse from '../components/professorCourses/ProfessorCourseList';
 import ProfessorAttendanaceStart from '../components/professorAttendanceStart';
 import ProfessorAttendanacesView from '../components/professorAttendancesView';
+
+import ProfessorClassStart from '../components/professorInClass/professorStartClass';
+import {ProfessorPastCourseSessions} from '../components/professorInClass/professorPastCourseSessions';
+import {ProfessorPastCourseSessionDetail} from '../components/professorInClass/professorPastCourseSessionDetail';
+import {ProfessorInClassViewStudent} from '../components/professorInClass/ProfessorInClassViewStudent';
+import {ProfessorEditCourse} from '../components/professorCourses/ProfessorEditCourse';
+import {ProfessorAddCourse} from '../components/professorCourses/ProfessorAddCourse';
+
 import AttendanaceView from '../components/AttendanceView';
 import ProfessorClaim from '../components/professorClaim';
 import ProfessorExam from '../components/professorExam';
@@ -24,7 +32,7 @@ import ProfessorTestsForCourse from '../components/ProfessorTestsForCourse';
 import ProfessorTestView from '../components/ProfessorTestView';
 import ProfessorViewStudentTest from '../components/ProfessorViewStudentTest';
 
-import StudentDashboard from '../components/studentDashboard';
+import {StudentDashboard} from '../components/studentDashboard';
 import StudentClass from '../components/studentClass';
 import StudentClassAtt from '../components/studentClassAtt';
 import StudentLogin from '../components/studentLogin';
@@ -38,6 +46,9 @@ import StudentTestFromLink from '../components/StudentTestFromLink';
 import StudentProctoring from '../components/StudentProctoring';
 import StudentProctoringDemo from '../components/StudentProctoringDemo';
 
+import {StudentInClassCourseList} from '../components/studentInClass/StudentInClassCourseList';
+import {StudentInClassLanding} from '../components/studentInClass/StudentInClassLanding';
+
 import AdminLogin from '../components/adminLogin';
 import SetUpSchoolPage from '../components/SetUpSchoolPage';
 import AdminHomePage from '../components/AdminHomePage';
@@ -49,7 +60,7 @@ import AdminProfessorCourses from '../components/AdminProfessorCourses';
 import AdminCourseDetail from '../components/AdminCourseDetail';
 import AdminAddUsers from '../components/AdminAddUsers';
 
-import SelectRole from '../components/selectRole'
+import {SelectRole} from '../components/selectRole'
 
 
 //contexts
@@ -88,11 +99,13 @@ import AdminTermsPage from '../components/AdminTerms/AdminTermsPage';
 // Proctoring Components
 import ProfessorStartProctoring from '../components/ProfessorStartProctoring';
 
-class HomePage extends Component {
+import { paths } from '../paths';
+
+class HomePage extends Component<any, any, any> {
     
     static contextType = AuthContext;
 
-    constructor(props) {
+    constructor(props: any) {
         super(props);
 
         this.state = {
@@ -120,17 +133,17 @@ class HomePage extends Component {
     
     }
 
-    async handleSuccessfulLogin(userData) {
+    async handleSuccessfulLogin(userData: any) {
         sessionStorage.setItem('userID', userData.id);
         sessionStorage.setItem('username', userData.name);
         sessionStorage.setItem('schoolName', userData.school.name);
         sessionStorage.setItem('schoolID', userData.school.id);
-        sessionStorage.setItem('isLoggedIn', true);
+        sessionStorage.setItem('isLoggedIn', true as any);
         sessionStorage.setItem('role', userData.role);
 
-        this.context.setRole(userData.role);
+        (this.context as any).setRole(userData.role);
 
-        const state = Object.assign({}, this.state);
+        const state: any = Object.assign({}, this.state);
         state.username = userData.name;
         state.schoolName = userData.school.name;
         state.isLoggedIn = true;
@@ -141,9 +154,9 @@ class HomePage extends Component {
     async handleLogout() {
         sessionStorage.clear();
         await logout();
-        sessionStorage.setItem('isLoggedIn', false);
+        sessionStorage.setItem('isLoggedIn', false as any);
 
-        const state = Object.assign({}, this.state);
+        const state: any = Object.assign({}, this.state);
 
         state.username = undefined;
         state.schoolName = undefined;
@@ -216,7 +229,10 @@ class HomePage extends Component {
                             } />
                             <Route path="/professor/reset-password" component={ProfessorResetPW} />
                             <Route path="/professor/reset-success" component={ProfessorResetPWSuccess} />
-                            <PrivateRouteProfessor path="/professor/course" component={ProfessorCourse} />
+                            <PrivateRouteProfessor exact={true} path={paths.professorCourseList.pattern} component={ProfessorCourse} />
+                            <PrivateRouteProfessor path={paths.professorEditCourse.pattern} component={ProfessorEditCourse} />
+                            <PrivateRouteProfessor path={paths.professorAddCourse.pattern} component={ProfessorAddCourse} />
+
                             <Route path="/professor/claim-account" component={ProfessorClaim} />
                             {/* <PrivateRouteProfessor path="/professor/claim-account-success" component={ProfessorClaimSuccess} /> */}
                             <Route path="/professor/claim-account-success" component={ProfessorClaimSuccess} />
@@ -232,6 +248,11 @@ class HomePage extends Component {
                             <PrivateRouteProfessor path='/proctor/tests' component={ProfessorTestsForCourse} />
                             <PrivateRouteProfessor path='/proctor/test' component={ProfessorTestView} />
                             <PrivateRouteProfessor path='/proctor/result' component={ProfessorViewStudentTest} />
+
+                            <PrivateRouteProfessor path={paths.professorInClass.pattern} component={ProfessorClassStart} />
+                            <PrivateRouteProfessor exact={true} path={paths.professorInClassPastSessions.pattern} component={ProfessorPastCourseSessions} />
+                            <PrivateRouteProfessor exact={true} path={paths.professorInClassPastSessionDetail.pattern} component={ProfessorPastCourseSessionDetail} />
+                            <PrivateRouteProfessor exact={true} path={paths.professorInClassViewStudent.pattern} component={ProfessorInClassViewStudent} />
                             {/* <PrivateRouteProfessor 
                             path="/professor/proctoring/:courseId" 
                             render={(props) => <ViewProctoring {...props} />} /> */}
@@ -259,6 +280,10 @@ class HomePage extends Component {
                             
                             <PrivateRouteStudent path="/student/chrome-extension" component={StudentInstallChromeExtension} />
                             <PrivateRouteStudent path="/student/test/recording-error" component={StudentRecError} />
+
+                            <PrivateRouteStudent exact={true} path={paths.studentInClassCourseList.pattern} component={StudentInClassCourseList} />
+                            <PrivateRouteStudent exact={true} path={paths.studentInClassCourseDetail.pattern} component={StudentInClassLanding} />
+                            
                             <Route path="/student/fee-waiver" component={StudentFeeWaive} />
                             <Route path="/student/fee-waiver-select-school" component={StudentFeeWaiveSelect} />
                             <Route path="/student/fee-waiver-form" component={StudentFeeWaiveForm} />

@@ -1,0 +1,9 @@
+
+.in-class-options-card {
+  color: #333;
+}
+
+.in-class-flag-row input[type="checkbox"] {
+  margin-left: 10px;
+  margin-right: 20px;
+}

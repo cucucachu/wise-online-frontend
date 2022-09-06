@@ -1,0 +1,30 @@
+
+.wise-modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.wise-modal {
+  width: 100%;
+  max-width: 500px;
+  background-color: #fff;
+  border-radius: 20px;
+}
+
+.wise-modal__content {
+  margin: 20px;
+  text-align: center;
+}
+
+.wise-modal__title {
+  font-size: 1.8rem;
+  color: #000;
+  font-weight: bold;
+}
