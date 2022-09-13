@@ -1,0 +1,22 @@
+
+.student-tracking-table-sort-arrow--asc {
+  margin-left: 10px;
+  display: inline-block;
+  width: 0; 
+  height: 0; 
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  
+  border-bottom: 5px solid black;
+}
+
+.student-tracking-table-sort-arrow--desc {
+  margin-left: 10px;
+  display: inline-block;
+  width: 0; 
+  height: 0; 
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  
+  border-top: 5px solid #000;
+}

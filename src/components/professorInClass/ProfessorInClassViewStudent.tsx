@@ -101,8 +101,12 @@ export const ProfessorInClassViewStudent: React.FC<ProfessorInClassViewStudentPr
         if (!s.screenshotDetails) {
           return accum;
         }
-
-        return accum.concat(s.screenshotDetails.map(detail => professorGetCourseSessionDetailScreenshot(detail._id)));
+        console.log(s.screenshotDetails)
+        return accum.concat(s.screenshotDetails.filter(detail => {
+          return !!(detail.unknownDomains?.length);
+        }).map(detail => {
+          return professorGetCourseSessionDetailScreenshot(detail._id)
+        }));
       }, [] as string[]);
     }
 
