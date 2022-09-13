@@ -6,6 +6,7 @@ import {InputRow} from '../Resusable/InputRow';
 import {InClassOptions} from '../Resusable/InClassOptions';
 import { v4 as uuid } from 'uuid';
 import { InClassFlagAction, Course } from '../../types';
+import { IN_CLASS_CONSTANTS } from '../../constants';
 
 const isValid = (accessCode: string) => {
   if (accessCode.length === 0) {
@@ -21,7 +22,6 @@ export type CourseFormSaveData = {
   classId: string
   allowedUrls: string[];
   defaultAttendanceTrackingDelay: number | undefined;
-  defaultAttendanceThreshold: number | undefined;
   defaultAttendanceFlags: InClassFlagAction[];
   accessCode: string | undefined;
 };
@@ -40,8 +40,7 @@ export const CourseForm: React.FC<CourseFormProps> = ({ errorMessage, course, sa
 
   const [allowedUrls, setAllowedUrls] = React.useState<AllowedURLEntity[]>([]);
 
-  const [trackingDelay, setTrackingDelay] = React.useState<string>('1');
-  const [attendanceThreshold, setAttendanceThreshold] = React.useState<string>('99');
+  const [trackingDelay, setTrackingDelay] = React.useState<number>(IN_CLASS_CONSTANTS.DEFAULT_TRACKING_DELAY);
   const [flagTriggers, setFlagTriggers] = React.useState<InClassFlagAction[]>([]);
 
   React.useEffect(() => {
@@ -51,8 +50,7 @@ export const CourseForm: React.FC<CourseFormProps> = ({ errorMessage, course, sa
     setIntegrationId(course?.integrationId ?? "");
     setAccessCode(course?.accessCode ?? '');
 
-    setTrackingDelay(course?.defaultAttendanceTrackingDelay ? `${course?.defaultAttendanceTrackingDelay}` : '1');
-    setAttendanceThreshold(course?.defaultAttendanceThreshold ? `${course?.defaultAttendanceThreshold}` : '99');
+    setTrackingDelay(course?.defaultAttendanceTrackingDelay ?? IN_CLASS_CONSTANTS.DEFAULT_TRACKING_DELAY);
     setFlagTriggers(course?.defaultAttendanceFlags ?? []);
   }, [course]);
 
@@ -69,11 +67,10 @@ export const CourseForm: React.FC<CourseFormProps> = ({ errorMessage, course, sa
         classId,
         allowedUrls: allowedUrls?.map(u => u.url),
         defaultAttendanceTrackingDelay: trackingDelay ? Number(trackingDelay) : undefined,
-        defaultAttendanceThreshold: attendanceThreshold ? Number(attendanceThreshold) : undefined,
         defaultAttendanceFlags: flagTriggers,
         accessCode: isAccessCodeValid ? accessCode : undefined,
       });
-  }, [displayName, isAccessCodeValid, accessCode, integrationId, classId, allowedUrls, trackingDelay, attendanceThreshold, flagTriggers]);
+  }, [displayName, isAccessCodeValid, accessCode, integrationId, classId, allowedUrls, trackingDelay, flagTriggers]);
 
   return(
       <>
@@ -104,8 +101,6 @@ export const CourseForm: React.FC<CourseFormProps> = ({ errorMessage, course, sa
           <InClassOptions
             trackingDelay={trackingDelay}
             setTrackingDelay={setTrackingDelay}
-            attendanceThreshold={attendanceThreshold}
-            setAttendanceThreshold={setAttendanceThreshold}
             flagTriggers={flagTriggers}
             setFlagTriggers={setFlagTriggers}
           />

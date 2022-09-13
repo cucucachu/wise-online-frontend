@@ -3,14 +3,12 @@ import { Card} from '../Card';
 import { i18n } from 'web-translate';
 import {InputRow} from '../InputRow';
 import {InClassFlagAction} from '../../../types';
+import {BubbleButtonRow} from '../BubbleButtonRow';
 import './InClassOptions.css';
 
 type InClassOptionsProps = {
-  trackingDelay: string;
-  setTrackingDelay(value: string): void;
-
-  attendanceThreshold: string;
-  setAttendanceThreshold(value: string): void;
+  trackingDelay: number;
+  setTrackingDelay(value: number): void;
 
   flagTriggers: InClassFlagAction[];
   setFlagTriggers(triggers: InClassFlagAction[]): void;
@@ -43,24 +41,19 @@ export const InClassOptions: React.FC<InClassOptionsProps> = (props) => {
   return (
     <Card>
       <Card.Body className='in-class-options-card'>
-        <h5>{i18n('InClass Session Setup Options')}</h5>
-        <p>
-          {i18n('We recommend the default settings below, of 5m and 99% threshold, to prevent false-positive flags from students logging in or out of class')}
-        </p>
-        <InputRow
-          label={i18n('Begin tracking attendance after:')}
-          value={props.trackingDelay}
-          onChange={props.setTrackingDelay}
-          placeholder=''
-          unitLabel='m'
-        />
-        <InputRow
-          label={i18n('Threshold of Engagement for Attendance')}
-          value={props.attendanceThreshold}
-          onChange={props.setAttendanceThreshold}
-          placeholder=''
-          unitLabel='%'
-        />
+        <h4>{i18n('InClass Session Setup Options')}</h4>
+        <h5>{i18n('Begin tracking attendance after:')}</h5>
+        <BubbleButtonRow>
+          <BubbleButtonRow.Button onClick={() => props.setTrackingDelay(5)} selected={props.trackingDelay === 5}>
+            5m
+          </BubbleButtonRow.Button>
+          <BubbleButtonRow.Button onClick={() => props.setTrackingDelay(10)} selected={props.trackingDelay === 10}>
+            10m
+          </BubbleButtonRow.Button>
+          <BubbleButtonRow.Button onClick={() => props.setTrackingDelay(15)} selected={props.trackingDelay === 15}>
+            15m
+          </BubbleButtonRow.Button>
+        </BubbleButtonRow>
         <h5>{i18n('Flag If')}</h5>
         <FlagRow
           id={InClassFlagAction.phoneDisconnected}

@@ -1,0 +1,27 @@
+
+.bubble-button-row {
+  font-size: large;
+  display: inline-flex;
+  align-items: stretch;
+  margin: 0 auto 20px;
+  border-radius: .5rem;
+  box-shadow: 0 0 5px #ccc;
+  overflow: hidden;
+}
+
+.bubble-button-row-button {
+  padding: 10px 15px;
+  border: 0;
+  outline: 0;
+  background-color: #fff;
+  border-left: 1px solid #ccc;
+}
+
+.bubble-button-row-button:first-child {
+  border-left: 0;
+}
+
+.bubble-button-row-button--selected {
+  color: #fff;
+  background-color: var(--wise-primary-color);
+}

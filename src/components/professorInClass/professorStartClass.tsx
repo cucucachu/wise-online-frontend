@@ -15,6 +15,7 @@ import { createEngagementPointsForCourseSession } from './utils';
 import {LiveStudentTrackingTable} from './InClass/LiveStudentTrackingTable';
 import { InClassOptions } from '../Resusable/InClassOptions';
 import { Course, InClassFlagAction } from '../../types';
+import { IN_CLASS_CONSTANTS } from '../../constants';
 
 const editIcon = require('../../Assets/images/edit-icon.png');
 
@@ -170,7 +171,6 @@ const InSessionInClass: React.FC<InSessionInClassProps> = ({ course, courseId, c
 
 type SessionStartParams = {
     trackingDelay: number;
-    attendanceThreshold: number;
     flagTriggers: InClassFlagAction[];
     urls: string[];
 };
@@ -181,8 +181,7 @@ type StartInClassSessionProps = {
 };
 
 const StartInClassSession: React.FC<StartInClassSessionProps> = ({ course, startSession }) => {
-    const [trackingDelay, setTrackingDelay] = React.useState<string>(course?.defaultAttendanceTrackingDelay ? `${course?.defaultAttendanceTrackingDelay}` : '1');
-    const [attendanceThreshold, setAttendanceThreshold] = React.useState<string>(course?.defaultAttendanceThreshold ? `${course?.defaultAttendanceThreshold}` : '99');
+    const [trackingDelay, setTrackingDelay] = React.useState<number>(course?.defaultAttendanceTrackingDelay ?? IN_CLASS_CONSTANTS.DEFAULT_TRACKING_DELAY);
     const [flagTriggers, setFlagTriggers] = React.useState<InClassFlagAction[]>(course?.defaultAttendanceFlags ?? []);
     const [urls, setUrls] = React.useState<AllowedURLEntity[]>(course?.allowedUrls?.map(url => ({ id: uuid(), url })) ?? []);
 
@@ -190,12 +189,11 @@ const StartInClassSession: React.FC<StartInClassSessionProps> = ({ course, start
         e.preventDefault();
 
         startSession({
-            trackingDelay: Number(trackingDelay),
-            attendanceThreshold: Number(attendanceThreshold),
+            trackingDelay,
             flagTriggers,
             urls: urls.map(u => u.url),
         })
-    }, [startSession, trackingDelay, attendanceThreshold, flagTriggers, urls]);
+    }, [startSession, trackingDelay, flagTriggers, urls]);
 
     return(
         <div className="container">
@@ -209,8 +207,6 @@ const StartInClassSession: React.FC<StartInClassSessionProps> = ({ course, start
                         <InClassOptions
                             trackingDelay={trackingDelay}
                             setTrackingDelay={setTrackingDelay}
-                            attendanceThreshold={attendanceThreshold}
-                            setAttendanceThreshold={setAttendanceThreshold}
                             flagTriggers={flagTriggers}
                             setFlagTriggers={setFlagTriggers}
                         />

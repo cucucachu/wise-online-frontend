@@ -7,6 +7,7 @@ export type StudentCourseSession = {
   connectedTime: string;
   disconnectedTime?: string;
   student: string;
+  screenshotDetails: any[];
 }
 
 export type Student = {
@@ -26,7 +27,6 @@ export type CourseSession = {
   students: Student[];
   course: Course;
   trackingDelay: Course['defaultAttendanceTrackingDelay'],
-  attendanceThreshold: Course['defaultAttendanceThreshold'],
   flagTriggers: Course['defaultAttendanceFlags'],
 }
 

@@ -3,11 +3,6 @@ import { submitConfidenceScore } from './axios';
 import facesConfig from '../config/facesConfig';
 
 const { baseURL, apiKey } = facesConfig;
-// import dotenv from 'dotenv'
-// const env = dotenv.config().parsed;
-
-// const baseURL = process.env.SECRET_URL
-// const apiKey = process.env.API_KEY
 
 const detectFacesEndpoint = axios.create({
     baseURL,

@@ -14,7 +14,6 @@ export type Course = {
   professor: Professor | string;
 
   defaultAttendanceTrackingDelay?: number;
-  defaultAttendanceThreshold?: number;
   defaultAttendanceFlags?: InClassFlagAction[];
 };
 

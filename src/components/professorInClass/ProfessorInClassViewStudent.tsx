@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import { format } from 'date-fns';
-import {professorGetCourseSessionDetailForStudent} from '../../store/axios';
+import {professorGetCourseSessionDetailForStudent, professorGetCourseSessionDetailScreenshot} from '../../store/axios';
 import { CourseSession, Student, EngagementData } from './types';
 import { Loading } from './Loading';
 import { EngagementGraph } from './EngagementGraph';
@@ -95,6 +95,21 @@ export const ProfessorInClassViewStudent: React.FC<ProfessorInClassViewStudentPr
     return [];
   }, [courseSession]);
 
+  const screenshotUrls = React.useMemo(() => {
+    if (courseSession) {
+      return courseSession.studentCourseSessions.reduce((accum, s) => {
+        if (!s.screenshotDetails) {
+          return accum;
+        }
+
+        return accum.concat(s.screenshotDetails.map(detail => professorGetCourseSessionDetailScreenshot(detail._id)));
+      }, [] as string[]);
+    }
+
+    return [];
+  }, [courseSession]);
+  console.log(screenshotUrls)
+
   if (loading || !courseSession) {
     return <Loading />;
   }
@@ -111,9 +126,6 @@ export const ProfessorInClassViewStudent: React.FC<ProfessorInClassViewStudentPr
         <Card.Body className='text-black'>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
             <h4>Attendance?: Yes</h4>
-            <OutlineButton>
-              Download all attendance
-            </OutlineButton>
           </div>
         </Card.Body>
       </Card>
@@ -166,6 +178,19 @@ export const ProfessorInClassViewStudent: React.FC<ProfessorInClassViewStudentPr
         <div className='in-class-flag-report-row'>
           <div className='in-class-flag-report-label'>Computer Disconnected:</div>
           <div className='in-class-flag-report-value'>{webDisconnected ? 'yes' : 'no'}</div>
+        </div>
+      </Card.Body>
+    </Card>
+    <div className="spacer-vertical" />
+    <Card>
+      <Card.Body>
+        <h2 className='text-black'>Flag Screen Capture</h2>
+        <div>
+          {screenshotUrls.map(url => (
+            <div>
+              <img style={{ width: '100%', marginBottom: 20 }} src={url} />
+            </div>
+          ))}
         </div>
       </Card.Body>
     </Card>

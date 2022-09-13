@@ -17,12 +17,12 @@ export const StudentDashboard: React.FC<{}> = () => {
         <div className="spacer-vertical" />
         <h1>{i18n("Are you going to a class, or taking a test?")}</h1>
         <form>
-            {/* <div className="spacer-vertical" />
+            <div className="spacer-vertical" />
             <Link to="/student/class/attend">
                 <button className="btn">
                     <img src={tickIcon} alt="attend class icon" className="icon-sm" />&nbsp;{i18n("Attend class")}
                 </button>
-            </Link> */}
+            </Link>
 
             <div className="spacer-vertical" />
             <Link to={paths.studentInClassCourseList({})}>

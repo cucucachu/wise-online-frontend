@@ -1,0 +1,4 @@
+
+export const IN_CLASS_CONSTANTS = {
+  DEFAULT_TRACKING_DELAY: 5
+}

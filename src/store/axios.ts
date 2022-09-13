@@ -386,6 +386,10 @@ export async function professorGetCourseSessionDetailForStudent(courseId: string
     return response.data;
 }
 
+export function professorGetCourseSessionDetailScreenshot(screenshotId: string) {
+    return `${apiUrl}professor/course/screenshot/${screenshotId}`;
+}
+
 export async function professorGetCurrentSession(courseId: string) {
     const response = await backend.get(`/professor/course/${courseId}/session`);
     handleResponse(response);
@@ -394,7 +398,6 @@ export async function professorGetCurrentSession(courseId: string) {
 
 export async function professorStartCourseSession(courseId: string, params: {
     trackingDelay: number;
-    attendanceThreshold: number;
     flagTriggers: InClassFlagAction[];
     urls: string[];
 }) {

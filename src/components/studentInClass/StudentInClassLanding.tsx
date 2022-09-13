@@ -35,12 +35,12 @@ const useScreenTracking = ({ onReceiveTabs, screenVideoRef, screenshotCanvasRef,
     const screenVideo = screenVideoRef.current;
     const screenshotCanvas = screenshotCanvasRef.current;
     if (screenshotCanvas && screenVideo) {
-      screenshotCanvas.width = screenVideo.videoWidth;
-      screenshotCanvas.height = screenVideo.videoHeight;
+      screenshotCanvas.width = Math.min(screenVideo.videoWidth, 1200);
+      screenshotCanvas.height = (screenVideo.videoHeight / screenVideo.videoWidth) * screenshotCanvas.width;
       const screenshotContext = screenshotCanvas.getContext("2d");
 
       if (screenshotContext) {
-        screenshotContext.drawImage(screenVideo, 0, 0, screenVideo.videoWidth, screenVideo.videoHeight);
+        screenshotContext.drawImage(screenVideo, 0, 0, screenshotCanvas.width, screenshotCanvas.height);
       }
 
       const screenshot = screenshotCanvas.toDataURL("image/jpeg");
