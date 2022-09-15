@@ -23,11 +23,17 @@ const AllowedURLRow: React.FC<AllowedURLRowProps> = ({ urlEntity, onChange, onRe
     }, [onChange, urlEntity]);
 
     const onBlurInput: React.FocusEventHandler<HTMLInputElement> = React.useCallback((e) => {
-        const url = new URL(e.currentTarget.value);
-        
+        let updatedUrl = e.currentTarget.value;
+        try {
+            const url = new URL(e.currentTarget.value);
+            updatedUrl = url.host;
+        } catch {}
+
+        updatedUrl = updatedUrl.replace(/((^\w+:|^)\/\/)?(www\.)?/, '');
+
         onChange({
             ...urlEntity,
-            url: url.host,
+            url: updatedUrl,
         });
 
     }, [onChange, urlEntity]);
