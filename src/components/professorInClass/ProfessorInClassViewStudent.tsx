@@ -7,10 +7,10 @@ import { Loading } from './Loading';
 import { EngagementGraph } from './EngagementGraph';
 import { Card } from '../Resusable/Card';
 import {GraphSeriesFilter} from '../Resusable/GraphSeriesFilter';
-import {OutlineButton} from '../Resusable/OutlineButton';
 import { useEngagementGraphToggles } from './hooks';
 import {createEngagementPointsForCourseSession} from './utils';
 import './ProfessorInClassViewStudent.css';
+import {ScreenshotViewer} from '../Resusable/ScreenshotViewer';
 
 const editIcon = require('../../Assets/images/edit-icon.png');
 
@@ -19,6 +19,12 @@ type ProfessorInClassViewStudentProps = RouteComponentProps<{
   sessionId: string;
   studentId: string;
 }>
+
+type FlaggedScreenShot = {
+  screenshotUrl: string;
+  unknownDomains: string[];
+  timestamp: Date;
+}
 
 export const ProfessorInClassViewStudent: React.FC<ProfessorInClassViewStudentProps> = ({ match }) => {
   const [loading, setLoading] = React.useState(true);
@@ -42,7 +48,6 @@ export const ProfessorInClassViewStudent: React.FC<ProfessorInClassViewStudentPr
   }, []);
 
   const { onToggleGraphLine, selectedGraphLines } = useEngagementGraphToggles();
-
 
   const engagementPoints: EngagementData[] | undefined = React.useMemo(() => {
     if (courseSession) {
@@ -95,7 +100,7 @@ export const ProfessorInClassViewStudent: React.FC<ProfessorInClassViewStudentPr
     return [];
   }, [courseSession]);
 
-  const screenshotUrls = React.useMemo(() => {
+  const screenshotUrls: FlaggedScreenShot[] = React.useMemo(() => {
     if (courseSession) {
       return courseSession.studentCourseSessions.reduce((accum, s) => {
         if (!s.screenshotDetails) {
@@ -105,14 +110,45 @@ export const ProfessorInClassViewStudent: React.FC<ProfessorInClassViewStudentPr
         return accum.concat(s.screenshotDetails.filter(detail => {
           return !!(detail.unknownDomains?.length);
         }).map(detail => {
-          return professorGetCourseSessionDetailScreenshot(detail._id)
+          console.log('detail', detail);
+          return {
+            screenshotUrl: professorGetCourseSessionDetailScreenshot(detail._id),
+            unknownDomains: detail.unknownDomains,
+            timestamp: new Date(detail.timestamp),
+          }
         }));
-      }, [] as string[]);
+      }, [] as FlaggedScreenShot[]);
     }
 
     return [];
   }, [courseSession]);
-  console.log(screenshotUrls)
+
+  const [currentScreenShotIndex, setCurrentScreenShotIndex] = React.useState(0);
+  const onClickNextIssue = React.useCallback(() => {
+    setCurrentScreenShotIndex(currentScreenShotIndex + 1);
+  }, [currentScreenShotIndex, setCurrentScreenShotIndex]);
+
+  const playTimerHandle = React.useRef<any | null>(null);
+  const onClickPlay = React.useCallback(() => {
+    if (!playTimerHandle.current) {
+      playTimerHandle.current = setInterval(() => {
+        setCurrentScreenShotIndex((value) => {
+          if (value < screenshotUrls.length - 1) {
+            return value + 1;
+          } else {
+            return 0;
+          }
+        });
+      }, 750);
+    }
+  }, [setCurrentScreenShotIndex, screenshotUrls]);
+
+  const onClickPause = React.useCallback(() => {
+    if (playTimerHandle.current) {
+      clearInterval(playTimerHandle.current);
+      playTimerHandle.current = null;
+    }
+  }, []);
 
   if (loading || !courseSession) {
     return <Loading />;
@@ -189,13 +225,23 @@ export const ProfessorInClassViewStudent: React.FC<ProfessorInClassViewStudentPr
     <Card>
       <Card.Body>
         <h2 className='text-black'>Flag Screen Capture</h2>
-        <div>
-          {screenshotUrls.map(url => (
-            <div>
-              <img style={{ width: '100%', marginBottom: 20 }} src={url} />
-            </div>
-          ))}
-        </div>
+        <ScreenshotViewer.Container>
+          <ScreenshotViewer.ImageContainer>
+            {screenshotUrls[currentScreenShotIndex] && <img style={{ height: '100%', marginBottom: 20 }} src={screenshotUrls[currentScreenShotIndex].screenshotUrl} />}
+          </ScreenshotViewer.ImageContainer>
+          <ScreenshotViewer.Slider max={screenshotUrls.length - 1} value={currentScreenShotIndex} onChange={setCurrentScreenShotIndex} />
+          <ScreenshotViewer.PlayControls
+              onClickPlay={onClickPlay}
+              onClickNextIssue={onClickNextIssue}
+              onClickPause={onClickPause}
+              hasNext={currentScreenShotIndex < screenshotUrls.length - 1}
+              infoText={`Frame ${currentScreenShotIndex + 1} / ${screenshotUrls.length} @ ${screenshotUrls[currentScreenShotIndex] && format(screenshotUrls[currentScreenShotIndex].timestamp, 'M/d/yy - h:mm:ss aaa')}`}
+          />
+          {screenshotUrls[currentScreenShotIndex] && <div className='in-class-flag-report-row'>
+            <div className='in-class-flag-report-label'>Sites visited:</div>
+            <div className='in-class-flag-report-value'>{screenshotUrls[currentScreenShotIndex].unknownDomains.length ? screenshotUrls[currentScreenShotIndex].unknownDomains.join(', ') : ''}</div>
+          </div>}
+        </ScreenshotViewer.Container>
       </Card.Body>
     </Card>
     </div>

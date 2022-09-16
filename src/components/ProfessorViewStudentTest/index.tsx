@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-
+import { RouteComponentProps } from 'react-router-dom';
 import DataPane from '../Resusable/DataPane';
 import ProctorDetailView from './ProctorDetailView';
 
 import { 
     proctoringGetStudentTestDetails,
-    proctoringGetStudentTestDetailsAndImages,
     proctoringGetWebcamImageURL,
     proctoringGetScreenshotImageURL,
     proctoringGetAudioURL 
@@ -13,14 +12,31 @@ import {
 
 import editIcon from '../../Assets/images/edit-icon.png'
 
-class ProfessorViewStudentTest extends Component {
+type ProfessorViewStudentTestRouteState = {
+    studentTest: any;
+    test: any;
+};
 
-    constructor(props) {
+type ProfessorViewStudentTestProps = {
+
+} & RouteComponentProps<{}, {}, ProfessorViewStudentTestRouteState>;
+
+type ProfessorViewStudentTestState = {
+    frame: number;
+    proctorDetails: any[];
+    issueFrames: any[];
+    playInterval: null | number;
+    pauseForAudio: boolean;
+    playing: boolean;
+} & ProfessorViewStudentTestRouteState;
+
+class ProfessorViewStudentTest extends Component<ProfessorViewStudentTestProps, ProfessorViewStudentTestState> {
+    constructor(props: ProfessorViewStudentTestProps) {
         super(props);
 
         this.state = {
             frame: 0,
-            ...this.props.location.state,
+            ...props.location.state,
             proctorDetails: [],
             issueFrames: [],
             playInterval: null,
@@ -67,7 +83,7 @@ class ProfessorViewStudentTest extends Component {
             if (studentTest.missingScreenshots) studentTest.issues.push('Screen Capture Disabled During Test');
         }
 
-        let proctorDetails = [];
+        let proctorDetails: any[] = [];
         let issueFrames = [];
 
         for (const proctorSession of studentTest.proctorSessions) {
@@ -116,31 +132,10 @@ class ProfessorViewStudentTest extends Component {
     }
 
     componentWillUnmount() {
-        clearInterval(this.state.playInterval);
+        if (this.state.playInterval) {
+            clearInterval(this.state.playInterval);
+        }
     }
-
-    // async getStudentTestDetails(numberOfProctorDetails) {
-    //     let pageSize = 4;
-
-    //     for (let index = 0; index < 10/*numberOfProctorDetails*/; index += pageSize) {
-    //         // pageSize = pageSize < 5 ? pageSize + 1 : pageSize;
-            
-    //         const response = await proctoringGetStudentTestDetailsAndImages({
-    //             studentTestId: this.state.studentTest._id,
-    //             start: index,
-    //             pageSize,
-    //         });
-
-    //         const proctorDetails = [...this.state.proctorDetails];
-    //         if (response && response.data && response.data.proctorDetails)
-    //             proctorDetails.splice(index, response.data.proctorDetails.length, ...response.data.proctorDetails);
-
-    //         this.setState({
-    //             ...this.state,
-    //             proctorDetails,
-    //         });
-    //     }
-    // }
 
     play() {
         this.videoController({clickedPlay: true})
@@ -150,8 +145,8 @@ class ProfessorViewStudentTest extends Component {
         this.videoController({clickedPause: true});
     }
 
-    handleChangeSlider(e) {
-        this.videoController({clickedFrame: Number(e.target.value)});
+    handleChangeSlider(value: number) {
+        this.videoController({clickedFrame: value});
     }
 
     handleClickNextIssue() {
@@ -173,7 +168,12 @@ class ProfessorViewStudentTest extends Component {
         this.videoController({clickedFrame: nextIssueFrame});
     }
 
-    videoController({calledFromTimeout, clickedPlay, clickedPause, clickedFrame}) {
+    videoController({calledFromTimeout, clickedPlay, clickedPause, clickedFrame}: {
+        calledFromTimeout?: boolean,
+        clickedPlay?: boolean,
+        clickedPause?: boolean,
+        clickedFrame?: number,
+    }) {
         console.log('videoController()')
 
         const state = {...this.state};
@@ -216,7 +216,7 @@ class ProfessorViewStudentTest extends Component {
         this.setState(state);
     }
 
-    playState(state) {
+    playState(state: any) {
         console.log('playState()');
         state.playing = true;
         // if (state.playInterval === null) {
@@ -224,7 +224,7 @@ class ProfessorViewStudentTest extends Component {
         // }
     }
 
-    pauseState(state) {
+    pauseState(state: any) {
         console.log('pauseState()');
         state.playing = false;
         // if (state.playInterval !== null) {
@@ -233,12 +233,12 @@ class ProfessorViewStudentTest extends Component {
         // }
     }
 
-    nextFrame(state) {
+    nextFrame(state: any) {
         console.log('nextFrame()');
         state.frame = state.frame + 1;
     }
 
-    goToFrame(state, frame) {
+    goToFrame(state: any, frame: any) {
         console.log('goToFrame()');
         state.frame = frame;
     }
@@ -258,7 +258,7 @@ class ProfessorViewStudentTest extends Component {
                         'Start Time': this.state.studentTest.start,
                         'End Time': this.state.studentTest.end,
                         'Proctor Session': 
-                            this.state.studentTest.proctorSessions.map(session => {
+                            this.state.studentTest.proctorSessions.map((session: any) => {
                                 const start = new Date(session.startTime).toLocaleString();
                                 let end = '?';
                                 if (session.endTime) {
