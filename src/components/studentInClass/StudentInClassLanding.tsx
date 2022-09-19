@@ -1,5 +1,5 @@
 import * as React from 'react'
-import io, {Socket} from 'socket.io-client';
+import {Socket} from 'socket.io-client';
 import {RouteComponentProps} from 'react-router-dom'
 
 import { Course } from "../../types";
@@ -8,7 +8,7 @@ import { AuthContext } from "../../contexts/AuthContext";
 // import {CodeEntry} from './Resusable/CodeEntry';
 
 import { i18n } from 'web-translate';
-import { apiUrl } from '../../config/apiUrl';
+import { realtimeService } from '../../services/realtime';
 import { Card } from '../Resusable/Card';
 import './StudentInClassLanding.css';
 import {StudentCheckIcon} from './StudentCheckIcon';
@@ -264,9 +264,7 @@ export const StudentInClassLanding: React.FC<StudentInClassInSessionProps> = (pr
   const [classOver, setClassOver] = React.useState(false);
   
   const startInClass = React.useCallback(() => {
-    const newSocket = io(apiUrl, {
-      withCredentials: true,
-    });
+    const newSocket = realtimeService.connect();
     setSocket(newSocket);
 
     newSocket.on("connect", () => {

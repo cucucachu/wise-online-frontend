@@ -1,4 +1,6 @@
 import * as React from 'react'
+import io, {Socket} from 'socket.io-client';
+import { realtimeService } from '../../services/realtime';
 import {RouteComponentProps} from 'react-router-dom'
 import { getStudentCourses } from "../../store/axios";
 import {Course} from '../../types';
@@ -21,6 +23,38 @@ export const StudentInClassCourseList: React.FC<RouteComponentProps> = ({ histor
   React.useEffect(() => {
     fetch();
   }, []);
+
+
+  const [socket, setSocket] = React.useState<Socket | null>(null);
+  
+  React.useEffect(() => {
+    const newSocket = realtimeService.connect();
+    setSocket(newSocket);
+
+    newSocket.on("connect", () => {
+      console.log('Connected to server')
+      newSocket.on('class-start', (e) => {
+        if (e?.courseId) {
+          setCourses(courses.map(c => {
+            if (e.courseId === c._id) {
+              return {
+                ...c,
+                isInSession: true,
+              };
+            } else {
+              return c;
+            }
+          }));
+        }
+
+        fetch();
+      });
+    });
+
+    return () => {
+      newSocket?.close()
+    };
+  }, [setSocket, courses, setCourses]);
 
   const [joinErrorMessage, setJoinErrorMessage] = React.useState<string | undefined>();
   const [classId, setClassId] = React.useState('');
