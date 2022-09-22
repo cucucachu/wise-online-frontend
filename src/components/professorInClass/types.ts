@@ -1,5 +1,11 @@
 import { Course } from "../../types";
 
+export type StudentCourseSessionScreenshotDetail = {
+  timestamp: string;
+  unknownDomains: string[];
+  _id: string;
+}
+
 export type StudentCourseSession = {
   _id: string;
   device: string;
@@ -7,7 +13,7 @@ export type StudentCourseSession = {
   connectedTime: string;
   disconnectedTime?: string;
   student: string;
-  screenshotDetails: any[];
+  screenshotDetails: StudentCourseSessionScreenshotDetail[];
 }
 
 export type Student = {
@@ -49,4 +55,13 @@ export type StudentCourseSessions = {
 
 export type GroupedSessions = {
   [studentId: string]: StudentCourseSessions
+}
+
+export type GroupedFlaggedURLS = {
+  url: string;
+  intervals: Array<{
+    screenshotDetailId: string;
+    start: Date;
+    end: Date;
+  }>;
 }

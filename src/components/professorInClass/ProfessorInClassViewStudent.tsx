@@ -8,7 +8,7 @@ import { EngagementGraph } from './EngagementGraph';
 import { Card } from '../Resusable/Card';
 import {GraphSeriesFilter} from '../Resusable/GraphSeriesFilter';
 import { useEngagementGraphToggles } from './hooks';
-import {createEngagementPointsForCourseSession} from './utils';
+import {createEngagementPointsForCourseSession, getGrouppedFlaggedUrlsFromCourseSessions} from './utils';
 import './ProfessorInClassViewStudent.css';
 import {ScreenshotViewer} from '../Resusable/ScreenshotViewer';
 
@@ -21,6 +21,7 @@ type ProfessorInClassViewStudentProps = RouteComponentProps<{
 }>
 
 type FlaggedScreenShot = {
+  screenshotId: string;
   screenshotUrl: string;
   unknownDomains: string[];
   timestamp: Date;
@@ -110,8 +111,8 @@ export const ProfessorInClassViewStudent: React.FC<ProfessorInClassViewStudentPr
         return accum.concat(s.screenshotDetails.filter(detail => {
           return !!(detail.unknownDomains?.length);
         }).map(detail => {
-          console.log('detail', detail);
           return {
+            screenshotId: detail._id,
             screenshotUrl: professorGetCourseSessionDetailScreenshot(detail._id),
             unknownDomains: detail.unknownDomains,
             timestamp: new Date(detail.timestamp),
@@ -149,6 +150,19 @@ export const ProfessorInClassViewStudent: React.FC<ProfessorInClassViewStudentPr
       playTimerHandle.current = null;
     }
   }, []);
+
+  const grouppedFlags = React.useMemo(() => {
+    if (courseSession) {
+      return getGrouppedFlaggedUrlsFromCourseSessions(courseSession.studentCourseSessions);
+    }
+  }, [courseSession]);
+
+  const onClickInterval = React.useCallback((screenshotId: string) => {
+    const index = screenshotUrls.findIndex((value) => value.screenshotId === screenshotId);
+    if (index !== -1) {
+      setCurrentScreenShotIndex(index);
+    }
+  }, [screenshotUrls]);
 
   if (loading || !courseSession) {
     return <Loading />;
@@ -237,11 +251,32 @@ export const ProfessorInClassViewStudent: React.FC<ProfessorInClassViewStudentPr
               hasNext={currentScreenShotIndex < screenshotUrls.length - 1}
               infoText={`Frame ${currentScreenShotIndex + 1} / ${screenshotUrls.length} @ ${screenshotUrls[currentScreenShotIndex] && format(screenshotUrls[currentScreenShotIndex].timestamp, 'M/d/yy - h:mm:ss aaa')}`}
           />
-          {screenshotUrls[currentScreenShotIndex] && <div className='in-class-flag-report-row'>
-            <div className='in-class-flag-report-label'>Sites visited:</div>
-            <div className='in-class-flag-report-value'>{screenshotUrls[currentScreenShotIndex].unknownDomains.length ? screenshotUrls[currentScreenShotIndex].unknownDomains.join(', ') : ''}</div>
-          </div>}
         </ScreenshotViewer.Container>
+        <table className="table table-striped">
+          <thead>
+            <tr>
+              <th>Flagged Activity</th>
+              <th>Duration</th>
+            </tr>
+          </thead>
+          <tbody>
+            {grouppedFlags?.map(flaggedActivity => 
+              <tr key={flaggedActivity.url}>
+                <td>{flaggedActivity.url}</td>
+                <td>
+                  {flaggedActivity.intervals.map((interval) => 
+                    <div key={interval.screenshotDetailId}>
+                      <a onClick={() => onClickInterval(interval.screenshotDetailId)}>
+                        {format(new Date(interval.start), 'M/d h:mmaaa')} -{' '}
+                        {format(new Date(interval.end), 'h:mmaaa')}
+                      </a>
+                    </div>
+                  )}
+                </td>
+              </tr>  
+            )}
+          </tbody>
+        </table>
       </Card.Body>
     </Card>
     </div>

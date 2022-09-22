@@ -1,5 +1,52 @@
+import { differenceInMinutes, addMinutes } from 'date-fns';
 import { InClassFlagAction } from '../../types';
-import { CourseSession, EngagementData, StudentCourseSession } from './types';
+import { CourseSession, EngagementData, StudentCourseSession, StudentCourseSessionScreenshotDetail, GroupedFlaggedURLS } from './types';
+
+export const getGrouppedFlaggedUrlsFromCourseSessions = (studentCourseSessions: StudentCourseSession[]): GroupedFlaggedURLS[] => {
+    const screenshotDetails = studentCourseSessions.reduce((grouppedList, studentCourseSession) => {
+        return grouppedList.concat(studentCourseSession.screenshotDetails.filter(detail => {
+            return !!detail.unknownDomains;
+        }));
+    }, [] as StudentCourseSessionScreenshotDetail[]);
+
+    const groupedScreenshotDetails = screenshotDetails.reduce((accum, screenshotDetail) => {
+        for (let url of screenshotDetail.unknownDomains) {
+            if (!accum[url]) {
+                accum[url] = [];
+            }
+
+            accum[url].push(screenshotDetail);
+        }
+
+        return accum;
+    }, {} as { [url: string]: StudentCourseSessionScreenshotDetail[] });
+
+    return Object.entries(groupedScreenshotDetails).map(([url, screenshotDetails]) => {
+        screenshotDetails.sort((a, b) => {
+            return (new Date(a.timestamp)).getTime() - (new Date(b.timestamp)).getTime();
+        });
+
+        return {
+            url,
+            intervals: screenshotDetails.reduce((finalIntervals, screenshotDetail) => {
+                const screenshotTimeStamp = new Date(screenshotDetail.timestamp);
+    
+                const previousEntry = finalIntervals[finalIntervals.length - 1];
+                if (previousEntry && differenceInMinutes(screenshotTimeStamp, previousEntry.end) < 2) {
+                    previousEntry.end = screenshotTimeStamp;
+                } else {
+                    finalIntervals.push({
+                        screenshotDetailId: screenshotDetail._id,
+                        start: screenshotTimeStamp,
+                        end: addMinutes(screenshotTimeStamp, 1),
+                    });
+                }
+
+                return finalIntervals;
+            }, [] as GroupedFlaggedURLS['intervals']),
+        };
+    });
+}
 
 const clampDateToBucket = (d: Date, bucketSizeInSeconds: number): Date => {
     const remainder = d.getTime() % (bucketSizeInSeconds * 1000);
