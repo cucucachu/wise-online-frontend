@@ -1,5 +1,5 @@
 import * as React from "react";
-import io, { Socket } from "socket.io-client";
+import { Socket } from "socket.io-client";
 import { realtimeService } from "../../services/realtime";
 import { RouteComponentProps } from "react-router-dom";
 import { getStudentCourses } from "../../store/axios";
@@ -7,8 +7,6 @@ import { Course } from "../../types";
 import { CodeEntry } from "../Resusable/CodeEntry";
 import attendClass from "../../Assets/images/attend-class.png";
 import { studentJoinCourse } from "../../store/axios";
-// import {CodeEntry} from './Resusable/CodeEntry';
-
 import { i18n } from "web-translate";
 import { paths } from "../../paths";
 
@@ -24,9 +22,9 @@ export const StudentInClassCourseList: React.FC<RouteComponentProps> = ({
 
   React.useEffect(() => {
     fetch();
-  }, []);
+  }, [fetch]);
 
-  const [socket, setSocket] = React.useState<Socket | null>(null);
+  const [_socket, setSocket] = React.useState<Socket | null>(null);
 
   React.useEffect(() => {
     const newSocket = realtimeService.connect();
@@ -34,24 +32,23 @@ export const StudentInClassCourseList: React.FC<RouteComponentProps> = ({
 
     newSocket.on("connect", () => {
       console.log("Connected to server");
-      newSocket.on("class-start", (e) => {
-        if (e?.courseId) {
-          setCourses(
-            courses.map((c) => {
-              if (e.courseId === c._id) {
-                return {
-                  ...c,
-                  isInSession: true,
-                };
-              } else {
-                return c;
-              }
-            })
-          );
-        }
+    });
 
-        fetch();
-      });
+    newSocket.on("class-start", (e) => {
+      if (e?.courseId) {
+        setCourses(
+          courses.map((c) => {
+            if (e.courseId === c._id) {
+              return {
+                ...c,
+                isInSession: true,
+              };
+            } else {
+              return c;
+            }
+          })
+        );
+      }
     });
 
     return () => {
