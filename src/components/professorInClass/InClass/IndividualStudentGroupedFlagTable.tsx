@@ -42,9 +42,14 @@ type DeviceFlagRowProps = {
 };
 
 const DeviceFlagRow: React.FC<DeviceFlagRowProps> = ({ flaggedActivity }) => {
+  const title =
+    flaggedActivity.device === "web"
+      ? "Computer Disconnect(s)"
+      : "Mobile Disconnect(s)";
+
   return (
     <tr>
-      <td>{flaggedActivity.device} disconnect</td>
+      <td>{title}</td>
       <td>
         {flaggedActivity.intervals.map((interval) => (
           <div key={interval.start.toISOString()}>
@@ -122,7 +127,7 @@ export const IndividualStudentGroupedFlagTable: React.FC<
     <table className="table table-striped">
       <thead>
         <tr>
-          <th onClick={() => onClickField("activity")}>
+          <th style={{ width: "70%" }} onClick={() => onClickField("activity")}>
             Flagged Activity
             {sortField === "activity" && <SortArrow direction={sortOrder} />}
           </th>

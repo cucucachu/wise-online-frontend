@@ -99,11 +99,11 @@ const InSessionInClass: React.FC<InSessionInClassProps> = ({
     }
   }, [courseSession]);
 
-  // React.useEffect(() => {
-  //     return () => {
-  //         stopSession();
-  //     };
-  // }, []);
+  React.useEffect(() => {
+    return () => {
+      stopSession();
+    };
+  }, []);
 
   const studentsById = React.useMemo(() => {
     return courseSession.students.reduce((accum, student) => {
