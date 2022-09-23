@@ -1,6 +1,53 @@
 import { differenceInMinutes, addMinutes } from 'date-fns';
 import { InClassFlagAction } from '../../types';
-import { CourseSession, EngagementData, StudentCourseSession, StudentCourseSessionScreenshotDetail, GroupedFlaggedURLS } from './types';
+import { GroupedDeviceActivities, CourseSession, EngagementData, StudentCourseSession, StudentCourseSessionScreenshotDetail, GroupedFlaggedURLS } from './types';
+
+export const getGroupedDeviceActivities = (courseSession: CourseSession, studentCourseSessions: StudentCourseSession[]): GroupedDeviceActivities[] => {
+    const groupedByDevice = studentCourseSessions.reduce((accum, studentCourseSession) => {
+        if (!accum[studentCourseSession.device]) {
+            accum[studentCourseSession.device] = [];
+        }
+
+        accum[studentCourseSession.device].push(studentCourseSession);
+
+        return accum;
+    }, {} as { [device: string]: StudentCourseSession[] });
+
+    return Object.entries(groupedByDevice).map(([device, studentCourseSessions]) => {
+        const sortedStudentCourseSessions = [...studentCourseSessions].sort((a, b) => {
+            return (new Date(a.connectedTime)).getTime() - (new Date(b.connectedTime)).getTime();
+        });
+
+        const disconnectIntervals: GroupedDeviceActivities['intervals'] = [];
+        let [prevStudentCourseSession, ...restStudentCourseSessions] = sortedStudentCourseSessions;
+        if (prevStudentCourseSession) {
+            for (let studentCourseSession of restStudentCourseSessions) {
+                const prevDisconnectedTime = prevStudentCourseSession.disconnectedTime ? new Date(prevStudentCourseSession.disconnectedTime) : undefined;
+                if (prevDisconnectedTime!.getTime() < new Date(studentCourseSession.connectedTime).getTime()) {
+                    disconnectIntervals.push({
+                        start: prevDisconnectedTime!,
+                        end: new Date(studentCourseSession.connectedTime),
+                    });
+
+                    prevStudentCourseSession = studentCourseSession;
+                }
+            }
+
+            if (prevStudentCourseSession.disconnectedTime && (new Date(prevStudentCourseSession.disconnectedTime)).getTime() < new Date(courseSession.endTime!).getTime()) {
+                disconnectIntervals.push({
+                    start: new Date(prevStudentCourseSession.disconnectedTime),
+                    end: new Date(courseSession.endTime!),
+                });
+            }
+        }
+
+        return {
+            flagType: 'device-disconnect',
+            device,
+            intervals: disconnectIntervals,
+        };
+    });
+};
 
 export const getGrouppedFlaggedUrlsFromCourseSessions = (studentCourseSessions: StudentCourseSession[]): GroupedFlaggedURLS[] => {
     const screenshotDetails = studentCourseSessions.reduce((grouppedList, studentCourseSession) => {
@@ -27,6 +74,7 @@ export const getGrouppedFlaggedUrlsFromCourseSessions = (studentCourseSessions: 
         });
 
         return {
+            flagType: 'blocked-url',
             url,
             intervals: screenshotDetails.reduce((finalIntervals, screenshotDetail) => {
                 const screenshotTimeStamp = new Date(screenshotDetail.timestamp);

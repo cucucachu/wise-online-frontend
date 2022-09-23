@@ -57,10 +57,22 @@ export type GroupedSessions = {
   [studentId: string]: StudentCourseSessions
 }
 
+export type GroupedFlaggedActivities = GroupedFlaggedURLS | GroupedDeviceActivities;
+
 export type GroupedFlaggedURLS = {
+  flagType: 'blocked-url';
   url: string;
   intervals: Array<{
     screenshotDetailId: string;
+    start: Date;
+    end: Date;
+  }>;
+}
+
+export type GroupedDeviceActivities = {
+  flagType: 'device-disconnect';
+  device: string;
+  intervals: Array<{
     start: Date;
     end: Date;
   }>;

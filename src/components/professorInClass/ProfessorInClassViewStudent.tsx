@@ -8,7 +8,8 @@ import { EngagementGraph } from './EngagementGraph';
 import { Card } from '../Resusable/Card';
 import {GraphSeriesFilter} from '../Resusable/GraphSeriesFilter';
 import { useEngagementGraphToggles } from './hooks';
-import {createEngagementPointsForCourseSession, getGrouppedFlaggedUrlsFromCourseSessions} from './utils';
+import {createEngagementPointsForCourseSession} from './utils';
+import {IndividualStudentGroupedFlagTable} from './InClass/IndividualStudentGroupedFlagTable';
 import './ProfessorInClassViewStudent.css';
 import {ScreenshotViewer} from '../Resusable/ScreenshotViewer';
 
@@ -151,12 +152,6 @@ export const ProfessorInClassViewStudent: React.FC<ProfessorInClassViewStudentPr
     }
   }, []);
 
-  const grouppedFlags = React.useMemo(() => {
-    if (courseSession) {
-      return getGrouppedFlaggedUrlsFromCourseSessions(courseSession.studentCourseSessions);
-    }
-  }, [courseSession]);
-
   const onClickInterval = React.useCallback((screenshotId: string) => {
     const index = screenshotUrls.findIndex((value) => value.screenshotId === screenshotId);
     if (index !== -1) {
@@ -252,31 +247,10 @@ export const ProfessorInClassViewStudent: React.FC<ProfessorInClassViewStudentPr
               infoText={`Frame ${currentScreenShotIndex + 1} / ${screenshotUrls.length} @ ${screenshotUrls[currentScreenShotIndex] && format(screenshotUrls[currentScreenShotIndex].timestamp, 'M/d/yy - h:mm:ss aaa')}`}
           />
         </ScreenshotViewer.Container>
-        <table className="table table-striped">
-          <thead>
-            <tr>
-              <th>Flagged Activity</th>
-              <th>Duration</th>
-            </tr>
-          </thead>
-          <tbody>
-            {grouppedFlags?.map(flaggedActivity => 
-              <tr key={flaggedActivity.url}>
-                <td>{flaggedActivity.url}</td>
-                <td>
-                  {flaggedActivity.intervals.map((interval) => 
-                    <div key={interval.screenshotDetailId}>
-                      <a onClick={() => onClickInterval(interval.screenshotDetailId)}>
-                        {format(new Date(interval.start), 'M/d h:mmaaa')} -{' '}
-                        {format(new Date(interval.end), 'h:mmaaa')}
-                      </a>
-                    </div>
-                  )}
-                </td>
-              </tr>  
-            )}
-          </tbody>
-        </table>
+        <IndividualStudentGroupedFlagTable
+          courseSession={courseSession!}
+          onClickInterval={onClickInterval}
+        />
       </Card.Body>
     </Card>
     </div>

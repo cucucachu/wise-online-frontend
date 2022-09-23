@@ -6,6 +6,7 @@ import { paths } from '../../../paths';
 
 import {ActiveStatus, StudentDeviceStatus} from './ActiveStatus';
 import {Student, GroupedSessions } from '../types';
+import {SortArrow} from './SortArrow';
 import './StudentTrackingTable.css';
 
 type StudentTrackingTableProps = {
@@ -66,7 +67,7 @@ const TrackingTableHeaderCell: React.FC<TrackingTableHeaderCellProps> = ({ field
   return (
     <th onClick={onClickField}>
       {children}
-      {field === currentSortedField && <div className={direction === 'asc' ?'student-tracking-table-sort-arrow--asc' : 'student-tracking-table-sort-arrow--desc'} />}
+      {field === currentSortedField && <SortArrow direction={direction} />}
     </th>
   )
 }
