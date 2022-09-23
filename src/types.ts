@@ -1,4 +1,3 @@
-
 export type Course = {
   _id: string;
   id?: string;
@@ -20,10 +19,10 @@ export type Course = {
 type Professor = {
   firstName: string;
   lastName: string;
-}
+};
 
 export enum InClassFlagAction {
-  phoneDisconnected = 'phone-disconnected',
-  nonAllowedUrl = 'non-allowed-url',
-  computerDisconnected = 'computer-disconnected',
+  phoneDisconnected = "phone-disconnected",
+  nonAllowedUrl = "non-allowed-url",
+  computerDisconnected = "computer-disconnected",
 }

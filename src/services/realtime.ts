@@ -1,5 +1,5 @@
-import io, {Socket} from 'socket.io-client';
-import { apiUrl } from '../config/apiUrl';
+import io, { Socket } from "socket.io-client";
+import { apiUrl } from "../config/apiUrl";
 
 export const realtimeService = {
   connect(): Socket {
@@ -9,7 +9,7 @@ export const realtimeService = {
 
     return newSocket;
   },
-}
+};
 // newSocket.on("connect", () => {
 //   console.log('Connected to server')
 //   if (newSocket.connected) {

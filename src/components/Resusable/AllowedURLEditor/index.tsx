@@ -1,112 +1,146 @@
-import React from 'react';
-import { v4 as uuid } from 'uuid';
-import {Card} from '../Card';
+import React from "react";
+import { v4 as uuid } from "uuid";
+import { Card } from "../Card";
 
 export type AllowedURLEntity = {
-    id: string;
-    url: string;
-}
+  id: string;
+  url: string;
+};
 
 type AllowedURLRowProps = {
-    urlEntity: AllowedURLEntity;
-    onChange(urlEntity: AllowedURLEntity): void;
-    onRemove(urlEntity: AllowedURLEntity): void;
-}
+  urlEntity: AllowedURLEntity;
+  onChange(urlEntity: AllowedURLEntity): void;
+  onRemove(urlEntity: AllowedURLEntity): void;
+};
 
-const AllowedURLRow: React.FC<AllowedURLRowProps> = ({ urlEntity, onChange, onRemove }) => {
-    const onChangeInput: React.ChangeEventHandler<HTMLInputElement> = React.useCallback((e) => {
+const AllowedURLRow: React.FC<AllowedURLRowProps> = ({
+  urlEntity,
+  onChange,
+  onRemove,
+}) => {
+  const onChangeInput: React.ChangeEventHandler<HTMLInputElement> =
+    React.useCallback(
+      (e) => {
         onChange({
-            ...urlEntity,
-            url: e.currentTarget.value,
+          ...urlEntity,
+          url: e.currentTarget.value,
         });
+      },
+      [onChange, urlEntity]
+    );
 
-    }, [onChange, urlEntity]);
-
-    const onBlurInput: React.FocusEventHandler<HTMLInputElement> = React.useCallback((e) => {
+  const onBlurInput: React.FocusEventHandler<HTMLInputElement> =
+    React.useCallback(
+      (e) => {
         let updatedUrl = e.currentTarget.value;
         try {
-            const url = new URL(e.currentTarget.value);
-            updatedUrl = url.host;
+          const url = new URL(e.currentTarget.value);
+          updatedUrl = url.host;
         } catch {}
 
-        updatedUrl = updatedUrl.replace(/((^\w+:|^)\/\/)?(www\.)?/, '');
+        updatedUrl = updatedUrl.replace(/((^\w+:|^)\/\/)?(www\.)?/, "");
 
         onChange({
-            ...urlEntity,
-            url: updatedUrl,
+          ...urlEntity,
+          url: updatedUrl,
         });
-
-    }, [onChange, urlEntity]);
-
-    const handleClickRemove = React.useCallback(() => {
-        onRemove(urlEntity);
-    }, [urlEntity, onRemove]);
-
-    return (
-        <tr>
-            <td>
-              <input
-                type="text"
-                placeholder="google.com"
-                onChange={onChangeInput}
-                onBlur={onBlurInput}
-                value={urlEntity.url}
-                />
-           </td>
-           <td>
-                <span onClick={handleClickRemove}>Remove</span>
-           </td>
-        </tr>
+      },
+      [onChange, urlEntity]
     );
+
+  const handleClickRemove = React.useCallback(() => {
+    onRemove(urlEntity);
+  }, [urlEntity, onRemove]);
+
+  return (
+    <tr>
+      <td>
+        <input
+          type="text"
+          placeholder="google.com"
+          onChange={onChangeInput}
+          onBlur={onBlurInput}
+          value={urlEntity.url}
+        />
+      </td>
+      <td>
+        <span onClick={handleClickRemove}>Remove</span>
+      </td>
+    </tr>
+  );
 };
 
 type AllowedURLTableProps = {
-    urls: AllowedURLEntity[];
-    onChangeUrls(urls: AllowedURLEntity[]): void;
-}
+  urls: AllowedURLEntity[];
+  onChangeUrls(urls: AllowedURLEntity[]): void;
+};
 
-export const AllowedURLEditor: React.FC<AllowedURLTableProps> = ({ urls, onChangeUrls }) => {
-    const onChangeUrl = React.useCallback((urlToUpdate: AllowedURLEntity) => {
-        onChangeUrls(urls.map(url => {
-            if (urlToUpdate.id === url.id) {
-                return urlToUpdate;
-            }
+export const AllowedURLEditor: React.FC<AllowedURLTableProps> = ({
+  urls,
+  onChangeUrls,
+}) => {
+  const onChangeUrl = React.useCallback(
+    (urlToUpdate: AllowedURLEntity) => {
+      onChangeUrls(
+        urls.map((url) => {
+          if (urlToUpdate.id === url.id) {
+            return urlToUpdate;
+          }
 
-            return url;
-        }));
-    }, [onChangeUrls, urls]);
+          return url;
+        })
+      );
+    },
+    [onChangeUrls, urls]
+  );
 
-    const onRemoveUrl = React.useCallback((urlToRemove: AllowedURLEntity) => {
-        onChangeUrls(urls.filter(url => {
-            return url.id !== urlToRemove.id;
-        }));
-    }, [onChangeUrls, urls]);
+  const onRemoveUrl = React.useCallback(
+    (urlToRemove: AllowedURLEntity) => {
+      onChangeUrls(
+        urls.filter((url) => {
+          return url.id !== urlToRemove.id;
+        })
+      );
+    },
+    [onChangeUrls, urls]
+  );
 
-    const handleClickAdd = React.useCallback(() => {
-        onChangeUrls(urls.concat([
-            {
-                id: uuid(),
-                url: '',
-            }
-        ]))
-    }, [urls, onChangeUrls]);
+  const handleClickAdd = React.useCallback(() => {
+    onChangeUrls(
+      urls.concat([
+        {
+          id: uuid(),
+          url: "",
+        },
+      ])
+    );
+  }, [urls, onChangeUrls]);
 
   return (
     <Card>
-        <Card.Body>
-            <h4>Allowed Website URLs for Students</h4>
-            <table className="table table-striped">
-                <thead>
-                    <tr>
-                        <th>URL</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {urls.map(url => <AllowedURLRow key={url.id} urlEntity={url} onChange={onChangeUrl} onRemove={onRemoveUrl} />)}
-                </tbody>
-            </table>
-            <p><a onClick={handleClickAdd}>Add</a></p>
+      <Card.Body>
+        <h4>Allowed Website URLs for Students</h4>
+        <table className="table table-striped">
+          <thead>
+            <tr>
+              <th>URL</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {urls.map((url) => (
+              <AllowedURLRow
+                key={url.id}
+                urlEntity={url}
+                onChange={onChangeUrl}
+                onRemove={onRemoveUrl}
+              />
+            ))}
+          </tbody>
+        </table>
+        <p>
+          <a onClick={handleClickAdd}>Add</a>
+        </p>
       </Card.Body>
     </Card>
   );

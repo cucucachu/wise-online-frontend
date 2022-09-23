@@ -1,22 +1,19 @@
-import * as React from 'react';
-import ReactDOM from 'react-dom';
-import classnames from 'classnames';
-import './Modal.css'
+import * as React from "react";
+import ReactDOM from "react-dom";
+import classnames from "classnames";
+import "./Modal.css";
 
-const ModalTitle: React.FC<React.PropsWithChildren<{ className?: string }>> = ({ children, className }) => {
+const ModalTitle: React.FC<React.PropsWithChildren<{ className?: string }>> = ({
+  children,
+  className,
+}) => {
   return (
-    <div className={classnames('wise-modal__title', className)}>
-      {children}
-    </div>
+    <div className={classnames("wise-modal__title", className)}>{children}</div>
   );
 };
 
 const ModalContent: React.FC<React.PropsWithChildren<{}>> = ({ children }) => {
-  return (
-    <div className='wise-modal__content'>
-      {children}
-    </div>
-  );
+  return <div className="wise-modal__content">{children}</div>;
 };
 
 type ModalProps = React.PropsWithChildren<{
@@ -26,14 +23,14 @@ type ModalProps = React.PropsWithChildren<{
 type IModal = React.FC<ModalProps> & {
   Content: typeof ModalContent;
   Title: typeof ModalTitle;
-};  
+};
 
 export const Modal: IModal = ({ children, open }) => {
   const elRef = React.useRef<HTMLDivElement>();
 
   React.useEffect(() => {
-    const modalRoot = document.getElementById('modal-root');
-    elRef.current = document.createElement('div');
+    const modalRoot = document.getElementById("modal-root");
+    elRef.current = document.createElement("div");
 
     modalRoot?.appendChild(elRef.current);
 
@@ -48,13 +45,12 @@ export const Modal: IModal = ({ children, open }) => {
     return null;
   }
 
-  return ReactDOM.createPortal((
-    <div className='wise-modal-backdrop'>
-      <div className='wise-modal'>
-        {children}
-      </div>
-    </div>
-  ), elRef.current);
+  return ReactDOM.createPortal(
+    <div className="wise-modal-backdrop">
+      <div className="wise-modal">{children}</div>
+    </div>,
+    elRef.current
+  );
 };
 
 Modal.Content = ModalContent;

@@ -1,316 +1,494 @@
-import React, {Component} from 'react';
-import { 
-    BrowserRouter as Router,
-    Switch,
-    Route,
-   } from "react-router-dom";
+import React, { Component } from "react";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
-import { logout, checkLogin } from '../store/axios';
+import { logout, checkLogin } from "../store/axios";
 
-import SuperDashboard from '../components/SuperDashboard';
-import SuperSchoolSettings from '../components/SuperSchoolSettings';
+import SuperDashboard from "../components/SuperDashboard";
+import SuperSchoolSettings from "../components/SuperSchoolSettings";
 
 //components
-import ProfessorLogin from '../components/professorLogin';
-import ProfessorCourse from '../components/professorCourses/ProfessorCourseList';
-import ProfessorAttendanaceStart from '../components/professorAttendanceStart';
-import ProfessorAttendanacesView from '../components/professorAttendancesView';
+import ProfessorLogin from "../components/professorLogin";
+import ProfessorCourse from "../components/professorCourses/ProfessorCourseList";
+import ProfessorAttendanaceStart from "../components/professorAttendanceStart";
+import ProfessorAttendanacesView from "../components/professorAttendancesView";
 
-import ProfessorClassStart from '../components/professorInClass/professorStartClass';
-import {ProfessorPastCourseSessions} from '../components/professorInClass/professorPastCourseSessions';
-import {ProfessorPastCourseSessionDetail} from '../components/professorInClass/professorPastCourseSessionDetail';
-import {ProfessorInClassViewStudent} from '../components/professorInClass/ProfessorInClassViewStudent';
-import {ProfessorEditCourse} from '../components/professorCourses/ProfessorEditCourse';
-import {ProfessorAddCourse} from '../components/professorCourses/ProfessorAddCourse';
+import ProfessorClassStart from "../components/professorInClass/professorStartClass";
+import { ProfessorPastCourseSessions } from "../components/professorInClass/professorPastCourseSessions";
+import { ProfessorPastCourseSessionDetail } from "../components/professorInClass/professorPastCourseSessionDetail";
+import { ProfessorInClassViewStudent } from "../components/professorInClass/ProfessorInClassViewStudent";
+import { ProfessorEditCourse } from "../components/professorCourses/ProfessorEditCourse";
+import { ProfessorAddCourse } from "../components/professorCourses/ProfessorAddCourse";
 
-import AttendanaceView from '../components/AttendanceView';
-import ProfessorClaim from '../components/professorClaim';
-import ProfessorExam from '../components/professorExam';
-import ProfessorClaimSuccess from '../components/professorClaimSuccess';
-import ProctorSettings from '../components/ProctorSettings';
-import ProfessorTestsForCourse from '../components/ProfessorTestsForCourse';
-import ProfessorTestView from '../components/ProfessorTestView';
-import ProfessorViewStudentTest from '../components/ProfessorViewStudentTest';
+import AttendanaceView from "../components/AttendanceView";
+import ProfessorClaim from "../components/professorClaim";
+import ProfessorExam from "../components/professorExam";
+import ProfessorClaimSuccess from "../components/professorClaimSuccess";
+import ProctorSettings from "../components/ProctorSettings";
+import ProfessorTestsForCourse from "../components/ProfessorTestsForCourse";
+import ProfessorTestView from "../components/ProfessorTestView";
+import ProfessorViewStudentTest from "../components/ProfessorViewStudentTest";
 
-import {StudentDashboard} from '../components/studentDashboard';
-import StudentClass from '../components/studentClass';
-import StudentClassAtt from '../components/studentClassAtt';
-import StudentLogin from '../components/studentLogin';
-import StudentTest from '../components/studentTest';
-import StudentAttSuccess from '../components/studentAttSuccess';
-import StudentRecordTest from '../components/StudentRecordTest';
-import StudentTestId from '../components/studentTestId';
-import StudentRecError from '../components/studentRecordingError';
-import StudentAttendanceFromLink from '../components/StudentAttendanceFromLink';
-import StudentTestFromLink from '../components/StudentTestFromLink';
-import StudentProctoring from '../components/StudentProctoring';
-import StudentProctoringDemo from '../components/StudentProctoringDemo';
+import { StudentDashboard } from "../components/studentDashboard";
+import StudentClass from "../components/studentClass";
+import StudentClassAtt from "../components/studentClassAtt";
+import StudentLogin from "../components/studentLogin";
+import StudentTest from "../components/studentTest";
+import StudentAttSuccess from "../components/studentAttSuccess";
+import StudentRecordTest from "../components/StudentRecordTest";
+import StudentTestId from "../components/studentTestId";
+import StudentRecError from "../components/studentRecordingError";
+import StudentAttendanceFromLink from "../components/StudentAttendanceFromLink";
+import StudentTestFromLink from "../components/StudentTestFromLink";
+import StudentProctoring from "../components/StudentProctoring";
+import StudentProctoringDemo from "../components/StudentProctoringDemo";
 
-import {StudentInClassCourseList} from '../components/studentInClass/StudentInClassCourseList';
-import {StudentInClassLanding} from '../components/studentInClass/StudentInClassLanding';
+import { StudentInClassCourseList } from "../components/studentInClass/StudentInClassCourseList";
+import { StudentInClassLanding } from "../components/studentInClass/StudentInClassLanding";
 
-import AdminLogin from '../components/adminLogin';
-import SetUpSchoolPage from '../components/SetUpSchoolPage';
-import AdminHomePage from '../components/AdminHomePage';
-import SchoolStep1 from '../components/createSchoolStep1';
-import SchoolStep2 from '../components/createSchoolStep2';
-import AdminProfessors from '../components/AdminProfessors';
-import AdminStudents from '../components/AdminStudents';
-import AdminProfessorCourses from '../components/AdminProfessorCourses';
-import AdminCourseDetail from '../components/AdminCourseDetail';
-import AdminAddUsers from '../components/AdminAddUsers';
+import AdminLogin from "../components/adminLogin";
+import SetUpSchoolPage from "../components/SetUpSchoolPage";
+import AdminHomePage from "../components/AdminHomePage";
+import SchoolStep1 from "../components/createSchoolStep1";
+import SchoolStep2 from "../components/createSchoolStep2";
+import AdminProfessors from "../components/AdminProfessors";
+import AdminStudents from "../components/AdminStudents";
+import AdminProfessorCourses from "../components/AdminProfessorCourses";
+import AdminCourseDetail from "../components/AdminCourseDetail";
+import AdminAddUsers from "../components/AdminAddUsers";
 
-import {SelectRole} from '../components/selectRole'
-
+import { SelectRole } from "../components/selectRole";
 
 //contexts
-import { AuthContext } from '../contexts/AuthContext'
+import { AuthContext } from "../contexts/AuthContext";
 // import { LanguageContext } from '../contexts/LanguageContext'
 
 // import Header from '../components/header'
-import HeaderNew from '../components/headerNew'
+import HeaderNew from "../components/headerNew";
 
-import PrivateRouteAdmin from '../components/PrivateRouteAdmin';
-import PrivateRouteStudent from '../components/PrivateRouteStudent';
-import PrivateRouteProfessor from '../components/PrivateRouteProfessor';
-import StudentFeeWaive from '../components/studentFeeWaive';
-import StudentFeeWaiveSelect from '../components/studentFeeWaiveSelect';
-import StudentFeeWaiveForm from '../components/studentFeeWaiveForm';
-import StudentFeeWaiveNote from '../components/studentFeeWaiveNote';
-import StudentFeeWaiveConfirm from '../components/studentFeeWaiveConfirm';
+import PrivateRouteAdmin from "../components/PrivateRouteAdmin";
+import PrivateRouteStudent from "../components/PrivateRouteStudent";
+import PrivateRouteProfessor from "../components/PrivateRouteProfessor";
+import StudentFeeWaive from "../components/studentFeeWaive";
+import StudentFeeWaiveSelect from "../components/studentFeeWaiveSelect";
+import StudentFeeWaiveForm from "../components/studentFeeWaiveForm";
+import StudentFeeWaiveNote from "../components/studentFeeWaiveNote";
+import StudentFeeWaiveConfirm from "../components/studentFeeWaiveConfirm";
 
-import headerBackground from '../Assets/images/header-img-mobile.png';
-import ForgotPWAdmin from '../components/forgotPWAdmin';
-import ForgotPWProfessor from '../components/forgotPWProfessor';
-import ForgotPWSentProfessor from '../components/forgotPWSentProfessor';
-import ForgotPWSentAdmin from '../components/forgotPWSentAdmin';
-import AdminResetPW from '../components/adminResetPW';
-import ProfessorResetPW from '../components/professorResetPW';
-import AdminResetPWSuccess from '../components/adminResetPWSuccess';
-import ProfessorResetPWSuccess from '../components/professorResetPWSuccess';
-import SetupSchoolSuccess from '../components/setUpSchoolSuccess';
-import ViewProctoring from '../components/professorViewProctoring';
-import ViewTestResults from '../components/professorTestResults';
-import ViewEachTestResult from '../components/ProfessorViewTestData';
-import StudentRecordAgreeToTerms from '../components/studentRecordAgreeToTerms';
-import StudentInstallChromeExtension from '../components/studentInstallChromeExtension';
-import AdminTermsPage from '../components/AdminTerms/AdminTermsPage';
+import headerBackground from "../Assets/images/header-img-mobile.png";
+import ForgotPWAdmin from "../components/forgotPWAdmin";
+import ForgotPWProfessor from "../components/forgotPWProfessor";
+import ForgotPWSentProfessor from "../components/forgotPWSentProfessor";
+import ForgotPWSentAdmin from "../components/forgotPWSentAdmin";
+import AdminResetPW from "../components/adminResetPW";
+import ProfessorResetPW from "../components/professorResetPW";
+import AdminResetPWSuccess from "../components/adminResetPWSuccess";
+import ProfessorResetPWSuccess from "../components/professorResetPWSuccess";
+import SetupSchoolSuccess from "../components/setUpSchoolSuccess";
+import ViewProctoring from "../components/professorViewProctoring";
+import ViewTestResults from "../components/professorTestResults";
+import ViewEachTestResult from "../components/ProfessorViewTestData";
+import StudentRecordAgreeToTerms from "../components/studentRecordAgreeToTerms";
+import StudentInstallChromeExtension from "../components/studentInstallChromeExtension";
+import AdminTermsPage from "../components/AdminTerms/AdminTermsPage";
 
 // Proctoring Components
-import ProfessorStartProctoring from '../components/ProfessorStartProctoring';
+import ProfessorStartProctoring from "../components/ProfessorStartProctoring";
 
-import { paths } from '../paths';
+import { paths } from "../paths";
 
 class HomePage extends Component<any, any, any> {
-    
-    static contextType = AuthContext;
+  static contextType = AuthContext;
 
-    constructor(props: any) {
-        super(props);
+  constructor(props: any) {
+    super(props);
 
-        this.state = {
-            username: sessionStorage.getItem('username') === 'undefined' ? undefined : sessionStorage.getItem('username'),
-            schoolName: sessionStorage.getItem('schoolName') === 'undefined' ? undefined : sessionStorage.getItem('schoolName'),
-            isLoggedIn: sessionStorage.getItem('isLoggedIn') === 'true' ? true : false,
-            role: sessionStorage.getItem('role') === 'undefined' ? undefined : sessionStorage.getItem('role'),
-        }
+    this.state = {
+      username:
+        sessionStorage.getItem("username") === "undefined"
+          ? undefined
+          : sessionStorage.getItem("username"),
+      schoolName:
+        sessionStorage.getItem("schoolName") === "undefined"
+          ? undefined
+          : sessionStorage.getItem("schoolName"),
+      isLoggedIn:
+        sessionStorage.getItem("isLoggedIn") === "true" ? true : false,
+      role:
+        sessionStorage.getItem("role") === "undefined"
+          ? undefined
+          : sessionStorage.getItem("role"),
+    };
 
-        this.handleLogout = this.handleLogout.bind(this);
-        this.handleSuccessfulLogin = this.handleSuccessfulLogin.bind(this);
+    this.handleLogout = this.handleLogout.bind(this);
+    this.handleSuccessfulLogin = this.handleSuccessfulLogin.bind(this);
+  }
+
+  async componentDidMount() {
+    try {
+      const response = await checkLogin();
+
+      if (response.status === 200) {
+        await this.handleSuccessfulLogin(response.data);
+      }
+    } catch (error) {
+      console.log(error);
     }
+  }
 
-    async componentDidMount() {
-        try {
-            const response = await checkLogin();
+  async handleSuccessfulLogin(userData: any) {
+    sessionStorage.setItem("userID", userData.id);
+    sessionStorage.setItem("username", userData.name);
+    sessionStorage.setItem("schoolName", userData.school.name);
+    sessionStorage.setItem("schoolID", userData.school.id);
+    sessionStorage.setItem("isLoggedIn", true as any);
+    sessionStorage.setItem("role", userData.role);
 
-            if (response.status === 200) {
-                await this.handleSuccessfulLogin(response.data);
-            }
-        }
-        catch(error){
-            console.log(error);
-        }
-    
-    }
+    (this.context as any).setRole(userData.role);
 
-    async handleSuccessfulLogin(userData: any) {
-        sessionStorage.setItem('userID', userData.id);
-        sessionStorage.setItem('username', userData.name);
-        sessionStorage.setItem('schoolName', userData.school.name);
-        sessionStorage.setItem('schoolID', userData.school.id);
-        sessionStorage.setItem('isLoggedIn', true as any);
-        sessionStorage.setItem('role', userData.role);
+    const state: any = Object.assign({}, this.state);
+    state.username = userData.name;
+    state.schoolName = userData.school.name;
+    state.isLoggedIn = true;
+    state.role = userData.role;
+    this.setState(state);
+  }
 
-        (this.context as any).setRole(userData.role);
+  async handleLogout() {
+    sessionStorage.clear();
+    await logout();
+    sessionStorage.setItem("isLoggedIn", false as any);
 
-        const state: any = Object.assign({}, this.state);
-        state.username = userData.name;
-        state.schoolName = userData.school.name;
-        state.isLoggedIn = true;
-        state.role = userData.role;
-        this.setState(state);
-    }
+    const state: any = Object.assign({}, this.state);
 
-    async handleLogout() {
-        sessionStorage.clear();
-        await logout();
-        sessionStorage.setItem('isLoggedIn', false as any);
+    state.username = undefined;
+    state.schoolName = undefined;
+    state.isLoggedIn = false;
 
-        const state: any = Object.assign({}, this.state);
+    this.setState(state);
+  }
 
-        state.username = undefined;
-        state.schoolName = undefined;
-        state.isLoggedIn = false;
-
-        this.setState(state);
-    }
-
-    render(){
-
-
-
-        return(
-            <Router>
-{/* 
+  render() {
+    return (
+      <Router>
+        {/* 
                 <p class="alert-box">Hello</p> */}
-                <HeaderNew 
-                    username={this.state.username}
-                    schoolName={this.state.schoolName}
-                    isLoggedIn={this.state.isLoggedIn}
-                    handleLogout={this.handleLogout} 
+        <HeaderNew
+          username={this.state.username}
+          schoolName={this.state.schoolName}
+          isLoggedIn={this.state.isLoggedIn}
+          handleLogout={this.handleLogout}
+        />
+        <div className="wrap">
+          <div className="page-header">
+            <img src={headerBackground} className="bg-img" alt="background" />
+          </div>
+
+          <Switch>
+            {/* super */}
+            <Route
+              path="/super/school/settings"
+              component={SuperSchoolSettings}
+            />
+            <Route
+              path="/super"
+              render={(props) => (
+                <SuperDashboard
+                  {...props}
+                  onSuccessfulLogin={this.handleSuccessfulLogin}
+                  logout={this.handleLogout}
                 />
-                <div className="wrap">
+              )}
+            />
 
-                    <div className="page-header">
-                        <img src={headerBackground} className="bg-img" alt="background"/> 
-                    </div>
+            {/* admin */}
+            <Route path="/admin/forgot-pw" component={ForgotPWAdmin} />
+            <Route path="/admin/reset-pw-sent" component={ForgotPWSentAdmin} />
+            <Route path="/admin/reset-password" component={AdminResetPW} />
+            <Route
+              path="/admin/reset-success"
+              component={AdminResetPWSuccess}
+            />
+            <PrivateRouteAdmin
+              path="/set-up-school"
+              component={SetUpSchoolPage}
+            />
+            <Route path="/create-school/step2" component={SchoolStep2} />
+            <Route path="/create-school" component={SchoolStep1} />
+            <PrivateRouteAdmin
+              path="/admin/addUsers"
+              component={AdminAddUsers}
+            />
+            <PrivateRouteAdmin
+              path="/admin/professor/courses"
+              component={AdminProfessorCourses}
+            />
+            <PrivateRouteAdmin
+              path="/admin/professors"
+              component={AdminProfessors}
+            />
+            <PrivateRouteAdmin
+              path="/admin/students"
+              component={AdminStudents}
+            />
+            <PrivateRouteAdmin
+              path="/admin/course"
+              component={AdminCourseDetail}
+            />
+            <PrivateRouteAdmin
+              path="/admin/set-up-success"
+              component={SetupSchoolSuccess}
+            />
+            <PrivateRouteAdmin path="/admin-terms" component={AdminTermsPage} />
+            <PrivateRouteAdmin
+              path="/admin-proctor-settings"
+              component={ProctorSettings}
+            />
+            <PrivateRouteAdmin path="/admin" component={AdminHomePage} />
+            <Route
+              path="/admin-login"
+              render={(props) => (
+                <AdminLogin
+                  {...props}
+                  onSuccessfulLogin={this.handleSuccessfulLogin}
+                />
+              )}
+            />
 
-                    <Switch>
-                            {/* super */}
-                            <Route path="/super/school/settings" component={SuperSchoolSettings}/>
-                            <Route path="/super"  render={
-                                props => <SuperDashboard
-                                            {...props}
-                                            onSuccessfulLogin={this.handleSuccessfulLogin}
-                                            logout={this.handleLogout}
-                                />
-                            }/>
+            {/* professor */}
+            <Route
+              path="/professor-login"
+              render={(props) => (
+                <ProfessorLogin
+                  {...props}
+                  onSuccessfulLogin={this.handleSuccessfulLogin}
+                />
+              )}
+            />
+            <Route
+              path="/professor/reset-password"
+              component={ProfessorResetPW}
+            />
+            <Route
+              path="/professor/reset-success"
+              component={ProfessorResetPWSuccess}
+            />
+            <PrivateRouteProfessor
+              exact={true}
+              path={paths.professorCourseList.pattern}
+              component={ProfessorCourse}
+            />
+            <PrivateRouteProfessor
+              path={paths.professorEditCourse.pattern}
+              component={ProfessorEditCourse}
+            />
+            <PrivateRouteProfessor
+              path={paths.professorAddCourse.pattern}
+              component={ProfessorAddCourse}
+            />
 
-                            {/* admin */}
-                            <Route path="/admin/forgot-pw" component={ForgotPWAdmin} />
-                            <Route path="/admin/reset-pw-sent" component={ForgotPWSentAdmin} />
-                            <Route path="/admin/reset-password" component={AdminResetPW} />
-                            <Route path="/admin/reset-success" component={AdminResetPWSuccess} />
-                            <PrivateRouteAdmin path="/set-up-school" component={SetUpSchoolPage} />
-                            <Route path="/create-school/step2" component={SchoolStep2} />
-                            <Route path="/create-school" component={SchoolStep1} />
-                            <PrivateRouteAdmin path="/admin/addUsers" component={AdminAddUsers} />
-                            <PrivateRouteAdmin path="/admin/professor/courses" component={AdminProfessorCourses} />
-                            <PrivateRouteAdmin path="/admin/professors" component={AdminProfessors} />
-                            <PrivateRouteAdmin path="/admin/students" component={AdminStudents} />
-                            <PrivateRouteAdmin path="/admin/course" component={AdminCourseDetail} />
-                            <PrivateRouteAdmin path="/admin/set-up-success" component={SetupSchoolSuccess} />
-                            <PrivateRouteAdmin path="/admin-terms" component={AdminTermsPage} />
-                            <PrivateRouteAdmin path="/admin-proctor-settings" component={ProctorSettings} />
-                            <PrivateRouteAdmin path="/admin" component={AdminHomePage}/>
-                            <Route path="/admin-login" render={
-                                props => <AdminLogin
-                                            {...props}
-                                            onSuccessfulLogin={this.handleSuccessfulLogin}
-                                />
-                            } />
+            <Route path="/professor/claim-account" component={ProfessorClaim} />
+            {/* <PrivateRouteProfessor path="/professor/claim-account-success" component={ProfessorClaimSuccess} /> */}
+            <Route
+              path="/professor/claim-account-success"
+              component={ProfessorClaimSuccess}
+            />
+            <PrivateRouteProfessor
+              path="/professor/attendancesView"
+              component={ProfessorAttendanacesView}
+            />
+            <PrivateRouteProfessor
+              path="/professor/attendanceView"
+              component={AttendanaceView}
+            />
+            <PrivateRouteProfessor
+              path="/professor/attendance/start"
+              component={ProfessorAttendanaceStart}
+            />
+            <PrivateRouteProfessor
+              path="/professor/exam"
+              component={ProfessorExam}
+            />
+            <PrivateRouteProfessor
+              path="/professor/proctoring/:courseId"
+              component={ViewProctoring}
+            />
+            <PrivateRouteProfessor
+              path="/professor/view-report/:testId"
+              component={ViewTestResults}
+            />
+            <PrivateRouteProfessor
+              path="/professor/view-detail"
+              component={ViewEachTestResult}
+            />
+            <PrivateRouteProfessor
+              path="/professor/proctor-settings"
+              component={ProctorSettings}
+            />
+            <PrivateRouteProfessor
+              path="/proctor/professor/start"
+              component={ProfessorStartProctoring}
+            />
+            <PrivateRouteProfessor
+              path="/proctor/tests"
+              component={ProfessorTestsForCourse}
+            />
+            <PrivateRouteProfessor
+              path="/proctor/test"
+              component={ProfessorTestView}
+            />
+            <PrivateRouteProfessor
+              path="/proctor/result"
+              component={ProfessorViewStudentTest}
+            />
 
-                            {/* professor */}
-                            <Route path="/professor-login" render={
-                                props => <ProfessorLogin
-                                            {...props}
-                                            onSuccessfulLogin={this.handleSuccessfulLogin}
-                                />
-                            } />
-                            <Route path="/professor/reset-password" component={ProfessorResetPW} />
-                            <Route path="/professor/reset-success" component={ProfessorResetPWSuccess} />
-                            <PrivateRouteProfessor exact={true} path={paths.professorCourseList.pattern} component={ProfessorCourse} />
-                            <PrivateRouteProfessor path={paths.professorEditCourse.pattern} component={ProfessorEditCourse} />
-                            <PrivateRouteProfessor path={paths.professorAddCourse.pattern} component={ProfessorAddCourse} />
-
-                            <Route path="/professor/claim-account" component={ProfessorClaim} />
-                            {/* <PrivateRouteProfessor path="/professor/claim-account-success" component={ProfessorClaimSuccess} /> */}
-                            <Route path="/professor/claim-account-success" component={ProfessorClaimSuccess} />
-                            <PrivateRouteProfessor path="/professor/attendancesView" component={ProfessorAttendanacesView} />
-                            <PrivateRouteProfessor path="/professor/attendanceView" component={AttendanaceView} />
-                            <PrivateRouteProfessor path="/professor/attendance/start" component={ProfessorAttendanaceStart} />
-                            <PrivateRouteProfessor path="/professor/exam" component={ProfessorExam} />
-                            <PrivateRouteProfessor path="/professor/proctoring/:courseId" component={ViewProctoring} />
-                            <PrivateRouteProfessor path="/professor/view-report/:testId" component={ViewTestResults} />
-                            <PrivateRouteProfessor path="/professor/view-detail" component={ViewEachTestResult} />
-                            <PrivateRouteProfessor path="/professor/proctor-settings" component={ProctorSettings} />
-                            <PrivateRouteProfessor path="/proctor/professor/start" component={ProfessorStartProctoring} />
-                            <PrivateRouteProfessor path='/proctor/tests' component={ProfessorTestsForCourse} />
-                            <PrivateRouteProfessor path='/proctor/test' component={ProfessorTestView} />
-                            <PrivateRouteProfessor path='/proctor/result' component={ProfessorViewStudentTest} />
-
-                            <PrivateRouteProfessor path={paths.professorInClass.pattern} component={ProfessorClassStart} />
-                            <PrivateRouteProfessor exact={true} path={paths.professorInClassPastSessions.pattern} component={ProfessorPastCourseSessions} />
-                            <PrivateRouteProfessor exact={true} path={paths.professorInClassPastSessionDetail.pattern} component={ProfessorPastCourseSessionDetail} />
-                            <PrivateRouteProfessor exact={true} path={paths.professorInClassViewStudent.pattern} component={ProfessorInClassViewStudent} />
-                            {/* <PrivateRouteProfessor 
+            <PrivateRouteProfessor
+              path={paths.professorInClass.pattern}
+              component={ProfessorClassStart}
+            />
+            <PrivateRouteProfessor
+              exact={true}
+              path={paths.professorInClassPastSessions.pattern}
+              component={ProfessorPastCourseSessions}
+            />
+            <PrivateRouteProfessor
+              exact={true}
+              path={paths.professorInClassPastSessionDetail.pattern}
+              component={ProfessorPastCourseSessionDetail}
+            />
+            <PrivateRouteProfessor
+              exact={true}
+              path={paths.professorInClassViewStudent.pattern}
+              component={ProfessorInClassViewStudent}
+            />
+            {/* <PrivateRouteProfessor 
                             path="/professor/proctoring/:courseId" 
                             render={(props) => <ViewProctoring {...props} />} /> */}
 
-                            {/* student */}
-                            <Route path="/student-login" render={
-                                props => <StudentLogin
-                                            {...props}
-                                            onSuccessfulLogin={this.handleSuccessfulLogin}
-                                />
-                            } />
-                            <PrivateRouteStudent path="/student/dashboard" component={StudentDashboard} />
-                            <PrivateRouteStudent path="/student/proctor" component={StudentProctoring} />
-                            <PrivateRouteStudent path="/student/demo/proctor" component={StudentProctoringDemo} />
-                            <PrivateRouteStudent path="/student/classes" component={StudentClass} />
-                            <PrivateRouteStudent path="/student/tests" component={StudentTest} />
-                            <PrivateRouteStudent path="/student/class/attend" component={StudentClassAtt} />
-            
-                            <PrivateRouteStudent path="/student/class/attend-success" component={StudentAttSuccess} />
-                            <Route path="/test-route/student-success" component={StudentAttSuccess} />
-                            <PrivateRouteStudent path="/student/test/record" component={StudentRecordTest} />
-                            {/* <Route path="/student/test/record" component={StudentRecordTest} /> */}
-                            <PrivateRouteStudent path="/student/test-id" component={StudentTestId} />
-                            <PrivateRouteStudent path="/student/record-agree-to-terms" component={StudentRecordAgreeToTerms} />
-                            
-                            <PrivateRouteStudent path="/student/chrome-extension" component={StudentInstallChromeExtension} />
-                            <PrivateRouteStudent path="/student/test/recording-error" component={StudentRecError} />
+            {/* student */}
+            <Route
+              path="/student-login"
+              render={(props) => (
+                <StudentLogin
+                  {...props}
+                  onSuccessfulLogin={this.handleSuccessfulLogin}
+                />
+              )}
+            />
+            <PrivateRouteStudent
+              path="/student/dashboard"
+              component={StudentDashboard}
+            />
+            <PrivateRouteStudent
+              path="/student/proctor"
+              component={StudentProctoring}
+            />
+            <PrivateRouteStudent
+              path="/student/demo/proctor"
+              component={StudentProctoringDemo}
+            />
+            <PrivateRouteStudent
+              path="/student/classes"
+              component={StudentClass}
+            />
+            <PrivateRouteStudent
+              path="/student/tests"
+              component={StudentTest}
+            />
+            <PrivateRouteStudent
+              path="/student/class/attend"
+              component={StudentClassAtt}
+            />
 
-                            <PrivateRouteStudent exact={true} path={paths.studentInClassCourseList.pattern} component={StudentInClassCourseList} />
-                            <PrivateRouteStudent exact={true} path={paths.studentInClassCourseDetail.pattern} component={StudentInClassLanding} />
-                            
-                            <Route path="/student/fee-waiver" component={StudentFeeWaive} />
-                            <Route path="/student/fee-waiver-select-school" component={StudentFeeWaiveSelect} />
-                            <Route path="/student/fee-waiver-form" component={StudentFeeWaiveForm} />
-                            <Route path="/student/fee-waiver-note" component={StudentFeeWaiveNote} />
-                            <Route path="/student/fee-waiver-confirmation" component={StudentFeeWaiveConfirm} />
+            <PrivateRouteStudent
+              path="/student/class/attend-success"
+              component={StudentAttSuccess}
+            />
+            <Route
+              path="/test-route/student-success"
+              component={StudentAttSuccess}
+            />
+            <PrivateRouteStudent
+              path="/student/test/record"
+              component={StudentRecordTest}
+            />
+            {/* <Route path="/student/test/record" component={StudentRecordTest} /> */}
+            <PrivateRouteStudent
+              path="/student/test-id"
+              component={StudentTestId}
+            />
+            <PrivateRouteStudent
+              path="/student/record-agree-to-terms"
+              component={StudentRecordAgreeToTerms}
+            />
 
-                            <Route path="/professor/forgot-pw" component={ForgotPWProfessor} />
-                            <Route path="/professor/reset-pw-sent" component={ForgotPWSentProfessor} />
+            <PrivateRouteStudent
+              path="/student/chrome-extension"
+              component={StudentInstallChromeExtension}
+            />
+            <PrivateRouteStudent
+              path="/student/test/recording-error"
+              component={StudentRecError}
+            />
 
-                            <Route path="/student/attendanceLink" render={
-                                props => <StudentAttendanceFromLink 
-                                    {...props}
-                                    onSuccessfulLogin={this.handleSuccessfulLogin}
-                                 />
-                            }/>
-                            <Route path="/student/testLink" render={
-                                props => <StudentTestFromLink 
-                                    {...props}
-                                    onSuccessfulLogin={this.handleSuccessfulLogin}
-                                 />
-                            }/>
-                            <Route exact path='/' component={SelectRole} />
-                    </Switch>   
-                </div>
-            </Router>
-        )
-    }
+            <PrivateRouteStudent
+              exact={true}
+              path={paths.studentInClassCourseList.pattern}
+              component={StudentInClassCourseList}
+            />
+            <PrivateRouteStudent
+              exact={true}
+              path={paths.studentInClassCourseDetail.pattern}
+              component={StudentInClassLanding}
+            />
+
+            <Route path="/student/fee-waiver" component={StudentFeeWaive} />
+            <Route
+              path="/student/fee-waiver-select-school"
+              component={StudentFeeWaiveSelect}
+            />
+            <Route
+              path="/student/fee-waiver-form"
+              component={StudentFeeWaiveForm}
+            />
+            <Route
+              path="/student/fee-waiver-note"
+              component={StudentFeeWaiveNote}
+            />
+            <Route
+              path="/student/fee-waiver-confirmation"
+              component={StudentFeeWaiveConfirm}
+            />
+
+            <Route path="/professor/forgot-pw" component={ForgotPWProfessor} />
+            <Route
+              path="/professor/reset-pw-sent"
+              component={ForgotPWSentProfessor}
+            />
+
+            <Route
+              path="/student/attendanceLink"
+              render={(props) => (
+                <StudentAttendanceFromLink
+                  {...props}
+                  onSuccessfulLogin={this.handleSuccessfulLogin}
+                />
+              )}
+            />
+            <Route
+              path="/student/testLink"
+              render={(props) => (
+                <StudentTestFromLink
+                  {...props}
+                  onSuccessfulLogin={this.handleSuccessfulLogin}
+                />
+              )}
+            />
+            <Route exact path="/" component={SelectRole} />
+          </Switch>
+        </div>
+      </Router>
+    );
+  }
 }
 
 export default HomePage;

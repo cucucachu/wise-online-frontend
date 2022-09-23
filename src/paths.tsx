@@ -1,15 +1,19 @@
-import { path } from 'static-path';
+import { path } from "static-path";
 
 export const paths = {
   professorInClass: path("/professor/in-class/:courseId/start"),
   professorInClassPastSessions: path("/professor/in-class/:courseId/sessions"),
-  professorInClassPastSessionDetail: path("/professor/in-class/:courseId/sessions/:sessionId"),
-  professorInClassViewStudent: path("/professor/in-class/:courseId/sessions/:sessionId/students/:studentId"),
+  professorInClassPastSessionDetail: path(
+    "/professor/in-class/:courseId/sessions/:sessionId"
+  ),
+  professorInClassViewStudent: path(
+    "/professor/in-class/:courseId/sessions/:sessionId/students/:studentId"
+  ),
 
-  professorCourseList: path('/professor/course'),
-  professorEditCourse: path('/professor/course/edit/:courseId'),
-  professorAddCourse: path('/professor/course/add'),
+  professorCourseList: path("/professor/course"),
+  professorEditCourse: path("/professor/course/edit/:courseId"),
+  professorAddCourse: path("/professor/course/add"),
 
-  studentInClassCourseList: path('/student/in-class/courses'),
-  studentInClassCourseDetail: path('/student/in-class/courses/:courseId'),
+  studentInClassCourseList: path("/student/in-class/courses"),
+  studentInClassCourseDetail: path("/student/in-class/courses/:courseId"),
 };

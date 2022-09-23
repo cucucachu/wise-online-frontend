@@ -4,7 +4,7 @@ export type StudentCourseSessionScreenshotDetail = {
   timestamp: string;
   unknownDomains: string[];
   _id: string;
-}
+};
 
 export type StudentCourseSession = {
   _id: string;
@@ -14,13 +14,13 @@ export type StudentCourseSession = {
   disconnectedTime?: string;
   student: string;
   screenshotDetails: StudentCourseSessionScreenshotDetail[];
-}
+};
 
 export type Student = {
   _id: string;
   firstName: string;
   lastName: string;
-}
+};
 
 export type CourseSession = {
   id: string;
@@ -32,9 +32,9 @@ export type CourseSession = {
   studentCourseSessions: StudentCourseSession[];
   students: Student[];
   course: Course;
-  trackingDelay: Course['defaultAttendanceTrackingDelay'],
-  flagTriggers: Course['defaultAttendanceFlags'],
-}
+  trackingDelay: Course["defaultAttendanceTrackingDelay"];
+  flagTriggers: Course["defaultAttendanceFlags"];
+};
 
 export type EngagementData = {
   time: number;
@@ -44,36 +44,38 @@ export type EngagementData = {
   flaggedStudents: string[];
 };
 
-export type EngagementGraphSeries = 'mobile' | 'connected' | 'disconnects';
+export type EngagementGraphSeries = "mobile" | "connected" | "disconnects";
 
 export type StudentCourseSessions = {
   byDevice: {
-      [device: string]: StudentCourseSession[];
+    [device: string]: StudentCourseSession[];
   };
   flags: number;
 };
 
 export type GroupedSessions = {
-  [studentId: string]: StudentCourseSessions
-}
+  [studentId: string]: StudentCourseSessions;
+};
 
-export type GroupedFlaggedActivities = GroupedFlaggedURLS | GroupedDeviceActivities;
+export type GroupedFlaggedActivities =
+  | GroupedFlaggedURLS
+  | GroupedDeviceActivities;
 
 export type GroupedFlaggedURLS = {
-  flagType: 'blocked-url';
+  flagType: "blocked-url";
   url: string;
   intervals: Array<{
     screenshotDetailId: string;
     start: Date;
     end: Date;
   }>;
-}
+};
 
 export type GroupedDeviceActivities = {
-  flagType: 'device-disconnect';
+  flagType: "device-disconnect";
   device: string;
   intervals: Array<{
     start: Date;
     end: Date;
   }>;
-}
+};

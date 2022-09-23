@@ -1,77 +1,93 @@
-import * as React from 'react';
-import {getGrouppedFlaggedUrlsFromCourseSessions, getGroupedDeviceActivities} from '../utils';
-import { format } from 'date-fns';
-import {GroupedFlaggedURLS, GroupedDeviceActivities, CourseSession} from '../types';
-import {SortArrow} from './SortArrow';
+import * as React from "react";
+import {
+  getGrouppedFlaggedUrlsFromCourseSessions,
+  getGroupedDeviceActivities,
+} from "../utils";
+import { format } from "date-fns";
+import {
+  GroupedFlaggedURLS,
+  GroupedDeviceActivities,
+  CourseSession,
+} from "../types";
+import { SortArrow } from "./SortArrow";
 
 type WebsiteFlagRowProps = {
   flaggedActivity: GroupedFlaggedURLS;
   onClickInterval(screenshotDetailId: string): void;
-}
+};
 
-const WebsiteFlagRow: React.FC<WebsiteFlagRowProps> = ({ onClickInterval, flaggedActivity }) => {
+const WebsiteFlagRow: React.FC<WebsiteFlagRowProps> = ({
+  onClickInterval,
+  flaggedActivity,
+}) => {
   return (
     <tr>
       <td>{flaggedActivity.url}</td>
       <td>
-        {flaggedActivity.intervals.map((interval) => 
+        {flaggedActivity.intervals.map((interval) => (
           <div key={interval.screenshotDetailId}>
             <a onClick={() => onClickInterval(interval.screenshotDetailId)}>
-              {format(new Date(interval.start), 'M/d h:mmaaa')} -{' '}
-              {format(new Date(interval.end), 'h:mmaaa')}
+              {format(new Date(interval.start), "M/d h:mmaaa")} -{" "}
+              {format(new Date(interval.end), "h:mmaaa")}
             </a>
           </div>
-        )}
+        ))}
       </td>
-    </tr>  
-  )
-}
+    </tr>
+  );
+};
 
 type DeviceFlagRowProps = {
   flaggedActivity: GroupedDeviceActivities;
-}
+};
 
 const DeviceFlagRow: React.FC<DeviceFlagRowProps> = ({ flaggedActivity }) => {
   return (
     <tr>
       <td>{flaggedActivity.device} disconnect</td>
       <td>
-        {flaggedActivity.intervals.map((interval) => 
+        {flaggedActivity.intervals.map((interval) => (
           <div key={interval.start.toISOString()}>
             <div>
-              {format(new Date(interval.start), 'M/d h:mmaaa')} -{' '}
-              {format(new Date(interval.end), 'h:mmaaa')}
+              {format(new Date(interval.start), "M/d h:mmaaa")} -{" "}
+              {format(new Date(interval.end), "h:mmaaa")}
             </div>
           </div>
-        )}
+        ))}
       </td>
-    </tr>  
-  )
-}
-
+    </tr>
+  );
+};
 
 type IndividualStudentGroupedFlagTableProps = {
   courseSession: CourseSession;
   onClickInterval(screenshotDetailId: string): void;
-}
+};
 
-type SortOrder = 'asc' | 'desc';
-type SortField = 'activity' | 'duration';
+type SortOrder = "asc" | "desc";
+type SortField = "activity" | "duration";
 
-export const IndividualStudentGroupedFlagTable: React.FC<IndividualStudentGroupedFlagTableProps> = ({ onClickInterval, courseSession }) => {
-  const [sortOrder, setSortOrder] = React.useState<SortOrder>('asc');
-  const [sortField, setSortField] = React.useState<SortField>('activity');
+export const IndividualStudentGroupedFlagTable: React.FC<
+  IndividualStudentGroupedFlagTableProps
+> = ({ onClickInterval, courseSession }) => {
+  const [sortOrder, setSortOrder] = React.useState<SortOrder>("asc");
+  const [sortField, setSortField] = React.useState<SortField>("activity");
 
   const groupedFlags = React.useMemo(() => {
-    const deviceFlags = getGroupedDeviceActivities(courseSession, courseSession.studentCourseSessions);
-    const urlFlags = getGrouppedFlaggedUrlsFromCourseSessions(courseSession.studentCourseSessions);
-    if (sortField === 'activity') {
+    const deviceFlags = getGroupedDeviceActivities(
+      courseSession,
+      courseSession.studentCourseSessions
+    );
+    const urlFlags = getGrouppedFlaggedUrlsFromCourseSessions(
+      courseSession.studentCourseSessions
+    );
+    if (sortField === "activity") {
       urlFlags.sort((a, b) => {
         return a.url.localeCompare(b.url);
       });
 
       const finalList = [...deviceFlags, ...urlFlags];
-      if (sortOrder === 'desc') {
+      if (sortOrder === "desc") {
         finalList.reverse();
       }
 
@@ -82,7 +98,7 @@ export const IndividualStudentGroupedFlagTable: React.FC<IndividualStudentGroupe
         return a.intervals[0].start.getTime() - b.intervals[0].start.getTime();
       });
 
-      if (sortOrder === 'desc') {
+      if (sortOrder === "desc") {
         finalList.reverse();
       }
 
@@ -90,36 +106,48 @@ export const IndividualStudentGroupedFlagTable: React.FC<IndividualStudentGroupe
     }
   }, [courseSession, sortOrder, sortField]);
 
-  const onClickField = React.useCallback((field: SortField) => {
-    if (field === sortField) {
-      setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
-    } else {
-      setSortField(field);
-      setSortOrder('asc');
-    }
-  }, [sortOrder, sortField, setSortOrder, setSortField]);
+  const onClickField = React.useCallback(
+    (field: SortField) => {
+      if (field === sortField) {
+        setSortOrder(sortOrder === "asc" ? "desc" : "asc");
+      } else {
+        setSortField(field);
+        setSortOrder("asc");
+      }
+    },
+    [sortOrder, sortField, setSortOrder, setSortField]
+  );
 
   return (
     <table className="table table-striped">
       <thead>
         <tr>
-          <th onClick={() => onClickField('activity')}>
+          <th onClick={() => onClickField("activity")}>
             Flagged Activity
-            {sortField === 'activity' && <SortArrow direction={sortOrder} />}
+            {sortField === "activity" && <SortArrow direction={sortOrder} />}
           </th>
-          <th onClick={() => onClickField('duration')}>
+          <th onClick={() => onClickField("duration")}>
             Duration
-            {sortField === 'duration' && <SortArrow direction={sortOrder} />}
+            {sortField === "duration" && <SortArrow direction={sortOrder} />}
           </th>
         </tr>
       </thead>
       <tbody>
-        {groupedFlags?.map(flaggedActivity => 
-          flaggedActivity.flagType === 'blocked-url' ? 
-          <WebsiteFlagRow key={flaggedActivity.url} flaggedActivity={flaggedActivity} onClickInterval={onClickInterval} /> : 
-          <DeviceFlagRow key={flaggedActivity.device} flaggedActivity={flaggedActivity} />
+        {groupedFlags?.map((flaggedActivity) =>
+          flaggedActivity.flagType === "blocked-url" ? (
+            <WebsiteFlagRow
+              key={flaggedActivity.url}
+              flaggedActivity={flaggedActivity}
+              onClickInterval={onClickInterval}
+            />
+          ) : (
+            <DeviceFlagRow
+              key={flaggedActivity.device}
+              flaggedActivity={flaggedActivity}
+            />
+          )
         )}
       </tbody>
     </table>
-  )
+  );
 };
