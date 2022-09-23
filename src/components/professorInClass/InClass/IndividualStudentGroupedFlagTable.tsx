@@ -100,12 +100,12 @@ export const IndividualStudentGroupedFlagTable: React.FC<
     } else {
       const finalList = [...deviceFlags, ...urlFlags];
       finalList.sort((a, b) => {
-        return a.intervals[0].start.getTime() - b.intervals[0].start.getTime();
+        if (sortOrder === "desc") {
+          return b.intervals[0].end.getTime() - a.intervals[0].end.getTime();
+        } else {
+          return a.intervals[0].start.getTime() - b.intervals[0].start.getTime();
+        }  
       });
-
-      if (sortOrder === "desc") {
-        finalList.reverse();
-      }
 
       return finalList;
     }
