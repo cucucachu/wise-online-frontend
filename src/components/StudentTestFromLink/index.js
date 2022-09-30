@@ -9,6 +9,7 @@ import LoginModal from '../LoginModal';
 import { AuthContext } from '../../contexts/AuthContext';
 
 import { i18n } from 'web-translate';
+import { logError } from '../../Logger';
 
 class StudentTestFromLink extends Component {
 
@@ -63,11 +64,16 @@ class StudentTestFromLink extends Component {
                 this.setState({...this.state, showLogin: true});
             }
             else {
-                this.setState({...this.state, error: 'Sorry, this link is no longer valid.'});
+                logError(new Error('Failed to load course'), {
+                    responseStatus: response.status,
+                    responseData: response.data,
+                });
+
+                this.setState({...this.state, error: `Sorry, this link is no longer valid (Error Code: ${response.status}).`});
             }
         }
         catch (error) {
-            console.log(error.message);
+            logError(error);
             this.setState({...this.state, error: 'Sorry, this link is no longer valid.'});
         }
     }
