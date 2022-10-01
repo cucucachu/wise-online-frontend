@@ -1,5 +1,5 @@
 import React from "react";
-import { RouteComponentProps, Prompt } from "react-router-dom";
+import { useLocation, RouteComponentProps, Prompt } from "react-router-dom";
 //axios
 import { i18n } from "web-translate";
 import { v4 as uuid } from "uuid";
@@ -98,12 +98,6 @@ const InSessionInClass: React.FC<InSessionInClassProps> = ({
       return createEngagementPointsForCourseSession(courseSession);
     }
   }, [courseSession]);
-
-  // React.useEffect(() => {
-  //   return () => {
-  //     stopSession();
-  //   };
-  // }, []);
 
   const studentsById = React.useMemo(() => {
     return courseSession.students.reduce((accum, student) => {

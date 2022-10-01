@@ -95,7 +95,7 @@ class ProfessorViewStudentTest extends Component<
       if (studentTest.studentAwayFromCamera)
         studentTest.issues.push("Student Away From Camera");
       if (studentTest.forbiddenWebsitesFound)
-        studentTest.issues.push("Foorbidden Websites Visited");
+        studentTest.issues.push("Forbidden Websites Visited");
       if (studentTest.unknownWebsitesFound)
         studentTest.issues.push("Unknown Websites Visited");
       if (studentTest.missingWebcamImages)
