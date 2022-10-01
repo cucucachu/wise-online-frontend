@@ -8,6 +8,8 @@ import viewIcon from "../../Assets/images/eye-icon-white.svg";
 import bookIcon from "../../Assets/images/book-icon.svg";
 
 import { downloadDataForCourseURL } from "../../store/axios";
+import { AppConfig } from "../../services/appConfig";
+
 
 import { i18n } from "web-translate";
 import { paths } from "../../paths";
@@ -109,7 +111,7 @@ class CourseCard extends Component<CourseCardProps, CourseCardState> {
                   {i18n("Attendance")}
                 </button>
               </Link>
-              <Link
+              {AppConfig.isInClassEnabled && <Link
                 to={{
                   pathname: paths.professorInClass({
                     courseId: this.props.course._id,
@@ -128,8 +130,8 @@ class CourseCard extends Component<CourseCardProps, CourseCardState> {
                     ? i18n("View In Progress Class")
                     : i18n("Start InClass")}
                 </button>
-              </Link>
-              <Link
+              </Link>}
+              {AppConfig.isInClassEnabled && <Link
                 to={{
                   pathname: paths.professorInClassPastSessions({
                     courseId: this.props.course._id,
@@ -146,7 +148,7 @@ class CourseCard extends Component<CourseCardProps, CourseCardState> {
                   <img src={bookIcon} className="icon-xs" alt="tick icon" />
                   {i18n("View InClass Sessions")}
                 </button>
-              </Link>
+              </Link>}
               <Link
                 to={{
                   pathname: "/proctor/professor/start",

@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import {AppConfig} from '../services/appConfig'
 
 import studentDashIcon from "../Assets/images/student-dash-icon.png";
 import tickIcon from "../Assets/images/start-class.svg";
@@ -24,14 +25,16 @@ export const StudentDashboard: React.FC<{}> = () => {
           </button>
         </Link>
 
-        <div className="spacer-vertical" />
-        <Link to={paths.studentInClassCourseList({})}>
-          <button className="btn">
-            <img src={tickIcon} alt="attend class icon" className="icon-sm" />
-            &nbsp;{i18n("Attend Class")}
-          </button>
-        </Link>
-
+        {AppConfig.isInClassEnabled && 
+        <>
+          <div className="spacer-vertical" />
+          <Link to={paths.studentInClassCourseList({})}>
+            <button className="btn">
+              <img src={tickIcon} alt="attend class icon" className="icon-sm" />
+              &nbsp;{i18n("Attend Class")}
+            </button>
+          </Link>
+        </>}
         <div className="spacer-vertical" />
         <Link to="/student/tests">
           <button className="btn">

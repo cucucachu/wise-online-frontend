@@ -1,12 +1,12 @@
 import axios, { AxiosResponse } from "axios";
 import { createBrowserHistory } from "history";
-import { apiUrl } from "../config/apiUrl";
+import { AppConfig } from "../services/appConfig";
 import { Course, InClassFlagAction } from "../types";
 
 axios.defaults.withCredentials = true;
 
 const backend = axios.create({
-  baseURL: apiUrl,
+  baseURL: AppConfig.apiUrl,
   timeout: 30000,
   headers: { "X-Requested-With": "XMLHttpRequest" },
   withCredentials: true,
@@ -174,15 +174,15 @@ async function resetAdminPW(data: any) {
 }
 
 function adminDownloadDataByCourseURL(termId: string) {
-  return apiUrl + "admin/courses/attendanceData/" + termId;
+  return AppConfig.apiUrl + "admin/courses/attendanceData/" + termId;
 }
 
 function adminDownloadDataByProfessorURL(termId: string) {
-  return apiUrl + "admin/professors/attendanceData/" + termId;
+  return AppConfig.apiUrl + "admin/professors/attendanceData/" + termId;
 }
 
 function adminDownloadDataByStudentURL(termId: string) {
-  return apiUrl + "admin/students/attendanceData/" + termId;
+  return AppConfig.apiUrl + "admin/students/attendanceData/" + termId;
 }
 
 async function adminEditTerm(termId: string, name: string) {
@@ -257,19 +257,19 @@ async function adminGetCourseDetails(courseId: string) {
 }
 
 function getStudentTemplateURL() {
-  return apiUrl + "admin/studentTemplate";
+  return AppConfig.apiUrl + "admin/studentTemplate";
 }
 
 function getProfessorTemplateURL() {
-  return apiUrl + "admin/professorTemplate";
+  return AppConfig.apiUrl + "admin/professorTemplate";
 }
 
 function getStudentsCSVURL() {
-  return apiUrl + "admin/csv/students";
+  return AppConfig.apiUrl + "admin/csv/students";
 }
 
 function getProfessorsCSVURL() {
-  return apiUrl + "admin/csv/professors";
+  return AppConfig.apiUrl + "admin/csv/professors";
 }
 
 async function getTerms() {
@@ -423,7 +423,7 @@ async function professorProctorConfigurationAllowed() {
 }
 
 function downloadDataForCourseURL(courseId: string) {
-  return apiUrl + "professor/course/attendanceData/" + courseId;
+  return AppConfig.apiUrl + "professor/course/attendanceData/" + courseId;
 }
 
 async function getImage(testAttendanceId: string, imageNumber: string) {
@@ -476,7 +476,7 @@ export async function professorGetCourseSessionDetailForStudent(
 export function professorGetCourseSessionDetailScreenshot(
   screenshotId: string
 ) {
-  return `${apiUrl}professor/course/screenshot/${screenshotId}`;
+  return `${AppConfig.apiUrl}professor/course/screenshot/${screenshotId}`;
 }
 
 export async function professorGetCurrentSession(courseId: string) {
@@ -788,15 +788,15 @@ async function proctoringGetStudentTestDetailsAndImages({
 }
 
 function proctoringGetWebcamImageURL({ studentTestId, index }: any) {
-  return `${apiUrl}proctor/studentTest/${studentTestId}/details/webcam?index=${index}`;
+  return `${AppConfig.apiUrl}proctor/studentTest/${studentTestId}/details/webcam?index=${index}`;
 }
 
 function proctoringGetScreenshotImageURL({ studentTestId, index }: any) {
-  return `${apiUrl}proctor/studentTest/${studentTestId}/details/screenshot?index=${index}`;
+  return `${AppConfig.apiUrl}proctor/studentTest/${studentTestId}/details/screenshot?index=${index}`;
 }
 
 function proctoringGetAudioURL({ studentTestId, index }: any) {
-  return `${apiUrl}proctor/studentTest/${studentTestId}/details/audio?index=${index}`;
+  return `${AppConfig.apiUrl}proctor/studentTest/${studentTestId}/details/audio?index=${index}`;
 }
 
 export {
