@@ -83,6 +83,7 @@ type InSessionInClassProps = {
   stopSession(): void;
   courseId: string;
   course: Course;
+  isStopping: boolean,
 };
 
 const InSessionInClass: React.FC<InSessionInClassProps> = ({
@@ -90,6 +91,7 @@ const InSessionInClass: React.FC<InSessionInClassProps> = ({
   courseId,
   courseSession,
   stopSession,
+  isStopping,
 }) => {
   const { onToggleGraphLine, selectedGraphLines } = useEngagementGraphToggles();
 
@@ -184,7 +186,7 @@ const InSessionInClass: React.FC<InSessionInClassProps> = ({
       </div>
       <div className="spacer-vertical" />
       <Prompt
-        when={true}
+        when={!isStopping}
         message={(location) => {
           const urlRegex = new RegExp(
             "^/professor/in-class/.+/sessions/.+/students/.+$"
@@ -279,6 +281,7 @@ const ProfessorClassStart: React.FC<Props> = ({ match, history }) => {
     React.useState<CourseSession | null>();
   const { courseId } = match.params;
   const [error, setError] = React.useState<string | undefined>();
+  const [isStopping, setIsStopping] = React.useState(false);
 
   React.useEffect(() => {
     const fetch = async () => {
@@ -328,6 +331,7 @@ const ProfessorClassStart: React.FC<Props> = ({ match, history }) => {
   );
 
   const stopSession = React.useCallback(async () => {
+    setIsStopping(true);
     setLoading(true);
     await professorStopCourseSession(courseId);
     history.push("/professor/course");
@@ -344,6 +348,7 @@ const ProfessorClassStart: React.FC<Props> = ({ match, history }) => {
         courseSession={courseSession}
         stopSession={stopSession}
         course={course!}
+        isStopping={isStopping}
       />
     );
   }
