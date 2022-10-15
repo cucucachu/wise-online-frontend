@@ -33,7 +33,7 @@ import StudentClass from "../components/studentClass";
 import StudentClassAtt from "../components/studentClassAtt";
 import StudentLogin from "../components/studentLogin";
 import StudentTest from "../components/studentTest";
-import StudentAttSuccess from "../components/studentAttSuccess";
+import {StudentAttSuccess} from "../components/studentAttSuccess";
 import StudentRecordTest from "../components/StudentRecordTest";
 import StudentTestId from "../components/studentTestId";
 import StudentRecError from "../components/studentRecordingError";
@@ -45,7 +45,7 @@ import StudentProctoringDemo from "../components/StudentProctoringDemo";
 import { StudentInClassCourseList } from "../components/studentInClass/StudentInClassCourseList";
 import { StudentInClassLanding } from "../components/studentInClass/StudentInClassLanding";
 
-import AdminLogin from "../components/adminLogin";
+import {AdminLogin} from "../components/adminLogin";
 import SetUpSchoolPage from "../components/SetUpSchoolPage";
 import AdminHomePage from "../components/AdminHomePage";
 import SchoolStep1 from "../components/createSchoolStep1";
@@ -62,8 +62,7 @@ import { SelectRole } from "../components/selectRole";
 import { AuthContext } from "../contexts/AuthContext";
 // import { LanguageContext } from '../contexts/LanguageContext'
 
-// import Header from '../components/header'
-import HeaderNew from "../components/headerNew";
+import {WiseHeader} from "../components/WiseHeader";
 
 import PrivateRouteAdmin from "../components/PrivateRouteAdmin";
 import PrivateRouteStudent from "../components/PrivateRouteStudent";
@@ -84,7 +83,7 @@ import ProfessorResetPW from "../components/professorResetPW";
 import AdminResetPWSuccess from "../components/adminResetPWSuccess";
 import ProfessorResetPWSuccess from "../components/professorResetPWSuccess";
 import SetupSchoolSuccess from "../components/setUpSchoolSuccess";
-import ViewProctoring from "../components/professorViewProctoring";
+import ViewProctoring from "../components/ProfessorViewProctoring";
 import ViewTestResults from "../components/professorTestResults";
 import ViewEachTestResult from "../components/ProfessorViewTestData";
 import StudentRecordAgreeToTerms from "../components/studentRecordAgreeToTerms";
@@ -121,7 +120,6 @@ class HomePage extends Component<any, any, any> {
           : sessionStorage.getItem("role"),
     };
 
-    this.handleLogout = this.handleLogout.bind(this);
     this.handleSuccessfulLogin = this.handleSuccessfulLogin.bind(this);
   }
 
@@ -174,7 +172,7 @@ class HomePage extends Component<any, any, any> {
       <Router>
         {/* 
                 <p class="alert-box">Hello</p> */}
-        <HeaderNew
+        <WiseHeader
           username={this.state.username}
           schoolName={this.state.schoolName}
           isLoggedIn={this.state.isLoggedIn}
@@ -197,7 +195,6 @@ class HomePage extends Component<any, any, any> {
                 <SuperDashboard
                   {...props}
                   onSuccessfulLogin={this.handleSuccessfulLogin}
-                  logout={this.handleLogout}
                 />
               )}
             />

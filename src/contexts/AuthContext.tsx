@@ -1,6 +1,7 @@
-import { createContext, useState } from 'react';
+import * as React from 'react';
 import type { FC, PropsWithChildren } from 'react';
 import { useCookies } from 'react-cookie';
+import { logout as clearSession } from '../store/axios';
 
 export type IAuthContext = {
     email: string; 
@@ -10,6 +11,7 @@ export type IAuthContext = {
     classID: string;
     schoolName: string;
     schoolID: string;
+    integrationName: string | null;
     username: string;
     userID: string;
     isAuthenticated: boolean; 
@@ -17,8 +19,9 @@ export type IAuthContext = {
     testAttendanceId: any;
     authToggle: any;
     loggedinUser: any;
-    toggleCreated: any;
-    storeClassId: any;
+    storeClassId(clasId: string): void;
+    setSchoolName(schoolName: string): void;
+
     studentForm(firstName: string, lastName: string, email: string): void;
     role: string;
     setRole: any;
@@ -26,33 +29,31 @@ export type IAuthContext = {
     setLanguageCode: any;
     languages: any;
     setLanguages: any;
+    logout(): void;
 }
 
-export const AuthContext = createContext<IAuthContext | undefined>(undefined);
+export const AuthContext = React.createContext<IAuthContext | undefined>(undefined);
 
 const AuthContextProvider: FC<PropsWithChildren> = ({ children }) => {
     const [cookies] = useCookies([]);
-    const [username, setUsername] = useState('');
-    const [userID, setUserID] = useState('');
-    const [schoolID, setSchoolID] = useState('');
-    const [schoolName, setSchoolName] = useState('');
-    const [testAttendanceId, setTestAttendanceId] = useState('');
-    const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');
-    const [email, setEmail] = useState('');
-    var [isAuthenticated, setIsAuthenticated] = useState(false);
-    var [isCreated, setIsCreated] = useState(false);
-    const [classID, setClassID] = useState('');
-    const [role, setRole] = useState('');
-    const [languageCode, setLanguageCode] = useState('en');
-    const [languages, setLanguages] = useState({});
+    const [username, setUsername] = React.useState('');
+    const [userID, setUserID] = React.useState('');
+    const [schoolID, setSchoolID] = React.useState('');
+    const [schoolName, setSchoolName] = React.useState('');
+    const [integrationName, setIntegrationName] = React.useState<string | null>(null);
+
+    const [testAttendanceId, setTestAttendanceId] = React.useState('');
+    const [firstName, setFirstName] = React.useState('');
+    const [lastName, setLastName] = React.useState('');
+    const [email, setEmail] = React.useState('');
+    var [isAuthenticated, setIsAuthenticated] = React.useState(false);
+    const [classID, setClassID] = React.useState('');
+    const [role, setRole] = React.useState('');
+    const [languageCode, setLanguageCode] = React.useState('en');
+    const [languages, setLanguages] = React.useState({});
 
     const authToggle = ()=> {
         setIsAuthenticated(!isAuthenticated);
-    }
-
-    const toggleCreated = () => {
-        setIsCreated(!isCreated);
     }
 
     const loggedinUser = (userID: string, username: string, schoolName: string, schoolID: string) => {
@@ -76,6 +77,22 @@ const AuthContextProvider: FC<PropsWithChildren> = ({ children }) => {
         setEmail(email);
     }
 
+    const logout = React.useCallback(() => {
+        sessionStorage.clear();
+        clearSession();
+    }, []);
+    // checkCookie() {
+    //     const { cookies } = this.context;
+        
+    //     if(cookies === undefined){
+    //         this.props.history.push('/professor-login')
+    //     }
+    //     else {
+    //         return
+    //     }
+    // }
+
+    
     return ( 
         <AuthContext.Provider value={{ 
             email, 
@@ -84,7 +101,9 @@ const AuthContextProvider: FC<PropsWithChildren> = ({ children }) => {
             cookies, 
             classID, 
             schoolName, 
+            setSchoolName,
             schoolID, 
+            integrationName,
             username, 
             userID, 
             isAuthenticated, 
@@ -92,7 +111,6 @@ const AuthContextProvider: FC<PropsWithChildren> = ({ children }) => {
             testAttendanceId, 
             authToggle, 
             loggedinUser, 
-            toggleCreated, 
             storeClassId, 
             studentForm, 
             role, 
@@ -100,7 +118,8 @@ const AuthContextProvider: FC<PropsWithChildren> = ({ children }) => {
             languageCode,
             setLanguageCode,
             languages,
-            setLanguages
+            setLanguages,
+            logout
         }}>
             {children}
         </AuthContext.Provider>

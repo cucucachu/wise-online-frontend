@@ -164,7 +164,7 @@ async function addUsersPrecheck(professorFile: any, studentFile: any) {
   return response;
 }
 
-async function adminRequestResetPW(email: string) {
+async function adminRequestResetPW(email: any) {
   const response = await backend.post("/admin/requestPasswordReset", email);
   return response;
 }
@@ -340,8 +340,8 @@ export async function getCourse(courseId: string): Promise<Course> {
   return response.data.course;
 }
 
-async function professorRequestResetPW(email: string) {
-  const response = await backend.post("/professor/requestPasswordReset", email);
+async function professorRequestResetPW(data: { professorEmail: string }) {
+  const response = await backend.post("/professor/requestPasswordReset", data);
   return response;
 }
 async function resetProfessorPW(data: string) {
@@ -589,7 +589,7 @@ async function submitProctoringError(
   return response;
 }
 
-async function submitFeeWaive(data: string) {
+async function submitFeeWaive(data: any) {
   const response = await backend.post("student/waiveFee", data);
   return response;
 }
@@ -651,10 +651,9 @@ async function getCourses() {
   return response;
 }
 
-async function getTestsByCourse(professor: any, data: any) {
+async function getTestsByCourse(_professor: any, data: any) {
   const response = await backend.get(
     `/professor/courses/${data}/tests`,
-    professor
   );
   return response;
 }

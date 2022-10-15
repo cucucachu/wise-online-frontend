@@ -7,9 +7,20 @@ import attendanceIcon from '../Assets/images/attendance-icon.png';
 import DataPane from './Resusable/DataPane';
 import { i18n } from 'web-translate';
 
-class AdminHomePage extends Component {
+type AdminHomePageProps = {};
+type AdminHomePageState = {
+    schoolData: {
+        'Name'?: string;
+        'Current Term'?: string;
+        'Professors'?: string;
+        'Students'?: string;
+        'Total Tests Taken'?: any;
+    }  
+};
 
-    constructor(props) {
+class AdminHomePage extends Component<AdminHomePageProps, AdminHomePageState> {
+
+    constructor(props: AdminHomePageProps) {
         super(props);
 
         this.state = {
@@ -41,7 +52,7 @@ class AdminHomePage extends Component {
             <div className="container">
                     <img src={ attendanceIcon } className="page-icon" alt="login icon"/>
                     <div className="spacer-vertical-s"></div>
-                    <h1>{sessionStorage.getItem('schoolName')}</h1>
+                    <h1>{this.state.schoolData?.Name ?? 'Loadng...'}</h1>
                     <div className="spacer-vertical" />
                     <DataPane 
                         title="School Details"

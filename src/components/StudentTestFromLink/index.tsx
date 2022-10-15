@@ -7,10 +7,10 @@ import { proctoringStudentStartTest } from "../../store/axios";
 import Spinner from '../Spinner';
 import LoginModal from '../LoginModal';
 
-import { ProctorConfigContext, IProctorConfigContext } from '../../contexts/ProctorConfigContext';
-import { AuthContext, IAuthContext } from '../../contexts/AuthContext';
+import { IProctorConfigContext } from '../../contexts/ProctorConfigContext';
+import { IAuthContext } from '../../contexts/AuthContext';
 import { UserLoginData } from '../../types';
-import { useQuery } from '../../hooks';
+import { useQuery, useAuth, useProctorConfig } from '../../hooks';
 
 import { i18n } from 'web-translate';
 import { logError } from '../../Logger';
@@ -125,8 +125,8 @@ class StudentTestFromLink extends Component<StudentTestFromLinkProps, StudentTes
 }
 
 export default (props: StudentTestFromLinkBaseProps) => {
-    const proctorContext = React.useContext(ProctorConfigContext);
-    const authContext = React.useContext(AuthContext);
+    const proctorContext = useProctorConfig();
+    const authContext = useAuth();
     const queryParams = useQuery();
     const classId = queryParams.get('c')!;
     const keyCode = queryParams.get('k')!;

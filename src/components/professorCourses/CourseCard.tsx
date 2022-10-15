@@ -9,7 +9,7 @@ import bookIcon from "../../Assets/images/book-icon.svg";
 
 import { downloadDataForCourseURL } from "../../store/axios";
 import { AppConfig } from "../../services/appConfig";
-
+import { useAuth } from "../../hooks";
 
 import { i18n } from "web-translate";
 import { paths } from "../../paths";
@@ -18,6 +18,7 @@ import { Course } from "../../types";
 type CourseCardProps = {
   course: Course;
   handleDelete(e: any, id: string): void;
+  integrationName: string | null;
 };
 
 type CourseCardState = {
@@ -55,7 +56,7 @@ class CourseCard extends Component<CourseCardProps, CourseCardState> {
   };
 
   renderView() {
-    const integrationName = sessionStorage.getItem("integrationName");
+    const integrationName = this.props.integrationName;
 
     return (
       <div className="col-sm-6">
@@ -252,4 +253,13 @@ class CourseCard extends Component<CourseCardProps, CourseCardState> {
   }
 }
 
-export default CourseCard;
+type CourseCardWithoutContextProps = Omit<CourseCardProps, 'integrationName'>;
+
+export default (props: CourseCardWithoutContextProps) => {
+  const authContext = useAuth();
+  const integrationName = authContext.integrationName;
+
+  return (
+    <CourseCard {...props} integrationName={integrationName} />
+  );
+}

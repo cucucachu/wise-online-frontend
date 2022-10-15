@@ -1,22 +1,40 @@
 import React, { Component } from 'react'
+import type { RouteComponentProps } from 'react-router-dom';
+import type { UserLoginData } from '../../types';
 
 import attendClass from '../../Assets/images/attend-class.png';
 import { markAttendance } from "../../store/axios";
 
 import Spinner from '../Spinner';
 import LoginModal from '../LoginModal';
+import { ProctorConfigContext, IProctorConfigContext } from '../../contexts/ProctorConfigContext';
+import { IAuthContext } from '../../contexts/AuthContext';
+import { useQuery, useAuth } from '../../hooks';
 
 import { i18n } from 'web-translate';
 
-class StudentAttendanceFromLink extends Component {
+type StudentAttendanceFromLinkBaseProps = RouteComponentProps & {
+    onSuccessfulLogin(loginResponseData: UserLoginData): void;
+};
 
-    constructor(props) {
+type StudentAttendanceFromLinkProps = {
+    classId: string;
+    keyCode: string;
+    proctorContext: IProctorConfigContext;
+    authContext: IAuthContext;
+} & StudentAttendanceFromLinkBaseProps;
+
+type StudentAttendanceFromLinkState = {
+    showLogin: boolean;
+    error: null | string;
+};
+
+class StudentAttendanceFromLink extends Component<StudentAttendanceFromLinkProps, StudentAttendanceFromLinkState> {
+
+    constructor(props: StudentAttendanceFromLinkProps) {
         super(props);
-        const params = new URLSearchParams(props.location.search);
 
         this.state = {
-            classId: params.get('c'),
-            keyCode: params.get('k'),
             showLogin: false,
             error: null,
         };
@@ -30,10 +48,10 @@ class StudentAttendanceFromLink extends Component {
 
     async tryMarkAttendance() {
         try {
-            const response = await markAttendance(this.state.classId, this.state.keyCode);
+            const response = await markAttendance(this.props.classId, this.props.keyCode);
 
             if (response.status === 200) {
-                sessionStorage.setItem('classId', this.state.classId);
+                this.props.authContext.storeClassId(this.props.classId);
                 this.props.history.push('class/attend-success');
             }
             else if (response.status === 401) {
@@ -48,7 +66,7 @@ class StudentAttendanceFromLink extends Component {
         }
     }
 
-    async handleSuccessfulLogin(loginResponseData) {
+    async handleSuccessfulLogin(loginResponseData: UserLoginData) {
         this.props.onSuccessfulLogin(loginResponseData);
         this.setState({...this.state, showLogin: false});
         await this.tryMarkAttendance();
@@ -59,7 +77,7 @@ class StudentAttendanceFromLink extends Component {
             <div className="container">
                 <img src={attendClass} className="page-icon" alt="login icon"/>
                 <div className="spacer-vertical" />
-                <h1>{i18n("Marking Your Attendance for")} {this.state.classId}</h1>
+                <h1>{i18n("Marking Your Attendance for")} {this.props.classId}</h1>
                 <div className="spacer-vertical" />
                 {(() => {
                     if (this.state.showLogin) {
@@ -82,4 +100,20 @@ class StudentAttendanceFromLink extends Component {
     }
 }
 
-export default StudentAttendanceFromLink;
+export default (props: StudentAttendanceFromLinkBaseProps) => {
+    const proctorContext = React.useContext(ProctorConfigContext);
+    const authContext = useAuth();
+    const queryParams = useQuery();
+    const classId = queryParams.get('c')!;
+    const keyCode = queryParams.get('k')!;
+
+    return (
+        <StudentAttendanceFromLink
+            {...props}
+            classId={classId}
+            keyCode={keyCode}
+            authContext={authContext!}
+            proctorContext={proctorContext}
+        />
+    )
+};

@@ -58,7 +58,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "gentran": "generate-translations",
-    "build-styles": "gulp watch"
+    "build-styles": "gulp watch",
+    "lint": "react-scripts lint"
   },
   "lint-staged": {
     "src/**/*.{ts,tsx}": [

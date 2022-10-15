@@ -67,12 +67,10 @@ class ProfessorCourse extends Component<any, any> {
       });
     } else {
       const courses = response.data;
-      sessionStorage.setItem("courses", courses);
-      state = Object.assign({}, this.state);
 
-      state.courses = courses;
-
-      this.setState(state);
+      this.setState({
+        courses,
+      });
     }
   }
 

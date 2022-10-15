@@ -1,15 +1,18 @@
-import React, {Component} from 'react';
+import * as React from 'react';
 
 import educationIcon from '../Assets/images/wise-education.png'
 
-import { AuthContext } from '../contexts/AuthContext'
+import { IAuthContext } from '../contexts/AuthContext'
+import { useAuth } from '../hooks'
 
 import { i18n } from 'web-translate';
+import { Route, RouteComponentProps } from 'react-router-dom';
 
+type StudentFeeWaiveConfirmProps = {
+    authContext: IAuthContext;
+} & RouteComponentProps;
 
-class StudentFeeWaiveConfirm extends Component {
-    static contextType = AuthContext
-
+class StudentFeeWaiveConfirm extends React.Component<StudentFeeWaiveConfirmProps, any> {
     state={
         email: '',
         firstName: '',
@@ -19,13 +22,13 @@ class StudentFeeWaiveConfirm extends Component {
         showHide: {display: 'none'},
         toggleCss: false
     };
-    handleRadio = e =>{
+    handleRadio: React.MouseEventHandler<HTMLButtonElement> = e =>{
         e.preventDefault()
-        this.setState(prevState => ({
+        this.setState((prevState: any) => ({
             toggleCss: !prevState.toggleCss
           }));
     }
-    handleSubmit = e =>{
+    handleSubmit: React.FormEventHandler = e =>{
         e.preventDefault()
         this.props.history.push('/student-login')
         // try {
@@ -55,14 +58,14 @@ class StudentFeeWaiveConfirm extends Component {
         
     };
 
-    onFocus = (id) => {
-        document.getElementById(id).onpaste = e => {
+    onFocus = (id: any) => {
+        document.getElementById(id)!.onpaste = e => {
             e.preventDefault();
             return false;
         };
     };
   render(){
-    const { firstName, lastName, email, schoolName } = this.context
+    const { firstName, lastName, email, schoolName } = this.props.authContext;
     console.log('school: ', schoolName);
     
         // console.log('firstname: ', firstName);
@@ -110,6 +113,15 @@ class StudentFeeWaiveConfirm extends Component {
   }
 }
 
-export default StudentFeeWaiveConfirm;
+export default (props: RouteComponentProps) => {
+    const authContext = useAuth();
+
+    return (
+        <StudentFeeWaiveConfirm
+            {...props}
+            authContext={authContext}
+        />
+    )
+};
 
 

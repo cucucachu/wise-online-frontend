@@ -1,14 +1,10 @@
 import React, { Component, Fragment } from 'react'
 import editIcon from '../Assets/images/edit-icon.png';
 import { claimProfessorAccount } from '../store/axios'
-
-import { AuthContext } from '../contexts/AuthContext'
 import { i18n } from 'web-translate';
 
 
 class ProfessorClaim extends Component {
-    static contextType = AuthContext
-
     state={
         email: '',
         conemail: '',

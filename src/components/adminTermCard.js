@@ -58,14 +58,7 @@ class AdminTermCard extends Component {
             }
         }
     }
-    cookiesExpired(){
-        sessionStorage.clear()
-        logout()
-        this.props.history.push({
-            pathname: '/admin-login',
-            state: { message: 'Sorry, your login has expired, please log in again.', showHide: {display: 'block'} }
-            })
-    }
+
     async downloadDataByCourse() {
         let exportedFilenmae = this.state.name + '-data-by-course'
         // window.location = await adminDownloadDataByCourseURL(this.state.termId);
@@ -98,9 +91,7 @@ class AdminTermCard extends Component {
             const response = await setCurrentTerm(e.target.id)
             if(response.status === 200){
                 await this.props.loadTerms()
-            }else if(response.status === 401){
-                this.cookiesExpired()
-            }else{
+            } else {
                 this.setState({errorCurrentTerm: false})
             }
         }catch(error){
@@ -116,8 +107,6 @@ class AdminTermCard extends Component {
             if(response.status === 200){
                 await this.props.loadTerms()
                 this.setState({editing: false})
-            }else if(response.status === 401){
-                this.cookiesExpired()
             }
         }catch(error){
             console.log('Oops, something wrong', error)

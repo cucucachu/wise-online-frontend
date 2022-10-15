@@ -10,7 +10,6 @@ import {UserLoginData} from '../../types';
 import { i18n } from 'web-translate';
 
 type SuperDashboardProps = {
-    logout(): void;
     onSuccessfulLogin(loginData: UserLoginData): void;
 } & RouteComponentProps;
 
@@ -41,12 +40,6 @@ class SuperDashboard extends Component<SuperDashboardProps, any> {
         const response = await superGetSchoolTestCounts();
         const schools = [...this.state.schools];
 
-        if (response.status === 401) {
-            await this.props.logout();
-            this.props.history.push('/');
-            return;
-        }
-
         for(const school of schools) {
             school.tests = response.data[school._id]
         }
@@ -59,12 +52,6 @@ class SuperDashboard extends Component<SuperDashboardProps, any> {
 
     async loadSchools() {
         const response = await superGetSchoolDetails();
-
-        if (response.status === 401) {
-            await this.props.logout();
-            this.props.history.push('/');
-            return;
-        }
 
         for (const school of response.data.schools) {
             school.adminEmail = school.admin ? school.admin.email : '';

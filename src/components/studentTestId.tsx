@@ -1,28 +1,34 @@
 import React, { useState, useContext } from 'react'
 import editIcon from '../Assets/images/edit-icon.png'
-import { AuthContext } from '../contexts/AuthContext'
 import { proctoringStudentStartTest } from '../store/axios'
 import { logout } from '../store/axios'
 import { i18n } from 'web-translate'
+import { useAuth, useProctorConfig } from '../hooks'
+import { RouteComponentProps } from 'react-router-dom'
 
-const StudentTestId = (props) => {
+type StudentTestIdProps = {
+
+} & RouteComponentProps;
+
+const StudentTestId = (props: StudentTestIdProps) => {
     const [testId, setTestId] = useState('')
     const [classId, setClassId] = useState('')
     const [message, setMessage] = useState('')
     const [showHide, setShowHide] = useState({display: 'none'})
-    const { storeClassId, storeTestAttendanceId, setScreenshotInterval, setWebcamInterval } = useContext(AuthContext)
+    const { storeClassId, storeTestAttendanceId } = useAuth();
+    const {setScreenshotInterval, setWebcamInterval} = useProctorConfig();
 
-    const handleChangeKey = e =>{
+    const handleChangeKey: React.ChangeEventHandler<HTMLInputElement> = e =>{
         console.log('onchange: ', e.target.value);
         setTestId(e.target.value)
     }
-    const handleChangeClass = e =>{
+    const handleChangeClass: React.ChangeEventHandler<HTMLInputElement> = e =>{
         setClassId(e.target.value)
     }
     const showError = () =>{
         setShowHide({display: 'block'})
     }
-    const handleSubmit = async e =>{
+    const handleSubmit: React.FormEventHandler = async e =>{
         e.preventDefault()
         
         // storeTestID(testId)
@@ -55,7 +61,7 @@ const StudentTestId = (props) => {
             }else if(response.status === 401){
                 sessionStorage.clear();
                 logout();
-                this.props.history.push({
+                props.history.push({
                     pathname: '/student-login',
                     state: { message: 'Sorry, your login has expired, please log in again.', showHide: {display: 'block'}}
                   });
@@ -67,14 +73,14 @@ const StudentTestId = (props) => {
 
         }
         catch (error) {
-            console.log(error.message);
+            console.log((error as Error).message);
             setMessage('Oops, something went wrong. Please try again.');
             showError();
         }
     };
 
-    const onFocus = (id) => {
-        document.getElementById(id).onpaste = e => {
+    const onFocus = (id: string) => {
+        document.getElementById(id)!.onpaste = e => {
             e.preventDefault();
             return false;
         };

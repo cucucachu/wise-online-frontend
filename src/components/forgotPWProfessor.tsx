@@ -1,15 +1,11 @@
-import React, {Component} from 'react'
+import * as React from 'react'
+import {RouteComponentProps} from 'react-router-dom';
+import { professorRequestResetPW } from '../store/axios'
+import { i18n } from 'web-translate';
 
 import loginIcon from '../Assets/images/login-icon.png'
 
-import { AuthContext } from '../contexts/AuthContext'
-import { professorRequestResetPW } from '../store/axios'
-
-import { i18n } from 'web-translate';
-
-class ForgotPWProfessor extends Component {
-    static contextType = AuthContext
-
+class ForgotPWProfessor extends React.Component<RouteComponentProps> {
     state={
         email: '',
         display: 'none',
@@ -17,14 +13,14 @@ class ForgotPWProfessor extends Component {
         showHide: {display: 'none'}
     };
 
-    handleChangeEmail = e =>{
+    handleChangeEmail: React.ChangeEventHandler<HTMLInputElement> = e =>{
         this.setState({email: e.target.value})
     }
     showError = () =>{
         this.setState({showHide: {display: 'block'}})
     }
     
-    handleSubmit = async e =>{
+    handleSubmit: React.FormEventHandler = async e =>{
         e.preventDefault()
 
         try {

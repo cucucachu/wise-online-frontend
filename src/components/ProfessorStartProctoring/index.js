@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
-import { AuthContext } from '../../contexts/AuthContext';
-
 import icon from '../../Assets/images/attend-class.png';
 
 import ClipboardLink from '../ClipboardLink';
@@ -13,9 +11,6 @@ import TextWithCheckbox from '../Resusable/TextWithCheckbox';
 import { proctoringSchoolAllowsAudio, proctoringProfessorCreateTest } from '../../store/axios';
 
 class ProfessorStartProctoring extends Component {
-
-    static contextType = AuthContext;
-
     constructor(props) {
         super(props);
 

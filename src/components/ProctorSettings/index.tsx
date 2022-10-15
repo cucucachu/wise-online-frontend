@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import * as React from 'react';
 
-import { AuthContext } from '../../contexts/AuthContext';
+import { IAuthContext } from '../../contexts/AuthContext';
 
 import icon from '../../Assets/images/attend-class.png';
 
@@ -13,6 +13,8 @@ import {
     adminSetProctorConfiguration,
     professorSetProctorConfiguration,
  } from '../../store/axios';
+import { RouteComponentProps } from 'react-router-dom';
+import { useAuth } from '../../hooks';
 
 // These are hardcoded but shouldn't be!
 const restrictedDomains = [
@@ -84,11 +86,14 @@ const allowedDomains = [
     'edynamiclearning.com',
 ];
 
-class ProctorSettings extends Component {
+type ProctorSettingsRouteProps = RouteComponentProps<{}, {}, any>
 
-    static contextType = AuthContext;
+type ProctorSettingsProps = {
+    authContext: IAuthContext;
+} & ProctorSettingsRouteProps;
 
-    constructor(props) {
+class ProctorSettings extends React.Component<ProctorSettingsProps, any> {
+    constructor(props: ProctorSettingsProps) {
         super(props);
 
         this.state = {
@@ -109,11 +114,11 @@ class ProctorSettings extends Component {
     async getCurrentProctorConfiguration() {
         let currentProctorConfiguration;
 
-        if (this.context.role === 'Admin') {
+        if (this.props.authContext.role === 'Admin') {
             const result = await adminGetProctorConfiguration();
             currentProctorConfiguration = result.data.proctorConfiguration;
         }
-        else if (this.context.role === 'Professor') {
+        else if (this.props.authContext.role === 'Professor') {
             const result = await professorGetProctorConfiguration();
             currentProctorConfiguration = result.data.proctorConfiguration;
         }
@@ -126,7 +131,7 @@ class ProctorSettings extends Component {
 
         if (currentProctorConfiguration === null) {
             this.setState({
-                role: this.context.role,
+                role: this.props.authContext.role,
             });
             return;
         }
@@ -162,11 +167,11 @@ class ProctorSettings extends Component {
             restrictedDomains: currentProctorConfiguration.restrictedDomains,
             allowedDomains: currentProctorConfiguration.allowedDomains,
             allowOverride: currentProctorConfiguration.allowOverride,
-            role: this.context.role,
+            role: this.props.authContext.role,
         });
     }
 
-    handleSelectFrequency(index) {
+    handleSelectFrequency(index: number) {
         const options = ['LOW', 'MEDIUM', 'HIGH'];
 
         this.setState({
@@ -175,7 +180,7 @@ class ProctorSettings extends Component {
         });
     }
 
-    handleSelectThreshold(index) {
+    handleSelectThreshold(index: number) {
         const options = ['LOW', 'MEDIUM', 'HIGH'];
 
         this.setState({
@@ -286,7 +291,7 @@ class ProctorSettings extends Component {
     }
 
     render() {
-        if (this.state.role === null && this.context.role !== '') {
+        if (this.state.role === null && this.props.authContext.role !== '') {
             this.getCurrentProctorConfiguration();
         }
 
@@ -323,4 +328,12 @@ class ProctorSettings extends Component {
     }
 }
 
-export default ProctorSettings;
+export default (props: ProctorSettingsRouteProps) => {
+    const auth = useAuth();
+    return (
+        <ProctorSettings
+            {...props}
+            authContext={auth}
+        />
+    );
+};

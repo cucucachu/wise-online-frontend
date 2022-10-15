@@ -1,16 +1,18 @@
 import React, {Component} from 'react';
 
 import educationIcon from '../Assets/images/wise-education.png'
-
-import { AuthContext } from '../contexts/AuthContext'
 import { submitFeeWaive } from '../store/axios'
 
 import { i18n } from 'web-translate';
+import { RouteComponentProps } from 'react-router-dom';
+import { IAuthContext } from '../contexts/AuthContext';
+import { useAuth } from '../hooks';
 
+type BaseStudentFeeWaiveFormProps = RouteComponentProps;
 
-class StudentFeeWaiveForm extends Component {
-    static contextType = AuthContext
+type StudentFeeWaiveFormProps = BaseStudentFeeWaiveFormProps & IAuthContext;
 
+class StudentFeeWaiveForm extends Component<StudentFeeWaiveFormProps, any> {
     state={
         email: '',
         firstName: '',
@@ -20,25 +22,25 @@ class StudentFeeWaiveForm extends Component {
         showHide: {display: 'none'}
     };
 
-    handleFirstName = e =>{
+    handleFirstName: React.ChangeEventHandler<HTMLInputElement> = e =>{
         this.setState({firstName: e.target.value})
     }
-    handleLastName = e =>{
+    handleLastName: React.ChangeEventHandler<HTMLInputElement> = e =>{
         this.setState({lastName: e.target.value})
     }
-    handleEmail = e =>{
+    handleEmail: React.ChangeEventHandler<HTMLInputElement> = e =>{
         this.setState({email: e.target.value})
     }
     showError = () =>{
         this.setState({showHide: {display: 'block'}})
     }
     
-    handleSubmit = async e =>{
+    handleSubmit: React.FormEventHandler<HTMLFormElement> = async e =>{
         e.preventDefault()
 
         
         try {
-            const schoolName = sessionStorage.getItem('schoolName')
+            const schoolName = this.props.schoolName;
             const emailLowerCase = this.state.email.toLowerCase()
             const data = {firstName: this.state.firstName, lastName: this.state.lastName, email: emailLowerCase, school: schoolName}
             // data.firstName || !data.lastName || !data.email || !data.school
@@ -63,8 +65,8 @@ class StudentFeeWaiveForm extends Component {
         return
         
     };
-    onFocus = (id) => {
-        document.getElementById(id).onpaste = e => {
+    onFocus = (id: any) => {
+        document.getElementById(id)!.onpaste = e => {
             e.preventDefault();
             return false;
         };
@@ -76,7 +78,7 @@ class StudentFeeWaiveForm extends Component {
             <img src={educationIcon} className="page-icon" alt="wise education icon"/>
             <div className="spacer-vertical" />
             <h1>{i18n("Input your information")}</h1>
-            <form onSubmit={this.handleSubmit.bind(this)}>
+            <form onSubmit={this.handleSubmit}>
             <div className="spacer-vertical" />
                 <div className="input-wrapper">
                     <div style={this.state.showHide}>{this.state.message}</div>
@@ -103,6 +105,12 @@ class StudentFeeWaiveForm extends Component {
   }
 }
 
-export default StudentFeeWaiveForm;
-
-
+export default (props: BaseStudentFeeWaiveFormProps) => {
+    const authContext = useAuth();
+    return (
+        <StudentFeeWaiveForm
+            {...props}
+            {...authContext}
+        />
+    );
+};

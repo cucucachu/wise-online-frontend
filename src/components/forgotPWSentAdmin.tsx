@@ -3,15 +3,10 @@ import { Link } from "react-router-dom"
 
 import loginIcon from '../Assets/images/login-icon.png'
 
-import { AuthContext } from '../contexts/AuthContext'
-
 import { i18n } from 'web-translate';
 
 
 class ForgotPWSentAdmin extends Component {
-    static contextType = AuthContext
-
-    
   render(){
     
       return(

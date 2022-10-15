@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { RouteComponentProps } from 'react-router-dom';
 
 import loginIcon from '../Assets/images/login-icon.png';
 
@@ -7,10 +8,26 @@ import { studentLogin, logout, studentAgreeToTerms } from '../store/axios';
 import ModalSupport from "./modal-support";
 
 import { i18n } from 'web-translate';
+import { UserLoginData } from '../types';
 
-class StudentLogin extends Component {
+type StudentLoginProps = {
+    onSuccessfulLogin(data: UserLoginData): void;
+} & RouteComponentProps<{}, any, any>;
 
-    constructor(props) {
+type StudentLoginState = {
+    email: string;
+    key: string;
+    display: 'none' | 'block';
+    message:string;
+    showHide: any;
+    isFirstTime: boolean;
+    hasAgreedToTerms: boolean;
+    show: boolean;
+}
+
+class StudentLogin extends Component<StudentLoginProps, StudentLoginState> {
+
+    constructor(props: StudentLoginProps) {
         super(props);
 
         this.state = {
@@ -26,11 +43,11 @@ class StudentLogin extends Component {
         };
     }
 
-    handleChangeName = e => {
+    handleChangeName: React.ChangeEventHandler<HTMLInputElement> = e => {
         this.setState({email: e.target.value});
     };
 
-    handleChangeKey = e => {
+    handleChangeKey: React.ChangeEventHandler<HTMLInputElement> = e => {
         this.setState({key: e.target.value});
     };
 
@@ -38,11 +55,11 @@ class StudentLogin extends Component {
         this.setState({showHide: {display: 'block'}});
     };
 
-    handleChangeIAgree(e) {
+    handleChangeIAgree: React.ChangeEventHandler<HTMLInputElement> = (e) => {
         this.setState({...this.state, hasAgreedToTerms: !this.state.hasAgreedToTerms});
     }
 
-    handleSubmit = async e => {
+    handleSubmit: React.FormEventHandler = async e => {
         e.preventDefault();
         try {
             const response = await studentLogin(this.state.email, this.state.key);

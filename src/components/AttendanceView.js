@@ -86,17 +86,7 @@ class AttendanceView extends Component {
 
     async loadAttendance() {        
         const response = await getAttendance(this.state.course._id, this.props.location.state.attendance.id);
-        if(response.status === 401){
-            sessionStorage.clear();
-
-            logout();
-
-            this.props.history.push({
-                pathname: '/professor-login',
-                state: { message: 'Sorry, your login has expired, please log in again.', showHide: {display: 'block'} }
-            });
-        }
-        else {
+        if(response.status === 200){
             const state = Object.assign({}, this.state);
             state.attendance = response.data;
 

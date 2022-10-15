@@ -1,19 +1,20 @@
 import React, { Component, Fragment } from 'react'
-
+import { RouteComponentProps } from 'react-router-dom';
 import editIcon from '../Assets/images/edit-icon.png';
 
 import { createSchool, logout } from '../store/axios'
 // name, setupKey, email, password
 
-import { AuthContext } from '../contexts/AuthContext'
+import { AuthContext, IAuthContext } from '../contexts/AuthContext'
 
 import { i18n } from 'web-translate';
 
+type BaseSchoolStep1Props = RouteComponentProps;
 
-class SchoolStep1 extends Component {
-    static contextType = AuthContext
+type SchoolStep1Props = BaseSchoolStep1Props & IAuthContext;
 
-    state={
+class SchoolStep1 extends Component<SchoolStep1Props, any> {
+    state = {
         email: '',
         setupkey: '',
         password: '',
@@ -22,16 +23,16 @@ class SchoolStep1 extends Component {
         showHide: {display: 'none'}
     };
 
-    handleChangeName = e =>{
+    handleChangeName: React.ChangeEventHandler<HTMLInputElement> = e =>{
         this.setState({name: e.target.value})
     }
-    handleChangeEmail = e =>{
+    handleChangeEmail: React.ChangeEventHandler<HTMLInputElement> = e =>{
         this.setState({email: e.target.value})
     }
-    handleChangePW = e =>{
+    handleChangePW: React.ChangeEventHandler<HTMLInputElement> = e =>{
         this.setState({password: e.target.value})
     }
-    handleChangeKey = e =>{
+    handleChangeKey: React.ChangeEventHandler<HTMLInputElement> = e =>{
         
         this.setState({setupkey: e.target.value})
     }
@@ -39,9 +40,9 @@ class SchoolStep1 extends Component {
         this.setState({showHide: {display: 'block'}})
     }
     
-    handleSubmit = async e =>{
+    handleSubmit: React.FormEventHandler = async e =>{
         e.preventDefault()
-        const { loggedinUser, authToggle } = this.context
+        const { loggedinUser, authToggle } = this.props;
 
         try {
             const emailLowerCase = this.state.email.toLowerCase()
@@ -121,4 +122,13 @@ class SchoolStep1 extends Component {
   }
 }
 
-export default SchoolStep1;
+export default (props: BaseSchoolStep1Props) => {
+    const authContext = React.useContext(AuthContext)!;
+
+    return (
+        <SchoolStep1
+            {...props}
+            {...authContext}
+        />
+    )
+};

@@ -33,6 +33,7 @@ export type UserLoginData = {
   school: {
     name: string;
     id: string;
+    integrationName: string | null;
   };
   role: string;
 }

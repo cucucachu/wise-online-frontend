@@ -21,9 +21,6 @@ export const ProfessorLogin: React.FC<ProfessorLoginProps> = ({ onSuccessfulLogi
             const response = await professorLogin(email, password);
 
             if (response.status === 200) {
-                if (response.data.school.integrationName) {
-                    sessionStorage.setItem('integrationName', response.data.school.integrationName);
-                }
                 onSuccessfulLogin(response.data);
                 history.push('/professor/course');
             }

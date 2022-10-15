@@ -5,7 +5,9 @@ import { CodeEntry } from "./Resusable/CodeEntry";
 
 import { i18n } from "web-translate";
 
-import { AuthContext } from "../contexts/AuthContext";
+import { IAuthContext } from "../contexts/AuthContext";
+import { RouteComponentProps } from "react-router-dom";
+import { useAuth } from "../hooks";
 
 type StudentClassAttState = {
   classId: string;
@@ -17,9 +19,9 @@ type StudentClassAttState = {
   show: string;
 };
 
-class StudentClassAtt extends Component<any, StudentClassAttState> {
-  static contextType = AuthContext;
+type StudentClassAttRouteProps = RouteComponentProps & IAuthContext;
 
+class StudentClassAtt extends Component<StudentClassAttRouteProps, StudentClassAttState> {
   state = {
     classId: "",
     keyCode1: "",
@@ -65,7 +67,7 @@ class StudentClassAtt extends Component<any, StudentClassAttState> {
       // const testObj = response.data
 
       if (response.status === 200) {
-        sessionStorage.setItem("classId", this.state.classId);
+        this.props.storeClassId(this.state.classId)
         this.props.history.push("attend-success");
       } else if (response.status === 401) {
         console.log("res: ", response);
@@ -151,4 +153,12 @@ class StudentClassAtt extends Component<any, StudentClassAttState> {
   }
 }
 
-export default StudentClassAtt;
+export default (props: RouteComponentProps) => {
+  const authContext = useAuth();
+  return (
+    <StudentClassAtt
+      {...props}
+      {...authContext}
+    />
+  );
+};

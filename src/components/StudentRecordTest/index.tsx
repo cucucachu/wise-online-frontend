@@ -1,8 +1,10 @@
-import React, { Component } from "react";
+import * as React from "react";
 import Webcam from "react-webcam";
-import { Link } from "react-router-dom";
+import { Link, RouteComponentProps } from "react-router-dom";
 
-import { AuthContext } from "../../contexts/AuthContext";
+import { AuthContext, IAuthContext } from "../../contexts/AuthContext";
+import { ProctorConfigContext, IProctorConfigContext } from "../../contexts/ProctorConfigContext";
+
 import editIcon from "../../Assets/images/edit-icon.png";
 import recordingIcon from "../../Assets/images/recording-icon.png";
 
@@ -14,6 +16,7 @@ import {
   submitScreenshot,
   submitProctoringError,
 } from "../../store/axios";
+import { useAuth } from "../../hooks";
 
 const videoConstraints = {
   width: 1280,
@@ -21,8 +24,20 @@ const videoConstraints = {
   facingMode: "user",
 };
 
-class StudentRecordTest extends Component {
-  constructor(props) {
+type StudentRecordTestProps = {
+  authContext: IAuthContext;
+  proctorContext: IProctorConfigContext;
+} & RouteComponentProps;
+
+class StudentRecordTest extends React.Component<StudentRecordTestProps, any> {
+  chunks: any[];
+  webcamRef: any;
+  webCamInterval: any;
+  screenshotInterval: any;
+  monitorAudio: any;
+  calibrateAudioBaseline: any;
+
+  constructor(props: StudentRecordTestProps) {
     super(props);
 
     this.state = {
@@ -47,30 +62,28 @@ class StudentRecordTest extends Component {
   static contextType = AuthContext;
 
   componentDidMount() {
-    const minTime = this.context.screenshotInterval
-      ? this.context.screenshotInterval * 1000
+    const minTime = this.props.proctorContext.screenshotInterval
+      ? this.props.proctorContext.screenshotInterval * 1000
       : 10 * 1000;
     const offsetTime = 0;
 
     const webCamInterval = setInterval(this.capture, minTime + offsetTime);
     const screenshotInterval = setInterval(this.takeScreenshot, minTime + offsetTime);
 
-    const state = Object.assign({}, this.state);
-    state.webCamInterval = webCamInterval;
-    state.screenshotInterval = screenshotInterval;
-    this.setState(state);
+    this.webCamInterval = webCamInterval;
+    this.screenshotInterval = screenshotInterval;
 
     this.tabsHandler();
     this.startScreenVideo();
   }
   
   async startScreenVideo() {
-    const screenVideo = document.getElementById("screen-video");
+    const screenVideo = document.getElementById("screen-video") as HTMLVideoElement;
     screenVideo.srcObject = await navigator.mediaDevices.getDisplayMedia({
-      video: { mediaSource: "screen" },
+      video: { mediaSource: "screen" } as any,
     });
 
-    const displaySurface = screenVideo.srcObject.getVideoTracks()[0].getSettings()
+    const displaySurface = (screenVideo.srcObject.getVideoTracks()[0].getSettings() as any)
       .displaySurface;
     screenVideo.play();
 
@@ -88,22 +101,22 @@ class StudentRecordTest extends Component {
   // 	tracks.forEach(track => track.stop());
   // }
   stopScreenVideo() {
-    const screenVideo = document.getElementById("screen-video");
-    const screenStream = screenVideo.srcObject;
+    const screenVideo = document.getElementById("screen-video") as HTMLVideoElement;
+    const screenStream: any = screenVideo.srcObject;
     if (!screenStream) return;
     const tracks = screenStream.getTracks();
-    tracks.forEach((track) => track.stop());
+    tracks.forEach((track: any) => track.stop());
   }
 
   componentWillUnmount() {
-    clearInterval(this.state.webCamInterval);
-    clearInterval(this.state.screenshotInterval);
+    clearInterval(this.webCamInterval);
+    clearInterval(this.screenshotInterval);
     this.stopScreenVideo();
   }
 
   async takeScreenshot() {
-    const screenVideo = document.getElementById("screen-video");
-    const screenshotCanvas = document.getElementById("screenshot-canvas");
+    const screenVideo: any = document.getElementById("screen-video");
+    const screenshotCanvas: any = document.getElementById("screenshot-canvas");
 
     screenshotCanvas.width = screenVideo.videoWidth;
     screenshotCanvas.height = screenVideo.videoHeight;
@@ -111,12 +124,14 @@ class StudentRecordTest extends Component {
       .getContext("2d")
       .drawImage(screenVideo, 0, 0, screenVideo.videoWidth, screenVideo.videoHeight);
     const screenshot = screenshotCanvas.toDataURL("image/jpeg");
-    this.sendAudio();
-    await submitScreenshot(this.context.testAttendanceId, screenshot);
+    await submitScreenshot(this.props.authContext.testAttendanceId, screenshot);
+    if ((this as any).sendAudio) {
+      (this as any).sendAudio();
+    }
   }
 
 
-  convertImage(image) {
+  convertImage(image: any) {
     var data = image.split(",")[1];
 
     var bytes = window.atob(data);
@@ -144,12 +159,12 @@ class StudentRecordTest extends Component {
         if (!this.state.referenceImage) {
           const { faceId } = await uploadReferenceImage(image);
 
-          const state = Object.assign({}, this.state);
-          state.referenceImage = faceId;
-          this.setState(state);
+          this.setState({
+            referenceImage: faceId,
+          });
         } else {
           await checkForStudent(
-            this.context.testAttendanceId,
+            this.props.authContext.testAttendanceId,
             this.state.referenceImage,
             image,
             imageSrc
@@ -157,7 +172,7 @@ class StudentRecordTest extends Component {
         }
       }
     } catch (error) {
-      await submitProctoringError(this.context.testAttendanceId, error.message);
+      await submitProctoringError(this.props.authContext.testAttendanceId, (error as Error).message);
     }
   }
 
@@ -172,7 +187,7 @@ class StudentRecordTest extends Component {
       }
 
       if (event.data.tabs && event.data.tabs.length) {
-        submitTabs(this.context.testAttendanceId, event.data.tabs).catch(console.error);
+        submitTabs(this.props.authContext.testAttendanceId, event.data.tabs).catch(console.error);
       }
     });
   }
@@ -210,4 +225,15 @@ class StudentRecordTest extends Component {
   }
 }
 
-export default StudentRecordTest;
+export default (props: RouteComponentProps) => {
+  const authContext = useAuth();
+  const proctorConfigContext = React.useContext(ProctorConfigContext);
+
+  return (
+    <StudentRecordTest
+      {...props}
+      authContext={authContext}
+      proctorContext={proctorConfigContext}
+    />
+  );
+};

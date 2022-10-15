@@ -5,10 +5,6 @@ import editIcon from '../Assets/images/edit-icon.png';
 
 
 import { startTest } from '../store/axios';
-// startTest(courseId)
-
-import { AuthContext } from '../contexts/AuthContext';
-
 import ClipboardLink from './ClipboardLink';
 
 import { i18n } from 'web-translate';
@@ -24,8 +20,6 @@ class ProfessorExam extends Component {
             link: '',
         }
     }
-
-    static contextType = AuthContext;
 
     async loadAttendance(course) {
         const response = await startTest(course._id);
@@ -49,7 +43,7 @@ class ProfessorExam extends Component {
     
     componentDidMount() {
         const { course } = this.props.location.state;
-        // const { cookies } = this.context
+
         console.log('course:');
         console.dir(course);
         const state = Object.assign({}, this.state);

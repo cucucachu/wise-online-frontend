@@ -3,13 +3,10 @@ import React, { Component } from 'react';
 import loginIcon from '../Assets/images/login-icon.png';
 import successIcon from '../Assets/images/success-icon.png'
 
-import { AuthContext } from '../contexts/AuthContext'
 import { Link } from 'react-router-dom';
 import { i18n } from 'web-translate';
 
 class ProfessorClaimSuccess extends Component {
-  static contextType = AuthContext
-
   state={
     userID: '',
 };

@@ -1,7 +1,21 @@
 import React from 'react';
+import { useAuth } from '../../hooks';
+import { Course } from '../../types';
 
+type AttendanceSummaryProps = {
+    course: Course;
+    editing: boolean;
+    attendance: any;
+    onChangeStartTime: React.ChangeEventHandler<HTMLInputElement>;
+    onChangeScheduledTime: React.ChangeEventHandler<HTMLInputElement>;
+    onClickSave: React.MouseEventHandler<HTMLButtonElement>;
+    onClickEdit: React.MouseEventHandler<HTMLButtonElement>;
+    onClickApproveForIntegration: React.MouseEventHandler<HTMLButtonElement>;
+};
 
-function AttendanceSummary(props) {
+function AttendanceSummary(props: AttendanceSummaryProps) {
+    const authContext = useAuth();
+
     return (
         <div className="row">
             <div className="col-sm">
@@ -57,7 +71,7 @@ function AttendanceSummary(props) {
                 </div>
             </div>
                 {(() => {
-                    const integrationName = sessionStorage.getItem('integrationName');
+                    const integrationName = authContext.integrationName;
 
                     if (integrationName) {
 
@@ -125,7 +139,7 @@ function AttendanceSummary(props) {
 
 }
 
-function attendanceLink(classId, keyCode) {
+function attendanceLink(classId: string, keyCode: string) {
     if (window.location.hostname === 'localhost') {
         return `http://localhost:3000/student/attendanceLink?c=${classId.replaceAll(/ /g, '%20')}&k=${keyCode}`;
     }

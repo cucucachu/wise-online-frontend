@@ -1,14 +1,11 @@
-import React, { Component, Fragment } from 'react'
+import { Component, Fragment } from 'react'
 import { Link } from "react-router-dom";
 
 import editIcon from '../Assets/images/edit-icon.png';
 
-import { AuthContext } from '../contexts/AuthContext'
-
 import { i18n } from 'web-translate';
 
-class SchoolStep2 extends Component {
-    static contextType = AuthContext
+class SchoolStep2 extends Component<{}> {
   render(){
       return(
         <Fragment>

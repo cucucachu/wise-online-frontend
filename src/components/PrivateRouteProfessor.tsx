@@ -1,9 +1,10 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
+import {useIsLoggedIn} from '../hooks';
 
-const PrivateRouteProfessor = ({component: Component, ...rest}) => {
-    const isLoggedIn = sessionStorage.getItem('isLoggedIn')
-    
+const PrivateRouteProfessor: React.FC<any> = ({component: Component, ...rest}) => {
+    const isLoggedIn = useIsLoggedIn();
+
     return (
         <Route {...rest} render={props => (
             isLoggedIn ?
