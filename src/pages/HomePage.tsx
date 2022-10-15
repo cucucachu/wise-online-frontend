@@ -7,7 +7,7 @@ import SuperDashboard from "../components/SuperDashboard";
 import SuperSchoolSettings from "../components/SuperSchoolSettings";
 
 //components
-import ProfessorLogin from "../components/professorLogin";
+import {ProfessorLogin} from "../components/professorLogin";
 import ProfessorCourse from "../components/professorCourses/ProfessorCourseList";
 import ProfessorAttendanaceStart from "../components/professorAttendanceStart";
 import ProfessorAttendanacesView from "../components/professorAttendancesView";
@@ -96,6 +96,8 @@ import ProfessorStartProctoring from "../components/ProfessorStartProctoring";
 
 import { paths } from "../paths";
 
+import {UserLoginData} from '../types';
+
 class HomePage extends Component<any, any, any> {
   static contextType = AuthContext;
 
@@ -135,7 +137,7 @@ class HomePage extends Component<any, any, any> {
     }
   }
 
-  async handleSuccessfulLogin(userData: any) {
+  async handleSuccessfulLogin(userData: UserLoginData) {
     sessionStorage.setItem("userID", userData.id);
     sessionStorage.setItem("username", userData.name);
     sessionStorage.setItem("schoolName", userData.school.name);

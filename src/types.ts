@@ -26,3 +26,13 @@ export enum InClassFlagAction {
   nonAllowedUrl = "non-allowed-url",
   computerDisconnected = "computer-disconnected",
 }
+
+export type UserLoginData = {
+  id: string;
+  name: string;
+  school: {
+    name: string;
+    id: string;
+  };
+  role: string;
+}

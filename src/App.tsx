@@ -13,6 +13,8 @@ import './Assets/css/default.min.css'
 // import './Assets/css/bootstrap-grid.min.css'
 import './Assets/css/app.css'
 import AuthContextProvider from './contexts/AuthContext';
+import {ProctorConfigProvider} from './contexts/ProctorConfigContext';
+
 import * as Sentry from '@sentry/react';
 import {BrowserTracing} from '@sentry/tracing';
 
@@ -31,11 +33,12 @@ if (process.env.NODE_ENV !== 'development') {
 function App() {
   return (
       <div className="App">
-        <AuthContextProvider>
-          
-            <HomePage />
-          <Footer />
-        </AuthContextProvider>
+        <ProctorConfigProvider>
+          <AuthContextProvider>
+              <HomePage />
+            <Footer />
+          </AuthContextProvider>
+        </ProctorConfigProvider>
       </div>
   );
 }

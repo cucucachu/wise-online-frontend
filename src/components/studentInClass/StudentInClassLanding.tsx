@@ -7,7 +7,7 @@ import {
   studentGetCourse,
   submitScreenshotForInClass,
 } from "../../store/axios";
-import { AuthContext } from "../../contexts/AuthContext";
+import { ProctorConfigContext } from "../../contexts/ProctorConfigContext";
 // import {CodeEntry} from './Resusable/CodeEntry';
 
 import { i18n } from "web-translate";
@@ -39,7 +39,7 @@ const useScreenTracking = ({
   const [isScreenTracking, setIsScreenTracking] = React.useState(false);
   const [screenPermissionError, setScreenPermissionError] =
     React.useState(false);
-  const authContext = React.useContext(AuthContext);
+  const { screenshotInterval } = React.useContext(ProctorConfigContext);
   const takeScreenShot = () => {
     const screenVideo = screenVideoRef.current;
     const screenshotCanvas = screenshotCanvasRef.current;
@@ -102,14 +102,12 @@ const useScreenTracking = ({
   }, [stopScreenVideo]);
 
   React.useEffect(() => {
-    const minTime = authContext.screenshotInterval
-      ? authContext.screenshotInterval * 1000
-      : 10 * 1000;
+    const minTime = screenshotInterval ? screenshotInterval * 1000 : 10 * 1000;
 
-    let screenshotInterval: any;
+    let screenshotIntervalHandle: any;
 
     if (isScreenTracking) {
-      screenshotInterval = setInterval(takeScreenShot, minTime);
+      screenshotIntervalHandle = setInterval(takeScreenShot, minTime);
     }
 
     const tabListener = (event: any) => {
@@ -129,13 +127,13 @@ const useScreenTracking = ({
     window.addEventListener("message", tabListener);
 
     return () => {
-      if (screenshotInterval) {
-        clearInterval(screenshotInterval);
+      if (screenshotIntervalHandle) {
+        clearInterval(screenshotIntervalHandle);
       }
 
       window.removeEventListener("message", tabListener);
     };
-  }, [onReceiveTabs, isScreenTracking]);
+  }, [onReceiveTabs, isScreenTracking, screenshotInterval]);
 
   return {
     startScreenVideo,

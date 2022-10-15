@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import type { RouteComponentProps } from 'react-router-dom';
 
 import attendClass from '../../Assets/images/attend-class.png';
 import { proctoringStudentStartTest } from "../../store/axios";
@@ -6,29 +7,40 @@ import { proctoringStudentStartTest } from "../../store/axios";
 import Spinner from '../Spinner';
 import LoginModal from '../LoginModal';
 
-import { AuthContext } from '../../contexts/AuthContext';
+import { ProctorConfigContext, IProctorConfigContext } from '../../contexts/ProctorConfigContext';
+import { AuthContext, IAuthContext } from '../../contexts/AuthContext';
+import { UserLoginData } from '../../types';
+import { useQuery } from '../../hooks';
 
 import { i18n } from 'web-translate';
 import { logError } from '../../Logger';
 
-class StudentTestFromLink extends Component {
+type StudentTestFromLinkBaseProps = RouteComponentProps & {
+    onSuccessfulLogin(loginResponseData: UserLoginData): void;
+};
 
-    constructor(props) {
+type StudentTestFromLinkProps = {
+    classId: string;
+    keyCode: string;
+    proctorContext: IProctorConfigContext;
+    authContext: IAuthContext;
+} & StudentTestFromLinkBaseProps;
+
+type StudentTestFromLinkState = {
+    showLogin: boolean;
+    error: null | string;
+};
+
+class StudentTestFromLink extends Component<StudentTestFromLinkProps, StudentTestFromLinkState> {
+
+    constructor(props: StudentTestFromLinkProps) {
         super(props);
-        const params = new URLSearchParams(props.location.search);
 
         this.state = {
-            classId: params.get('c'),
-            keyCode: params.get('k'),
             showLogin: false,
             error: null,
         };
-
-        this.handleSuccessfulLogin = this.handleSuccessfulLogin.bind(this);
-
     }
-    
-    static contextType = AuthContext;
 
     async componentDidMount() {
         await this.tryStartTest();
@@ -37,8 +49,8 @@ class StudentTestFromLink extends Component {
     async tryStartTest() {
         try {
             const response = await proctoringStudentStartTest({
-                classId: this.state.classId,
-                keyCode: this.state.keyCode
+                classId: this.props.classId,
+                keyCode: this.props.keyCode
             });
 
             if (response.status === 200) {
@@ -48,15 +60,15 @@ class StudentTestFromLink extends Component {
                     });
                 }
                 else {
-                    this.context.storeClassId(this.state.classId);
-                    this.context.storeTestAttendanceId(response.data.id);
+                    this.props.authContext.storeClassId(this.props.classId);
+                    this.props.authContext.storeTestAttendanceId(response.data.id);
     
                     if (response.data.proctorConfiguration) {
-                        this.context.setScreenshotInterval(response.data.proctorConfiguration.screenshotInterval);
-                        this.context.setWebcamInterval(response.data.proctorConfiguration.webcamInterval);
+                        this.props.proctorContext.setScreenshotInterval(response.data.proctorConfiguration.screenshotInterval);
+                        this.props.proctorContext.setWebcamInterval(response.data.proctorConfiguration.webcamInterval);
                     }
     
-                    sessionStorage.setItem('classId', this.state.classId);
+                    sessionStorage.setItem('classId', this.props.classId);
                     this.props.history.push('record-agree-to-terms');
                 }
             }
@@ -78,7 +90,7 @@ class StudentTestFromLink extends Component {
         }
     }
 
-    async handleSuccessfulLogin(loginResponseData) {
+    handleSuccessfulLogin = async (loginResponseData: UserLoginData) => {
         this.props.onSuccessfulLogin(loginResponseData);
         this.setState({...this.state, showLogin: false});
         await this.tryStartTest();
@@ -89,7 +101,7 @@ class StudentTestFromLink extends Component {
             <div className="container">
                 <img src={attendClass} className="page-icon" alt="login icon"/>
                 <div className="spacer-vertical" />
-                <h1>{i18n("Taking a Test for")} {this.state.classId}</h1>
+                <h1>{i18n("Taking a Test for")} {this.props.classId}</h1>
                 <div className="spacer-vertical" />
                 {(() => {
                     if (this.state.showLogin) {
@@ -112,4 +124,20 @@ class StudentTestFromLink extends Component {
     }
 }
 
-export default StudentTestFromLink;
+export default (props: StudentTestFromLinkBaseProps) => {
+    const proctorContext = React.useContext(ProctorConfigContext);
+    const authContext = React.useContext(AuthContext);
+    const queryParams = useQuery();
+    const classId = queryParams.get('c')!;
+    const keyCode = queryParams.get('k')!;
+
+    return (
+        <StudentTestFromLink
+            {...props}
+            classId={classId}
+            keyCode={keyCode}
+            authContext={authContext!}
+            proctorContext={proctorContext}
+        />
+    )
+};

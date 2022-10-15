@@ -1,15 +1,22 @@
 import React, { Component } from 'react';
+import type { RouteComponentProps } from 'react-router-dom';
 import attendanceIcon from '../../Assets/images/attendance-icon.png';
 
 import { superGetSchoolDetails, superGetSchoolTestCounts, superLoginAsAdmin, superCreateSchool } from '../../store/axios';
 import ViewTable from '../Resusable/ViewTable';
 import Spinner from '../Resusable/Spinner';
+import {UserLoginData} from '../../types';
 
 import { i18n } from 'web-translate';
 
-class SuperDashboard extends Component {
+type SuperDashboardProps = {
+    logout(): void;
+    onSuccessfulLogin(loginData: UserLoginData): void;
+} & RouteComponentProps;
+
+class SuperDashboard extends Component<SuperDashboardProps, any> {
     
-    constructor(props) {
+    constructor(props: SuperDashboardProps) {
         super(props);
 
         this.state = {
@@ -73,7 +80,7 @@ class SuperDashboard extends Component {
         });
     }
 
-    async handleClickSchool(schoolIndex) {
+    async handleClickSchool(schoolIndex: number) {
         console.log(`Clicked ${this.state.schools[schoolIndex].name}`);
         const school = this.state.schools[schoolIndex];
             
@@ -85,7 +92,7 @@ class SuperDashboard extends Component {
         }
     }
 
-    handleClickSchoolSettings(schoolIndex) {
+    handleClickSchoolSettings(schoolIndex: number) {
         this.props.history.push('/super/school/settings', {school: this.state.schools[schoolIndex]});
     }
 
@@ -103,12 +110,12 @@ class SuperDashboard extends Component {
         });
     }
 
-    handleChangeNewSchool(e) {
+    handleChangeNewSchool(e: any) {
         this.setState({
             ...this.state,
             newSchool: {
                 ...this.state.newSchool,
-                [e.target.id]: e.target.type === 'number' ? parseInt(e.target.value) : e.target.value,
+                [e.target.id]: parseInt(e.target.value),
             }
         })
     }
@@ -120,7 +127,7 @@ class SuperDashboard extends Component {
         });
     }
 
-    async handleClickSubmitNewSchool(e) {
+    async handleClickSubmitNewSchool(e: any) {
         e.preventDefault();
         if (!this.state.newSchool || !this.state.newSchool.setupKey) {
             return;
@@ -205,7 +212,7 @@ class SuperDashboard extends Component {
                                 <br />
                                 <span className="input-label">{i18n("Billing Type")} </span>
                                 <select id="billingType" onChange={this.handleChangeNewSchool}  className="">
-                                    <option disabled selected value> -- select an option -- </option>
+                                    <option disabled selected value=''> -- select an option -- </option>
                                     <option key="Per Student" value="student"> Per Student </option>
                                     <option key="Per Test" value="test"> Per Test </option>
                                 </select>
@@ -223,8 +230,8 @@ class SuperDashboard extends Component {
                                 />
                                 <br />
                                 <span className="input-label">{i18n("Billing Frequency")} </span>
-                                <select id="billingFrequency" type="number" onChange={this.handleChangeNewSchool}  className="">
-                                    <option disabled selected value> -- select an option -- </option>
+                                <select id="billingFrequency" onChange={this.handleChangeNewSchool}  className="">
+                                    <option disabled selected value=''> -- select an option -- </option>
                                     <option key="Per Quarter" value="10"> Per Quarter </option>
                                     <option key="Per Semester" value="15"> Per Semester </option>
                                     <option key="Per Year" value="52"> Per Year </option>

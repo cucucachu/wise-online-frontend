@@ -1,9 +1,36 @@
-import React, { createContext, useState } from 'react';
+import { createContext, useState } from 'react';
+import type { FC, PropsWithChildren } from 'react';
 import { useCookies } from 'react-cookie';
 
-export const AuthContext = createContext();
+export type IAuthContext = {
+    email: string; 
+    lastName: string;
+    firstName: string;
+    cookies: any; 
+    classID: string;
+    schoolName: string;
+    schoolID: string;
+    username: string;
+    userID: string;
+    isAuthenticated: boolean; 
+    storeTestAttendanceId: any;
+    testAttendanceId: any;
+    authToggle: any;
+    loggedinUser: any;
+    toggleCreated: any;
+    storeClassId: any;
+    studentForm(firstName: string, lastName: string, email: string): void;
+    role: string;
+    setRole: any;
+    languageCode: any;
+    setLanguageCode: any;
+    languages: any;
+    setLanguages: any;
+}
 
-const AuthContextProvider = (props) => {
+export const AuthContext = createContext<IAuthContext | undefined>(undefined);
+
+const AuthContextProvider: FC<PropsWithChildren> = ({ children }) => {
     const [cookies] = useCookies([]);
     const [username, setUsername] = useState('');
     const [userID, setUserID] = useState('');
@@ -17,8 +44,6 @@ const AuthContextProvider = (props) => {
     var [isCreated, setIsCreated] = useState(false);
     const [classID, setClassID] = useState('');
     const [role, setRole] = useState('');
-    const [screenshotInterval, setScreenshotInterval] = useState(10);
-    const [webcamInterval, setWebcamInterval] = useState(10);
     const [languageCode, setLanguageCode] = useState('en');
     const [languages, setLanguages] = useState({});
 
@@ -30,26 +55,22 @@ const AuthContextProvider = (props) => {
         setIsCreated(!isCreated);
     }
 
-    const loggedinUser = (userID, username, schoolName, schoolID) => {
+    const loggedinUser = (userID: string, username: string, schoolName: string, schoolID: string) => {
         setUserID(userID);
         setUsername(username);
         setSchoolName(schoolName);
         setSchoolID(schoolID);
     }
 
-    const storeClassId = (classId) => {
+    const storeClassId = (classId: string) => {
         setClassID(classId);
     }
 
-    const storeTestAttendanceId = (id) => {
+    const storeTestAttendanceId = (id: string) => {
         setTestAttendanceId(id);
     }
     
-    const storeSchoolName = (name) => {
-        setSchoolName(name);
-    }
-
-    const studentForm = (firstName, lastName, email) => {
+    const studentForm = (firstName: string, lastName: string, email: string) => {
         setFirstName(firstName);
         setLastName(lastName);
         setEmail(email);
@@ -73,20 +94,15 @@ const AuthContextProvider = (props) => {
             loggedinUser, 
             toggleCreated, 
             storeClassId, 
-            storeSchoolName, 
             studentForm, 
             role, 
             setRole,
-            screenshotInterval,
-            setScreenshotInterval,
-            webcamInterval,
-            setWebcamInterval,
             languageCode,
             setLanguageCode,
             languages,
             setLanguages
         }}>
-            {props.children}
+            {children}
         </AuthContext.Provider>
 
         

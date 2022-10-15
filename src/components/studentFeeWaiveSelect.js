@@ -29,7 +29,7 @@ class StudentFeeWaiveSelect extends Component {
     
     handleSubmit = async e =>{
         e.preventDefault()
-        // const { storeSchoolName } = this.context
+
         sessionStorage.setItem('schoolName', this.state.schoolName)
         
         if(this.state.schoolName === 'not selected' || this.state.schoolName === ''){
