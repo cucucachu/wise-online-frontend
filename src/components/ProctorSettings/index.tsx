@@ -114,11 +114,11 @@ class ProctorSettings extends React.Component<ProctorSettingsProps, any> {
     async getCurrentProctorConfiguration() {
         let currentProctorConfiguration;
 
-        if (this.props.authContext.role === 'Admin') {
+        if (this.props.authContext.user?.role === 'Admin') {
             const result = await adminGetProctorConfiguration();
             currentProctorConfiguration = result.data.proctorConfiguration;
         }
-        else if (this.props.authContext.role === 'Professor') {
+        else if (this.props.authContext.user?.role === 'Professor') {
             const result = await professorGetProctorConfiguration();
             currentProctorConfiguration = result.data.proctorConfiguration;
         }
@@ -131,7 +131,7 @@ class ProctorSettings extends React.Component<ProctorSettingsProps, any> {
 
         if (currentProctorConfiguration === null) {
             this.setState({
-                role: this.props.authContext.role,
+                role: this.props.authContext.user?.role,
             });
             return;
         }
@@ -167,7 +167,7 @@ class ProctorSettings extends React.Component<ProctorSettingsProps, any> {
             restrictedDomains: currentProctorConfiguration.restrictedDomains,
             allowedDomains: currentProctorConfiguration.allowedDomains,
             allowOverride: currentProctorConfiguration.allowOverride,
-            role: this.props.authContext.role,
+            role: this.props.authContext.user?.role,
         });
     }
 
@@ -291,7 +291,7 @@ class ProctorSettings extends React.Component<ProctorSettingsProps, any> {
     }
 
     render() {
-        if (this.state.role === null && this.props.authContext.role !== '') {
+        if (this.state.role === null && this.props.authContext.user?.role !== '') {
             this.getCurrentProctorConfiguration();
         }
 

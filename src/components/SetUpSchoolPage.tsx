@@ -249,7 +249,7 @@ class SetUpSchoolPage extends React.Component<SetUpSchoolPageProps, any> {
                             <div className="shadow">
                                 <h2>{i18n("Upload Preview")}</h2>
                                 <br/>
-                                <p>{i18n("School:")} {this.props.schoolName}</p>
+                                <p>{i18n("School:")} {this.props.school?.name}</p>
                                 <p>{i18n('setUpSchoolPage_confirm', {newStudents: this.state.newStudents.length, newProfessors: this.state.newProfessors.length})}</p>
                                 <p>{i18n("Click Confirm below to begin upload.")}</p>
                             </div>

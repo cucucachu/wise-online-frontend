@@ -40,7 +40,7 @@ class StudentFeeWaiveForm extends Component<StudentFeeWaiveFormProps, any> {
 
         
         try {
-            const schoolName = this.props.schoolName;
+            const schoolName = this.props.school?.name;
             const emailLowerCase = this.state.email.toLowerCase()
             const data = {firstName: this.state.firstName, lastName: this.state.lastName, email: emailLowerCase, school: schoolName}
             // data.firstName || !data.lastName || !data.email || !data.school

@@ -6,7 +6,7 @@ import { IAuthContext } from '../contexts/AuthContext'
 import { useAuth } from '../hooks'
 
 import { i18n } from 'web-translate';
-import { Route, RouteComponentProps } from 'react-router-dom';
+import { RouteComponentProps } from 'react-router-dom';
 
 type StudentFeeWaiveConfirmProps = {
     authContext: IAuthContext;
@@ -65,14 +65,9 @@ class StudentFeeWaiveConfirm extends React.Component<StudentFeeWaiveConfirmProps
         };
     };
   render(){
-    const { firstName, lastName, email, schoolName } = this.props.authContext;
+    const schoolName = this.props.authContext.school?.name;
     console.log('school: ', schoolName);
     
-        // console.log('firstname: ', firstName);
-        
-        // this.setState({firstName: firstName, lastName: lastName, email: email, schoolName: schoolName})
-        // console.log('this state: ', this.firstName);
-
       return(
         <div className="container prevent-text">
             <img src={educationIcon} className="page-icon" alt="wise education icon"/>
@@ -86,8 +81,8 @@ class StudentFeeWaiveConfirm extends React.Component<StudentFeeWaiveConfirmProps
                 <div className="spacer-vertical" />
                 <p>
                     {i18n("School")}: {schoolName} <br/>
-                    {i18n("Student name")}: {firstName} {lastName} <br/>
-                    {i18n("Student email")}: {email}
+                    {i18n("Student name")}:  <br/>
+                    {i18n("Student email")}:
                 </p>
                 
                     <div className="spacer-vertical" />
@@ -123,5 +118,3 @@ export default (props: RouteComponentProps) => {
         />
     )
 };
-
-

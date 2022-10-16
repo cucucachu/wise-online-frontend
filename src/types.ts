@@ -27,13 +27,18 @@ export enum InClassFlagAction {
   computerDisconnected = "computer-disconnected",
 }
 
-export type UserLoginData = {
+export type School = {
+  name: string;
+  id: string;
+  integrationName: string | null;
+}
+
+export type User = {
   id: string;
   name: string;
-  school: {
-    name: string;
-    id: string;
-    integrationName: string | null;
-  };
   role: string;
+}
+
+export type UserLoginData = User & {
+  school: School;
 }

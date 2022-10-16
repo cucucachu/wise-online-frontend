@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
-import { logout, checkLogin } from "../store/axios";
-
 import SuperDashboard from "../components/SuperDashboard";
 import SuperSchoolSettings from "../components/SuperSchoolSettings";
 
@@ -98,86 +96,10 @@ import { paths } from "../paths";
 import {UserLoginData} from '../types';
 
 class HomePage extends Component<any, any, any> {
-  static contextType = AuthContext;
-
-  constructor(props: any) {
-    super(props);
-
-    this.state = {
-      username:
-        sessionStorage.getItem("username") === "undefined"
-          ? undefined
-          : sessionStorage.getItem("username"),
-      schoolName:
-        sessionStorage.getItem("schoolName") === "undefined"
-          ? undefined
-          : sessionStorage.getItem("schoolName"),
-      isLoggedIn:
-        sessionStorage.getItem("isLoggedIn") === "true" ? true : false,
-      role:
-        sessionStorage.getItem("role") === "undefined"
-          ? undefined
-          : sessionStorage.getItem("role"),
-    };
-
-    this.handleSuccessfulLogin = this.handleSuccessfulLogin.bind(this);
-  }
-
-  async componentDidMount() {
-    try {
-      const response = await checkLogin();
-
-      if (response.status === 200) {
-        await this.handleSuccessfulLogin(response.data);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  async handleSuccessfulLogin(userData: UserLoginData) {
-    sessionStorage.setItem("userID", userData.id);
-    sessionStorage.setItem("username", userData.name);
-    sessionStorage.setItem("schoolName", userData.school.name);
-    sessionStorage.setItem("schoolID", userData.school.id);
-    sessionStorage.setItem("isLoggedIn", true as any);
-    sessionStorage.setItem("role", userData.role);
-
-    (this.context as any).setRole(userData.role);
-
-    const state: any = Object.assign({}, this.state);
-    state.username = userData.name;
-    state.schoolName = userData.school.name;
-    state.isLoggedIn = true;
-    state.role = userData.role;
-    this.setState(state);
-  }
-
-  async handleLogout() {
-    sessionStorage.clear();
-    await logout();
-    sessionStorage.setItem("isLoggedIn", false as any);
-
-    const state: any = Object.assign({}, this.state);
-
-    state.username = undefined;
-    state.schoolName = undefined;
-    state.isLoggedIn = false;
-
-    this.setState(state);
-  }
-
   render() {
     return (
       <Router>
-        {/* 
-                <p class="alert-box">Hello</p> */}
-        <WiseHeader
-          username={this.state.username}
-          schoolName={this.state.schoolName}
-          isLoggedIn={this.state.isLoggedIn}
-          handleLogout={this.handleLogout}
-        />
+        <WiseHeader />
         <div className="wrap">
           <div className="page-header">
             <img src={headerBackground} className="bg-img" alt="background" />

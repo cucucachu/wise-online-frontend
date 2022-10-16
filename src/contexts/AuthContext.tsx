@@ -1,30 +1,18 @@
 import * as React from 'react';
 import type { FC, PropsWithChildren } from 'react';
 import { useCookies } from 'react-cookie';
-import { logout as clearSession } from '../store/axios';
+import { checkLogin, logout as clearSession } from '../store/axios';
+import { User, UserLoginData, School } from '../types';
 
 export type IAuthContext = {
-    email: string; 
-    lastName: string;
-    firstName: string;
-    cookies: any; 
+    user: User | null;
+    school: School | null;
+
     classID: string;
-    schoolName: string;
-    schoolID: string;
-    integrationName: string | null;
-    username: string;
-    userID: string;
-    isAuthenticated: boolean; 
     storeTestAttendanceId: any;
     testAttendanceId: any;
-    authToggle: any;
-    loggedinUser: any;
+    setInfoFromCreateSchool(info: { userID: string, schoolName: string, schoolID: string }): void;
     storeClassId(clasId: string): void;
-    setSchoolName(schoolName: string): void;
-
-    studentForm(firstName: string, lastName: string, email: string): void;
-    role: string;
-    setRole: any;
     languageCode: any;
     setLanguageCode: any;
     languages: any;
@@ -32,35 +20,54 @@ export type IAuthContext = {
     logout(): void;
 }
 
+const WISE_USER_LS_KEY = 'wise_user';
+const WISE_SCHOOL_LS_KEY = 'wise_school';
+
+const loadJsonFromLocalStorage = <T extends unknown>(key: string): T | null => {
+    try {
+        const result = window.localStorage.getItem(WISE_USER_LS_KEY);
+        if (result) {
+            const parsedResult = JSON.parse(result) as T;
+            return parsedResult;
+        }
+
+        return null;
+    } catch {
+        return null;
+    }
+}
+
+const loadUserFromLocalStorage = (): User | null => {
+    return loadJsonFromLocalStorage(WISE_USER_LS_KEY);
+};
+
+const loadSchoolFromLocalStorage = (): School | null => {
+    return loadJsonFromLocalStorage(WISE_SCHOOL_LS_KEY);
+};
+
 export const AuthContext = React.createContext<IAuthContext | undefined>(undefined);
 
 const AuthContextProvider: FC<PropsWithChildren> = ({ children }) => {
-    const [cookies] = useCookies([]);
-    const [username, setUsername] = React.useState('');
-    const [userID, setUserID] = React.useState('');
-    const [schoolID, setSchoolID] = React.useState('');
-    const [schoolName, setSchoolName] = React.useState('');
-    const [integrationName, setIntegrationName] = React.useState<string | null>(null);
+    const [user, setUser] = React.useState<User | null>(null)
+    const [school, setSchool] = React.useState<School | null>(null)
 
     const [testAttendanceId, setTestAttendanceId] = React.useState('');
-    const [firstName, setFirstName] = React.useState('');
-    const [lastName, setLastName] = React.useState('');
-    const [email, setEmail] = React.useState('');
-    var [isAuthenticated, setIsAuthenticated] = React.useState(false);
     const [classID, setClassID] = React.useState('');
-    const [role, setRole] = React.useState('');
     const [languageCode, setLanguageCode] = React.useState('en');
     const [languages, setLanguages] = React.useState({});
 
-    const authToggle = ()=> {
-        setIsAuthenticated(!isAuthenticated);
-    }
+    const setInfoFromCreateSchool = (info: { userID: string, schoolName: string, schoolID: string }) => {
+        setUser({
+            id: info.userID,
+            name: '',
+            role: '',
+        });
 
-    const loggedinUser = (userID: string, username: string, schoolName: string, schoolID: string) => {
-        setUserID(userID);
-        setUsername(username);
-        setSchoolName(schoolName);
-        setSchoolID(schoolID);
+        setSchool({
+            id: info.schoolID,
+            name: info.schoolName,
+            integrationName: null,
+        })
     }
 
     const storeClassId = (classId: string) => {
@@ -70,51 +77,70 @@ const AuthContextProvider: FC<PropsWithChildren> = ({ children }) => {
     const storeTestAttendanceId = (id: string) => {
         setTestAttendanceId(id);
     }
+
+    React.useEffect(() => {
+        const storedUser = loadUserFromLocalStorage();
+        if (storedUser) {
+            setUser(storedUser);
+        }
+
+        // TODO: Load school?
+    }, []);
+
+    React.useEffect(() => {
+        if (!user) {
+            return;
+        }
+
+        const checkSession = async () => {
+            try {
+                const response = await checkLogin();
+        
+                if (response.status === 200) {
+                    onLogin(response.data);
+                }
+            } catch (error) {
+            console.log(error);
+            }
+        }
+        
+        checkSession();
+
+        const handle = setInterval(() => {
+            checkSession();
+        }, 1000 * 60);
+
+        return () => {
+            clearInterval(handle);
+        }
+    }, [user]);
     
-    const studentForm = (firstName: string, lastName: string, email: string) => {
-        setFirstName(firstName);
-        setLastName(lastName);
-        setEmail(email);
-    }
+    const onLogin = React.useCallback((loginData: UserLoginData) => {
+        setSchool(loginData.school);
+        setUser({
+            id: loginData.id,
+            name: loginData.name,
+            role: loginData.role,
+        });
+    
+    }, []);
 
     const logout = React.useCallback(() => {
         sessionStorage.clear();
         clearSession();
+        setUser(null);
+        setSchool(null);
     }, []);
-    // checkCookie() {
-    //     const { cookies } = this.context;
-        
-    //     if(cookies === undefined){
-    //         this.props.history.push('/professor-login')
-    //     }
-    //     else {
-    //         return
-    //     }
-    // }
-
     
     return ( 
         <AuthContext.Provider value={{ 
-            email, 
-            lastName, 
-            firstName, 
-            cookies, 
             classID, 
-            schoolName, 
-            setSchoolName,
-            schoolID, 
-            integrationName,
-            username, 
-            userID, 
-            isAuthenticated, 
+            school,
+            user,
             storeTestAttendanceId, 
             testAttendanceId, 
-            authToggle, 
-            loggedinUser, 
+            setInfoFromCreateSchool, 
             storeClassId, 
-            studentForm, 
-            role, 
-            setRole,
             languageCode,
             setLanguageCode,
             languages,

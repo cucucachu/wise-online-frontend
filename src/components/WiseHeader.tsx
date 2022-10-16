@@ -8,15 +8,10 @@ import {
     i18n,
     setLanguage
 } from 'web-translate';
+import { useAuth } from '../hooks';
 
-type WiseHeaderProps = {
-    isLoggedIn: boolean;
-    handleLogout(): void;
-    username: string;
-    schoolName: string;
-}
-
-export const WiseHeader: React.FC<WiseHeaderProps> = (props) => {
+export const WiseHeader: React.FC<{}> = (props) => {
+    const auth = useAuth();
     const history = useHistory();
     const authContext = React.useContext(AuthContext)!;
 
@@ -46,7 +41,7 @@ export const WiseHeader: React.FC<WiseHeaderProps> = (props) => {
 
     const handleLogout = async () => {
         history.push("/");
-        props.handleLogout();
+        auth.logout();
     }
 
     return ( 
@@ -69,11 +64,11 @@ export const WiseHeader: React.FC<WiseHeaderProps> = (props) => {
       
               {
                 (() => {
-                    if (props.isLoggedIn) {
+                    if (!!auth.user) {
                         return (
                             <p className="nav-pos">
                                 <span className="hide-mobile">
-                                    { props.username === undefined ?  i18n('Logged in as ') + props.schoolName  : i18n('Logged in as ') + props.username} 
+                                    { auth.user.name === undefined ?  i18n('Logged in as ') + auth.school?.name  : i18n('Logged in as ') + auth.user.name} 
                                 </span>
                                 <button className="btn-s" onClick={handleLogout} >{i18n("Log out")}</button>
                             </p> 

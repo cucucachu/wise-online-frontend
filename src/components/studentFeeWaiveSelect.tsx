@@ -35,7 +35,7 @@ class StudentFeeWaiveSelect extends Component<StudentFeeWaiveSelectProps, any> {
             this.setState({showHide: {display: 'block'}})
             
         }else{
-            this.props.setSchoolName(this.state.schoolName);
+            // this.props.setSchoolName(this.state.schoolName);
             this.props.history.push('fee-waiver-note')
         }
    

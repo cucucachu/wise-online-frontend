@@ -71,7 +71,7 @@ function AttendanceSummary(props: AttendanceSummaryProps) {
                 </div>
             </div>
                 {(() => {
-                    const integrationName = authContext.integrationName;
+                    const integrationName = authContext.school?.integrationName;
 
                     if (integrationName) {
 

@@ -2,12 +2,13 @@ import React, { Component, Fragment } from 'react'
 import { RouteComponentProps } from 'react-router-dom';
 import editIcon from '../Assets/images/edit-icon.png';
 
-import { createSchool, logout } from '../store/axios'
+import { createSchool } from '../store/axios'
 // name, setupKey, email, password
 
 import { AuthContext, IAuthContext } from '../contexts/AuthContext'
 
 import { i18n } from 'web-translate';
+import { logError } from '../Logger';
 
 type BaseSchoolStep1Props = RouteComponentProps;
 
@@ -42,25 +43,19 @@ class SchoolStep1 extends Component<SchoolStep1Props, any> {
     
     handleSubmit: React.FormEventHandler = async e =>{
         e.preventDefault()
-        const { loggedinUser, authToggle } = this.props;
-
         try {
             const emailLowerCase = this.state.email.toLowerCase()
             const response = await createSchool(this.state.name, this.state.setupkey, emailLowerCase, this.state.password)
             const newSchool = response.data
 
             if (response.status === 200) {
-                
-                loggedinUser(newSchool.id, newSchool.school.name, newSchool.school.id)
-                authToggle() 
+                this.props.setInfoFromCreateSchool({
+                    userID: newSchool.id,
+                    schoolID: newSchool.school.id,
+                    schoolName: newSchool.school.name,
+                });
+
                 this.props.history.push('/admin-login')
-            }else if(response.status === 401){
-                sessionStorage.clear();
-                logout()
-                this.props.history.push({
-                    pathname: '/admin-login',
-                    state: { message: 'Sorry, your login has expired, please log in again.', showHide: {display: 'block'} }
-                  })
             }
             else {
                 this.setState({message: 'Sorry, we could not find a school with that setup key.'})
@@ -68,6 +63,7 @@ class SchoolStep1 extends Component<SchoolStep1Props, any> {
             }
         }
         catch (error) {
+            logError(error);
             this.setState({message: 'Oops, something went wrong. Please try again.'})
             this.showError()
         }

@@ -257,7 +257,7 @@ type CourseCardWithoutContextProps = Omit<CourseCardProps, 'integrationName'>;
 
 export default (props: CourseCardWithoutContextProps) => {
   const authContext = useAuth();
-  const integrationName = authContext.integrationName;
+  const integrationName = authContext.school?.integrationName ?? null;
 
   return (
     <CourseCard {...props} integrationName={integrationName} />
