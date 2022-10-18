@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useLocation } from 'react-router-dom';
 import { AuthContext, IAuthContext } from './contexts/AuthContext';
 import { ProctorConfigContext } from './contexts/ProctorConfigContext';
+import { SchoolFeature } from './types';
 
 export const useQuery = () => {
   const { search } = useLocation();
@@ -18,7 +19,11 @@ export const useProctorConfig = () => {
 }
 
 export const useIsLoggedIn = (): boolean => {
-  // TODO: Check if this is right
-  const isLoggedIn = !!sessionStorage.getItem('isLoggedIn');
-  return isLoggedIn;
+  const auth = useAuth();
+  return !!auth.user;
 };
+
+export const useIsFeatureEnabled = (featureName: SchoolFeature): boolean => {
+  const auth = useAuth();
+  return auth.school?.enabledFeatures?.includes(featureName) ?? false;
+}

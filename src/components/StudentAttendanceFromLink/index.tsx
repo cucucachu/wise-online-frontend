@@ -13,15 +13,14 @@ import { useQuery, useAuth } from '../../hooks';
 
 import { i18n } from 'web-translate';
 
-type StudentAttendanceFromLinkBaseProps = RouteComponentProps & {
-    onSuccessfulLogin(loginResponseData: UserLoginData): void;
-};
+type StudentAttendanceFromLinkBaseProps = RouteComponentProps;
 
 type StudentAttendanceFromLinkProps = {
     classId: string;
     keyCode: string;
     proctorContext: IProctorConfigContext;
     authContext: IAuthContext;
+    onSuccessfulLogin(loginResponseData: UserLoginData): void;
 } & StudentAttendanceFromLinkBaseProps;
 
 type StudentAttendanceFromLinkState = {
@@ -114,6 +113,7 @@ export default (props: StudentAttendanceFromLinkBaseProps) => {
             keyCode={keyCode}
             authContext={authContext!}
             proctorContext={proctorContext}
+            onSuccessfulLogin={authContext.onLogin}
         />
     )
 };

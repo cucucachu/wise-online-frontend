@@ -8,6 +8,7 @@ import Spinner from '../Resusable/Spinner';
 import {UserLoginData} from '../../types';
 
 import { i18n } from 'web-translate';
+import { useAuth } from '../../hooks';
 
 type SuperDashboardProps = {
     onSuccessfulLogin(loginData: UserLoginData): void;
@@ -307,4 +308,12 @@ class SuperDashboard extends Component<SuperDashboardProps, any> {
     }
 }
 
-export default SuperDashboard;
+export default (props: RouteComponentProps) => {
+    const auth = useAuth();
+    return (
+        <SuperDashboard
+            {...props}
+            onSuccessfulLogin={auth.onLogin}
+        />
+    )
+};

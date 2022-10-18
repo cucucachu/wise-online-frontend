@@ -5,6 +5,7 @@ import { paths } from "../../paths";
 import { Course } from "../../types";
 import { DangerUnderlineButton } from "../Resusable/DangerUnderlineButton";
 import { Modal } from "../Resusable/Modal";
+import { useIsFeatureEnabled } from '../../hooks';
 import { CourseForm, CourseFormSaveData } from "./CourseForm";
 import loginIcon from "../../Assets/images/login-icon.png";
 import { i18n } from "web-translate";
@@ -19,6 +20,8 @@ export const ProfessorEditCourse: React.FC<
   const [errorMessage, setErrorMessage] = React.useState<string | undefined>();
 
   const [showDeleteModal, setShowDeleteModal] = React.useState(false);
+
+  const isInClassEnabled = useIsFeatureEnabled('in-class');
 
   React.useEffect(() => {
     const fetch = async () => {
@@ -78,6 +81,7 @@ export const ProfessorEditCourse: React.FC<
         course={course}
         saveCourse={saveCourse}
         errorMessage={errorMessage}
+        showInClassOptions={isInClassEnabled}
       />
       <DangerUnderlineButton className="mt-5" onClick={onClickDelete}>
         Delete Course

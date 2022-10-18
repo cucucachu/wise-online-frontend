@@ -27,10 +27,13 @@ export enum InClassFlagAction {
   computerDisconnected = "computer-disconnected",
 }
 
+export type SchoolFeature = 'in-class';
+
 export type School = {
   name: string;
   id: string;
   integrationName: string | null;
+  enabledFeatures: SchoolFeature[] | null;
 }
 
 export type User = {

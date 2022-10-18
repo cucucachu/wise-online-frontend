@@ -9,8 +9,11 @@ import gearIcon from "../Assets/images/settings-white.svg";
 
 import { i18n } from "web-translate";
 import { paths } from "../paths";
+import { useIsFeatureEnabled } from "../hooks";
 
 export const StudentDashboard: React.FC<{}> = () => {
+  const isInClassEnabled = useIsFeatureEnabled('in-class');
+
   return (
     <div className="container prevent-text">
       <img src={studentDashIcon} className="page-icon" alt="login icon" />
@@ -24,8 +27,7 @@ export const StudentDashboard: React.FC<{}> = () => {
             &nbsp;{i18n("Attend class")}
           </button>
         </Link>
-
-        {AppConfig.isInClassEnabled && 
+        {isInClassEnabled && 
         <>
           <div className="spacer-vertical" />
           <Link to={paths.studentInClassCourseList({})}>

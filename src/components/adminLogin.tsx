@@ -7,12 +7,11 @@ import loginIcon from '../Assets/images/login-icon.png';
 import { adminLogin } from '../store/axios';
 
 import { i18n } from 'web-translate';
-   
-type AdminLoginProps = {
-    onSuccessfulLogin(loginData: UserLoginData): void;
-} & RouteComponentProps;
+import { useAuth } from '../hooks';
 
-export const AdminLogin: React.FC<AdminLoginProps> = ({ onSuccessfulLogin, history }) => {
+export const AdminLogin: React.FC<RouteComponentProps> = ({ history }) => {
+    const auth = useAuth();
+
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
     const [errorMessage, setErrorMessage] = React.useState<string | undefined>();
@@ -25,7 +24,7 @@ export const AdminLogin: React.FC<AdminLoginProps> = ({ onSuccessfulLogin, histo
             const response = await adminLogin(emailLowerCase, password);
             
             if (response.status === 200) {
-                onSuccessfulLogin(response.data);
+                auth.onLogin(response.data);
                 if (response.data.role === 'Admin') {
                     history.push('/admin');
                 }
@@ -41,7 +40,7 @@ export const AdminLogin: React.FC<AdminLoginProps> = ({ onSuccessfulLogin, histo
             setErrorMessage('Oops, something went wrong. Please try again.');
         }
 
-    }, [email, password, history, onSuccessfulLogin]);
+    }, [email, password, history, auth]);
 
     const handleEmailChange: React.ChangeEventHandler<HTMLInputElement> = React.useCallback(
         (e) => {

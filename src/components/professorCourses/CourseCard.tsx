@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import * as React from "react";
 import { Link } from "react-router-dom";
 
 import tickIcon from "../../Assets/images/start-class.svg";
@@ -8,8 +8,7 @@ import viewIcon from "../../Assets/images/eye-icon-white.svg";
 import bookIcon from "../../Assets/images/book-icon.svg";
 
 import { downloadDataForCourseURL } from "../../store/axios";
-import { AppConfig } from "../../services/appConfig";
-import { useAuth } from "../../hooks";
+import { useAuth, useIsFeatureEnabled } from "../../hooks";
 
 import { i18n } from "web-translate";
 import { paths } from "../../paths";
@@ -19,13 +18,14 @@ type CourseCardProps = {
   course: Course;
   handleDelete(e: any, id: string): void;
   integrationName: string | null;
+  isInClassEnabled: boolean;
 };
 
 type CourseCardState = {
   deleting: boolean;
 };
 
-class CourseCard extends Component<CourseCardProps, CourseCardState> {
+class CourseCard extends React.Component<CourseCardProps, CourseCardState> {
   constructor(props: CourseCardProps) {
     super(props);
     this.state = {
@@ -112,7 +112,7 @@ class CourseCard extends Component<CourseCardProps, CourseCardState> {
                   {i18n("Attendance")}
                 </button>
               </Link>
-              {AppConfig.isInClassEnabled && <Link
+              {this.props.isInClassEnabled && <Link
                 to={{
                   pathname: paths.professorInClass({
                     courseId: this.props.course._id,
@@ -132,7 +132,7 @@ class CourseCard extends Component<CourseCardProps, CourseCardState> {
                     : i18n("Start InClass")}
                 </button>
               </Link>}
-              {AppConfig.isInClassEnabled && <Link
+              {this.props.isInClassEnabled && <Link
                 to={{
                   pathname: paths.professorInClassPastSessions({
                     courseId: this.props.course._id,
@@ -253,13 +253,14 @@ class CourseCard extends Component<CourseCardProps, CourseCardState> {
   }
 }
 
-type CourseCardWithoutContextProps = Omit<CourseCardProps, 'integrationName'>;
+type CourseCardWithoutContextProps = Omit<CourseCardProps, 'integrationName' | 'isInClassEnabled'>;
 
 export default (props: CourseCardWithoutContextProps) => {
   const authContext = useAuth();
   const integrationName = authContext.school?.integrationName ?? null;
+  const isInClassEnabled = useIsFeatureEnabled('in-class');
 
   return (
-    <CourseCard {...props} integrationName={integrationName} />
+    <CourseCard {...props} integrationName={integrationName} isInClassEnabled={isInClassEnabled} />
   );
 }

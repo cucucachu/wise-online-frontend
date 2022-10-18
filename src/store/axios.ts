@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from "axios";
-import { createBrowserHistory } from "history";
+import { history } from '../history';
 import { AppConfig } from "../services/appConfig";
 import { Course, InClassFlagAction } from "../types";
 
@@ -16,7 +16,7 @@ const backend = axios.create({
 backend.interceptors.response.use(
   (response) => {
     if (response.status === 401) {
-      createBrowserHistory().push("/");
+      history.push('/', { message: 'Sorry, your login has expired, please log in again.', showHide: {display: 'block'} });
     }
 
     return response;
@@ -55,7 +55,12 @@ async function logout() {
 }
 
 async function checkLogin() {
-  return backend.get("checkLogin");
+  const response = await backend.get("checkLogin");
+  if (response.status !== 200) {
+    throw new Error();
+  }
+
+  return response;
 }
 
 /* ----------------------------------------

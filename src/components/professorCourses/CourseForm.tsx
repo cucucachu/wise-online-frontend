@@ -33,12 +33,14 @@ type CourseFormProps = {
   course: Course | null;
   saveCourse(data: CourseFormSaveData): void;
   errorMessage?: string;
+  showInClassOptions: boolean;
 };
 
 export const CourseForm: React.FC<CourseFormProps> = ({
   errorMessage,
   course,
   saveCourse,
+  showInClassOptions,
 }) => {
   const [displayName, setDisplayName] = React.useState("");
   const [classId, setClassId] = React.useState("");
@@ -129,15 +131,17 @@ export const CourseForm: React.FC<CourseFormProps> = ({
             )}
           </Card.Body>
         </Card>
-        <div className="spacer-vertical" />
-        <InClassOptions
-          trackingDelay={trackingDelay}
-          setTrackingDelay={setTrackingDelay}
-          flagTriggers={flagTriggers}
-          setFlagTriggers={setFlagTriggers}
-        />
-        <div className="spacer-vertical" />
-        <AllowedURLEditor urls={allowedUrls} onChangeUrls={setAllowedUrls} />
+        {showInClassOptions && <>
+          <div className="spacer-vertical" />
+          <InClassOptions
+            trackingDelay={trackingDelay}
+            setTrackingDelay={setTrackingDelay}
+            flagTriggers={flagTriggers}
+            setFlagTriggers={setFlagTriggers}
+          />
+          <div className="spacer-vertical" />
+          <AllowedURLEditor urls={allowedUrls} onChangeUrls={setAllowedUrls} />
+        </>}
         <div className="spacer-vertical" />
         <div className="">
           <input

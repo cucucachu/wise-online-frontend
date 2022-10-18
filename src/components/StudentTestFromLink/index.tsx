@@ -15,16 +15,13 @@ import { useQuery, useAuth, useProctorConfig } from '../../hooks';
 import { i18n } from 'web-translate';
 import { logError } from '../../Logger';
 
-type StudentTestFromLinkBaseProps = RouteComponentProps & {
-    onSuccessfulLogin(loginResponseData: UserLoginData): void;
-};
-
 type StudentTestFromLinkProps = {
     classId: string;
     keyCode: string;
     proctorContext: IProctorConfigContext;
     authContext: IAuthContext;
-} & StudentTestFromLinkBaseProps;
+    onSuccessfulLogin(loginResponseData: UserLoginData): void;
+} & RouteComponentProps;
 
 type StudentTestFromLinkState = {
     showLogin: boolean;
@@ -124,7 +121,7 @@ class StudentTestFromLink extends Component<StudentTestFromLinkProps, StudentTes
     }
 }
 
-export default (props: StudentTestFromLinkBaseProps) => {
+export default (props: RouteComponentProps) => {
     const proctorContext = useProctorConfig();
     const authContext = useAuth();
     const queryParams = useQuery();
@@ -138,6 +135,7 @@ export default (props: StudentTestFromLinkBaseProps) => {
             keyCode={keyCode}
             authContext={authContext!}
             proctorContext={proctorContext}
+            onSuccessfulLogin={authContext.onLogin}
         />
     )
 };

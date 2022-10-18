@@ -5,12 +5,10 @@ import { professorLogin } from '../store/axios';
 import { UserLoginData } from '../types';
 import loginIcon from '../Assets/images/login-icon.png';
 import { i18n } from 'web-translate';
+import { useAuth } from '../hooks';
 
-type ProfessorLoginProps = {
-    onSuccessfulLogin(loginData: UserLoginData): void;
-} & RouteComponentProps;
-
-export const ProfessorLogin: React.FC<ProfessorLoginProps> = ({ onSuccessfulLogin, history }) => {
+export const ProfessorLogin: React.FC<RouteComponentProps> = ({ history }) => {
+    const auth = useAuth();
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
     const [errorMessage, setErrorMessage] = React.useState<string | undefined>();
@@ -21,7 +19,7 @@ export const ProfessorLogin: React.FC<ProfessorLoginProps> = ({ onSuccessfulLogi
             const response = await professorLogin(email, password);
 
             if (response.status === 200) {
-                onSuccessfulLogin(response.data);
+                auth.onLogin(response.data);
                 history.push('/professor/course');
             }
             else {
@@ -32,7 +30,7 @@ export const ProfessorLogin: React.FC<ProfessorLoginProps> = ({ onSuccessfulLogi
         catch (error) {
             setErrorMessage('Oops, something went wrong. Please try again.');
         }
-    }, [email, password, history, onSuccessfulLogin]);
+    }, [email, password, history, auth]);
 
     const handleEmailChange: React.ChangeEventHandler<HTMLInputElement> = React.useCallback(
         (e) => {
@@ -47,6 +45,7 @@ export const ProfessorLogin: React.FC<ProfessorLoginProps> = ({ onSuccessfulLogi
         },
         [setPassword]
       );
+    console.log('RE RENDERING PROF LOGN')
     return(
         <div className="container">
             <img src={loginIcon} className="page-icon" alt="login icon"/>

@@ -57,7 +57,6 @@ import AdminAddUsers from "../components/AdminAddUsers";
 import { SelectRole } from "../components/selectRole";
 
 //contexts
-import { AuthContext } from "../contexts/AuthContext";
 // import { LanguageContext } from '../contexts/LanguageContext'
 
 import {WiseHeader} from "../components/WiseHeader";
@@ -90,15 +89,15 @@ import AdminTermsPage from "../components/AdminTerms/AdminTermsPage";
 
 // Proctoring Components
 import ProfessorStartProctoring from "../components/ProfessorStartProctoring";
+import {history} from "../history";
 
 import { paths } from "../paths";
 
-import {UserLoginData} from '../types';
-
 class HomePage extends Component<any, any, any> {
   render() {
+    const props: any = { history };
     return (
-      <Router>
+      <Router {...props}>
         <WiseHeader />
         <div className="wrap">
           <div className="page-header">
@@ -113,12 +112,7 @@ class HomePage extends Component<any, any, any> {
             />
             <Route
               path="/super"
-              render={(props) => (
-                <SuperDashboard
-                  {...props}
-                  onSuccessfulLogin={this.handleSuccessfulLogin}
-                />
-              )}
+              component={SuperDashboard}
             />
 
             {/* admin */}
@@ -167,23 +161,13 @@ class HomePage extends Component<any, any, any> {
             <PrivateRouteAdmin path="/admin" component={AdminHomePage} />
             <Route
               path="/admin-login"
-              render={(props) => (
-                <AdminLogin
-                  {...props}
-                  onSuccessfulLogin={this.handleSuccessfulLogin}
-                />
-              )}
+              component={AdminLogin}
             />
 
             {/* professor */}
             <Route
               path="/professor-login"
-              render={(props) => (
-                <ProfessorLogin
-                  {...props}
-                  onSuccessfulLogin={this.handleSuccessfulLogin}
-                />
-              )}
+              component={ProfessorLogin}
             />
             <Route
               path="/professor/reset-password"
@@ -288,12 +272,7 @@ class HomePage extends Component<any, any, any> {
             {/* student */}
             <Route
               path="/student-login"
-              render={(props) => (
-                <StudentLogin
-                  {...props}
-                  onSuccessfulLogin={this.handleSuccessfulLogin}
-                />
-              )}
+              component={StudentLogin}
             />
             <PrivateRouteStudent
               path="/student/dashboard"
@@ -388,21 +367,11 @@ class HomePage extends Component<any, any, any> {
 
             <Route
               path="/student/attendanceLink"
-              render={(props) => (
-                <StudentAttendanceFromLink
-                  {...props}
-                  onSuccessfulLogin={this.handleSuccessfulLogin}
-                />
-              )}
+              component={StudentAttendanceFromLink}
             />
             <Route
               path="/student/testLink"
-              render={(props) => (
-                <StudentTestFromLink
-                  {...props}
-                  onSuccessfulLogin={this.handleSuccessfulLogin}
-                />
-              )}
+              component={StudentTestFromLink}
             />
             <Route exact path="/" component={SelectRole} />
           </Switch>

@@ -21,12 +21,15 @@ export const WiseHeader: React.FC<{}> = (props) => {
 
     React.useEffect(() => {
         (async () => {
-            const languageCode = getLanguageCode();
+            if (!languageCode) {
+                const assumedlanguageCode = getLanguageCode();
+                authContext.setLanguageCode(assumedlanguageCode);
+            }
+
             const languages = await getSupportedLanguages();
-            authContext.setLanguageCode(languageCode);
-            authContext.setLanguages(languages);    
+            authContext.setLanguages(languages);        
         })()
-    })
+    }, []);
 
     const changeLanguage: React.ChangeEventHandler<HTMLSelectElement> = React.useCallback(async event => {
         const languageCode = event.target.value;

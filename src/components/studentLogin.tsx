@@ -9,10 +9,12 @@ import ModalSupport from "./modal-support";
 
 import { i18n } from 'web-translate';
 import { UserLoginData } from '../types';
+import { useAuth } from '../hooks';
 
+type BaseStudentLoginProps = RouteComponentProps<{}, any, any>;
 type StudentLoginProps = {
     onSuccessfulLogin(data: UserLoginData): void;
-} & RouteComponentProps<{}, any, any>;
+} & BaseStudentLoginProps
 
 type StudentLoginState = {
     email: string;
@@ -216,6 +218,12 @@ class StudentLogin extends Component<StudentLoginProps, StudentLoginState> {
     }
 }
 
-export default StudentLogin;
-
-
+export default (props: BaseStudentLoginProps) => {
+    const auth = useAuth();
+    return (
+        <StudentLogin
+            {...props}
+            onSuccessfulLogin={auth.onLogin}
+        />
+    )
+};

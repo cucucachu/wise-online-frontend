@@ -5,10 +5,13 @@ import { paths } from "../../paths";
 import { CourseForm, CourseFormSaveData } from "./CourseForm";
 import loginIcon from "../../Assets/images/login-icon.png";
 import { i18n } from "web-translate";
+import { useIsFeatureEnabled } from "../../hooks";
 export const ProfessorAddCourse: React.FC<RouteComponentProps<{}>> = ({
   history,
 }) => {
   const [errorMessage, setErrorMessage] = React.useState<string | undefined>();
+
+  const isInClassEnabled = useIsFeatureEnabled('in-class');
 
   const saveCourse = React.useCallback(async (data: CourseFormSaveData) => {
     try {
@@ -29,6 +32,7 @@ export const ProfessorAddCourse: React.FC<RouteComponentProps<{}>> = ({
         course={null}
         saveCourse={saveCourse}
         errorMessage={errorMessage}
+        showInClassOptions={isInClassEnabled}
       />
     </div>
   );

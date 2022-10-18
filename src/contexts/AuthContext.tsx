@@ -3,8 +3,9 @@ import type { FC, PropsWithChildren } from 'react';
 import { useCookies } from 'react-cookie';
 import { checkLogin, logout as clearSession } from '../store/axios';
 import { User, UserLoginData, School } from '../types';
+import { logError } from '../Logger';
 
-export type IAuthContext = {
+export type IAuthContext = any & {
     user: User | null;
     school: School | null;
 
@@ -18,6 +19,7 @@ export type IAuthContext = {
     languages: any;
     setLanguages: any;
     logout(): void;
+    onLogin(loginData: UserLoginData): void;
 }
 
 const WISE_USER_LS_KEY = 'wise_user';
@@ -48,8 +50,31 @@ const loadSchoolFromLocalStorage = (): School | null => {
 export const AuthContext = React.createContext<IAuthContext | undefined>(undefined);
 
 const AuthContextProvider: FC<PropsWithChildren> = ({ children }) => {
-    const [user, setUser] = React.useState<User | null>(null)
-    const [school, setSchool] = React.useState<School | null>(null)
+    const [user, setUser] = React.useState<User | null>(loadUserFromLocalStorage());
+    const setAndStoreUser = React.useCallback((user: User | null) => {
+        try {
+            if (user) {
+                window.localStorage.setItem(WISE_USER_LS_KEY, JSON.stringify(user));
+            } else {
+                window.localStorage.removeItem(WISE_USER_LS_KEY);
+            }
+        } catch {}
+
+        setUser(user);
+    }, []);
+
+    const [school, setSchool] = React.useState<School | null>(loadSchoolFromLocalStorage());
+    const setAndStoreSchool = React.useCallback((school: School | null) => {
+        try {
+            if (school) {
+                window.localStorage.setItem(WISE_SCHOOL_LS_KEY, JSON.stringify(school));
+            } else {
+                window.localStorage.removeItem(WISE_SCHOOL_LS_KEY);
+            }
+        } catch {}
+
+        setSchool(school);
+    }, []);
 
     const [testAttendanceId, setTestAttendanceId] = React.useState('');
     const [classID, setClassID] = React.useState('');
@@ -57,34 +82,26 @@ const AuthContextProvider: FC<PropsWithChildren> = ({ children }) => {
     const [languages, setLanguages] = React.useState({});
 
     const setInfoFromCreateSchool = (info: { userID: string, schoolName: string, schoolID: string }) => {
-        setUser({
+        setAndStoreUser({
             id: info.userID,
             name: '',
             role: '',
         });
 
-        setSchool({
+        setAndStoreSchool({
             id: info.schoolID,
             name: info.schoolName,
             integrationName: null,
+            enabledFeatures: [],
         })
     }
 
-    const storeClassId = (classId: string) => {
+    const storeClassId = React.useCallback((classId: string) => {
         setClassID(classId);
-    }
+    }, []);
 
-    const storeTestAttendanceId = (id: string) => {
+    const storeTestAttendanceId = React.useCallback((id: string) => {
         setTestAttendanceId(id);
-    }
-
-    React.useEffect(() => {
-        const storedUser = loadUserFromLocalStorage();
-        if (storedUser) {
-            setUser(storedUser);
-        }
-
-        // TODO: Load school?
     }, []);
 
     React.useEffect(() => {
@@ -92,46 +109,43 @@ const AuthContextProvider: FC<PropsWithChildren> = ({ children }) => {
             return;
         }
 
+        let handle: number;
         const checkSession = async () => {
             try {
-                const response = await checkLogin();
-        
-                if (response.status === 200) {
-                    onLogin(response.data);
-                }
+                await checkLogin();
+                setTimeout(() => {
+                    checkSession();
+                }, 1000 * 60 * 5);
             } catch (error) {
-            console.log(error);
+                setAndStoreUser(null);
+                setAndStoreSchool(null);
+                clearTimeout(handle);
             }
         }
-        
+
         checkSession();
 
-        const handle = setInterval(() => {
-            checkSession();
-        }, 1000 * 60);
-
         return () => {
-            clearInterval(handle);
+            clearTimeout(handle);
         }
     }, [user]);
     
     const onLogin = React.useCallback((loginData: UserLoginData) => {
-        setSchool(loginData.school);
-        setUser({
+        setAndStoreSchool(loginData.school);
+        setAndStoreUser({
             id: loginData.id,
             name: loginData.name,
             role: loginData.role,
         });
-    
     }, []);
 
     const logout = React.useCallback(() => {
         sessionStorage.clear();
         clearSession();
-        setUser(null);
-        setSchool(null);
+        setAndStoreUser(null);
+        setAndStoreSchool(null);
     }, []);
-    
+
     return ( 
         <AuthContext.Provider value={{ 
             classID, 
@@ -145,7 +159,8 @@ const AuthContextProvider: FC<PropsWithChildren> = ({ children }) => {
             setLanguageCode,
             languages,
             setLanguages,
-            logout
+            logout,
+            onLogin
         }}>
             {children}
         </AuthContext.Provider>
