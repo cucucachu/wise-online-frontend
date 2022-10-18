@@ -45,6 +45,7 @@ import { StudentInClassLanding } from "../components/studentInClass/StudentInCla
 
 import {AdminLogin} from "../components/adminLogin";
 import SetUpSchoolPage from "../components/SetUpSchoolPage";
+import {AdminBulkDeleteProfessors} from "../components/Admin/BulkDeleteProfessors";
 import AdminHomePage from "../components/AdminHomePage";
 import SchoolStep1 from "../components/createSchoolStep1";
 import SchoolStep2 from "../components/createSchoolStep2";
@@ -132,6 +133,10 @@ class HomePage extends Component<any, any, any> {
             <PrivateRouteAdmin
               path="/admin/addUsers"
               component={AdminAddUsers}
+            />
+            <PrivateRouteAdmin
+              path={paths.admin.bulkDeleteProfessors.pattern}
+              component={AdminBulkDeleteProfessors}
             />
             <PrivateRouteAdmin
               path="/admin/professor/courses"

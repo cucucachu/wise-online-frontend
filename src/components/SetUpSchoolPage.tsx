@@ -48,12 +48,12 @@ class SetUpSchoolPage extends React.Component<SetUpSchoolPageProps, any> {
 
     handleDownloadStudent: React.MouseEventHandler<HTMLButtonElement>  = e =>{
         e.preventDefault();
-        this.props.history.push(getStudentTemplateURL());
+        (window as any).location = getStudentTemplateURL();
     }
 
     handleDownloadProfessor: React.MouseEventHandler<HTMLButtonElement>  = e =>{
         e.preventDefault();
-        this.props.history.push(getProfessorTemplateURL());
+        (window as any).location = getProfessorTemplateURL();
     }
     
     handleChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {

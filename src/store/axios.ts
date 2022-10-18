@@ -296,6 +296,10 @@ async function adminAddStudents(students: any) {
   return backend.post("/admin/students", { students });
 }
 
+export async function adminBulkDeleteProfessors(professorEmails: string[], commitChanges: boolean) {
+  return backend.post("/admin/school/professors/bulk-delete", { emails: professorEmails, commitChanges });
+}
+
 async function adminAddProfessors(professors: any) {
   return backend.post("/admin/professors", { professors });
 }

@@ -6,6 +6,7 @@ import { adminGetSchoolDetails, adminGetSchoolTests } from '../store/axios';
 import attendanceIcon from '../Assets/images/attendance-icon.png';
 import DataPane from './Resusable/DataPane';
 import { i18n } from 'web-translate';
+import { paths } from '../paths';
 
 type AdminHomePageProps = {};
 type AdminHomePageState = {
@@ -90,6 +91,11 @@ class AdminHomePage extends Component<AdminHomePageProps, AdminHomePageState> {
                         <div className="spacer-vertical-s"></div>
                         <Link to="/admin/students">
                             <button className="btn-l">{i18n("View Students")}</button>
+                        </Link>
+
+                        <div className="spacer-vertical-s"></div>
+                        <Link to={paths.admin.bulkDeleteProfessors({})}>
+                            <button className="btn-l">{i18n("Bulk Delete Professors")}</button>
                         </Link>
                         </div>
                     </div>

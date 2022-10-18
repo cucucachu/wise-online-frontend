@@ -1,6 +1,10 @@
 import { path } from "static-path";
 
 export const paths = {
+  admin: {
+    bulkDeleteProfessors: path('/admin/bulk-delete-professors'),
+  },
+
   professorInClass: path("/professor/in-class/:courseId/start"),
   professorInClassPastSessions: path("/professor/in-class/:courseId/sessions"),
   professorInClassPastSessionDetail: path(
