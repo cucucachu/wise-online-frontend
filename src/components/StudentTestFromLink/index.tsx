@@ -76,6 +76,7 @@ class StudentTestFromLink extends Component<StudentTestFromLinkProps, StudentTes
                 logError(new Error('Failed to load course'), {
                     responseStatus: response.status,
                     responseData: response.data,
+                    response,
                 });
 
                 this.setState({...this.state, error: `Sorry, this link is no longer valid (Error Code: ${response.status}).`});
@@ -83,7 +84,10 @@ class StudentTestFromLink extends Component<StudentTestFromLinkProps, StudentTes
         }
         catch (error) {
             logError(error);
-            this.setState({...this.state, error: 'Sorry, this link is no longer valid.'});
+            logError(new Error('Failed to laod course with unknown error'), {
+                errorMessage: (error as Error).message,
+            })
+            this.setState({...this.state, error: 'Sorry, this link is no longer valid. An unknown error occured.'});
         }
     }
 
