@@ -9,6 +9,8 @@ import {UserLoginData} from '../../types';
 
 import { i18n } from 'web-translate';
 import { useAuth } from '../../hooks';
+import { Card } from '../Resusable/Card';
+import { paths } from '../../paths';
 
 type SuperDashboardProps = {
     onSuccessfulLogin(loginData: UserLoginData): void;
@@ -103,7 +105,7 @@ class SuperDashboard extends Component<SuperDashboardProps, any> {
             ...this.state,
             newSchool: {
                 ...this.state.newSchool,
-                [e.target.id]: parseInt(e.target.value),
+                [e.target.id]: e.target.value,
             }
         })
     }
@@ -249,6 +251,10 @@ class SuperDashboard extends Component<SuperDashboardProps, any> {
                 <img src={ attendanceIcon } className="page-icon" alt="login icon"/>
                 <div className="spacer-vertical-s"></div>
                 <h1>{i18n("Super Dashboard")}</h1>
+                <div className="spacer-vertical" />
+                <Card>
+                    <a href={paths.superRunAuditReport({})}>Run Audit Report</a>
+                </Card>
                 <div className="spacer-vertical" />
                 {this.renderNewSchoolPopup()}
                 {this.state.schools.length ? 

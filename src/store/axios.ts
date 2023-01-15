@@ -127,6 +127,15 @@ async function superCreateSchool({
   });
 }
 
+export async function superRunAuditReportForTests(afterDate: Date) {
+  return backend.get(`/super/schools/tests?afterDate=${afterDate.toISOString()}`);
+}
+
+export async function superRunAuditReportForStudents(afterDate: Date) {
+  return backend.get(`/super/schools/students?afterDate=${afterDate.toISOString()}`);
+}
+
+
 async function superSetAudioEnabled({ schoolId, enable }: any) {
   return backend.post("/super/setAudioEnabled", { schoolId, enable });
 }

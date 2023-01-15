@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import SuperDashboard from "../components/SuperDashboard";
 import SuperSchoolSettings from "../components/SuperSchoolSettings";
+import {SuperRunAuditReport} from "../components/Super/RunAuditReport";
 
 //components
 import {ProfessorLogin} from "../components/professorLogin";
@@ -114,8 +115,12 @@ class HomePage extends Component<any, any, any> {
             <Route
               path="/super"
               component={SuperDashboard}
+              exact={true}
             />
-
+            <Route
+              path={paths.superRunAuditReport({})}
+              component={SuperRunAuditReport}
+            />
             {/* admin */}
             <Route path="/admin/forgot-pw" component={ForgotPWAdmin} />
             <Route path="/admin/reset-pw-sent" component={ForgotPWSentAdmin} />

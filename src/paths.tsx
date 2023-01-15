@@ -20,4 +20,6 @@ export const paths = {
 
   studentInClassCourseList: path("/student/in-class/courses"),
   studentInClassCourseDetail: path("/student/in-class/courses/:courseId"),
+
+  superRunAuditReport: path('/super/audit'),
 };
