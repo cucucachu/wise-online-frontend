@@ -253,7 +253,9 @@ class SuperDashboard extends Component<SuperDashboardProps, any> {
                 <h1>{i18n("Super Dashboard")}</h1>
                 <div className="spacer-vertical" />
                 <Card>
-                    <a href={paths.superRunAuditReport({})}>Run Audit Report</a>
+                    <Card.Body>
+                        <a href={paths.superRunAuditReport({})}>Run Audit Report</a>
+                    </Card.Body>
                 </Card>
                 <div className="spacer-vertical" />
                 {this.renderNewSchoolPopup()}

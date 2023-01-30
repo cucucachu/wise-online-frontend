@@ -8,6 +8,13 @@ import {UserLoginData} from '../../../types';
 import { i18n } from 'web-translate';
 import { useAuth } from '../../../hooks';
 import { Card } from '../../Resusable/Card';
+import { format } from 'date-fns';
+
+const formatUploadDate = (maybeDateStr: string | null) => {
+  if (!maybeDateStr) return null;
+
+  return format(new Date(maybeDateStr), "M/d/yyyy h:mmaaa");
+}
 
 type SuperDashboardProps = {
     onSuccessfulLogin(loginData: UserLoginData): void;
@@ -15,10 +22,10 @@ type SuperDashboardProps = {
 
 const SchoolTable: FC<any> = ({ schools }) => {
   return (
-    <table>
+    <table className='table table-striped'>
       <thead>
         <tr>
-          <th>School id</th>
+          <th>School ID</th>
           <th>School name</th>
           <th>Upload date</th>
           <th>Student count</th>
@@ -30,7 +37,7 @@ const SchoolTable: FC<any> = ({ schools }) => {
           <tr key={s.schoolId}>
             <td>{s.schoolId}</td>
             <td>{s.schoolName}</td>
-            <td>{s.uploadDate}</td>
+            <td>{formatUploadDate(s.uploadDate)}</td>
             <td>{s.studentCount}</td>
             <td>{s.testCount}</td>
           </tr>  
@@ -54,7 +61,11 @@ const RunAuditReport: FC<SuperDashboardProps> = (props) => {
         superRunAuditReportForStudents(afterDateParsed)  
       ]);
 
-      const testsBySchool = results[0].data;
+      const testsBySchool = results[0].data.reduce((accum: any, s: any) => {
+        accum[s.schoolId] = s;
+        return accum;
+      }, {});
+
       const schoolResultsById = results[1].data.reduce((accum: any, s: any) => {
         accum[s.schoolId] = s;
         return accum;
@@ -62,15 +73,15 @@ const RunAuditReport: FC<SuperDashboardProps> = (props) => {
       
       const allIds = new Set([...Object.keys(schoolResultsById), ...Object.keys(testsBySchool)]);
       setSchools([...allIds].map(id => {
-        const school = schoolResultsById[id];
-        const testCount = testsBySchool[id];
+        const schoolStudentInfo = schoolResultsById[id];
+        const schoolTestInfo = testsBySchool[id];
 
         return {
-          "schoolId": school?.schoolId,
-          "schoolName": school?.schoolName,
-          "uploadDate": school?.uploadDate,
-          "studentCount": school?.studentCount,
-          testCount,
+          "schoolId": schoolStudentInfo?.schoolId,
+          "schoolName": schoolStudentInfo?.schoolName,
+          "uploadDate": schoolStudentInfo?.uploadDate,
+          "studentCount": schoolStudentInfo?.studentCount,
+          "testCount": schoolTestInfo?.testCount,
         };
       }))
     } catch (err: any) {
@@ -95,12 +106,13 @@ const RunAuditReport: FC<SuperDashboardProps> = (props) => {
                   </form>
                 </Card.Body>
               </Card>
+              <div className="spacer-vertical" />
               <Card>
                 <Card.Body>
                   {schools && <SchoolTable schools={schools} />}
                 </Card.Body>
               </Card>
-              <pre>{JSON.stringify(schools, null, 2)}</pre>
+              {/* <pre>{JSON.stringify(schools, null, 2)}</pre> */}
           </div>
       )
   }

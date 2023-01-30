@@ -128,7 +128,7 @@ async function superCreateSchool({
 }
 
 export async function superRunAuditReportForTests(afterDate: Date) {
-  return backend.get(`/super/schools/tests?afterDate=${afterDate.toISOString()}`);
+  return backend.get(`/super/schools/tests/after-date?afterDate=${afterDate.toISOString()}`);
 }
 
 export async function superRunAuditReportForStudents(afterDate: Date) {
