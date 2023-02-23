@@ -50,6 +50,7 @@ const SchoolTable: FC<any> = ({ schools }) => {
 const RunAuditReport: FC<SuperDashboardProps> = (props) => {
   const [afterDate, setAfterDate] = useState('');
   const [schools, setSchools] = useState<any>(null);
+  const [error, setError] = React.useState<Error | null>(null);
 
   const onSubmit: React.FormEventHandler = async  (e) => {
     e.preventDefault();
@@ -85,7 +86,7 @@ const RunAuditReport: FC<SuperDashboardProps> = (props) => {
         };
       }))
     } catch (err: any) {
-      alert(err.message);
+      setError(err);
     }
   }
 
@@ -109,6 +110,7 @@ const RunAuditReport: FC<SuperDashboardProps> = (props) => {
               <div className="spacer-vertical" />
               <Card>
                 <Card.Body>
+                  {error && <p>{error.message ?? error.toString()}</p>}
                   {schools && <SchoolTable schools={schools} />}
                 </Card.Body>
               </Card>

@@ -16,7 +16,11 @@ type SuperDashboardProps = {
     onSuccessfulLogin(loginData: UserLoginData): void;
 } & RouteComponentProps;
 
-class SuperDashboard extends Component<SuperDashboardProps, any> {
+class SuperDashboard extends Component<SuperDashboardProps, {
+    newSchool: any,
+    schools: any[],
+    error?: string;
+}> {
     
     constructor(props: SuperDashboardProps) {
         super(props);
@@ -41,6 +45,13 @@ class SuperDashboard extends Component<SuperDashboardProps, any> {
 
     async getTests() {
         const response = await superGetSchoolTestCounts();
+        if (!response.data) {
+            this.setState({
+                error: `Unable to get tests. API Error: ${response.status}`,
+            })
+            return;
+        }
+
         const schools = [...this.state.schools];
 
         for(const school of schools) {
